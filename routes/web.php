@@ -2,11 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DosenController;
+use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\DataBukuController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\DashBoardController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\KurikulumControlller;
+use App\Http\Controllers\MatakuliahController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\TahunAkademikControlller;
 use App\Http\Controllers\RiwayatPeminjamanController;
@@ -31,5 +33,7 @@ Route::resource('/dashboard/riwayatpeminjaman', RiwayatPeminjamanController::cla
 
 Route::resource('/dashboard/kurikulum', KurikulumControlller::class);
 Route::resource('/dashboard/tahun-akademik', TahunAkademikControlller::class);
+Route::resource('/dashboard/matakuliah', MatakuliahController::class);
+Route::resource('/dashboard/prodi', ProdiController::class);
 
 Route::get('/', [ DashBoardController::class,'index']);

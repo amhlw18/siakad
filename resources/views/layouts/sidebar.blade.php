@@ -174,6 +174,13 @@
                               <p>Tahun Akademik</p>
                             </a>
                           </li>
+
+                          <li class="nav-item">
+                            <a href="/dashboard/matakuliah" class="nav-link">
+                              <i class="far fa-circle nav-icon"></i>
+                              <p>Matakuliah</p>
+                            </a>
+                          </li>
                           
                         </ul>
                       </li>
@@ -181,24 +188,17 @@
                         <a href="#" class="nav-link">
                           <i class="far fa-circle nav-icon"></i>
                           <p>
-                            Login & Register v2
+                            Data Institusi
                             <i class="fas fa-angle-left right"></i>
                           </p>
                         </a>
                         <ul class="nav nav-treeview">
                           <li class="nav-item">
-                            <a href="pages/examples/login-v2.html" class="nav-link">
+                            <a href="/dashboard/prodi" class="nav-link">
                               <i class="far fa-circle nav-icon"></i>
-                              <p>Login v2</p>
+                              <p>Program Studi</p>
                             </a>
                           </li>
-                          <li class="nav-item">
-                            <a href="pages/examples/register-v2.html" class="nav-link">
-                              <i class="far fa-circle nav-icon"></i>
-                              <p>Register v2</p>
-                            </a>
-                          </li>
-                          
                         </ul>
                       </li>
                       
