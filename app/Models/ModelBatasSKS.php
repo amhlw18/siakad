@@ -5,19 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ModelKelas extends Model
+class ModelBatasSKS extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'prodi_id',
-        'nama_kelas',
-        'program',
-        'kapasitas',
+        'ipk_min',
+        'ipk_max',
+        'jumlah_sks',
     ];
 
-    public function prodi_kelas()
+    public function prodi_batas_sks()
     {
-        return $this->belongsTo(ModelKelas::class, 'prodi_id');
+        return $this->belongsTo(ModelBatasSKS::class, 'prodi_id');
     }
 }

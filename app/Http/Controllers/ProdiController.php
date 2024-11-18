@@ -46,7 +46,7 @@ class ProdiController extends Controller
         //
          //dd($request->all());
          $validasi = $request->validate([
-            'kode_prodi' => 'required|unique:model_prodis,kode_prodi',
+            'kode_prodi' => 'required|integer|unique:model_prodis,kode_prodi',
             'nama_prodi' => 'required|unique:model_prodis,nama_prodi',
             'jenjang' => 'required',
             'ka_prodi' => 'required',

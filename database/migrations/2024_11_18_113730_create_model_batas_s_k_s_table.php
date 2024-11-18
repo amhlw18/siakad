@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('model_kelas', function (Blueprint $table) {
+        Schema::create('model_batas_s_k_s', function (Blueprint $table) {
             $table->id();
             $table->foreignId('prodi_id');
-            $table->string('nama_kelas');
-            $table->string('program');
-            $table->string('kapasitas');
-            $table->boolean('aktif')->default(false);
+            $table->string('ipk_min');
+            $table->string('ipk_max');
+            $table->string('jumlah_sks');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('model_kelas');
+        Schema::dropIfExists('model_batas_s_k_s');
     }
 };

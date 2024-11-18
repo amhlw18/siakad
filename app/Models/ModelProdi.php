@@ -35,4 +35,14 @@ class ModelProdi extends Model
     {
         return $this->hasMany(ModelRuangan::class);
     }
+
+    public function kelas()
+    {
+        return $this->hasMany(ModelKelas::class);
+    }
+
+    public function betas_sks()
+    {
+        return $this->hasMany(ModelBatasSKS::class);
+    }
 }

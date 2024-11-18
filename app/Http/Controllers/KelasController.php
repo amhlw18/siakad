@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ModelKelas;
+use App\Models\ModelProdi;
 use Illuminate\Http\Request;
 
 class KelasController extends Controller
@@ -14,6 +16,9 @@ class KelasController extends Controller
     public function index()
     {
         //
+        return view('admin.kelas.index',[
+            'kelass' => ModelKelas::with('prodi_kelas')->get()
+        ]);
     }
 
     /**
@@ -23,7 +28,10 @@ class KelasController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.kelas.create',[
+            'kelas' => ModelKelas::get(),
+            'prodis' => ModelProdi::get()
+        ]);
     }
 
     /**
@@ -35,6 +43,17 @@ class KelasController extends Controller
     public function store(Request $request)
     {
         //
+        //dd($request->all());
+        $validasi = $request->validate([
+            'prodi_id' => 'required',
+            'nama_kelas' => 'required',
+            'program' => 'required',
+            'kapasitas' => 'required|integer',
+        ]);
+
+        ModelKelas::create($validasi);
+
+        return redirect('/dashboard/kelas')->with('success', 'Kelas berhasil di tambahkan !');
     }
 
     /**
@@ -57,6 +76,10 @@ class KelasController extends Controller
     public function edit($id)
     {
         //
+        return view('admin.kelas.edit',[
+            'kelas' => ModelKelas::where('id',$id)->first(),
+            'prodis' => ModelProdi::get()
+        ]);
     }
 
     /**
@@ -69,6 +92,20 @@ class KelasController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        $validasi = $request->validate([
+            'prodi_id' => 'required',
+            'nama_kelas' => 'required',
+            'program' => 'required',
+            'kapasitas' => 'required',
+        ]);
+
+
+        $validasi['aktif'] = $request->has('aktif') ? 1 : 0;
+
+        ModelKelas::where('id', $id)->update($validasi);
+
+        return redirect('/dashboard/kelas')->with('success', 'Kelas berhasil di tambahkan !');
     }
 
     /**
@@ -80,5 +117,9 @@ class KelasController extends Controller
     public function destroy($id)
     {
         //
+        $data = ModelKelas::where('id',$id)->first();
+
+        $data->delete();
+        return redirect('/dashboard/kelas')->with('success', 'Kelas berhasil di hapus !');
     }
 }

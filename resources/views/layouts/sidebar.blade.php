@@ -190,6 +190,20 @@
                                 </a>
                             </li>
 
+                            <li class="nav-item">
+                                <a href="/dashboard/kelas" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Kelas</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="/dashboard/batas-sks" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Batas SKS</p>
+                                </a>
+                            </li>
+
                         </ul>
                       </li>
                       <li class="nav-item">

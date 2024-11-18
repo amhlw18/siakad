@@ -1,20 +1,20 @@
 @extends('layouts.main')
 
 @section('title')
-    Tambah Data Ruangan
+    Tambah Data Kelas
 @endsection()
 
 
 @section('mainmenu')
-    Tambah Data Ruangan
+    Tambah Data Kelas
 @endsection()
 
 @section('menu')
-    Data Ruangan
+    Data Kelas
 @endsection()
 
 @section('submenu')
-    Tambah Data Ruangan
+    Tambah Data Kelas
 @endsection()
 
 @section('content')
@@ -26,26 +26,13 @@
                     <!-- jquery validation -->
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">Form Data Ruangan <small></small></h3>
+                            <h3 class="card-title">Form Data Kelas <small></small></h3>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form id="quickForm" method="post" action="/dashboard/ruangan" enctype="multipart/form-data">
+                        <form id="quickForm" method="post" action="/dashboard/kelas" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
-
-
-                                <div class="form-group">
-                                    <label for="nama_ruangan">Nama Ruangan</label>
-                                    <input type="text" name="nama_ruangan"
-                                           class="form-control @error('nama_ruangan') is-invalid @enderror" id="nama_ruangan"
-                                           placeholder="Nama Ruangan" value="{{ old('nama_ruangan') }}" required>
-                                    @error('nama_ruangan')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
 
                                 <div class="form-group">
                                     <label for="prodi_id">Program Studi</label>
@@ -64,11 +51,11 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="gedung">Gedung</label>
-                                    <input type="text" name="gedung"
-                                           class="form-control @error('gedung') is-invalid @enderror" id="gedung"
-                                           placeholder="Gedung" value="{{ old('gedung') }}" required>
-                                    @error('gedung')
+                                    <label for="nama_kelas">Nama Kelas</label>
+                                    <input type="text" name="nama_kelas"
+                                           class="form-control @error('nama_kelas') is-invalid @enderror" id="nama_kelas"
+                                           placeholder="Nama Kelas" value="{{ old('nama_kelas') }}" required>
+                                    @error('nama_kelas')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -76,11 +63,26 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="lantai">Lantai</label>
-                                    <input type="text" name="lantai"
-                                           class="form-control @error('lantai') is-invalid @enderror" id="lantai"
-                                           placeholder="Lantai" value="{{ old('lantai') }}" required>
-                                    @error('lantai')
+                                    <label for="program">Program</label>
+                                    <select class="custom-select rounded-0 @error('program') is-invalid @enderror"
+                                            id="program" name="program" >
+                                        <option value="">--Pilih Program--</option>
+                                        <option value="Reguler">Reguler</option>
+                                        <option value="Non Reguler">Non Reguler</option>
+                                    </select>
+                                    @error('program')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="kapasitas">Kapasitas</label>
+                                    <input type="text" name="kapasitas"
+                                           class="form-control @error('kapasitas') is-invalid @enderror" id="kapasitas"
+                                           placeholder="Kapasitas Kelas" value="{{ old('kapasitas') }}" required>
+                                    @error('kapasitas')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
