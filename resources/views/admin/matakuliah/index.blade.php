@@ -38,6 +38,7 @@
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>#</th>
                             <th>Kode</th>
                             <th>Matakuliah </th>
@@ -45,12 +46,25 @@
                             <th>SKS T</th>
                             <th>SKS P</th>
                             <th>SKS L</th>
-                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($matkuls as $matkul)
                             <tr>
+                                <td>
+
+                                    <form action="/dashboard/matakuliah/{{ $matkul->kode_mk }}" class="inline-block"
+                                          method="post">
+                                        @method('DELETE')
+                                        @csrf
+
+                                        <a href="/dashboard/matakuliah/{{ $matkul->kode_mk }}/edit"
+                                           class="btn btn-warning"><i class="bi bi-pencil"></i></a>
+
+                                        <button class="btn btn-danger"
+                                                onclick="return confirm('Yakin akan menghapus matakuliah {{ $matkul->kode_mk }} ?')"><i class="bi bi-trash"></i></button>
+                                    </form>
+                                </td>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $matkul->kode_mk }}</td>
                                 <td>{{ $matkul->nama_mk }}</td>
@@ -58,20 +72,7 @@
                                 <td>{{ $matkul->sks_teori }}</td>
                                 <td>{{ $matkul->sks_praktek }}</td>
                                 <td>{{ $matkul->sks_lapangan }} </td>
-                                <td>
 
-                                    <form action="/dashboard/matakuliah/{{ $matkul->kode_mk }}" class="inline-block"
-                                        method="post">
-                                        @method('DELETE')
-                                        @csrf
-
-                                        <a href="/dashboard/matakuliah/{{ $matkul->kode_mk }}/edit"
-                                            class="btn btn-warning"><span data-feather="plus"></span>Edit</a>
-
-                                        <button class="btn btn-danger"
-                                            onclick="return confirm('Yakin akan menghapus matakuliah {{ $matkul->kode_mk }} ?')">Hapus</button>
-                                    </form>
-                                </td>
 
                             </tr>
                         @endforeach

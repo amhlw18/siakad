@@ -38,22 +38,18 @@
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
+                        <th></th>
                         <th>#</th>
                         <th>Nama Ruangan</th>
                         <th>Program Studi </th>
                         <th>Gedung</th>
                         <th>Lantai</th>
-                        <th>Aksi</th>
+
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($ruangans as $ruangan)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $ruangan->nama_ruangan }}</td>
-                            <td>{{ $ruangan->prodi_ruangan->nama_prodi}}</td>
-                            <td>{{ $ruangan->gedung }}</td>
-                            <td>{{ $ruangan->lantai }} </td>
                             <td>
 
                                 <form action="/dashboard/ruangan/{{ $ruangan->id }}" class="inline-block"
@@ -62,13 +58,17 @@
                                     @csrf
 
                                     <a href="/dashboard/ruangan/{{ $ruangan->id }}/edit"
-                                       class="btn btn-warning"><span data-feather="plus"></span>Edit</a>
+                                       class="btn btn-warning"><i class="bi bi-pencil"></i></a>
 
                                     <button class="btn btn-danger"
-                                            onclick="return confirm('Yakin akan menghapus ruangan {{ $ruangan->nama_ruangan }} ?')">Hapus</button>
+                                            onclick="return confirm('Yakin akan menghapus ruangan {{ $ruangan->nama_ruangan }} ?')"><i class="bi bi-trash"></i></button>
                                 </form>
                             </td>
-
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $ruangan->nama_ruangan }}</td>
+                            <td>{{ $ruangan->prodi_ruangan->nama_prodi}}</td>
+                            <td>{{ $ruangan->gedung }}</td>
+                            <td>{{ $ruangan->lantai }} </td>
                         </tr>
                     @endforeach
                     </tbody>

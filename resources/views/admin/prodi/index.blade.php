@@ -38,36 +38,38 @@
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>#</th>
                             <th>Kode</th>
                             <th>Program Studi </th>
                             <th>Jenjang</th>
                             <th>Ka Program Studi</th>
-                            <th>Aksi</th>
+
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($prodis as $prodi)
                             <tr>
+                                <td>
+
+                                    <form action="/dashboard/prodi/{{ $prodi->kode_prodi }}" class="inline-block"
+                                          method="post">
+                                        @method('DELETE')
+                                        @csrf
+
+                                        <a href="/dashboard/prodi/{{ $prodi->kode_prodi }}/edit"
+                                           class="btn btn-warning"><i class="bi bi-pencil"></i></a>
+
+                                        <button class="btn btn-danger"
+                                                onclick="return confirm('Yakin akan menghapus program studi {{ $prodi->kode_prodi }} ?')"><i class="bi bi-trash"></i></button>
+                                    </form>
+                                </td>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $prodi->kode_prodi }}</td>
                                 <td>{{ $prodi->nama_prodi }}</td>
                                 <td>{{ $prodi->jenjang }} </td>
                                 <td>{{ $prodi->dosen->nama_dosen }}</td>
-                                <td>
 
-                                    <form action="/dashboard/prodi/{{ $prodi->kode_prodi }}" class="inline-block"
-                                        method="post">
-                                        @method('DELETE')
-                                        @csrf
-
-                                        <a href="/dashboard/prodi/{{ $prodi->kode_prodi }}/edit"
-                                            class="btn btn-warning"><span data-feather="plus"></span>Edit</a>
-
-                                        <button class="btn btn-danger"
-                                            onclick="return confirm('Yakin akan menghapus program studi {{ $prodi->kode_prodi }} ?')">Hapus</button>
-                                    </form>
-                                </td>
 
                             </tr>
                         @endforeach

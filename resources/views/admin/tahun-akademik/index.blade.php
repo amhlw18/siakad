@@ -37,6 +37,7 @@
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>#</th>
                             <th>Kode</th>
                             <th>Tahun Akdemik</th>
@@ -46,12 +47,26 @@
                             <th>Periode KRS</th>
                             <th>Periode Penilaian</th>
                             <th>Aktif</th>
-                            <th>Aksi</th>
+
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($akademis as $akademik)
                             <tr>
+                                <td>
+
+                                    <form action="/dashboard/tahun-akademik/{{$akademik->id}}" class="inline-block"
+                                          method="post">
+                                        @method('DELETE')
+                                        @csrf
+
+                                        <a href="/dashboard/tahun-akademik/{{ $akademik->id }}/edit"
+                                           class="btn btn-warning"><i class="bi bi-pencil"></i></a>
+
+                                        <button class="btn btn-danger"
+                                                onclick="return confirm('Yakin akan menghapus tahun akademik {{ $akademik->tahun_akademik }} {{ $akademik->semester }} ?')"><i class="bi bi-trash"></i></button>
+                                    </form>
+                                </td>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $akademik->kode}}</td>
                                 <td>{{ $akademik->tahun_akademik}}</td>
@@ -61,23 +76,9 @@
                                 <td>{{ $akademik->periode_krs }}  </td>
                                 <td>{{ $akademik->periode_penilaian }}  </td>
                                 <td>{{ $akademik->status == 1 ? 'Ya' : 'Tidak Aktif' }}</td>
-                                <td>
-
-                                    <form action="/dashboard/tahun-akademik/{{$akademik->id}}" class="inline-block"
-                                        method="post">
-                                        @method('DELETE')
-                                        @csrf
-                                        
-                                        <a href="/dashboard/tahun-akademik/{{ $akademik->id }}/edit"
-                                            class="btn btn-warning"><span data-feather="plus"></span>Edit</a>
-
-                                        <button class="btn btn-danger"
-                                            onclick="return confirm('Yakin akan menghapus tahun akademik {{ $akademik->tahun_akademik }} {{ $akademik->semester }} ?')">Hapus</button>
-                                    </form>
-                                </td>
 
                             </tr>
-                        @endforeach 
+                        @endforeach
                     </tbody>
                 </table>
             </div>

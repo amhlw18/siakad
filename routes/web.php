@@ -16,6 +16,7 @@ use \App\Http\Controllers\RuanganController;
 use \App\Http\Controllers\KelasController;
 use \App\Http\Controllers\BatasSKSController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,5 +42,6 @@ Route::resource('/dashboard/prodi', ProdiController::class);
 Route::resource('/dashboard/ruangan', RuanganController::class);
 Route::resource('/dashboard/kelas', KelasController::class);
 Route::resource('/dashboard/batas-sks', BatasSKSController::class);
+Route::resource('/dashboard/data-dosen', DosenController::class);
 
 Route::get('/', [ DashBoardController::class,'index']);

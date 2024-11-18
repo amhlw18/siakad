@@ -29,6 +29,8 @@
   <!-- Select2 -->
   <link rel="stylesheet" href="{{asset('lte/plugins/select2/css/select2.min.css')}}">
   <link rel="stylesheet" href="{{asset('lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -76,7 +78,7 @@
     <!-- /.content-wrapper -->
     <footer class="main-footer">
       <strong>Copyright &copy; 2024 <a href="https://iktbutonraya.ac.id/" target="_blank">Institut Kesehatan dan Teknlogi Buton Raya</a></strong>
-      
+
       <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 1.0.0
       </div>
