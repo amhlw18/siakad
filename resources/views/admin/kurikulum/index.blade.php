@@ -65,17 +65,17 @@
                                         method="post">
                                         @method('DELETE')
                                         @csrf
-                                        
+
                                         <a href="/dashboard/kurikulum/{{ $kurikulum->kode_kurikulum }}/edit"
                                             class="btn btn-warning"><span data-feather="plus"></span>Edit</a>
 
                                         <button class="btn btn-danger"
-                                            onclick="return confirm('Yakin akan menghapus buku {{ $kurikulum->kode_kurikulum }} ?')">Hapus</button>
+                                            onclick="return confirm('Yakin akan menghapus kurikulum {{ $kurikulum->kode_kurikulum }} ?')">Hapus</button>
                                     </form>
                                 </td>
 
                             </tr>
-                        @endforeach 
+                        @endforeach
                     </tbody>
                 </table>
             </div>

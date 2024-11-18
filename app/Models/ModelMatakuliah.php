@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\ModelKurikulum;
+use App\Models\ModelProdi;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 

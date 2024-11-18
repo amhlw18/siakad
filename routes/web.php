@@ -12,6 +12,7 @@ use App\Http\Controllers\MatakuliahController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\TahunAkademikControlller;
 use App\Http\Controllers\RiwayatPeminjamanController;
+use \App\Http\Controllers\RuanganController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,5 +36,6 @@ Route::resource('/dashboard/kurikulum', KurikulumControlller::class);
 Route::resource('/dashboard/tahun-akademik', TahunAkademikControlller::class);
 Route::resource('/dashboard/matakuliah', MatakuliahController::class);
 Route::resource('/dashboard/prodi', ProdiController::class);
+Route::resource('/dashboard/ruangan', RuanganController::class);
 
 Route::get('/', [ DashBoardController::class,'index']);

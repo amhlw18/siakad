@@ -133,7 +133,7 @@
 
 
                 <li class="nav-header">Pengaturan</li> --}}
-{{-- 
+{{--
                 <li class="nav-item">
                     <a href="pages/calendar.html" class="nav-link">
                         <i class="nav-icon fas mdi mdi-logout me-2"></i>
@@ -162,16 +162,17 @@
                           </p>
                         </a>
                         <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/dashboard/tahun-akademik" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Tahun Akademik</p>
+                                </a>
+                            </li>
+
                           <li class="nav-item">
                             <a href="/dashboard/kurikulum" class="nav-link">
                               <i class="far fa-circle nav-icon"></i>
                               <p>Kurikulum</p>
-                            </a>
-                          </li>
-                          <li class="nav-item">
-                            <a href="/dashboard/tahun-akademik" class="nav-link">
-                              <i class="far fa-circle nav-icon"></i>
-                              <p>Tahun Akademik</p>
                             </a>
                           </li>
 
@@ -181,7 +182,14 @@
                               <p>Matakuliah</p>
                             </a>
                           </li>
-                          
+
+                            <li class="nav-item">
+                                <a href="/dashboard/ruangan" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Ruangan</p>
+                                </a>
+                            </li>
+
                         </ul>
                       </li>
                       <li class="nav-item">
@@ -201,7 +209,7 @@
                           </li>
                         </ul>
                       </li>
-                      
+
                     </ul>
                   </li>
 
@@ -212,5 +220,5 @@
     <!-- /.sidebar -->
 
 
-    
+
 </aside>

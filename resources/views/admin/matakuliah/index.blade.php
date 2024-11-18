@@ -69,7 +69,7 @@
                                             class="btn btn-warning"><span data-feather="plus"></span>Edit</a>
 
                                         <button class="btn btn-danger"
-                                            onclick="return confirm('Yakin akan menghapus tahun akademik {{ $matkul->kode_mk }} ?')">Hapus</button>
+                                            onclick="return confirm('Yakin akan menghapus matakuliah {{ $matkul->kode_mk }} ?')">Hapus</button>
                                     </form>
                                 </td>
 

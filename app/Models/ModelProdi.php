@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Models\ModelDosen;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\ModelMatakuliah;
+use App\Models\ModelRuangan;
 
 class ModelProdi extends Model
 {
@@ -15,7 +17,7 @@ class ModelProdi extends Model
         'nama_prodi',
         'jenjang',
         'ka_prodi',
-       
+
     ];
 
 
@@ -27,5 +29,10 @@ class ModelProdi extends Model
     public function matakuliah()
     {
         return $this->hasMany(ModelMatakuliah::class);
+    }
+
+    public function ruangan()
+    {
+        return $this->hasMany(ModelRuangan::class);
     }
 }

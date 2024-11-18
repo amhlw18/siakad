@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ModelDosen;
 use App\Models\ModelProdi;
+use App\Models\ModelRuangan;
 use Illuminate\Http\Request;
 
-class ProdiController extends Controller
+class RuanganController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +15,9 @@ class ProdiController extends Controller
      */
     public function index()
     {
-        //
-        //
-        return view('admin.prodi.index',[
-            'prodis' => ModelProdi::with('dosen')->get()
+        //dd(ModelRuangan::with('prodi')->get());
+        return view('admin.ruangan.index',[
+            'ruangans' => ModelRuangan::with('prodi_ruangan')->get()
         ]);
     }
 
@@ -29,8 +28,10 @@ class ProdiController extends Controller
      */
     public function create()
     {
-        return view('admin.prodi.create',[
-        'dosens' => ModelDosen::get()
+        //
+        return view('admin.ruangan.create',[
+            'ruangans' => ModelRuangan::get(),
+            'prodis' => ModelProdi::get()
         ]);
     }
 
@@ -43,18 +44,17 @@ class ProdiController extends Controller
     public function store(Request $request)
     {
         //
-        //
-         //dd($request->all());
-         $validasi = $request->validate([
-            'kode_prodi' => 'required|unique:model_prodis,kode_prodi',
-            'nama_prodi' => 'required|unique:model_prodis,nama_prodi',
-            'jenjang' => 'required',
-            'ka_prodi' => 'required',
+        //dd($request->all());
+        $validasi = $request->validate([
+            'prodi_id' => 'required',
+            'nama_ruangan' => 'required',
+            'gedung' => 'required',
+            'lantai' => 'required',
         ]);
 
-        ModelProdi::create($validasi);
+        ModelRuangan::create($validasi);
 
-        return redirect('/dashboard/prodi')->with('success', 'Program studi berhasil di tambahkan !');
+        return redirect('/dashboard/ruangan')->with('success', 'Ruangan berhasil di tambahkan !');
     }
 
     /**
@@ -76,10 +76,12 @@ class ProdiController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.prodi.edit',[
-            'prodi' => ModelProdi::where('kode_prodi', $id)->first(),
-            'dosens' => ModelDosen::all()
+        //
+        return view('admin.ruangan.edit',[
+            'ruangan' => ModelRuangan::where('id',$id)->first(),
+            'prodis' => ModelProdi::get()
         ]);
+
     }
 
     /**
@@ -91,16 +93,18 @@ class ProdiController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //
         //dd($request->all());
         $validasi = $request->validate([
-            'kode_prodi' => 'required',
-            'nama_prodi' => 'required',
-            'jenjang' => 'required',
-            'ka_prodi' => 'required',
+            'prodi_id' => 'required|',
+            'nama_ruangan' => 'required',
+            'gedung' => 'required',
+            'lantai' => 'required',
         ]);
 
-        ModelProdi::where('kode_prodi', $id)->update($validasi);
-        return redirect('/dashboard/prodi')->with('success', 'Program studi berhasil di ubah !');
+        ModelRuangan::where('id',$id)->update($validasi);
+
+        return redirect('/dashboard/ruangan')->with('success', 'Ruangan berhasil di ubah !');
     }
 
     /**
@@ -112,9 +116,10 @@ class ProdiController extends Controller
     public function destroy($id)
     {
         //
-        $data = ModelProdi::where('kode_prodi',$id)->first();
+        //
+        $data = ModelRuangan::where('id',$id)->first();
 
         $data->delete();
-        return redirect('/dashboard/prodi')->with('success', 'Program studi berhasil di hapus !');
+        return redirect('/dashboard/ruangan')->with('success', 'Ruangan berhasil di hapus !');
     }
 }

@@ -53,7 +53,7 @@
                                 <td>{{ $prodi->kode_prodi }}</td>
                                 <td>{{ $prodi->nama_prodi }}</td>
                                 <td>{{ $prodi->jenjang }} </td>
-                                <td>{{ $prodi->ka_prodi }}</td>
+                                <td>{{ $prodi->dosen->nama_dosen }}</td>
                                 <td>
 
                                     <form action="/dashboard/prodi/{{ $prodi->kode_prodi }}" class="inline-block"
@@ -65,7 +65,7 @@
                                             class="btn btn-warning"><span data-feather="plus"></span>Edit</a>
 
                                         <button class="btn btn-danger"
-                                            onclick="return confirm('Yakin akan menghapus tahun akademik {{ $prodi->kode_prodi }} ?')">Hapus</button>
+                                            onclick="return confirm('Yakin akan menghapus program studi {{ $prodi->kode_prodi }} ?')">Hapus</button>
                                     </form>
                                 </td>
 
