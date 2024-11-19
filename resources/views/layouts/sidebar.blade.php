@@ -45,107 +45,9 @@
                         </li>
                     </ul>
                 </li>
-                {{-- <li
-                    class="nav-item {{ Request::is('dashboard/databuku*') || Request::is('dashboard/kategori-buku*') ? 'menu-open' : '' }} ">
-                    <a href="#"
-                        class="nav-link {{ Request::is('dashboard/databuku*') || Request::is('dashboard/kategori-buku*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-solid fa-book"></i>
-                        <p>
-                            Buku
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/dashboard/databuku"
-                                class="nav-link {{ Request::is('dashboard/databuku*') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Data Buku</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/dashboard/kategori-buku"
-                                class="nav-link  {{ Request::is('dashboard/kategori-buku*') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Kategori Buku</p>
-                            </a>
-                        </li>
 
-                    </ul>
-                </li>
-
-                <li
-                    class="nav-item {{ Request::is('dashboard/datamhs*') || Request::is('dashboard/datadosen*') ? 'menu-open' : '' }} ">
-                    <a href="#"
-                        class="nav-link {{ Request::is('dashboard/datamhs*') || Request::is('dashboard/datadosen*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-solid fa-users"></i>
-                        <p>
-                            Anggota
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/dashboard/datamhs"
-                                class="nav-link {{ Request::is('dashboard/datamhs*') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Data Mahasiswa</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/dashboard/datadosen"
-                                class="nav-link {{ Request::is('dashboard/datadosen*') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Data Dosen</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li
-                    class="nav-item {{ Request::is('dashboard/datapeminjaman*') || Request::is('dashboard/riwayatpeminjaman*') ? 'menu-open' : '' }}">
-                    <a href="#"
-                        class="nav-link {{ Request::is('dashboard/datapeminjaman*') || Request::is('dashboard/riwayatpeminjaman*') ? 'active' : '' }} ">
-                        <i class="nav-icon fas fa-tree"></i>
-                        <p>
-                            Peminjaman
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/dashboard/datapeminjaman"
-                                class="nav-link {{ Request::is('dashboard/datapeminjaman*') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Peminjaman Buku</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/dashboard/riwayatpeminjaman"
-                                class="nav-link {{ Request::is('dashboard/riwayatpeminjaman*') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Riwayat Peminjaman</p>
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
-
-
-                <li class="nav-header">Pengaturan</li> --}}
-{{--
-                <li class="nav-item">
-                    <a href="pages/calendar.html" class="nav-link">
-                        <i class="nav-icon fas mdi mdi-logout me-2"></i>
-                        <i class=""></i>
-                        <p>
-                            Keluar
-                        </p>
-                    </a>
-                </li> --}}
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
+                <li class="nav-item {{ Request::is('dashboard/kurikulum*') || Request::is('dashboard/tahun-akademik*') ? 'menu-open' : '' }} ">
+                    <a href="#" class="nav-link {{ Request::is('dashboard/kurikulum*') || Request::is('dashboard/tahun-akademik*') ? 'menu-open' : '' }}">
                       <i class="nav-icon far fa-plus-square"></i>
                       <p>
                         Data Pokok
@@ -153,8 +55,8 @@
                       </p>
                     </a>
                     <ul class="nav nav-treeview">
-                      <li class="nav-item">
-                        <a href="#" class="nav-link">
+                      <li class="nav-item {{ Request::is('dashboard/kurikulum*') || Request::is('dashboard/tahun-akademik*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('dashboard/kurikulum*') || Request::is('dashboard/tahun-akademik*') ? 'menu-open' : '' }}">
                           <i class="far fa-circle nav-icon"></i>
                           <p>
                             Data Akademik
@@ -163,14 +65,14 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/dashboard/tahun-akademik" class="nav-link">
+                                <a href="/dashboard/tahun-akademik" class="nav-link {{ Request::is('dashboard/tahun_akademik*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Tahun Akademik</p>
                                 </a>
                             </li>
 
                           <li class="nav-item">
-                            <a href="/dashboard/kurikulum" class="nav-link">
+                            <a href="/dashboard/kurikulum" class="nav-link {{ Request::is('dashboard/databuku*') ? 'active' : '' }}">
                               <i class="far fa-circle nav-icon"></i>
                               <p>Kurikulum</p>
                             </a>

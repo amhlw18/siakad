@@ -17,7 +17,7 @@ class DosenController extends Controller
     {
         //
         return view('admin.dosen.index',[
-            'dosens' => ModelDosen::with('prodi')->get()
+            'dosens' => ModelDosen::get()
         ]);
     }
 
@@ -46,23 +46,23 @@ class DosenController extends Controller
         //dd($request->all());
         $validasi = $request->validate([
             'nidn' => 'required|unique:model_dosens,nidn',
-            'nama_dosen' => 'required',
-            'gelar_depan' => 'string',
-            'gelar_belakang' => 'required',
-            'tempat_lahir' => 'required',
+            'nama_dosen' => 'required|string|max:255',
+            'gelar_depan' => 'nullable|string|max:50',
+            'gelar_belakang' => 'required|string|max:50',
+            'tempat_lahir' => 'required|string|max:100',
             'tgl_lahir' => 'required',
             'jenis_kelamin' => 'required',
-            'agama' => 'required',
-            'no_hp' => 'required',
-            'email' => 'string',
-            'prodi_id' => 'required',
-            'alamat' => 'required',
-            'tgl_kerja' => 'string',
-            'ikatan_kerja' => 'required',
-            'status' => 'required',
-            'jabatan_akademik' => 'required',
-            'jabatan_struktural' => 'required',
-            'golongan' => 'required',
+            'agama' => 'required|string|max:20',
+            'no_hp' => 'required|string|max:15',
+            'email' => 'nullable|email|max:100',
+            'alamat' => 'required|string|max:255',
+            'tgl_kerja' => 'nullable',
+            'ikatan_kerja' => 'required|string|max:50',
+            'pendidikan' => 'required|string|max:50',
+            'status' => 'required|string|max:50',
+            'jabatan_akademik' => 'required|string|max:50',
+            'jabatan_struktural' => 'nullable|string|max:50',
+            'golongan' => 'nullable|string|max:50',
         ]);
 
 
@@ -91,7 +91,7 @@ class DosenController extends Controller
     public function edit($id)
     {
         return view('admin.dosen.edit',[
-            'dosen' => ModelKelas::where('nidn',$id)->first(),
+            'dosen' => ModelDosen::where('nidn',$id)->first(),
             'prodis' => ModelProdi::get()
         ]);
     }
@@ -107,24 +107,24 @@ class DosenController extends Controller
     {
         //dd($request->all());
         $validasi = $request->validate([
-            'nidn' => 'required|unique:model_dosens,nidn',
-            'nama_dosen' => 'required',
-            'gelar_depan' => 'string',
-            'gelar_belakang' => 'required',
-            'tempat_lahir' => 'required',
+            'nidn' => 'required',
+            'nama_dosen' => 'required|string|max:255',
+            'gelar_depan' => 'nullable|string|max:50',
+            'gelar_belakang' => 'required|string|max:50',
+            'tempat_lahir' => 'required|string|max:100',
             'tgl_lahir' => 'required',
             'jenis_kelamin' => 'required',
-            'agama' => 'required',
-            'no_hp' => 'required',
-            'email' => 'string',
-            'prodi_id' => 'required',
-            'alamat' => 'required',
-            'tgl_kerja' => 'string',
-            'ikatan_kerja' => 'required',
-            'status' => 'required',
-            'jabatan_akademik' => 'required',
-            'jabatan_struktural' => 'required',
-            'golongan' => 'required',
+            'agama' => 'required|string|max:20',
+            'no_hp' => 'required|string|max:15',
+            'email' => 'nullable|email|max:100',
+            'alamat' => 'required|string|max:255',
+            'tgl_kerja' => 'nullable',
+            'ikatan_kerja' => 'required|string|max:50',
+            'pendidikan' => 'required|string|max:50',
+            'status' => 'required|string|max:50',
+            'jabatan_akademik' => 'required|string|max:50',
+            'jabatan_struktural' => 'nullable|string|max:50',
+            'golongan' => 'nullable|string|max:50',
         ]);
 
 

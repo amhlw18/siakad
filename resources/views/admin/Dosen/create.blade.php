@@ -30,25 +30,25 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form id="quickForm" method="post" action="/dashboard/kelas" enctype="multipart/form-data">
+                        <form id="quickForm" method="post" action="/dashboard/data-dosen" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
 
-                                <div class="form-group">
-                                    <label for="prodi_id">Homebase Program Studi</label>
-                                    <select class="custom-select rounded-0" id="kurikulum_id" name="prodi_id">
-                                        @foreach ($prodis as $prodi)
-                                            @if (old('prodi_id') == $prodi->id)
-                                                <option selected value="{{ $prodi->id }}">
-                                                    {{ $prodi->nama_prodi }}</option>
-                                            @else
-                                                <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}
-                                                </option>
-                                            @endif
-                                        @endforeach
+{{--                                <div class="form-group">--}}
+{{--                                    <label for="prodi_id">Homebase Program Studi</label>--}}
+{{--                                    <select class="custom-select rounded-0" id="kurikulum_id" name="prodi_id">--}}
+{{--                                        @foreach ($prodis as $prodi)--}}
+{{--                                            @if (old('prodi_id') == $prodi->id)--}}
+{{--                                                <option selected value="{{ $prodi->id }}">--}}
+{{--                                                    {{ $prodi->nama_prodi }}</option>--}}
+{{--                                            @else--}}
+{{--                                                <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}--}}
+{{--                                                </option>--}}
+{{--                                            @endif--}}
+{{--                                        @endforeach--}}
 
-                                    </select>
-                                </div>
+{{--                                    </select>--}}
+{{--                                </div>--}}
 
                                 <div class="form-group">
                                     <label for="nidn">NIDN</label>
@@ -110,11 +110,9 @@
                                     @enderror
                                 </div>
 
-
-
                                 <div class="form-group">
                                     <label for="tgl_lahir">Tanggal Lahir</label>
-                                    <input type="date" name="tempat_lahir"
+                                    <input type="date" name="tgl_lahir"
                                            class="form-control @error('tgl_lahir') is-invalid @enderror" id="tgl_lahir"
                                            placeholder="Tanggal Lahir" value="{{ old('tgl_lahir') }}" required>
                                     @error('tgl_lahir')
@@ -161,16 +159,163 @@
 
                                 <div class="form-group">
                                     <label for="no_hp">No Handphone</label>
-                                    <input type="date" name="tempat_lahir"
-                                           class="form-control @error('tgl_lahir') is-invalid @enderror" id="tgl_lahir"
-                                           placeholder="Tanggal Lahir" value="{{ old('tgl_lahir') }}" required>
-                                    @error('tgl_lahir')
+                                    <input type="number" name="no_hp"
+                                           class="form-control @error('no_hp') is-invalid @enderror" id="no_hp"
+                                           placeholder="No Handphone" value="{{ old('no_hp') }}" required>
+                                    @error('no_hp')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                     @enderror
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" name="email"
+                                           class="form-control @error('email') is-invalid @enderror" id="email"
+                                           placeholder="Email" value="{{ old('email') }}" required>
+                                    @error('email')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="alamat">Alamat</label>
+                                    <input type="text" name="alamat"
+                                           class="form-control @error('alamat') is-invalid @enderror" id="alamat"
+                                           placeholder="Alamat Lengkap" value="{{ old('alamat') }}" required>
+                                    @error('alamat')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="tgl_kerja">Tanggal Kerja</label>
+                                    <input type="date" name="tgl_kerja"
+                                           class="form-control @error('tgl_kerja') is-invalid @enderror" id="tgl_kerja"
+                                           placeholder="Tanggal Mulai Bekerja" value="{{ old('tgl_kerja') }}" >
+                                    @error('tgl_kerja')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ikatan_kerja">Ikatan Kerja</label>
+                                    <select class="custom-select rounded-0 @error('ikatan_kerja') is-invalid @enderror"
+                                            id="ikatan_kerja" name="ikatan_kerja" >
+                                        <option value="">--Pilih Ikatan Kerja--</option>
+                                        <option value="Dosen DPK PNS">Dosen DPK PNS</option>
+                                        <option value="Dosen Luar Biasa">Dosen Luar Biasa</option>
+                                        <option value="Dosen Kontrak">Dosen Kontrak</option>
+                                        <option value="Dosen Tetap">Dosen Tetap</option>
+                                    </select>
+                                    @error('ikatan_kerja')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="pendidikan">Pendidikan Tertinggi</label>
+                                    <select class="custom-select rounded-0 @error('pendidikan') is-invalid @enderror"
+                                            id="pendidikan" name="pendidikan" >
+                                        <option value="">--Pilih Pendidikan Tertinggi--</option>
+                                        <option value="S-3">S-3</option>
+                                        <option value="S-2">S-2</option>
+                                        <option value="S-1">S-1</option>
+                                        <option value="D-4">D-4</option>
+                                        <option value="D-3">D-3</option>
+                                        <option value="D-2">D-2</option>
+                                        <option value="D-1">D-1</option>
+                                        <option value="SP-1">SP-1</option>
+                                        <option value="SP-2">SP-2</option>
+                                        <option value="Profesi">Profesi</option>
+                                    </select>
+                                    @error('pendidikan')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select class="custom-select rounded-0 @error('status') is-invalid @enderror"
+                                            id="status" name="status" >
+                                        <option value="">--Pilih Status--</option>
+                                        <option value="Cuti">Cuti</option>
+                                        <option value="Keluar">Keluar</option>
+                                        <option value="Meninggal">Meninggal</option>
+                                        <option value="Pensiun">Pensiun</option>
+                                        <option value="Studi Lanjut">Studi Lanjut</option>
+                                        <option value="Tugas Di Instansi Lain">Tugas Di Instansi Lain</option>
+                                        <option value="Aktif Mengajar">Aktif Mengajar</option>
+                                    </select>
+                                    @error('status')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="jabatan_akademik">Jabatan Akademik</label>
+                                    <select class="custom-select rounded-0 @error('jabatan_akademik') is-invalid @enderror"
+                                            id="jabatan_akademik" name="jabatan_akademik" >
+                                        <option value="">--Pilih Jabatan Akademik--</option>
+                                        <option value="Tenaga Pengajar">Tenaga Pengajar</option>
+                                        <option value="Asisten Ahli">Asisten Ahli</option>
+                                        <option value="Lektor">Lektor</option>
+                                        <option value="Lektor Kepala">Lektor Kepala</option>
+                                        <option value="Guru Besar">Guru Besar</option>
+                                    </select>
+                                    @error('jabatan_akademik')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="jabatan_struktural">Jabatan Struktural</label>
+                                    <input type="text" name="jabatan_struktural"
+                                           class="form-control @error('jabatan_struktural') is-invalid @enderror" id="jabatan_struktural"
+                                           placeholder="Jabatan Struktural" value="{{ old('jabatan_struktural') }}" >
+                                    @error('jabatan_struktural')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="golongan">Golongan</label>
+                                    <select class="custom-select rounded-0 @error('golongan') is-invalid @enderror"
+                                            id="golongan" name="golongan" >
+                                        <option value="">--Pilih Golongan--</option>
+                                        <option value="IIIA Penata Muda">IIIA Penata Muda</option>
+                                        <option value="IIIB Penata Muda Tk.1">IIB Penata Muda Tk.1</option>
+                                        <option value="IIIC Penata">IIIC Penata</option>
+                                        <option value="IIID Penata Tk.1">IIID Penata Tk.1</option>
+                                        <option value="IVA Pembina">IVA Pembina</option>
+                                        <option value="IVB Pembina Tk.1">IVB Pembina Tk.1</option>
+                                        <option value="IVC Pembina Utama Muda">IVC Pembina Utama Muda</option>
+                                        <option value="IVD Pembina Utama Madya">IVD Pembina Utama Madya</option>
+                                        <option value="IVE Pembina Utama">IVE Pembina Utama</option>
+                                    </select>
+                                    @error('status')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
 
                             </div>
 

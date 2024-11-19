@@ -27,7 +27,7 @@
                 {{ session('success') }}
             </div>
         @endif
-        <a href="/dashboard/kelas/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Tambah
+        <a href="/dashboard/data-dosen/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Tambah
             Dosen</a>
         <div class="card">
             <div class="card-header">
@@ -51,22 +51,22 @@
                         <tr>
                             <td>
 
-                                <form action="/dashboard/kelas/{{ $dosen->nidn }}" class="inline-block"
+                                <form action="/dashboard/data-dosen/{{ $dosen->nidn }}" class="inline-block"
                                       method="post">
                                     @method('DELETE')
                                     @csrf
 
-                                    <a href="/dashboard/kelas/{{ $dosen->nidn }}/edit"
+                                    <a href="/dashboard/data-dosen/{{ $dosen->nidn }}/edit"
                                        class="btn btn-warning"><i class="bi bi-pencil"></i></a>
 
                                     <button class="btn btn-danger"
-                                            onclick="return confirm('Yakin akan menghapus kelas {{ $dosen->nama_dosen }} ?')"><i class="bi bi-trash"></i></button>
+                                            onclick="return confirm('Yakin akan menghapus dosen {{ $dosen->nama_dosen }} ?')"><i class="bi bi-trash"></i></button>
                                 </form>
                             </td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $dosen->nidn }}</td>
                             <td>{{ $dosen->nama_dosen}}</td>
-                            <td>{{ $kelas->no_hp }}</td>
+                            <td>{{ $dosen->no_hp }}</td>
 
                         </tr>
                     @endforeach
