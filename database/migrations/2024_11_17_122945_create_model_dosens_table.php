@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('prodi_id');
             $table->string('nidn');
             $table->string('nama_dosen');
-            $table->string('gelar_depan');
+            $table->string('gelar_depan')->nullable();
             $table->string('gelar_belakang');
             $table->string('tempat_lahir');
             $table->string('tgl_lahir');

@@ -204,6 +204,13 @@
                                 </a>
                             </li>
 
+                            <li class="nav-item">
+                                <a href="/dashboard/data-dosen" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Data Dosen</p>
+                                </a>
+                            </li>
+
                         </ul>
                       </li>
                       <li class="nav-item">

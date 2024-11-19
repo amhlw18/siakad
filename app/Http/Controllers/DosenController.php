@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ModelDosen;
+use App\Models\ModelProdi;
 use Illuminate\Http\Request;
 
 class DosenController extends Controller
@@ -14,6 +16,9 @@ class DosenController extends Controller
     public function index()
     {
         //
+        return view('admin.dosen.index',[
+            'dosens' => ModelDosen::with('prodi')->get()
+        ]);
     }
 
     /**
@@ -23,7 +28,10 @@ class DosenController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.dosen.create',[
+            'dosen' => ModelDosen::get(),
+            'prodis' => ModelProdi::get()
+        ]);
     }
 
     /**
@@ -35,6 +43,32 @@ class DosenController extends Controller
     public function store(Request $request)
     {
         //
+        //dd($request->all());
+        $validasi = $request->validate([
+            'nidn' => 'required|unique:model_dosens,nidn',
+            'nama_dosen' => 'required',
+            'gelar_depan' => 'string',
+            'gelar_belakang' => 'required',
+            'tempat_lahir' => 'required',
+            'tgl_lahir' => 'required',
+            'jenis_kelamin' => 'required',
+            'agama' => 'required',
+            'no_hp' => 'required',
+            'email' => 'string',
+            'prodi_id' => 'required',
+            'alamat' => 'required',
+            'tgl_kerja' => 'string',
+            'ikatan_kerja' => 'required',
+            'status' => 'required',
+            'jabatan_akademik' => 'required',
+            'jabatan_struktural' => 'required',
+            'golongan' => 'required',
+        ]);
+
+
+        ModelDosen::create($validasi);
+
+        return redirect('/dashboard/data-dosen')->with('success', 'Dosen berhasil di tambahkan !');
     }
 
     /**
@@ -56,7 +90,10 @@ class DosenController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('admin.dosen.edit',[
+            'dosen' => ModelKelas::where('nidn',$id)->first(),
+            'prodis' => ModelProdi::get()
+        ]);
     }
 
     /**
@@ -68,7 +105,32 @@ class DosenController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //dd($request->all());
+        $validasi = $request->validate([
+            'nidn' => 'required|unique:model_dosens,nidn',
+            'nama_dosen' => 'required',
+            'gelar_depan' => 'string',
+            'gelar_belakang' => 'required',
+            'tempat_lahir' => 'required',
+            'tgl_lahir' => 'required',
+            'jenis_kelamin' => 'required',
+            'agama' => 'required',
+            'no_hp' => 'required',
+            'email' => 'string',
+            'prodi_id' => 'required',
+            'alamat' => 'required',
+            'tgl_kerja' => 'string',
+            'ikatan_kerja' => 'required',
+            'status' => 'required',
+            'jabatan_akademik' => 'required',
+            'jabatan_struktural' => 'required',
+            'golongan' => 'required',
+        ]);
+
+
+        ModelDosen::where('nidn',$id)->update($validasi);
+
+        return redirect('/dashboard/data-dosen')->with('success', 'Dosen berhasil di ubah !');
     }
 
     /**
@@ -80,5 +142,9 @@ class DosenController extends Controller
     public function destroy($id)
     {
         //
+        $data = ModelDosen::where('nidn',$id)->first();
+
+        $data->delete();
+        return redirect('/dashboard/data-dosen')->with('success', 'Dosen berhasil di hapus !');
     }
 }
