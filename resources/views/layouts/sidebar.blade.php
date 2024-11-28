@@ -4,7 +4,7 @@
     <a href="/" class="brand-link">
         <img src="{{ asset('lte/dist/img/ikt.png') }}" alt="ikt" class="brand-image img-circle elevation-3"
             style="opacity: .8">
-        <span class="brand-text font-weight-light">Digilib IKT</span>
+        <span class="brand-text font-weight-light">SIAKAD IKT</span>
     </a>
 
     <!-- Sidebar -->
@@ -16,20 +16,20 @@
                     alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Admin Perpus</a>
+                <a href="#" class="d-block">Admin IKT</a>
             </div>
         </div>
 
 
 
         <!-- Sidebar Menu -->
+        <!-- Sidebar Menu -->
+        <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-                <li class="nav-item {{ Request::is('/*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ Request::is('/*') ? 'active' : '' }}">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                <li class="nav-item {{ Request::is('/') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Request::is('/') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -38,7 +38,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/" class="nav-link {{ Request::is('/*') ? 'active' : '' }}">
+                            <a href="/" class="nav-link {{ Request::is('/') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Dashboard</p>
                             </a>
@@ -46,98 +46,78 @@
                     </ul>
                 </li>
 
-                <li class="nav-item {{ Request::is('dashboard/kurikulum*') || Request::is('dashboard/tahun-akademik*') ? 'menu-open' : '' }} ">
-                    <a href="#" class="nav-link {{ Request::is('dashboard/kurikulum*') || Request::is('dashboard/tahun-akademik*') ? 'menu-open' : '' }}">
-                      <i class="nav-icon far fa-plus-square"></i>
-                      <p>
-                        Data Pokok
-                        <i class="fas fa-angle-left right"></i>
-                      </p>
+                <!-- Data Akademik Menu -->
+                <li class="nav-item {{ Request::is('dashboard/matakuliah*') || Request::is('dashboard/prodi*') || Request::is('dashboard/ruangan*') || Request::is('dashboard/kelas*') || Request::is('dashboard/tahun-akademik*') || Request::is('dashboard/kurikulum*') || Request::is('dashboard/batas-sks*') || Request::is('dashboard/data-dosen*') || Request::is('dashboard/data-mahasiswa*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Request::is('dashboard/matakuliah*') || Request::is('dashboard/prodi*') || Request::is('dashboard/ruangan*') || Request::is('dashboard/kelas*') || Request::is('dashboard/tahun-akademik*') || Request::is('dashboard/kurikulum*') || Request::is('dashboard/batas-sks*') || Request::is('dashboard/data-dosen*')  || Request::is('dashboard/data-mahasiswa*') ? 'active' :'' }}">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Master Data Akademik
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
                     </a>
                     <ul class="nav nav-treeview">
-                      <li class="nav-item {{ Request::is('dashboard/kurikulum*') || Request::is('dashboard/tahun-akademik*') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('dashboard/kurikulum*') || Request::is('dashboard/tahun-akademik*') ? 'menu-open' : '' }}">
-                          <i class="far fa-circle nav-icon"></i>
-                          <p>
-                            Data Akademik
-                            <i class="fas fa-angle-left right"></i>
-                          </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/dashboard/tahun-akademik" class="nav-link {{ Request::is('dashboard/tahun_akademik*') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Tahun Akademik</p>
-                                </a>
-                            </li>
-
-                          <li class="nav-item">
-                            <a href="/dashboard/kurikulum" class="nav-link {{ Request::is('dashboard/databuku*') ? 'active' : '' }}">
-                              <i class="far fa-circle nav-icon"></i>
-                              <p>Kurikulum</p>
+                        <li class="nav-item">
+                            <a href="/dashboard/tahun-akademik" class="nav-link {{ Request::is('dashboard/tahun-akademik*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Tahun Akademik</p>
                             </a>
-                          </li>
-
-                          <li class="nav-item">
-                            <a href="/dashboard/matakuliah" class="nav-link">
-                              <i class="far fa-circle nav-icon"></i>
-                              <p>Matakuliah</p>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/dashboard/kurikulum" class="nav-link {{ Request::is('dashboard/kurikulum*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Kurikulum</p>
                             </a>
-                          </li>
-
-                            <li class="nav-item">
-                                <a href="/dashboard/ruangan" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Ruangan</p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="/dashboard/kelas" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Kelas</p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="/dashboard/batas-sks" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Batas SKS</p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="/dashboard/data-dosen" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Data Dosen</p>
-                                </a>
-                            </li>
-
-                        </ul>
-                      </li>
-                      <li class="nav-item">
-                        <a href="#" class="nav-link">
-                          <i class="far fa-circle nav-icon"></i>
-                          <p>
-                            Data Institusi
-                            <i class="fas fa-angle-left right"></i>
-                          </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                          <li class="nav-item">
-                            <a href="/dashboard/prodi" class="nav-link">
-                              <i class="far fa-circle nav-icon"></i>
-                              <p>Program Studi</p>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/dashboard/matakuliah" class="nav-link {{ Request::is('dashboard/matakuliah*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Matakuliah</p>
                             </a>
-                          </li>
-                        </ul>
-                      </li>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/dashboard/prodi" class="nav-link {{ Request::is('dashboard/prodi*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Program Studi</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/dashboard/ruangan" class="nav-link {{ Request::is('dashboard/ruangan*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Ruangan</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/dashboard/kelas" class="nav-link {{ Request::is('dashboard/kelas*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Kelas</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/dashboard/batas-sks" class="nav-link {{ Request::is('dashboard/batas-sks*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Batas SKS</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/dashboard/data-dosen" class="nav-link {{ Request::is('dashboard/data-dosen*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Data Dosen</p>
+                            </a>
+                        </li>
 
+                        <li class="nav-item">
+                            <a href="/dashboard/data-mahasiswa" class="nav-link {{ Request::is('dashboard/data-mahasiswa*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Data Mahasiswa</p>
+                            </a>
+                        </li>
                     </ul>
-                  </li>
+                </li>
 
             </ul>
         </nav>
+
+
         <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->

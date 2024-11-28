@@ -45,4 +45,9 @@ class ModelProdi extends Model
     {
         return $this->hasMany(ModelBatasSKS::class);
     }
+
+    public function mahasiswa()
+    {
+        return $this->hasMany(ModelMahasiswa::class);
+    }
 }
