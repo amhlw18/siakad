@@ -35,8 +35,8 @@
                                     <label for="prodi_id">Program Studi</label>
                                     <select class="custom-select rounded-0" id="prodi_id" name="prodi_id" required>
                                         @foreach ($prodis as $prodi)
-                                            @if (old('prodi_id') == $prodi->id)
-                                                <option selected value="{{ $prodi->id }}">
+                                            @if (old('prodi_id') == $prodi->kode_prodi)
+                                                <option selected value="{{ $prodi->kode_prodi }}">
                                                     {{ $prodi->nama_prodi }}</option>
                                             @else
                                                 <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}

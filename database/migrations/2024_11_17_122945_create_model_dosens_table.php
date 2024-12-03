@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('model_dosens', function (Blueprint $table) {
             $table->id();
-            //$table->foreignId('prodi_id');
             $table->string('nidn');
             $table->string('nama_dosen');
             $table->string('gelar_depan')->nullable();
@@ -26,7 +25,6 @@ return new class extends Migration
             $table->string('agama');
             $table->string('no_hp');
             $table->string('email')->nullable();
-            //$table->string('prodi');
             $table->string('alamat');
             $table->string('tgl_kerja')->nullable();
             $table->string('ikatan_kerja');

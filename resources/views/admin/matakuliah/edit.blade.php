@@ -82,11 +82,11 @@
                                     <label for="kode_prodi">Program Studi</label>
                                     <select class="custom-select rounded-0" id="kurikulum_id" name="kode_prodi">
                                         @foreach ($prodis as $prodi)
-                                            @if (old('kode_prodi') == $prodi->id)
-                                                <option selected value="{{ $prodi->id }}">
+                                            @if (old('kode_prodi') == $prodi->kode_prodi)
+                                                <option selected value="{{ $prodi->kode_prodi }}">
                                                     {{ $prodi->nama_prodi }}</option>
                                             @else
-                                                <option value="{{ $prodi->id }}">{{ $prodi->nama_prodi }}
+                                                <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}
                                                 </option>
                                             @endif
                                         @endforeach
