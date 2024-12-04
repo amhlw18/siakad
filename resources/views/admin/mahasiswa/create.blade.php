@@ -286,6 +286,7 @@
                                             id="status" name="status" required>
                                         <option value="" disabled selected>--Pilih Status--</option>
                                         <option value="Aktif" {{ old('status') == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                                        <option value="Aktif" {{ old('status') == 'Lulus' ? 'selected' : '' }}>Lulus</option>
                                         <option value="Non Aktif" {{ old('status') == 'Non Aktif' ? 'selected' : '' }}>Non Aktif</option>
 
                                     </select>

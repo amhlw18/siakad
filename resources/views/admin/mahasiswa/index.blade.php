@@ -73,7 +73,6 @@
                             <td>{{ $mhs->tgl_lahir }}</td>
                             <td>{{ $mhs->no_hp}}</td>
                             <td>{{ $mhs->status }}</td>
-
                         </tr>
                     @endforeach
                     </tbody>
