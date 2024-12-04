@@ -1,20 +1,20 @@
 @extends('layouts.main')
 
 @section('title')
-    Data Mahasiswa
+    Data Kelas Mahasiswa
 @endsection()
 
 
 @section('mainmenu')
-    Data Mahasiswa
+    Data Kelas Mahasiswa
 @endsection()
 
 @section('menu')
-    Data Mahasiswa
+    Data Kelas Mahasiswa
 @endsection()
 
 @section('submenu')
-    Master Data Mahasiswa
+    Master Data Kelas Mahasiswa
 @endsection()
 
 @section('content')
@@ -27,11 +27,11 @@
                 {{ session('success') }}
             </div>
         @endif
-        <a href="/dashboard/data-mahasiswa/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Tambah
+        <a href="/dashboard/kelas-mhs/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Tambah Kelas
             Mahasiswa</a>
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Master Data Mahasiswa</h3>
+                <h3 class="card-title">Master Data Kelas Mahasiswa</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -42,24 +42,18 @@
                         <th>#</th>
                         <th>NIM</th>
                         <th>Nama </th>
-                        <th>Tempat Lahir</th>
-                        <th>Tanggal Lahir</th>
-                        <th>No HP </th>
-                        <th>Status</th>
-
+                        <th>Program</th>
+                        <th>Angkatan</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($mahasiswa as $mhs)
                         <tr>
                             <td>
-                                <form action="/dashboard/data-mahasiswa/{{ $mhs->nim }}" class="inline-block"
+                                <form action="/dashboard/kelas-mhs/{{ $mhs->nim }}" class="inline-block"
                                       method="post">
                                     @method('DELETE')
                                     @csrf
-
-                                    <a href="/dashboard/data-mahasiswa/{{ $mhs->nim }}/edit"
-                                       class="btn btn-warning"><i class="bi bi-pencil"></i></a>
 
                                     <button class="btn btn-danger"
                                             onclick="return confirm('Yakin akan menghapus mahasiswa {{ $mhs->nama_mhs }} ?')"><i class="bi bi-trash"></i></button>
@@ -67,11 +61,9 @@
                             </td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $mhs->nim }}</td>
-                            <td>{{ $mhs->nama_mhs}}</td>
-                            <td>{{ $mhs->tempat_lahir }}</td>
-                            <td>{{ $mhs->tgl_lahir }}</td>
-                            <td>{{ $mhs->no_hp}}</td>
-                            <td>{{ $mhs->status }}</td>
+                            <td>{{ $mhs->mhs_kelas_mhs->nama_mhs}}</td>
+                            <td>{{ $mhs->mhs_kelas_mhs->tahun_masuk }}</td>
+                            <td>{{ $mhs->mhs_kelas_mhs->program }}</td>
                         </tr>
                     @endforeach
                     </tbody>

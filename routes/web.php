@@ -11,6 +11,7 @@ use App\Http\Controllers\TahunAkademikControlller;
 use \App\Http\Controllers\RuanganController;
 use \App\Http\Controllers\KelasController;
 use \App\Http\Controllers\BatasSKSController;
+use \App\Http\Controllers\KelasMahasiswaController;
 
 
 /*
@@ -35,5 +36,6 @@ Route::resource('/dashboard/kelas', KelasController::class);
 Route::resource('/dashboard/batas-sks', BatasSKSController::class);
 Route::resource('/dashboard/data-dosen', DosenController::class);
 Route::resource('/dashboard/data-mahasiswa', MahasiswaController::class);
+Route::resource('/dashboard/kelas-mhs', KelasMahasiswaController::class);
 
 Route::get('/', [ DashBoardController::class,'index']);

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\KelasMahasiswaController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,5 +35,10 @@ class ModelMahasiswa extends Model
     public function prodi_mhs()
     {
         return $this->belongsTo(ModelMahasiswa::class, 'prodi_id');
+    }
+
+    public function kelas_mhs()
+    {
+        return $this->hasMany(KelasMahasiswaController::class);
     }
 }

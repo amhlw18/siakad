@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ModelKelasMahasiswa;
-use App\Models\ModelMahasiswa;
 use Illuminate\Http\Request;
 
-class KelasMahasiswaController extends Controller
+class PembayaranController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +14,6 @@ class KelasMahasiswaController extends Controller
     public function index()
     {
         //
-        return view('admin.kelas-mahasiswa.index',[
-            'prodis'=>ModelKelasMahasiswa::with('prodi_kelas_mhs')->get(),
-            'mahasiswa' => ModelKelasMahasiswa::with('mhs_kelas_mhs')->get()
-        ]);
     }
 
     /**
@@ -30,9 +24,6 @@ class KelasMahasiswaController extends Controller
     public function create()
     {
         //
-        return view('admin.kelas-mahasiswa.create',[
-            'mahasiswa'=>ModelMahasiswa::with('prodi_mhs')->get()
-        ]);
     }
 
     /**
