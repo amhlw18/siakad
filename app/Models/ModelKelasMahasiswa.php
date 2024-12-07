@@ -24,4 +24,6 @@ class ModelKelasMahasiswa extends Model
     {
         return $this->belongsTo(ModelKelasMahasiswa::class, 'nim');
     }
+
+
 }

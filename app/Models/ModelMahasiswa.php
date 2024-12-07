@@ -34,11 +34,16 @@ class ModelMahasiswa extends Model
 
     public function prodi_mhs()
     {
-        return $this->belongsTo(ModelMahasiswa::class, 'prodi_id');
+        return $this->belongsTo(ModelProdi::class, 'prodi_id');
     }
 
     public function kelas_mhs()
     {
         return $this->hasMany(KelasMahasiswaController::class);
+    }
+
+    public function pembayaran_mhs()
+    {
+        return $this->hasMany(ModelPembayaran::class,'nim');
     }
 }

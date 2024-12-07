@@ -37,5 +37,6 @@ Route::resource('/dashboard/batas-sks', BatasSKSController::class);
 Route::resource('/dashboard/data-dosen', DosenController::class);
 Route::resource('/dashboard/data-mahasiswa', MahasiswaController::class);
 Route::resource('/dashboard/kelas-mhs', KelasMahasiswaController::class);
+Route::resource('/dashboard/pembayaran',\App\Http\Controllers\PembayaranController::class);
 
 Route::get('/', [ DashBoardController::class,'index']);

@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             RuanganSeeder::class,
             KelasSeeder::class,
             MahasiswaSeeder::class,
+            PembayaranSeeder::class,
 
         ]);
     }

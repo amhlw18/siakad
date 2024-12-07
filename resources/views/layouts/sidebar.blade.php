@@ -116,8 +116,8 @@
 
 
                 <!-- Data Administrasi Menu -->
-                <li class="nav-item {{ Request::is('dashboard/kelas-mhs*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ Request::is('dashboard/kelas-mhs*') ? 'active' :'' }}">
+                <li class="nav-item {{ Request::is('/dashboard/kelas-mhs*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Request::is('/dashboard/kelas-mhs*') ? 'active' :'' }}">
                         <i class="nav-icon fas fa-book"></i>
                         <p>
                              Data Administrasi
@@ -131,55 +131,25 @@
                                 <p>Kelas Mahasiswa</p>
                             </a>
                         </li>
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="/dashboard/kurikulum" class="nav-link {{ Request::is('dashboard/kurikulum*') ? 'active' : '' }}">--}}
-{{--                                <i class="far fa-circle nav-icon"></i>--}}
-{{--                                <p>Kurikulum</p>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="/dashboard/matakuliah" class="nav-link {{ Request::is('dashboard/matakuliah*') ? 'active' : '' }}">--}}
-{{--                                <i class="far fa-circle nav-icon"></i>--}}
-{{--                                <p>Matakuliah</p>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="/dashboard/prodi" class="nav-link {{ Request::is('dashboard/prodi*') ? 'active' : '' }}">--}}
-{{--                                <i class="far fa-circle nav-icon"></i>--}}
-{{--                                <p>Program Studi</p>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="/dashboard/ruangan" class="nav-link {{ Request::is('dashboard/ruangan*') ? 'active' : '' }}">--}}
-{{--                                <i class="far fa-circle nav-icon"></i>--}}
-{{--                                <p>Ruangan</p>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="/dashboard/kelas" class="nav-link {{ Request::is('dashboard/kelas*') ? 'active' : '' }}">--}}
-{{--                                <i class="far fa-circle nav-icon"></i>--}}
-{{--                                <p>Kelas</p>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="/dashboard/batas-sks" class="nav-link {{ Request::is('dashboard/batas-sks*') ? 'active' : '' }}">--}}
-{{--                                <i class="far fa-circle nav-icon"></i>--}}
-{{--                                <p>Batas SKS</p>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="/dashboard/data-dosen" class="nav-link {{ Request::is('dashboard/data-dosen*') ? 'active' : '' }}">--}}
-{{--                                <i class="far fa-circle nav-icon"></i>--}}
-{{--                                <p>Data Dosen</p>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
+                    </ul>
+                </li>
 
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="/dashboard/data-mahasiswa" class="nav-link {{ Request::is('dashboard/data-mahasiswa*') ? 'active' : '' }}">--}}
-{{--                                <i class="far fa-circle nav-icon"></i>--}}
-{{--                                <p>Data Mahasiswa</p>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
+                <!-- Data Pembayaran Menu -->
+                <li class="nav-item {{ Request::is('/dashboard/pembayaran*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Request::is('/dashboard/pembayaran*') ? 'active' :'' }}">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Data Pembayaran
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/dashboard/pembayaran" class="nav-link {{ Request::is('/dashboard/pembayaran*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Pembayaran SPP</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 

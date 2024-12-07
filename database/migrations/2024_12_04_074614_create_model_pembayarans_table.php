@@ -15,7 +15,11 @@ return new class extends Migration
     {
         Schema::create('model_pembayarans', function (Blueprint $table) {
             $table->id();
+            $table->uuid('id_pembayaran')->default(DB::raw('(UUID())'));
             $table->foreignId('tahun_akademik');
+            $table->foreignId('nim');
+            $table->foreignId('prodi_id');
+            $table->boolean('is_bayar')->default(false);
             $table->timestamps();
         });
     }
