@@ -48,8 +48,8 @@
 
                 <!-- Data Akademik Menu -->
                 <li class="nav-item {{ Request::is('dashboard/matakuliah*') || Request::is('dashboard/prodi*') || Request::is('dashboard/ruangan*') || Request::is('dashboard/kelas*') || Request::is('dashboard/tahun-akademik*') || Request::is('dashboard/kurikulum*') || Request::is('dashboard/batas-sks*') || Request::is('dashboard/data-dosen*') || Request::is('dashboard/data-mahasiswa*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ Request::is('dashboard/matakuliah*') || Request::is('dashboard/prodi*') || Request::is('dashboard/ruangan*') || Request::is('dashboard/kelas*') || Request::is('dashboard/tahun-akademik*') || Request::is('dashboard/kurikulum*') || Request::is('dashboard/batas-sks*') || Request::is('dashboard/data-dosen*')  || Request::is('dashboard/data-mahasiswa*') ? 'active' :'' }}">
-                        <i class="nav-icon fas fa-book"></i>
+                    <a href="#" class="nav-link {{ Request::is('dashboard/matakuliah*') || Request::is('dashboard/prodi*') || Request::is('dashboard/ruangan*') || Request::is('dashboard/kelas*') || Request::is('dashboard/tahun-akademik*') || Request::is('dashboard/kurikulum*') || Request::is('dashboard/batas-sks*') || Request::is('dashboard/data-dosen*') || Request::is('dashboard/data-mahasiswa*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-graduation-cap"></i>
                         <p>
                             Master Data Akademik
                             <i class="fas fa-angle-left right"></i>
@@ -104,7 +104,6 @@
                                 <p>Data Dosen</p>
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a href="/dashboard/data-mahasiswa" class="nav-link {{ Request::is('dashboard/data-mahasiswa*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
@@ -114,19 +113,18 @@
                     </ul>
                 </li>
 
-
                 <!-- Data Administrasi Menu -->
-                <li class="nav-item {{ Request::is('/dashboard/kelas-mhs*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ Request::is('/dashboard/kelas-mhs*') ? 'active' :'' }}">
-                        <i class="nav-icon fas fa-book"></i>
+                <li class="nav-item {{ Request::is('dashboard/kls-mhs*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Request::is('dashboard/kls-mhs*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-clipboard"></i>
                         <p>
-                             Data Administrasi
+                            Data Administrasi
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/dashboard/kelas-mhs" class="nav-link {{ Request::is('dashboard/kelas-mhs*') ? 'active' : '' }}">
+                            <a href="/dashboard/kls-mhs" class="nav-link {{ Request::is('dashboard/kls-mhs*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Kelas Mahasiswa</p>
                             </a>
@@ -134,10 +132,11 @@
                     </ul>
                 </li>
 
+
                 <!-- Data Pembayaran Menu -->
-                <li class="nav-item {{ Request::is('/dashboard/pembayaran*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ Request::is('/dashboard/pembayaran*') ? 'active' :'' }}">
-                        <i class="nav-icon fas fa-book"></i>
+                <li class="nav-item {{ Request::is('dashboard/pembayaran*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Request::is('dashboard/pembayaran*') ? 'active' : '' }}">
+                        <i class="fas fa-file-invoice-dollar"></i>
                         <p>
                             Data Pembayaran
                             <i class="fas fa-angle-left right"></i>
@@ -145,13 +144,14 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/dashboard/pembayaran" class="nav-link {{ Request::is('/dashboard/pembayaran*') ? 'active' : '' }}">
+                            <a href="/dashboard/pembayaran" class="nav-link {{ Request::is('dashboard/pembayaran*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Pembayaran SPP</p>
                             </a>
                         </li>
                     </ul>
                 </li>
+
 
             </ul>
         </nav>

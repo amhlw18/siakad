@@ -2,40 +2,60 @@
 
 @section('title')
     Data Pembayaran SPP
-@endsection()
-
+@endsection
 
 @section('mainmenu')
     Data Pembayaran SPP
-@endsection()
+@endsection
 
 @section('menu')
     Data Pembayaran SPP
-@endsection()
+@endsection
 
 @section('submenu')
     Master Data Pembayaran SPP
-@endsection()
+@endsection
 
 @section('content')
     <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        <!-- /.row -->
-        <!-- Main row -->
         @if (session()->has('success'))
             <div class="alert alert-success" role="alert">
                 {{ session('success') }}
             </div>
         @endif
-        <a href="/dashboard/data-mahasiswa/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Tambah
-            Mahasiswa</a>
+        <!-- Filter Section -->
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="filterTahun">Tahun Akademik</label>
+                <select id="filterTahun" class="form-control">
+                    <option value="">Semua Tahun</option>
+                    @foreach ($tahun_akademiks as $tahun)
+                        <option value="{{ $tahun->id }}"
+                            {{ $tahun->id == $tahun_aktif_id ? 'selected' : '' }}>
+                            {{ $tahun->tahun_akademik }} {{ $tahun->semester }}
+                        </option>
+                    @endforeach
+                </select>
+
+
+            </div>
+            <div class="col-md-4">
+                <label for="filterProdi">Program Studi</label>
+                <select id="filterProdi" class="form-control">
+                    <option value="">Semua Prodi</option>
+                    @foreach ($prodis as $prodi)
+                        <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Master Data Pembayaran SPP</h3>
             </div>
-            <!-- /.card-header -->
             <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="tablePembayaran" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th></th>
@@ -43,7 +63,6 @@
                         <th>NIM</th>
                         <th>Nama Mahasiswa</th>
                         <th>Program Studi</th>
-{{--                        <th>Tanggal Pembayaran</th>--}}
                         <th>Status Pembayaran</th>
                     </tr>
                     </thead>
@@ -51,31 +70,118 @@
                     @foreach ($pembayarans as $pembayaran)
                         <tr>
                             <td>
-                                <form action="/dashboard/data-mahasiswa/{{ $pembayaran->nim }}" class="inline-block" method="post">
-                                    @method('DELETE')
-                                    @csrf
+{{--                                @if($pembayaran->tahun_akademik_pembayaran->status)--}}
+{{--                                    --}}
+{{--                                @endif--}}
 
-                                    <a href="/dashboard/data-mahasiswa/{{ $pembayaran->nim }}/edit" class="btn btn-warning">
+                                    <a href="#"
+                                       class="btn btn-warning btn-edit"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#editModal"
+                                       data-id="{{ $pembayaran->id }}">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-
-                                    <button class="btn btn-danger" onclick="return confirm('Yakin akan menghapus mahasiswa?')">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </form>
                             </td>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $pembayaran->nim }}</td>
+                            <td>{{ $pembayaran->pembayaran_mhs->nim }}</td>
                             <td>{{ $pembayaran->pembayaran_mhs->nama_mhs ?? '-' }}</td>
+                            <td>{{ $pembayaran->prodi_pembayaran->nama_prodi ?? '-' }}</td>
+{{--                            <td>{{ $pembayaran->tahun_akademik_pembayaran->id }}</td>--}}
                             <td>{{ $pembayaran->is_bayar ? 'Lunas' : 'Belum Lunas' }}</td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
-
             </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.row (main row) -->
-    </div><!-- /.container-fluid -->
-@endsection()
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Data</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
+                        <input type="hidden" id="editId" name="id">
+                        <div class="mb-3">
+                            <label for="editNama" class="form-label">Nama Mahasiswa</label>
+                            <input type="text" class="form-control" id="editNama" name="nama">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editProdi" class="form-label">Program Studi</label>
+                            <select class="form-control" id="editProdi" name="prodi">
+                                <!-- Options akan diisi secara dinamis -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editStatus" class="form-label">Status Pembayaran</label>
+                            <select class="form-control" id="editStatus" name="status">
+                                <option value="1">Lunas</option>
+                                <option value="0">Belum Lunas</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterTahun = document.getElementById('filterTahun');
+            const filterProdi = document.getElementById('filterProdi');
+            const tablePembayaran = $('#tablePembayaran'); // Gunakan jQuery untuk DataTables
+
+            // Inisialisasi DataTables
+            let dataTable = tablePembayaran.DataTable();
+
+            function fetchFilteredData() {
+                const tahun = filterTahun.value;
+                const prodi = filterProdi.value;
+
+                fetch(`/dashboard/data-pembayaran/filter?tahun=${tahun}&prodi=${prodi}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Clear existing table data
+                        dataTable.clear();
+
+                        // Add new rows
+                        data.forEach((item, index) => {
+                            dataTable.row.add([
+                                `<a href="/dashboard/data-mahasiswa/${item.nim}/edit" class="btn btn-warning">
+                            <i class="bi bi-pencil"></i>
+                        </a>`,
+                                index + 1,
+                                item.nim,
+                                item.nama_mhs || '-',
+                                item.nama_prodi || '-',
+                                item.is_bayar ? 'Lunas' : 'Belum Lunas',
+                            ]);
+                        });
+
+                        // Redraw table
+                        dataTable.draw();
+                    });
+            }
+
+            // Panggil fetchFilteredData saat tahun akademik aktif dipilih
+            if (filterTahun.value) {
+                fetchFilteredData();
+            }
+
+            // Event listeners untuk filter
+            filterTahun.addEventListener('change', fetchFilteredData);
+            filterProdi.addEventListener('change', fetchFilteredData);
+        });
+
+
+    </script>
+@endsection

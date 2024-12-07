@@ -17,11 +17,16 @@ class ModelPembayaran extends Model
 
     public function prodi_pembayaran()
     {
-        return $this->belongsTo(ModelProdi::class, 'prodi_id');
+        return $this->belongsTo(ModelProdi::class, 'prodi_id','kode_prodi');
     }
 
     public function pembayaran_mhs()
     {
-        return $this->belongsTo(ModelMahasiswa::class, 'nim');
+        return $this->belongsTo(ModelMahasiswa::class, 'nim','nim');
+    }
+
+    public function tahun_akademik_pembayaran()
+    {
+        return $this->belongsTo(ModelTahunAkademik::class, 'tahun_akademik','id');
     }
 }

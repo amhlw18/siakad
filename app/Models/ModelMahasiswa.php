@@ -44,6 +44,6 @@ class ModelMahasiswa extends Model
 
     public function pembayaran_mhs()
     {
-        return $this->hasMany(ModelPembayaran::class,'nim');
+        return $this->hasMany(ModelPembayaran::class,'nim','nim');
     }
 }

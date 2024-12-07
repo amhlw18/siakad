@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('tahun_akademik');
             $table->foreignId('nim');
             $table->foreignId('prodi_id');
+            $table->string('tgl_bayar')->nullable();
             $table->boolean('is_bayar')->default(false);
             $table->timestamps();
         });

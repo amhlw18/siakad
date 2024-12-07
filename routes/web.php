@@ -12,7 +12,7 @@ use \App\Http\Controllers\RuanganController;
 use \App\Http\Controllers\KelasController;
 use \App\Http\Controllers\BatasSKSController;
 use \App\Http\Controllers\KelasMahasiswaController;
-
+use \App\Http\Controllers\PembayaranController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +36,8 @@ Route::resource('/dashboard/kelas', KelasController::class);
 Route::resource('/dashboard/batas-sks', BatasSKSController::class);
 Route::resource('/dashboard/data-dosen', DosenController::class);
 Route::resource('/dashboard/data-mahasiswa', MahasiswaController::class);
-Route::resource('/dashboard/kelas-mhs', KelasMahasiswaController::class);
-Route::resource('/dashboard/pembayaran',\App\Http\Controllers\PembayaranController::class);
+Route::resource('/dashboard/kls-mhs', KelasMahasiswaController::class);
+Route::resource('/dashboard/pembayaran',PembayaranController::class);
 
+Route::get('/dashboard/data-pembayaran/filter', [PembayaranController::class, 'filter']);
 Route::get('/', [ DashBoardController::class,'index']);
