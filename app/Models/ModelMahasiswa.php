@@ -34,7 +34,7 @@ class ModelMahasiswa extends Model
 
     public function prodi_mhs()
     {
-        return $this->belongsTo(ModelProdi::class, 'prodi_id');
+        return $this->belongsTo(ModelProdi::class, 'prodi_id','kode_prodi');
     }
 
     public function kelas_mhs()

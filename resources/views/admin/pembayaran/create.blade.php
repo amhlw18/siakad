@@ -24,8 +24,6 @@
             </div>
         @endif
 
-            <a href="/dashboard/pembayaran/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Tambah
-                Matakuliah</a>
 
         <!-- Filter Section -->
         <div class="row mb-3">
@@ -80,14 +78,15 @@
                                 </a>
                             </td>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $pembayaran->pembayaran_mhs->nim }}</td>
-                            <td>{{ $pembayaran->pembayaran_mhs->nama_mhs ?? '-' }}</td>
-                            <td>{{ $pembayaran->prodi_pembayaran->nama_prodi ?? '-' }}</td>
-                            <td>{{ $pembayaran->is_bayar ? 'Lunas' : 'Belum Lunas' }}</td>
+                            <td>{{ $pembayaran->nim }}</td>
+                            <td>{{ $pembayaran->nama_mhs ?? '-' }}</td>
+                            <td>{{ $pembayaran->prodi_mhs->nama_prodi ?? '-' }}</td>
+                            <td>Belum Lunas</td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
+
 
             </div>
         </div>

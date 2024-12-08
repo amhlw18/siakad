@@ -49,7 +49,7 @@ class ModelProdi extends Model
 
     public function mahasiswa()
     {
-        return $this->hasMany(ModelMahasiswa::class);
+        return $this->hasMany(ModelMahasiswa::class,'prodi_id','kode_prodi');
     }
 
     public function kelas_mhs()
