@@ -7,6 +7,7 @@ use App\Models\ModelPembayaran;
 use App\Models\ModelProdi;
 use App\Models\ModelTahunAkademik;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PembayaranController extends Controller
 {
@@ -72,28 +73,29 @@ class PembayaranController extends Controller
 
     public function create()
     {
-        // Ambil tahun akademik yang aktif
-        $tahun_akademik_aktif = ModelTahunAkademik::where('status', 1)->first();
+//        // Ambil tahun akademik yang aktif
+//        $tahun_akademik_aktif = ModelTahunAkademik::where('status', 1)->first();
+//
+//        if (!$tahun_akademik_aktif) {
+//            return redirect()->back()->with('error', 'Tidak ada tahun akademik yang aktif.');
+//        }
 
-        if (!$tahun_akademik_aktif) {
-            return redirect()->back()->with('error', 'Tidak ada tahun akademik yang aktif.');
-        }
+//        // Ambil mahasiswa yang belum lunas pada tahun akademik aktif
+//        $pembayarans = ModelMahasiswa::whereDoesntHave('pembayaran_mhs', function ($query) use ($tahun_akademik_aktif) {
+//            $query->where('tahun_akademik', $tahun_akademik_aktif->id)
+//                ->where('is_bayar', 1); // Misalnya 'is_bayar' 1 berarti lunas
+//        })->with(['pembayaran_mhs', 'prodi_mhs'])->get();
+//
+//        // Ambil data tahun akademik untuk dropdown
+//        $tahun_akademiks = ModelTahunAkademik::orderByDesc('status') // Prioritaskan status aktif
+//        ->orderBy('tahun_akademik', 'desc')
+//            ->get();
 
-        // Ambil mahasiswa yang belum lunas pada tahun akademik aktif
-        $pembayarans = ModelMahasiswa::whereDoesntHave('pembayaran_mhs', function ($query) use ($tahun_akademik_aktif) {
-            $query->where('tahun_akademik', $tahun_akademik_aktif->id)
-                ->where('is_bayar', 1); // Misalnya 'is_bayar' 1 berarti lunas
-        })->with(['pembayaran_mhs', 'prodi_mhs'])->get();
-
-        // Ambil data tahun akademik untuk dropdown
-        $tahun_akademiks = ModelTahunAkademik::orderByDesc('status') // Prioritaskan status aktif
-        ->orderBy('tahun_akademik', 'desc')
-            ->get();
 
         return view('admin.pembayaran.create', [
-            'tahun_akademiks' => $tahun_akademiks,
-            'prodis' => ModelProdi::get(),
-        ], compact('pembayarans'));
+            'mahasiswa' => ModelMahasiswa::with('prodi_mhs')->get(),
+            'prodis' => ModelProdi::get()
+        ]);
     }
 
 
@@ -108,7 +110,29 @@ class PembayaranController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $mahasiswa = ModelMahasiswa::with('prodi_mhs')->where('nim', $request->id)->first();
+        $tahun_akademik = ModelTahunAkademik::where('status', 1)->first();
+
+        // Cek apakah data pembayaran sudah ada
+        $existingPembayaran = ModelPembayaran::where('nim', $mahasiswa->nim)
+            ->where('tahun_akademik', $tahun_akademik->id)
+            ->first();
+
+        if ($existingPembayaran) {
+            return response()->json(['error' => 'Data pembayaran dengan NIM dan tahun akademik ini sudah lunas.'], 400);
+        }
+
+        $validatedData['is_bayar'] = $request->has('is_bayar') ? 1 : 0;
+
+        ModelPembayaran::create([
+           'tahun_akademik'=>$tahun_akademik->id,
+           'nim' => $mahasiswa->nim,
+           'prodi_id' => $mahasiswa->prodi_id,
+            'tgl_bayar' => now()->format('Y-m-d H:i:s'),
+            'is_bayar' => $validatedData['is_bayar']
+        ]);
+
+        return response()->json(['success' => 'Data berhasil diperbarui']);
     }
 
     /**
@@ -129,10 +153,25 @@ class PembayaranController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($nim)
     {
-        //
+//        $mahasiswa = Mahasiswa::with('prodi_mhs')->where('nim', $nim)->first();
+//
+//        if (!$mahasiswa) {
+//            return response()->json(['error' => 'Mahasiswa tidak ditemukan.'], 404);
+//        }
+
+        $mahasiswa = ModelMahasiswa::with('prodi_mhs')->where('nim', $nim)->first();
+        $tahun_akademik = ModelTahunAkademik::where('status', 1)->first();
+
+        return response()->json([
+            'tahun_akademik' => $tahun_akademik->id,
+            'nama_tahun' => $tahun_akademik->tahun_akademik,
+            'nim' => $mahasiswa->nim,
+            'nama' => $mahasiswa->nama_mhs,
+        ]);
     }
+
 
     /**
      * Update the specified resource in storage.

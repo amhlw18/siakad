@@ -24,8 +24,7 @@
             </div>
         @endif
 
-            <a href="/dashboard/pembayaran/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Tambah
-                Matakuliah</a>
+            <a href="/dashboard/pembayaran/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Transaksi Pembayaran</a>
 
         <!-- Filter Section -->
         <div class="row mb-3">

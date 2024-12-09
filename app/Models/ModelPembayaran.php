@@ -13,6 +13,8 @@ class ModelPembayaran extends Model
         'tahun_akademik',
         'nim',
         'prodi_id',
+        'tgl_bayar',
+        'is_bayar'
     ];
 
     public function prodi_pembayaran()

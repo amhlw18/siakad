@@ -40,4 +40,6 @@ Route::resource('/dashboard/kls-mhs', KelasMahasiswaController::class);
 Route::resource('/dashboard/pembayaran',PembayaranController::class);
 
 Route::get('/dashboard/data-pembayaran/filter', [PembayaranController::class, 'filter']);
+Route::post('/dashboard/data-pembayaran', [PembayaranController::class, 'store']);
+Route::get('/dashboard/data-pembayaran/{nim}/edit', [PembayaranController::class, 'edit']);
 Route::get('/', [ DashBoardController::class,'index']);
