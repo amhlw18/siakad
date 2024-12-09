@@ -18,21 +18,9 @@ class PembayaranController extends Controller
      */
     public function index()
     {
-        $pembayarans = ModelPembayaran::with(['pembayaran_mhs', 'prodi_pembayaran'])->get();
-        $tahun_akademiks = ModelTahunAkademik::orderByDesc('status') // Prioritaskan status aktif
-        ->orderBy('tahun_akademik', 'desc')
-            ->get();
-
-        // Debug
-//        foreach ($pembayarans as $pembayaran) {
-//            dd($pembayaran->pembayaran_mhs); // Periksa apakah data mahasiswa muncul
-//        }
-
         return view('admin.pembayaran.index', [
-            'tahun_akademiks'=>$tahun_akademiks,
-            'prodis' => ModelProdi::get()
-        ],
-            compact('pembayarans'));
+            'mahasiswa' => ModelMahasiswa::with('prodi_mhs')->get(),
+        ]);
     }
 
 
@@ -74,11 +62,9 @@ class PembayaranController extends Controller
     public function create()
     {
 //        // Ambil tahun akademik yang aktif
-//        $tahun_akademik_aktif = ModelTahunAkademik::where('status', 1)->first();
-//
-//        if (!$tahun_akademik_aktif) {
-//            return redirect()->back()->with('error', 'Tidak ada tahun akademik yang aktif.');
-//        }
+//        $tahun_akademik = ModelTahunAkademik::where('status', 1)->first();
+
+
 
 //        // Ambil mahasiswa yang belum lunas pada tahun akademik aktif
 //        $pembayarans = ModelMahasiswa::whereDoesntHave('pembayaran_mhs', function ($query) use ($tahun_akademik_aktif) {
@@ -92,9 +78,10 @@ class PembayaranController extends Controller
 //            ->get();
 
 
+
         return view('admin.pembayaran.create', [
             'mahasiswa' => ModelMahasiswa::with('prodi_mhs')->get(),
-            'prodis' => ModelProdi::get()
+            'prodis' => ModelProdi::get(),
         ]);
     }
 
@@ -144,6 +131,26 @@ class PembayaranController extends Controller
     public function show($id)
     {
         //
+        $pembayarans = ModelPembayaran::with(['pembayaran_mhs', 'prodi_pembayaran','tahun_akademik_pembayaran'])->where('nim', $id)
+            ->orderBy('id', 'desc')
+            ->get();
+//        $tahun_akademiks = ModelTahunAkademik::orderByDesc('status') // Prioritaskan status aktif
+//        ->orderBy('tahun_akademik', 'desc')
+//            ->get();
+
+        // Debug
+//        foreach ($pembayarans as $pembayaran) {
+//            dd($pembayaran->pembayaran_mhs); // Periksa apakah data mahasiswa muncul
+//        }
+
+        $mahasiswa = $pembayarans->first()->pembayaran_mhs; // Ambil data mahasiswa dari relasi
+        $prodi = $pembayarans->first()->prodi_pembayaran; // Ambil data prodi dari relasi
+
+        return view('admin.pembayaran.show', [
+            'pembayarans' => $pembayarans,
+            'mahasiswa' => $mahasiswa,
+            'prodi' => $prodi,
+        ]);
 
     }
 
