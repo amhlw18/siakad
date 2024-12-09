@@ -26,12 +26,25 @@
 
             <a href="/dashboard/pembayaran/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Transaksi Pembayaran SPP</a>
 
-        <div class="card">
+            <!-- Filter Section -->
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="filterProdi">Program Studi</label>
+                    <select id="filterProdi" class="form-control">
+                        <option value="">Semua Prodi</option>
+                        @foreach ($prodis as $prodi)
+                            <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Master Data Riwayat Pembayaran SPP</h3>
             </div>
             <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="tablePembayaran" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th></th>
@@ -69,61 +82,46 @@
 
 
     <script>
-        // document.addEventListener('DOMContentLoaded', () => {
-        //     const modal = new bootstrap.Modal(document.getElementById('editModal'));
-        //
-        //     document.querySelectorAll('.btn-edit').forEach(button => {
-        //         button.addEventListener('click', (e) => {
-        //             e.preventDefault();
-        //
-        //             // Ambil ID dari data-id tombol
-        //             const id = button.getAttribute('data-id');
-        //             console.log(`Mengedit data dengan ID: ${id}`); // Debugging
-        //
-        //             // Tampilkan modal
-        //             modal.show();
-        //
-        //             // Lakukan request untuk memuat data
-        //             fetch(`/dashboard/data-pembayaran/${id}/edit`)
-        //                 .then(response => response.json())
-        //                 .then(data => {
-        //                     document.getElementById('pesan').innerHTML = 'Yakin memproses pembayaran spp atas nama '+data.nama+' ?';
-        //                     document.getElementById('editId').value = data.nim;
-        //                     document.getElementById('editStatus').value = data.status ? '1' : '0';
-        //                 })
-        //                 .catch(error => console.error('Gagal memuat data:', error));
-        //         });
-        //     });
-        // });
-        //
-        //
-        // document.getElementById('saveChanges').addEventListener('click', () => {
-        //     const form = document.getElementById('editForm');
-        //     const formData = new FormData(form);
-        //
-        //     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-        //
-        //     fetch(`/dashboard/pembayaran`, {
-        //         method: 'POST',
-        //         headers: {
-        //             'X-CSRF-TOKEN': csrfToken,
-        //             'Accept': 'application/json',
-        //         },
-        //         body: formData,
-        //     })
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             if (data.error) {
-        //                 alert(data.error); // Tampilkan pesan error
-        //             } else {
-        //                 alert(data.success);
-        //                 location.reload(); // Reload halaman untuk memperbarui tabel
-        //             }
-        //         })
-        //         .catch(error => console.error('Gagal menyimpan data:', error));
-        // });
-        //
-        //
+        document.addEventListener('DOMContentLoaded', () => {
+            //const filterProdi = document.getElementById('filterProdi');
+            const tablePembayaran = $('#tablePembayaran'); // Gunakan jQuery untuk DataTables
+
+            // Inisialisasi DataTables
+            let dataTable = tablePembayaran.DataTable();
+
+            function fetchFilteredData() {
+                //const tahun = filterTahun.value;
+                const prodi = filterProdi.value;
+
+                fetch(`/dashboard/data-pembayaran/filter?prodi=${prodi}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Clear existing table data
+                        dataTable.clear();
+
+                        // Add new rows
+                        data.forEach((item, index) => {
+                            dataTable.row.add([
+                                `<a href="/dashboard/pembayaran/{{$mhs->nim}}"
+                                   class="btn btn-success"
+                                   data-id="{{ $mhs->nim }}">
+                                    <i class="bi bi-eye"></i>
+                                </a>`,
+                                index + 1,
+                                item.nim,
+                                item.nama_mhs || '-',
+                                item.nama_prodi || '-',
+                            ]);
+                        });
+
+                        // Redraw table
+                        dataTable.draw();
+                    });
+            }
+
+            //filterTahun.addEventListener('change', fetchFilteredData);
+            filterProdi.addEventListener('change', fetchFilteredData);
+        });
 
     </script>
 @endsection

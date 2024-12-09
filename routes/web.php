@@ -42,4 +42,5 @@ Route::resource('/dashboard/pembayaran',PembayaranController::class);
 Route::get('/dashboard/data-pembayaran/filter', [PembayaranController::class, 'filter']);
 Route::post('/dashboard/data-pembayaran', [PembayaranController::class, 'store']);
 Route::get('/dashboard/data-pembayaran/{nim}/edit', [PembayaranController::class, 'edit']);
+Route::post('/dashboard/data-pembayaran/{nim}', [PembayaranController::class, 'destroy']);
 Route::get('/', [ DashBoardController::class,'index']);
