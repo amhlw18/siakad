@@ -59,7 +59,8 @@ class PembayaranController extends Controller
         $tahun = $tahun_akademik->tahun_akademik;
         $smt = $tahun_akademik->semester;
         return view('admin.pembayaran.create', [
-            'mahasiswa' => ModelMahasiswa::with('prodi_mhs')->get(),
+            'mahasiswa' => ModelMahasiswa::with('prodi_mhs')->where('status','Aktif')
+                ->get(),
             'prodis' => ModelProdi::get(),
             'tahun' => $tahun,
             'smt' =>$smt

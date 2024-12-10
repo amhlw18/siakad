@@ -31,4 +31,8 @@ class ModelTahunAkademik extends Model
     {
         return $this->hasMany(ModelPembayaran::class, 'tahun_akademik','id');
     }
+
+    public function smt_masuk(){
+        return $this->hasMany(ModelMahasiswa::class,'semester_masuk','id');
+    }
 }

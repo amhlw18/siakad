@@ -43,4 +43,7 @@ Route::get('/dashboard/data-pembayaran/filter', [PembayaranController::class, 'f
 Route::post('/dashboard/data-pembayaran', [PembayaranController::class, 'store']);
 Route::get('/dashboard/data-pembayaran/{nim}/edit', [PembayaranController::class, 'edit']);
 Route::post('/dashboard/data-pembayaran/{nim}', [PembayaranController::class, 'destroy']);
+
+Route::get('/dashboard/kls-mhs/filter', [KelasMahasiswaController::class, 'filter']);
+
 Route::get('/', [ DashBoardController::class,'index']);

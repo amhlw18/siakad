@@ -23,9 +23,11 @@ class PembayaranSeeder extends Seeder
 
         foreach ($mahasiswa as $mhs) {
             ModelPembayaran::create([
-                'tahun_akademik' => $faker->numberBetween(1, 10),
+                'tahun_akademik' => '1',
                 'nim' => $mhs->nim,
                 'prodi_id' => $mhs->prodi_id,
+                'tgl_bayar' => now()->format('Y-m-d H:i:s'),
+                'is_bayar' => 1,
             ]);
         }
     }

@@ -54,7 +54,7 @@ class ModelProdi extends Model
 
     public function kelas_mhs()
     {
-        return $this->hasMany(ModelKelasMahasiswa::class);
+        return $this->hasMany(ModelKelasMahasiswa::class,'prodi_id','kode_prodi');
     }
 
     public function prodi_pembayaran()

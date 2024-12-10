@@ -11,19 +11,24 @@ class ModelKelasMahasiswa extends Model
 
     protected $fillable = [
         'prodi_id',
+        'kelas_id',
         'nim',
-
     ];
 
     public function prodi_kelas_mhs()
     {
-        return $this->belongsTo(ModelKelasMahasiswa::class, 'prodi_id');
+        return $this->belongsTo(ModelProdi::class, 'prodi_id','kode_prodi');
     }
 
     public function mhs_kelas_mhs()
     {
-        return $this->belongsTo(ModelKelasMahasiswa::class, 'nim');
+        return $this->belongsTo(ModelMahasiswa::class, 'nim','nim');
     }
+
+    public function kelas_mahasiswa(){
+        return $this->belongsTo(ModelKelas::class, 'kelas_id','id');
+    }
+
 
 
 }

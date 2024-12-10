@@ -43,8 +43,8 @@ class MahasiswaSeeder extends Seeder
                 'status_masuk' => $status_masuk[array_rand($status_masuk)],
                 'program' => $programs[array_rand($programs)],
                 'tahun_masuk' => $faker->year($max = 'now'),
-                'semester_masuk' => $faker->randomElement(['Ganjil', 'Genap']),
-                'status' => $statuses[array_rand($statuses)],
+                'semester_masuk' => '1',
+                'status' => 'Aktif',
             ]);
         }
     }

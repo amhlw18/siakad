@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('model_kelas_mahasiswas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('prodi_id');
+            $table->foreignId('kelas_id');
             $table->foreignId('nim');
             $table->timestamps();
         });

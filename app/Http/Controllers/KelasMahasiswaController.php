@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ModelKelas;
 use App\Models\ModelKelasMahasiswa;
 use App\Models\ModelMahasiswa;
+use App\Models\ModelProdi;
+use App\Models\ModelTahunAkademik;
 use Illuminate\Http\Request;
 
 class KelasMahasiswaController extends Controller
@@ -17,8 +20,10 @@ class KelasMahasiswaController extends Controller
     {
         //
         return view('admin.kelas-mahasiswa.index',[
-            'prodis'=>ModelKelasMahasiswa::with('prodi_kelas_mhs')->get(),
-            'mahasiswa' => ModelKelasMahasiswa::with('mhs_kelas_mhs')->get()
+            'mahasiswa' => ModelKelasMahasiswa::with(
+                'prodi_kelas_mhs','mhs_kelas_mhs',
+                'kelas_mahasiswa')->get(),
+            'prodis'=>ModelProdi::get()
         ]);
     }
 
@@ -27,11 +32,32 @@ class KelasMahasiswaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function filter(Request $request)
+    {
+        $query = ModelKelasMahasiswa::with(
+            'prodi_kelas_mhs','mhs_kelas_mhs',
+            'kelas_mahasiswa')->where('prodi_id', $request->prodi)
+            ->get();
+
+        return response()->json($query->map(function ($query) {
+            return [
+                'nim' => $query->nim,
+//                'nama_mhs' => $query->mhs_kelas_mhs->nama_mhs,
+//                'program' => $query->kelas_mahasiswa->program,
+////                'tahun_masuk'=>$query->mhs_kelas_mhs->tahun_masuk,
+            ];
+        }));
+    }
+
     public function create()
     {
         //
         return view('admin.kelas-mahasiswa.create',[
-            'mahasiswa'=>ModelMahasiswa::with('prodi_mhs')->get()
+            'mahasiswa'=>ModelMahasiswa::get(),
+            'prodis' =>ModelProdi::get(),
+            'kelas' =>ModelKelas::get(),
+            'tahun_akademis' =>ModelTahunAkademik::get(),
         ]);
     }
 
@@ -43,7 +69,41 @@ class KelasMahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd(request()->all());
+        $mahasiswa = ModelMahasiswa::where('prodi_id',$request->prodi_id)
+            ->where('status','Aktif')
+            ->where('semester_masuk',$request->semester_masuk)
+            ->get();
+
+        if (!$mahasiswa) {
+            return redirect()->back()->with('error', 'Tidak ditemukan mahasiswa aktif.');
+        }
+
+        //$mhs = $mahasiswa->first();
+        //dd($request->kelas_id);
+
+
+        foreach ($mahasiswa as $mhs) {
+
+            $kelas_mhs = ModelKelasMahasiswa::with('prodi_kelas_mhs',
+                'mhs_kelas_mhs','kelas_mahasiswa')
+                ->where('nim',$mhs->nim)
+                ->where('prodi_id', $mhs->prodi_id)
+                ->first();
+
+
+            if ($kelas_mhs) {
+                return redirect()->back()->with('error', 'Kelas mahasiswa sudah terdaftar.');
+            }
+
+            ModelKelasMahasiswa::create([
+                'prodi_id' => $mhs->prodi_id,
+                'kelas_id' => $request->kelas_id,
+                'nim' => $mhs->nim,
+            ]);
+        }
+        return redirect('/dashboard/kls-mhs')->with('success', 'Kelas mahasiswa berhasil di tambahkan !');
+
     }
 
     /**

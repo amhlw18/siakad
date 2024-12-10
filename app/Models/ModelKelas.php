@@ -18,6 +18,10 @@ class ModelKelas extends Model
 
     public function prodi_kelas()
     {
-        return $this->belongsTo(ModelKelas::class, 'prodi_id');
+        return $this->belongsTo(ModelProdi::class, 'prodi_id','kode_prodi');
+    }
+
+    public function kelas_mahasiswa(){
+        return $this->hasMany(ModelKelasMahasiswa::class, 'kelas_id','id');
     }
 }

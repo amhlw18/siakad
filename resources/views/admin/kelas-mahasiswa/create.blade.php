@@ -1,66 +1,114 @@
 @extends('layouts.main')
 
 @section('title')
-    Data Mahasiswa
+    Tambah Kelas Mahasiswa
 @endsection()
 
-
 @section('mainmenu')
-    Data Mahasiswa
+   Tambah Kelas Mahasiswa
 @endsection()
 
 @section('menu')
-    Data Mahasiswa
+    Kelas Mahasiswa
 @endsection()
 
 @section('submenu')
-    Master Data Mahasiswa
+    Master Kelas Mahasiswa
 @endsection()
 
 @section('content')
-    <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        <!-- /.row -->
-        <!-- Main row -->
-        @if (session()->has('success'))
-            <div class="alert alert-success" role="alert">
-                {{ session('success') }}
-            </div>
-        @endif
-{{--        <a href="/dashboard/data-mahasiswa/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Tambah--}}
-{{--            Mahasiswa</a>--}}
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Master Data Mahasiswa</h3>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>NIM</th>
-                        <th>Nama </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($mahasiswa as $mhs)
-                        <tr>
+    <section class="content">
+        <div class="container-fluid">
 
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $mhs->nim }}</td>
-                            <td>{{ $mhs->nama_mhs}}</td>
-{{--                            <td>{{ $mhs->prodi_mhs->nama_prodi }}</td>--}}
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.card-body -->
-        </div>
-        <!-- /.row (main row) -->
-    </div><!-- /.container-fluid -->
+            @if (session()->has('error'))
+                <div class="alert alert-danger" role="alert">
+                    {{ session('error') }}
+                </div>
+            @endif
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- jquery validation -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Form Kelas Mahasiswa <small></small></h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form id="quickForm" method="post" action="/dashboard/kls-mhs" enctype="multipart/form-data">
+                            @csrf
+                            <div class="card-body">
 
+                                <div class="form-group">
+                                    <label for="prodi_id">Program Studi</label>
+                                    <select class="custom-select rounded-0" id="prodi_id" name="prodi_id">
+                                        @foreach ($prodis as $prodi)
+                                            @if (old('prodi_id') == $prodi->kode_prodi)
+                                                <option selected value="{{ $prodi->kode_prodi }}">
+                                                    {{ $prodi->nama_prodi }}</option>
+                                            @else
+                                                <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="kelas_id">Kelas</label>
+                                    <select class="custom-select rounded-0" id="kelas_id" name="kelas_id">
+                                        @foreach ($kelas as $kls)
+                                            @if (old('kelas_id') == $kls->id)
+                                                <option selected value="{{ $kls->id }}">
+                                                    {{ $kls->nama_kelas }} | {{$kls->program}} </option>
+                                            @else
+                                                <option value="{{ $kls->id }}">{{ $kls->nama_kelas }} | {{$kls->program}}
+                                                </option>
+                                            @endif
+                                        @endforeach
+
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="semester_masuk">Semester Masuk</label>
+                                    <select class="custom-select rounded-0" id="semester_masuk" name="semester_masuk" required>
+                                        @foreach ($tahun_akademis as $thn_akademik)
+                                            <option value="{{ $thn_akademik->id }}" {{ old('semester_masuk') == $thn_akademik->id ? 'selected' : '' }}>
+                                                {{ $thn_akademik->tahun_akademik }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('semester_masuk')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Proses</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (left) -->
+                <!-- right column -->
+                <div class="col-md-6">
+
+                </div>
+                <!--/.col (right) -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- Small boxes (Stat box) -->
+    <!-- /.row -->
+    <!-- Main row -->
 
 @endsection()
 

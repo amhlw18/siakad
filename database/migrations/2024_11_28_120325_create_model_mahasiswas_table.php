@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('model_mahasiswas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('prodi_id');
+            $table->foreignId('semester_masuk');
             $table->string('nim');
             $table->string('nama_mhs');
             $table->string('tempat_lahir');
@@ -31,7 +32,6 @@ return new class extends Migration
             $table->string('status_masuk');
             $table->string('program');
             $table->string('tahun_masuk');
-            $table->string('semester_masuk');
             $table->string('status');
             $table->timestamps();
         });

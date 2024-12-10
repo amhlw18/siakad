@@ -39,11 +39,16 @@ class ModelMahasiswa extends Model
 
     public function kelas_mhs()
     {
-        return $this->hasMany(KelasMahasiswaController::class);
+        return $this->hasMany(KelasMahasiswaController::class,'nim','nim');
     }
 
     public function pembayaran_mhs()
     {
         return $this->hasMany(ModelPembayaran::class,'nim','nim');
     }
+
+    public function smt_masuk(){
+        return $this->belongsTo(ModelTahunAkademik::class,'semester_masuk','id');
+    }
+
 }
