@@ -36,16 +36,25 @@ class KelasMahasiswaController extends Controller
     public function filter(Request $request)
     {
         $query = ModelKelasMahasiswa::with(
-            'prodi_kelas_mhs','mhs_kelas_mhs',
-            'kelas_mahasiswa')->where('prodi_id', $request->prodi)
-            ->get();
+            'prodi_kelas_mhs',
+            'mhs_kelas_mhs',
+            'kelas_mahasiswa'
+        );
 
-        return response()->json($query->map(function ($query) {
+        // Tambahkan kondisi filter jika ada nilai prodi
+        if ($request->has('prodi') && !empty($request->prodi)) {
+            $query->where('prodi_id', $request->prodi);
+        }
+
+        $data = $query->get();
+
+        // Format data untuk respon JSON
+        return response()->json($data->map(function ($item) {
             return [
-                'nim' => $query->nim,
-//                'nama_mhs' => $query->mhs_kelas_mhs->nama_mhs,
-//                'program' => $query->kelas_mahasiswa->program,
-////                'tahun_masuk'=>$query->mhs_kelas_mhs->tahun_masuk,
+                'nim' => $item->nim,
+                'nama_mhs' => $item->mhs_kelas_mhs->nama_mhs ?? '-',
+                'program' => $item->kelas_mahasiswa->program ?? '-',
+                'tahun_masuk' => $item->mhs_kelas_mhs->tahun_masuk ?? '-',
             ];
         }));
     }

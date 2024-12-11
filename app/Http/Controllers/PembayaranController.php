@@ -99,7 +99,7 @@ class PembayaranController extends Controller
             'is_bayar' => $validatedData['is_bayar']
         ]);
 
-        return response()->json(['success' => 'Data berhasil diperbarui']);
+        return response()->json(['success' => 'Pembayaran berhasil dilakukan']);
     }
 
     /**
