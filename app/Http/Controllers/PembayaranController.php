@@ -35,14 +35,20 @@ class PembayaranController extends Controller
 
     public function filter(Request $request)
     {
-        $query = ModelMahasiswa::with('prodi_mhs')->where('prodi_id', $request->prodi)
-            ->get();
+        $query = ModelMahasiswa::with('prodi_mhs');
 
-        return response()->json($query->map(function ($query) {
+        // Tambahkan kondisi filter jika ada nilai prodi
+        if ($request->prodi){
+            $query->where('prodi_id', $request->prodi);
+        }
+
+        $data = $query->get();
+
+        return response()->json($data->map(function ($item) {
             return [
-                'nim' => $query->nim,
-                'nama_mhs' => $query->nama_mhs,
-                'nama_prodi' => $query->prodi_mhs->nama_prodi,
+                'nim' => $item->nim,
+                'nama_mhs' => $item->nama_mhs,
+                'nama_prodi' => $item->prodi_mhs->nama_prodi,
 
             ];
         }));

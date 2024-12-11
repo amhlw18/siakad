@@ -44,6 +44,7 @@ Route::post('/dashboard/data-pembayaran', [PembayaranController::class, 'store']
 Route::get('/dashboard/data-pembayaran/{nim}/edit', [PembayaranController::class, 'edit']);
 Route::post('/dashboard/data-pembayaran/{nim}', [PembayaranController::class, 'destroy']);
 
-Route::get('/dashboard/kls-mhs/filter', [KelasMahasiswaController::class, 'filter']);
+Route::get('/dashboard/kelas-mahasiswa/filter', [KelasMahasiswaController::class, 'filter']);
+Route::delete('/dashboard/kelas-mahasiswa/delete-all', [KelasMahasiswaController::class, 'deleteAll']);
 
 Route::get('/', [ DashBoardController::class,'index']);

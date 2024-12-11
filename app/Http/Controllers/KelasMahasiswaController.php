@@ -42,8 +42,16 @@ class KelasMahasiswaController extends Controller
         );
 
         // Tambahkan kondisi filter jika ada nilai prodi
-        if ($request->has('prodi') && !empty($request->prodi)) {
+        if ($request->prodi){
             $query->where('prodi_id', $request->prodi);
+        }
+
+
+        // Filter berdasarkan tahun_masuk (relasi ke tabel mahasiswa)
+        if ($request->tahun){
+            $query->whereHas('mhs_kelas_mhs', function ($subQuery) use ($request) {
+                $subQuery->where('tahun_masuk', $request->tahun);
+            });
         }
 
         $data = $query->get();

@@ -30,8 +30,16 @@
         <a href="/dashboard/kls-mhs/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Tambah Kelas
             Mahasiswa</a>
 
+        <a href="/dashboard/kelas-mahasiswa/delete-all" class="btn btn-danger mb-2" onclick="return confirm('Yakin akan mereset kelas mahasiswa?')"><span data-feather="plus"></span>Reset Kelas</a>
+
         <!-- Filter Section -->
         <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="filterTahun">Angkatan</label>
+                <select id="filterTahun" class="form-control">
+                    <option value="">Semua Tahun</option>
+                </select>
+            </div>
             <div class="col-md-4">
                 <label for="filterProdi">Program Studi</label>
                 <select id="filterProdi" class="form-control">
@@ -93,29 +101,27 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const filterProdi = document.getElementById('filterProdi');
+            const filterTahun = document.getElementById('filterTahun');
             const tablePembayaran = $('#tablePembayaran'); // Gunakan jQuery untuk DataTables
 
             // Inisialisasi DataTables
             let dataTable = tablePembayaran.DataTable();
 
             function fetchFilteredData() {
-                //const tahun = filterTahun.value;
+                const tahun = filterTahun.value;
                 const prodi = filterProdi.value;
 
-                fetch(`/dashboard/kls-mhs/filter?prodi=${prodi}`)
+
+                fetch(`/dashboard/kelas-mahasiswa/filter?tahun=${tahun}&prodi=${prodi}`)
                     .then(response => response.json())
                     .then(data => {
                         // Clear existing table data
+                        //console.log(data);
                         dataTable.clear();
 
                         // Add new rows
                         data.forEach((item, index) => {
                             dataTable.row.add([
-                                {{--`<a href="/dashboard/pembayaran/{{$mhs->nim}}"--}}
-                                {{--   class="btn btn-success"--}}
-                                {{--   data-id="{{ $mhs->nim }}">--}}
-                                {{--    <i class="bi bi-eye"></i>--}}
-                                {{--</a>`,--}}
                                 index + 1,
                                 item.nim,
                                 item.nama_mhs || '-',
@@ -129,9 +135,29 @@
                     });
             }
 
-            //filterTahun.addEventListener('change', fetchFilteredData);
+            filterTahun.addEventListener('change', fetchFilteredData);
             filterProdi.addEventListener('change', fetchFilteredData);
         });
 
+    </script>
+
+
+    <script>
+        // Mendapatkan elemen select
+        const selectTahun = document.getElementById('filterTahun');
+
+        // Tahun mulai
+        const startYear = 2020;
+
+        // Tahun saat ini
+        const currentYear = new Date().getFullYear();
+
+        // Loop untuk menambahkan opsi tahun
+        for (let year = startYear; year <= currentYear; year++) {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            selectTahun.appendChild(option);
+        }
     </script>
 @endsection()
