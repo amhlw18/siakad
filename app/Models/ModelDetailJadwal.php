@@ -20,8 +20,14 @@ class ModelDetailJadwal extends Model
 
     ];
 
-    public function jadwal(){
-        return $this->belongsTo(ModelJadwal::class,'jadwal_id','id');
+
+
+    public function prodi_jadwal(){
+        return $this->belongsTo(ModelProdi::class,'prodi_id','kode_prodi');
+    }
+
+    public function tahun_jadwal(){
+        return $this->belongsTo(ModelTahunAkademik::class,'tahun_akademik','id');
     }
 
     public function jadwal_matakuliah(){

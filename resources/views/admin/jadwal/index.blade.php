@@ -63,35 +63,28 @@
                     <thead>
                     <tr>
                         <th></th>
-                        {{--                        <th>#</th>--}}
-                        <th>NIM</th>
-                        <th>Nama </th>
-                        <th>Prodi</th>
-                        <th>Kelas</th>
-                        <th>Angkatan</th>
+                        <th>#</th>
+                        <th>Kode Prodi</th>
+                        <th>Program Studi </th>
+                        <th>Jenjang</th>
                     </tr>
                     </thead>
                     <tbody>
-{{--                    @foreach ($mahasiswa as $mhs)--}}
-{{--                        <tr>--}}
-{{--                            --}}{{--                            <td>--}}
-{{--                            --}}{{--                                <form action="/dashboard/kelas-mhs/{{ $mhs->nim }}" class="inline-block"--}}
-{{--                            --}}{{--                                      method="post">--}}
-{{--                            --}}{{--                                    @method('DELETE')--}}
-{{--                            --}}{{--                                    @csrf--}}
-
-{{--                            --}}{{--                                    <button class="btn btn-danger"--}}
-{{--                            --}}{{--                                            onclick="return confirm('Yakin akan menghapus mahasiswa {{ $mhs->nama_mhs }} ?')"><i class="bi bi-trash"></i></button>--}}
-{{--                            --}}{{--                                </form>--}}
-{{--                            --}}{{--                            </td>--}}
-{{--                            <td>{{ $loop->iteration }}</td>--}}
-{{--                            <td>{{ $mhs->nim }}</td>--}}
-{{--                            <td>{{ $mhs->mhs_kelas_mhs->nama_mhs}}</td>--}}
-{{--                            <td>{{ $mhs->prodi_kelas_mhs->nama_prodi}}</td>--}}
-{{--                            <td>{{ $mhs->kelas_mahasiswa->program }}</td>--}}
-{{--                            <td>{{ $mhs->mhs_kelas_mhs->tahun_masuk }}</td>--}}
-{{--                        </tr>--}}
-{{--                    @endforeach--}}
+                    @foreach ($prodis as $prodi)
+                        <tr>
+                            <td>
+                                <a href="/dashboard/pembayaran/{{$mhs->nim}}"
+                                   class="btn btn-success"
+                                   data-id="{{ $prodi->kode_prodi }}">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                            </td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $prodi->kode_prodi }}</td>
+                            <td>{{ $prodi->nama_prodi}}</td>
+                            <td>{{ $prodi->jenjang }}</td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>

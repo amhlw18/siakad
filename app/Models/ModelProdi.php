@@ -63,6 +63,6 @@ class ModelProdi extends Model
     }
 
     public function prodi_jadwal(){
-        return $this->hasMany(ModelJadwal::class,'prodi_id','kode_prodi');
+        return $this->hasMany(ModelDetailJadwal::class,'prodi_id','kode_prodi');
     }
 }

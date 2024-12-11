@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('model_detail_jadwals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('jadwal_id');
+            $table->foreignId('prodi_id');
+            $table->foreignId('tahun_akademik');
             $table->foreignId('matakuliah_id');
             $table->foreignId('nidn');
             $table->foreignId('kelas_id');

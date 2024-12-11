@@ -15,15 +15,7 @@ class ModelJadwal extends Model
 
     ];
 
-    public function prodi_jadwal(){
-        return $this->belongsTo(ModelProdi::class,'prodi_id','kode_prodi');
-    }
 
-    public function tahun_jadwal(){
-        return $this->belongsTo(ModelTahunAkademik::class,'tahun_akademik','id');
-    }
 
-    public function jadwal(){
-        return $this->hasMany(ModelDetailJadwal::class,'jadwal_id','id');
-    }
+
 }

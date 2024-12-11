@@ -37,6 +37,6 @@ class ModelTahunAkademik extends Model
     }
 
     public function tahun_jadwal(){
-        return $this->hasMany(ModelJadwal::class,'tahun_akademik','id');
+        return $this->hasMany(ModelDetailJadwal::class,'tahun_akademik','id');
     }
 }
