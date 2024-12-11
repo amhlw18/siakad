@@ -8,6 +8,7 @@ use App\Models\ModelMahasiswa;
 use App\Models\ModelProdi;
 use App\Models\ModelTahunAkademik;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class KelasMahasiswaController extends Controller
 {
@@ -18,12 +19,19 @@ class KelasMahasiswaController extends Controller
      */
     public function index()
     {
+        $kelas_mhs =ModelKelasMahasiswa::with(
+            'prodi_kelas_mhs','mhs_kelas_mhs',
+            'kelas_mahasiswa')->get();
         //
+
+        $cekData = $kelas_mhs->first();
+        $nim = $cekData ? $cekData->nim : null;
+
+
         return view('admin.kelas-mahasiswa.index',[
-            'mahasiswa' => ModelKelasMahasiswa::with(
-                'prodi_kelas_mhs','mhs_kelas_mhs',
-                'kelas_mahasiswa')->get(),
-            'prodis'=>ModelProdi::get()
+            'mahasiswa' => $kelas_mhs,
+            'prodis'=>ModelProdi::get(),
+            'nim'=>$nim,
         ]);
     }
 
@@ -166,5 +174,28 @@ class KelasMahasiswaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+
+    public function deleteAll()
+    {
+        try {
+//            // Hapus semua data pada tabel
+            DB::table('model_kelas_mahasiswas')->truncate();
+
+             //Atau menggunakan model (jika ada event Model untuk menghapus)
+             //ModelKelasMahasiswa::query()->delete();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Semua data berhasil dihapus.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 }

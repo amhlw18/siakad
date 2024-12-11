@@ -130,6 +130,9 @@
   <script src="{{asset('lte/dist/js/pages/dashboard.js')}}"></script>
   <!-- Select2 -->
   <script src="{{asset('lte/plugins/select2/js/select2.full.min.js')}}"></script>
+  <!-- SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <script>
     $(function() {
 

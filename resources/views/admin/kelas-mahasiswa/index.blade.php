@@ -30,8 +30,11 @@
         <a href="/dashboard/kls-mhs/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Tambah Kelas
             Mahasiswa</a>
 
-        <a href="/dashboard/kelas-mahasiswa/delete-all" class="btn btn-danger mb-2" onclick="return confirm('Yakin akan mereset kelas mahasiswa?')"><span data-feather="plus"></span>Reset Kelas</a>
-
+        @if($nim)
+            <button id="btnReset" class="btn btn-danger mb-2" ><span data-feather="plus"></span>Reset Kelas</button>
+        @else
+            <button id="btnReset" class="btn btn-danger mb-2"  disabled><span data-feather="plus"></span>Reset Kelas</button>
+        @endif
         <!-- Filter Section -->
         <div class="row mb-3">
             <div class="col-md-4">
@@ -64,7 +67,7 @@
 {{--                        <th>#</th>--}}
                         <th>NIM</th>
                         <th>Nama </th>
-{{--                        <th>Prodi</th>--}}
+                        <th>Prodi</th>
                         <th>Kelas</th>
                         <th>Angkatan</th>
                     </tr>
@@ -85,7 +88,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $mhs->nim }}</td>
                             <td>{{ $mhs->mhs_kelas_mhs->nama_mhs}}</td>
-{{--                            <td>{{ $mhs->prodi_kelas_mhs->nama_prodi}}</td>--}}
+                            <td>{{ $mhs->prodi_kelas_mhs->nama_prodi}}</td>
                             <td>{{ $mhs->kelas_mahasiswa->program }}</td>
                             <td>{{ $mhs->mhs_kelas_mhs->tahun_masuk }}</td>
                         </tr>
@@ -138,6 +141,52 @@
             filterTahun.addEventListener('change', fetchFilteredData);
             filterProdi.addEventListener('change', fetchFilteredData);
         });
+
+        document.getElementById('btnReset').addEventListener('click', () => {
+            const tablePembayaran = $('#tablePembayaran'); // Gunakan jQuery untuk DataTables
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+            let dataTable = tablePembayaran.DataTable();
+
+            // Tampilkan dialog konfirmasi SweetAlert
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: 'Semua data kelas mahasiswa akan dihapus!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Jika pengguna mengonfirmasi, lakukan penghapusan
+                    fetch(`/dashboard/kelas-mahasiswa/delete-all`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json',
+                        },
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'error') {
+                                Swal.fire('Error!', data.message, 'error'); // Tampilkan pesan error
+                            } else {
+                                Swal.fire('Berhasil!', data.message, 'success'); // Tampilkan pesan sukses
+
+                                // Kosongkan tabel DataTables
+                                dataTable.clear().draw();
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Gagal mereset data kelas mahasiswa:', error);
+                            Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');
+                        });
+                }
+            });
+        });
+
+
 
     </script>
 

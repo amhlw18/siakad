@@ -13,6 +13,7 @@ use \App\Http\Controllers\KelasController;
 use \App\Http\Controllers\BatasSKSController;
 use \App\Http\Controllers\KelasMahasiswaController;
 use \App\Http\Controllers\PembayaranController;
+use \App\Http\Controllers\JadwalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,7 @@ Route::resource('/dashboard/data-dosen', DosenController::class);
 Route::resource('/dashboard/data-mahasiswa', MahasiswaController::class);
 Route::resource('/dashboard/kls-mhs', KelasMahasiswaController::class);
 Route::resource('/dashboard/pembayaran',PembayaranController::class);
+Route::resource('/dashboard/data-jadwal', JadwalController::class);
 
 Route::get('/dashboard/data-pembayaran/filter', [PembayaranController::class, 'filter']);
 Route::post('/dashboard/data-pembayaran', [PembayaranController::class, 'store']);
