@@ -35,4 +35,8 @@ class ModelDosen extends Model
     {
         return $this->hasMany(ModelProdi::class);
     }
+
+    public function jadwal_dosen(){
+        return $this->hasMany(ModelDetailJadwal::class,'nidn','nidn');
+    }
 }

@@ -21,4 +21,8 @@ class ModelRuangan extends Model
     {
         return $this->belongsTo(ModelProdi::class, 'prodi_id');
     }
+
+    public function jadwal_ruangan(){
+        return $this->hasMany(ModelDetailJadwal::class,'ruangan_id','id');
+    }
 }

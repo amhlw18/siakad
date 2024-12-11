@@ -40,4 +40,8 @@ class ModelMatakuliah extends Model
     {
         return $this->belongsTo(ModelProdi::class, 'kode_prodi');
     }
+
+    public function jadwal_matakuliah(){
+        return $this->hasMany(ModelDetailJadwal::class,'matakuliah_id','kode_mk');
+    }
 }

@@ -61,4 +61,8 @@ class ModelProdi extends Model
     {
         return $this->hasMany(ModelPembayaran::class,'prodi_id','kode_prodi');
     }
+
+    public function prodi_jadwal(){
+        return $this->hasMany(ModelJadwal::class,'prodi_id','kode_prodi');
+    }
 }
