@@ -77,20 +77,19 @@ class JadwalController extends Controller
 
         $jam_awal = $request->jam_awal;
         $jam_akhir = $request->jam_akhir;
+
+        $prodi_id = $request->prodi_id;
+        $tahun = $request->tahun_akademik;
+        $jam = $jam_awal  . ' - ' . $jam_akhir;
         $hari = $request->hari;
         $ruangan_id = $request->ruangan_id;
 
         // Cek bentrok jadwal
-        $bentrok = ModelDetailJadwal::where('hari', $hari)
-            ->where('ruangan_id', $ruangan_id)
-            ->where(function ($query) use ($jam_awal, $jam_akhir) {
-                $query->whereRaw("
-                TIME(SUBSTRING_INDEX(jam, ' - ', 1)) BETWEEN ? AND ?
-                OR TIME(SUBSTRING_INDEX(jam, ' - ', -1)) BETWEEN ? AND ?
-                OR (TIME(SUBSTRING_INDEX(jam, ' - ', 1)) < ? AND TIME(SUBSTRING_INDEX(jam, ' - ', -1)) > ?)
-            ", [$jam_awal, $jam_akhir, $jam_awal, $jam_akhir, $jam_awal, $jam_akhir]);
-            })
-            ->exists();
+        $bentrok = ModelDetailJadwal::where('prodi_id',$prodi_id)
+            ->where('tahun_akademik',$tahun)
+            ->where('hari', $hari)
+            ->where('jam', $jam)->where('ruangan_id',$ruangan_id)->first();
+
 
         if ($bentrok) {
             return response()->json(['error' => 'Jadwal bertabrakan dengan jadwal lain!'], 422);
