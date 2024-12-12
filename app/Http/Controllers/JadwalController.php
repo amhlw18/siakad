@@ -85,11 +85,10 @@ class JadwalController extends Controller
         $ruangan_id = $request->ruangan_id;
 
         // Cek bentrok jadwal
-        $bentrok = ModelDetailJadwal::where('prodi_id',$prodi_id)
-            ->where('tahun_akademik',$tahun)
+        $bentrok = ModelDetailJadwal::where('tahun_akademik',$tahun)
             ->where('hari', $hari)
-            ->where('jam', $jam)->where('ruangan_id',$ruangan_id)->first();
-
+            ->where('jam', $jam)->where('ruangan_id',$ruangan_id)
+            ->first();
 
         if ($bentrok) {
             return response()->json(['error' => 'Jadwal bertabrakan dengan jadwal lain!'], 422);
