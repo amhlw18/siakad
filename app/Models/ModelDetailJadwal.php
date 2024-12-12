@@ -10,7 +10,8 @@ class ModelDetailJadwal extends Model
     use HasFactory;
 
     protected $fillable = [
-        'jadwal_id',
+        'prodi_id',
+        'tahun_akademik',
         'matakuliah_id',
         'nidn',
         'kelas_id',
@@ -31,7 +32,7 @@ class ModelDetailJadwal extends Model
     }
 
     public function jadwal_matakuliah(){
-        return $this->belongsTo(ModelMatakuliah::class,'matakuliah_id','kode_mk');
+        return $this->belongsTo(ModelMatakuliah::class,'matakuliah_id','id');
     }
 
     public function jadwal_dosen(){

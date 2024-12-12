@@ -60,14 +60,17 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="tablePembayaran" class="table table-bordered table-striped">
+                <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th></th>
                         <th>#</th>
-                        <th>Kode Prodi</th>
-                        <th>Program Studi </th>
-                        <th>Jenjang</th>
+                        <th>Hari</th>
+                        <th>Jam </th>
+                        <th>Mata Kuliah</th>
+                        <th>Dosen</th>
+                        <th>Kelas</th>
+                        <th>Ruangan</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -77,9 +80,12 @@
 
                             </td>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $prodi->kode_prodi }}</td>
-                            <td>{{ $prodi->nama_prodi}}</td>
-                            <td>{{ $prodi->jenjang }}</td>
+                            <td>{{ $jadwal->hari }}</td>
+                            <td>{{ $jadwal->jam}}</td>
+                            <td>{{ $jadwal->jadwal_matakuliah->nama_mk }}</td>
+                            <td>{{ $jadwal->jadwal_dosen->nidn }}</td>
+                            <td>{{ $jadwal->jadwal_kelas->nama_kelas }}</td>
+                            <td>{{ $jadwal->jadwal_ruangan->nama_ruangan }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -99,7 +105,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editForm">
+                    <form id="simpanForm">
+                        <input type="hidden" id="prodi_id" name="prodi_id" value="{{$prodi->kode_prodi}}">
+                        <input type="hidden" id="tahun_akademik" name="tahun_akademik" value="{{$tahun_aktif->id}}">
+
                         <div class="form-group">
                             <label for="prodi_id">Dosen</label>
                             <select class="custom-select rounded-0" id="nidn" name="nidn" required>
@@ -111,6 +120,18 @@
                                 @endforeach
                             </select>
                             @error('nidn')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prodi_id">Matakuliah</label>
+                            <select class="custom-select rounded-0" id="matakuliah_id" name="matakuliah_id" required>
+
+                            </select>
+                            @error('matakuliah_id')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
@@ -194,7 +215,7 @@
                 </div>
                 <div class="modal-footer">
 
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                     <button type="button" class="btn btn-primary" id="saveChanges">Buat Jadwal</button>
                 </div>
             </div>
@@ -207,6 +228,7 @@
             const modal = new bootstrap.Modal(document.getElementById('buatJadwalModal'));
             const kelasDropdown = document.getElementById('kelas_id');
             const ruanganDropdown = document.getElementById('ruangan_id');
+            const matkulDropdown = document.getElementById('matakuliah_id');
 
             document.querySelectorAll('.btn-jadwal').forEach(button => {
                 button.addEventListener('click', (e) => {
@@ -218,6 +240,7 @@
                     // Bersihkan dropdown sebelumnya
                     kelasDropdown.innerHTML = '<option value="" disabled selected>--Pilih Kelas Mahasiswa--</option>';
                     ruanganDropdown.innerHTML = '<option value="" disabled selected>--Pilih Ruangan--</option>';
+                    matkulDropdown.innerHTML = '<option value="" disabled selected>--Pilih Matakuliah--</option>';
 
                     // Tampilkan modal
                     modal.show();
@@ -244,6 +267,20 @@
                                 kelasDropdown.appendChild(option);
                             }
 
+                            if (data.matkul && data.matkul.length > 0) {
+                                data.matkul.forEach(matkul => {
+                                    const option = document.createElement('option');
+                                    option.value = matkul.id;
+                                    option.textContent = `${matkul.nama_mk} | ${matkul.semester} | ${matkul.sks_teori}`;
+                                    matkulDropdown.appendChild(option);
+                                });
+                            } else {
+                                const option = document.createElement('option');
+                                option.value = "";
+                                option.textContent = "Tidak ada kelas tersedia";
+                                matkulDropdown.appendChild(option);
+                            }
+
                             // Isi dropdown Ruangan
                             if (data.ruangan && data.ruangan.length > 0) {
                                 data.ruangan.forEach(ruangan => {
@@ -266,6 +303,64 @@
                 });
             });
         });
+
+        document.getElementById('saveChanges').addEventListener('click', () => {
+            const form = document.getElementById('simpanForm');
+            const formData = new FormData(form);
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+            fetch(`/dashboard/data-jadwal`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                },
+                body: formData,
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        // Jika respons bukan 200 OK, proses error
+                        return response.json().then(data => {
+                            throw data;
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Tampilkan pesan sukses dengan SweetAlert
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: data.success,
+                    });
+                    location.reload(); // Reload halaman jika diperlukan
+                })
+                .catch(error => {
+                    if (error.errors) {
+                        // Tampilkan pesan error validasi dengan SweetAlert
+                        let errorMessages = '';
+                        Object.keys(error.errors).forEach(key => {
+                            errorMessages += `<li>${error.errors[key].join(', ')}</li>`;
+                        });
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error Validasi!',
+                            html: `<ul>${errorMessages}</ul>`,
+                        });
+                    } else {
+                        console.error('Error lainnya:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Terjadi Kesalahan!',
+                            text: 'Silakan coba lagi.',
+                        });
+                    }
+                });
+        });
+
+
 
 
 

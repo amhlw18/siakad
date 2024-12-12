@@ -50,5 +50,6 @@ Route::get('/dashboard/kelas-mahasiswa/filter', [KelasMahasiswaController::class
 Route::delete('/dashboard/kelas-mahasiswa/delete-all', [KelasMahasiswaController::class, 'deleteAll']);
 
 Route::get('/dashboard/data-jadwal-kuliah/{id}',[JadwalController::class, 'getByProdi']);
+Route::post('/dashboard/data-jadwal', [JadwalController::class, 'store']);
 
 Route::get('/', [ DashBoardController::class,'index']);
