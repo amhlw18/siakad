@@ -49,4 +49,6 @@ Route::post('/dashboard/data-pembayaran/{nim}', [PembayaranController::class, 'd
 Route::get('/dashboard/kelas-mahasiswa/filter', [KelasMahasiswaController::class, 'filter']);
 Route::delete('/dashboard/kelas-mahasiswa/delete-all', [KelasMahasiswaController::class, 'deleteAll']);
 
+Route::get('/dashboard/data-jadwal-kuliah/{id}',[JadwalController::class, 'getByProdi']);
+
 Route::get('/', [ DashBoardController::class,'index']);

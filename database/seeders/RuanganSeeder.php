@@ -16,11 +16,12 @@ class RuanganSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('id_ID');
+        $kode_prodi =['13211','13263','15401','59201'];
         $gedungs = ['Gedung A', 'Gedung B', 'Gedung C', 'Gedung D'];
 
         for ($i = 1; $i <= 20; $i++) {
             ModelRuangan::create([
-                'prodi_id' => $faker->numberBetween(1, 4), // Sesuaikan dengan jumlah data prodi
+                'prodi_id' => $kode_prodi[array_rand($kode_prodi)], // Sesuaikan dengan jumlah data prodi
                 'nama_ruangan' => 'Ruangan ' . $faker->unique()->numberBetween(101, 120),
                 'gedung' => $gedungs[array_rand($gedungs)],
                 'lantai' => $faker->numberBetween(1, 5),

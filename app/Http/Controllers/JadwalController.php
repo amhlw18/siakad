@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ModelDetailJadwal;
+use App\Models\ModelDosen;
 use App\Models\ModelJadwal;
+use App\Models\ModelKelas;
 use App\Models\ModelProdi;
+use App\Models\ModelRuangan;
 use App\Models\ModelTahunAkademik;
 use Illuminate\Http\Request;
 
@@ -16,30 +20,12 @@ class JadwalController extends Controller
      */
     public function index()
     {
-//        // Ambil data jadwal, prodi, dan tahun akademik aktif
-//        $jadwal = ModelJadwal::with('prodi_jadwal', 'tahun_jadwal')->get();
-//        $tahun_akademik = ModelTahunAkademik::where('status', '1')->first();
 //
-//        if (!$tahun_akademik) {
-//            return redirect()->back()->withErrors(['error' => 'Tahun Akademik aktif tidak ditemukan.']);
-//        }
-//
-//        // Ambil semua data program studi
         $prodi = ModelProdi::get();
-//
-//        // Cek apakah jadwal sudah ada, jika kosong maka buat jadwal baru
-//        if ($jadwal->isEmpty()) {
-//            foreach ($prodis as $prodi) {
-//                ModelJadwal::create([
-//                    'prodi_id' => $prodi->kode_prodi,
-//                    'tahun_akademik' => $tahun_akademik->id, // Gunakan ID tahun akademik
-//                ]);
-//            }
-//            // Refresh data jadwal setelah input
-//            $jadwal = ModelJadwal::with('prodi_jadwal', 'tahun_jadwal')->get();
-//        }
 
-        // Kembalikan ke view dengan data yang diperlukan
+        //dd($prodi);
+//
+//
         return view('admin.jadwal.index', [
             'prodis' => $prodi,
         ]);
@@ -76,7 +62,43 @@ class JadwalController extends Controller
     public function show($id)
     {
         //
+        $prodi = ModelProdi::where('kode_prodi',$id)->first();
+        $tahun_akademik = ModelTahunAkademik::where('status',1)->first();
+
+        $jadwal = ModelDetailJadwal::with('prodi_jadwal','tahun_jadwal',
+            'jadwal_matakuliah','jadwal_dosen','jadwal_kelas','jadwal_ruangan')
+            ->where('prodi_id',$id)
+            ->where('tahun_akademik', $tahun_akademik->id)
+            ->get();
+
+        return view('admin.jadwal.show',[
+            'jadwals' => $jadwal,
+            'prodi' => $prodi,
+            'tahun_aktif' => $tahun_akademik,
+            'tahun_akademik' => ModelTahunAkademik::get(),
+            'dosens' => ModelDosen::get(),
+            'ruangans' =>ModelRuangan::get(),
+        ]);
+
     }
+
+    public function getByProdi($id)
+    {
+        // Ambil data kelas dan ruangan berdasarkan ID prodi
+        $kelas = ModelKelas::where('prodi_id', $id)->get();
+        $ruangan = ModelRuangan::where('prodi_id', $id)->get();
+
+//        if ($kelas->isEmpty() && $ruangan->isEmpty()) {
+//            return response()->json(['message' => 'Data tidak ditemukan'], 404);
+//        }
+
+        return response()->json([
+            'kelas' => $kelas,
+            'ruangan' => $ruangan,
+        ], 200);
+    }
+
+
 
     /**
      * Show the form for editing the specified resource.

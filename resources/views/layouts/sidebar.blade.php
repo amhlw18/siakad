@@ -114,8 +114,8 @@
                 </li>
 
                 <!-- Data Administrasi Menu -->
-                <li class="nav-item {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal')  ? 'active' : '' }}">
+                <li class="nav-item {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal') || Request::is('dashboard/data-jadwal/{prodi_id}') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal') || Request::is('dashboard/data-jadwal/{prodi_id}')  ? 'active' : '' }}">
                         <i class="nav-icon fas fa-clipboard"></i>
                         <p>
                             Data Administrasi
@@ -124,7 +124,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/dashboard/kls-mhs" class="nav-link {{ Request::is('dashboard/kls-mhs*') ? 'active' : '' }}">
+                            <a href="/dashboard/kls-mhs" class="nav-link {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal/{prodi_id}') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Kelas Mahasiswa</p>
                             </a>

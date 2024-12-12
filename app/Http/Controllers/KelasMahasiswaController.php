@@ -78,6 +78,8 @@ class KelasMahasiswaController extends Controller
     public function create()
     {
         //
+
+
         return view('admin.kelas-mahasiswa.create',[
             'mahasiswa'=>ModelMahasiswa::get(),
             'prodis' =>ModelProdi::get(),
