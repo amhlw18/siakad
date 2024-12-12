@@ -76,16 +76,14 @@
                     <tbody>
                     @foreach ($jadwals as $jadwal)
                         <tr>
-                            <td>
-
-                            </td>
+                            <td></td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $jadwal->hari }}</td>
-                            <td>{{ $jadwal->jam}}</td>
-                            <td>{{ $jadwal->jadwal_matakuliah->nama_mk }}</td>
-                            <td>{{ $jadwal->jadwal_dosen->nidn }}</td>
-                            <td>{{ $jadwal->jadwal_kelas->nama_kelas }}</td>
-                            <td>{{ $jadwal->jadwal_ruangan->nama_ruangan }}</td>
+                            <td>{{ $jadwal->jam }}</td>
+                            <td>{{ $jadwal->jadwal_matakuliah->nama_mk ?? '-' }}</td>
+                            <td>{{ $jadwal->jadwal_dosen->nidn ?? 'Dosen Tidak Ditemukan' }}</td>
+                            <td>{{ $jadwal->jadwal_kelas->nama_kelas ?? '-' }}</td>
+                            <td>{{ $jadwal->jadwal_ruangan->nama_ruangan ?? '-' }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -320,25 +318,29 @@
             })
                 .then(response => {
                     if (!response.ok) {
-                        // Jika respons bukan 200 OK, proses error
                         return response.json().then(data => {
-                            throw data;
+                            throw data; // Lempar error ke catch
                         });
                     }
                     return response.json();
                 })
                 .then(data => {
-                    // Tampilkan pesan sukses dengan SweetAlert
                     Swal.fire({
                         icon: 'success',
                         title: 'Berhasil!',
                         text: data.success,
+                    }).then(() => {
+                        location.reload(); // Reload halaman setelah SweetAlert ditutup
                     });
-                    location.reload(); // Reload halaman jika diperlukan
                 })
                 .catch(error => {
-                    if (error.errors) {
-                        // Tampilkan pesan error validasi dengan SweetAlert
+                    if (error.error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal!',
+                            text: error.error,
+                        });
+                    } else if (error.errors) {
                         let errorMessages = '';
                         Object.keys(error.errors).forEach(key => {
                             errorMessages += `<li>${error.errors[key].join(', ')}</li>`;
@@ -350,15 +352,15 @@
                             html: `<ul>${errorMessages}</ul>`,
                         });
                     } else {
-                        console.error('Error lainnya:', error);
                         Swal.fire({
                             icon: 'error',
                             title: 'Terjadi Kesalahan!',
-                            text: 'Silakan coba lagi.',
+                            text: 'Silakan coba lagi nanti.',
                         });
                     }
                 });
         });
+
 
 
 

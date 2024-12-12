@@ -47,6 +47,16 @@ class ModelDetailJadwal extends Model
         return $this->belongsTo(ModelRuangan::class,'ruangan_id','id');
     }
 
+    public function getJamAwalAttribute()
+    {
+        return explode(' - ', $this->jam)[0];
+    }
+
+    public function getJamAkhirAttribute()
+    {
+        return explode(' - ', $this->jam)[1];
+    }
+
 
 }
 
