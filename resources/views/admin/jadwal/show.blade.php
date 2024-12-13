@@ -76,12 +76,30 @@
                     <tbody>
                     @foreach ($jadwals as $jadwal)
                         <tr>
-                            <td></td>
+                            <td>
+
+                                <a href="#"
+                                   class="btn btn-warning btn-edit"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#buatJadwalModal"
+                                   data-id="{{ $jadwal->id }}-{{ $prodi->kode_prodi }}">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+
+                                <a href="#"
+                                   class="btn btn-danger btn-edit"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#buatJadwalModal"
+                                   data-id="{{ $jadwal->id }}">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+
+                            </td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $jadwal->hari }}</td>
                             <td>{{ $jadwal->jam }}</td>
                             <td>{{ $jadwal->jadwal_matakuliah->nama_mk ?? '-' }}</td>
-                            <td>{{ $jadwal->jadwal_dosen->nidn ?? 'Dosen Tidak Ditemukan' }}</td>
+                            <td>{{ $jadwal->dosen->nama_dosen ?? 'Dosen Tidak Ditemukan' }}</td>
                             <td>{{ $jadwal->jadwal_kelas->nama_kelas ?? '-' }}</td>
                             <td>{{ $jadwal->jadwal_ruangan->nama_ruangan ?? '-' }}</td>
                         </tr>
@@ -104,6 +122,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="simpanForm">
+                        <input type="hidden" id="jadwal_id" name="jadwal_id" value="">
                         <input type="hidden" id="prodi_id" name="prodi_id" value="{{$prodi->kode_prodi}}">
                         <input type="hidden" id="tahun_akademik" name="tahun_akademik" value="{{$tahun_aktif->id}}">
 
@@ -221,12 +240,109 @@
     </div>
 
     <script>
-
         document.addEventListener('DOMContentLoaded', () => {
             const modal = new bootstrap.Modal(document.getElementById('buatJadwalModal'));
             const kelasDropdown = document.getElementById('kelas_id');
             const ruanganDropdown = document.getElementById('ruangan_id');
             const matkulDropdown = document.getElementById('matakuliah_id');
+            const jadwalIdField = document.getElementById('jadwal_id');
+            const prodiId = document.getElementById('prodi_id');
+
+            document.querySelectorAll('.btn-edit').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    const id = button.getAttribute('data-id'); // Ambil ID jadwal
+                    const [id_jadwal, id_prodi] = id.split('-');
+                    jadwalIdField.value = id_jadwal; // Set ID jadwal di input hidden
+                    prodiId.value = id_prodi;
+
+                    // Fetch data kelas dan ruangan berdasarkan ID prodi
+                    fetch(`/dashboard/data-jadwal-kuliah/${id_prodi}`)
+                        .then(response => {
+                            if (!response.ok) throw new Error('Gagal memuat data');
+                            return response.json();
+                        })
+                        .then(data => {
+                            // Isi dropdown Kelas
+                            if (data.kelas && data.kelas.length > 0) {
+                                data.kelas.forEach(kelas => {
+                                    const option = document.createElement('option');
+                                    option.value = kelas.id;
+                                    option.textContent = `${kelas.nama_kelas} | ${kelas.program}`;
+                                    kelasDropdown.appendChild(option);
+                                });
+                            } else {
+                                const option = document.createElement('option');
+                                option.value = "";
+                                option.textContent = "Tidak ada kelas tersedia";
+                                kelasDropdown.appendChild(option);
+                            }
+
+                            if (data.matkul && data.matkul.length > 0) {
+                                data.matkul.forEach(matkul => {
+                                    const option = document.createElement('option');
+                                    option.value = matkul.id;
+                                    option.textContent = `${matkul.nama_mk} | ${matkul.semester} | ${matkul.sks_teori}`;
+                                    matkulDropdown.appendChild(option);
+                                });
+                            } else {
+                                const option = document.createElement('option');
+                                option.value = "";
+                                option.textContent = "Tidak ada matakuliah tersedia";
+                                matkulDropdown.appendChild(option);
+                            }
+
+                            // Isi dropdown Ruangan
+                            if (data.ruangan && data.ruangan.length > 0) {
+                                data.ruangan.forEach(ruangan => {
+                                    const option = document.createElement('option');
+                                    option.value = ruangan.id;
+                                    option.textContent = `${ruangan.nama_ruangan} | ${ruangan.gedung}`;
+                                    ruanganDropdown.appendChild(option);
+                                });
+                            } else {
+                                const option = document.createElement('option');
+                                option.value = "";
+                                option.textContent = "Tidak ada ruangan tersedia";
+                                ruanganDropdown.appendChild(option);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Gagal memuat data');
+                        });
+
+                    fetch(`/dashboard/data-jadwal/${id_jadwal}/edit`)
+                        .then(response => {
+                            if (!response.ok) throw new Error('Gagal memuat data');
+                            return response.json();
+                        })
+                        .then(data => {
+                            // Isi dropdown dan field dengan data yang diterima
+                            document.getElementById('nidn').value = data.nidn;
+                            document.getElementById('hari').value = data.hari;
+
+                            if (data.jam_awal && data.jam_akhir) {
+                                document.getElementById('jam_awal').value = data.jam_awal;
+                                document.getElementById('jam_akhir').value = data.jam_akhir;
+                            } else {
+                                document.getElementById('jam_awal').value = '';
+                                document.getElementById('jam_akhir').value = '';
+                            }
+
+                            kelasDropdown.value = data.kelas_id;
+                            ruanganDropdown.value = data.ruangan_id;
+                            matkulDropdown.value = data.matakuliah_id;
+
+                            modal.show();
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Gagal memuat data');
+                        });
+                });
+            });
 
             document.querySelectorAll('.btn-jadwal').forEach(button => {
                 button.addEventListener('click', (e) => {
@@ -275,7 +391,7 @@
                             } else {
                                 const option = document.createElement('option');
                                 option.value = "";
-                                option.textContent = "Tidak ada kelas tersedia";
+                                option.textContent = "Tidak ada matakuliah tersedia";
                                 matkulDropdown.appendChild(option);
                             }
 
@@ -300,156 +416,159 @@
                         });
                 });
             });
-        });
 
-        document.getElementById('saveChanges').addEventListener('click', () => {
-            const form = document.getElementById('simpanForm');
-            const formData = new FormData(form);
+            document.getElementById('saveChanges').addEventListener('click', () => {
+                const form = document.getElementById('simpanForm');
+                const formData = new FormData(form);
 
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-            fetch(`/dashboard/data-jadwal`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json',
-                },
-                body: formData,
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.json().then(data => {
-                            throw data; // Lempar error ke catch
-                        });
-                    }
-                    return response.json();
+                // Ambil nilai `jadwal_id` dari form
+                const jadwalIdField = document.getElementById('jadwal_id');
+                const jadwalId = jadwalIdField.value;
+
+                const method = jadwalId ? 'PUT' : 'POST'; // PUT jika edit, POST jika tambah
+                const url = jadwalId ? `/dashboard/data-jadwal/${jadwalId}` : '/dashboard/data-jadwal';
+
+                fetch(url, {
+                    method: method,
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json',
+                    },
+                    body: formData,
                 })
-                .then(data => {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil!',
-                        text: data.success,
-                    }).then(() => {
-                        location.reload(); // Reload halaman setelah SweetAlert ditutup
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(data => {
+                                throw data; // Lempar error ke catch
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: data.success,
+                        }).then(() => {
+                            location.reload(); // Reload halaman setelah SweetAlert ditutup
+                        });
+                    })
+                    .catch(error => {
+                        if (error.error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal!',
+                                text: error.error,
+                            });
+                        } else if (error.errors) {
+                            let errorMessages = '';
+                            Object.keys(error.errors).forEach(key => {
+                                errorMessages += `<li>${error.errors[key].join(', ')}</li>`;
+                            });
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error Validasi!',
+                                html: `<ul>${errorMessages}</ul>`,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Terjadi Kesalahan!',
+                                text: 'Silakan coba lagi nanti.',
+                            });
+                        }
                     });
-                })
-                .catch(error => {
-                    if (error.error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Gagal!',
-                            text: error.error,
-                        });
-                    } else if (error.errors) {
-                        let errorMessages = '';
-                        Object.keys(error.errors).forEach(key => {
-                            errorMessages += `<li>${error.errors[key].join(', ')}</li>`;
-                        });
+            });
 
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error Validasi!',
-                            html: `<ul>${errorMessages}</ul>`,
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Terjadi Kesalahan!',
-                            text: 'Silakan coba lagi nanti.',
-                        });
-                    }
-                });
         });
-
-
-
-
-
-
-        // document.addEventListener('DOMContentLoaded', () => {
-        //     const filterProdi = document.getElementById('filterProdi');
-        //     const filterTahun = document.getElementById('filterTahun');
-        //     const tablePembayaran = $('#tablePembayaran'); // Gunakan jQuery untuk DataTables
-        //
-        //     // Inisialisasi DataTables
-        //     let dataTable = tablePembayaran.DataTable();
-        //
-        //     function fetchFilteredData() {
-        //         const tahun = filterTahun.value;
-        //         const prodi = filterProdi.value;
-        //
-        //
-        //         fetch(`/dashboard/kelas-mahasiswa/filter?tahun=${tahun}&prodi=${prodi}`)
-        //             .then(response => response.json())
-        //             .then(data => {
-        //                 // Clear existing table data
-        //                 //console.log(data);
-        //                 dataTable.clear();
-        //
-        //                 // Add new rows
-        //                 data.forEach((item, index) => {
-        //                     dataTable.row.add([
-        //                         index + 1,
-        //                         item.nim,
-        //                         item.nama_mhs || '-',
-        //                         item.program || '-',
-        //                         item.tahun_masuk || '-'
-        //                     ]);
-        //                 });
-        //
-        //                 // Redraw table
-        //                 dataTable.draw();
-        //             });
-        //     }
-        //
-        //     filterTahun.addEventListener('change', fetchFilteredData);
-        //     filterProdi.addEventListener('change', fetchFilteredData);
-        // });
-        //
-        // document.getElementById('btnReset').addEventListener('click', () => {
-        //     const tablePembayaran = $('#tablePembayaran'); // Gunakan jQuery untuk DataTables
-        //     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-        //     let dataTable = tablePembayaran.DataTable();
-        //
-        //     // Tampilkan dialog konfirmasi SweetAlert
-        //     Swal.fire({
-        //         title: 'Apakah Anda yakin?',
-        //         text: 'Semua data kelas mahasiswa akan dihapus!',
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#3085d6',
-        //         cancelButtonColor: '#d33',
-        //         confirmButtonText: 'Ya, hapus!',
-        //         cancelButtonText: 'Batal',
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             // Jika pengguna mengonfirmasi, lakukan penghapusan
-        //             fetch(`/dashboard/kelas-mahasiswa/delete-all`, {
-        //                 method: 'DELETE',
-        //                 headers: {
-        //                     'X-CSRF-TOKEN': csrfToken,
-        //                     'Accept': 'application/json',
-        //                 },
-        //             })
-        //                 .then(response => response.json())
-        //                 .then(data => {
-        //                     if (data.status === 'error') {
-        //                         Swal.fire('Error!', data.message, 'error'); // Tampilkan pesan error
-        //                     } else {
-        //                         Swal.fire('Berhasil!', data.message, 'success'); // Tampilkan pesan sukses
-        //
-        //                         // Kosongkan tabel DataTables
-        //                         dataTable.clear().draw();
-        //                     }
-        //                 })
-        //                 .catch(error => {
-        //                     console.error('Gagal mereset data kelas mahasiswa:', error);
-        //                     Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');
-        //                 });
-        //         }
-        //     });
-        // });
-
     </script>
 
+
 @endsection()
+
+{{--// document.addEventListener('DOMContentLoaded', () => {--}}
+{{--//     const filterProdi = document.getElementById('filterProdi');--}}
+{{--//     const filterTahun = document.getElementById('filterTahun');--}}
+{{--//     const tablePembayaran = $('#tablePembayaran'); // Gunakan jQuery untuk DataTables--}}
+{{--//--}}
+{{--//     // Inisialisasi DataTables--}}
+{{--//     let dataTable = tablePembayaran.DataTable();--}}
+{{--//--}}
+{{--//     function fetchFilteredData() {--}}
+{{--//         const tahun = filterTahun.value;--}}
+{{--//         const prodi = filterProdi.value;--}}
+{{--//--}}
+{{--//--}}
+{{--//         fetch(`/dashboard/kelas-mahasiswa/filter?tahun=${tahun}&prodi=${prodi}`)--}}
+{{--//             .then(response => response.json())--}}
+{{--//             .then(data => {--}}
+{{--//                 // Clear existing table data--}}
+{{--//                 //console.log(data);--}}
+{{--//                 dataTable.clear();--}}
+{{--//--}}
+{{--//                 // Add new rows--}}
+{{--//                 data.forEach((item, index) => {--}}
+{{--//                     dataTable.row.add([--}}
+{{--//                         index + 1,--}}
+{{--//                         item.nim,--}}
+{{--//                         item.nama_mhs || '-',--}}
+{{--//                         item.program || '-',--}}
+{{--//                         item.tahun_masuk || '-'--}}
+{{--//                     ]);--}}
+{{--//                 });--}}
+{{--//--}}
+{{--//                 // Redraw table--}}
+{{--//                 dataTable.draw();--}}
+{{--//             });--}}
+{{--//     }--}}
+{{--//--}}
+{{--//     filterTahun.addEventListener('change', fetchFilteredData);--}}
+{{--//     filterProdi.addEventListener('change', fetchFilteredData);--}}
+{{--// });--}}
+{{--//--}}
+{{--// document.getElementById('btnReset').addEventListener('click', () => {--}}
+{{--//     const tablePembayaran = $('#tablePembayaran'); // Gunakan jQuery untuk DataTables--}}
+{{--//     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;--}}
+{{--//     let dataTable = tablePembayaran.DataTable();--}}
+{{--//--}}
+{{--//     // Tampilkan dialog konfirmasi SweetAlert--}}
+{{--//     Swal.fire({--}}
+{{--//         title: 'Apakah Anda yakin?',--}}
+{{--//         text: 'Semua data kelas mahasiswa akan dihapus!',--}}
+{{--//         icon: 'warning',--}}
+{{--//         showCancelButton: true,--}}
+{{--//         confirmButtonColor: '#3085d6',--}}
+{{--//         cancelButtonColor: '#d33',--}}
+{{--//         confirmButtonText: 'Ya, hapus!',--}}
+{{--//         cancelButtonText: 'Batal',--}}
+{{--//     }).then((result) => {--}}
+{{--//         if (result.isConfirmed) {--}}
+{{--//             // Jika pengguna mengonfirmasi, lakukan penghapusan--}}
+{{--//             fetch(`/dashboard/kelas-mahasiswa/delete-all`, {--}}
+{{--//                 method: 'DELETE',--}}
+{{--//                 headers: {--}}
+{{--//                     'X-CSRF-TOKEN': csrfToken,--}}
+{{--//                     'Accept': 'application/json',--}}
+{{--//                 },--}}
+{{--//             })--}}
+{{--//                 .then(response => response.json())--}}
+{{--//                 .then(data => {--}}
+{{--//                     if (data.status === 'error') {--}}
+{{--//                         Swal.fire('Error!', data.message, 'error'); // Tampilkan pesan error--}}
+{{--//                     } else {--}}
+{{--//                         Swal.fire('Berhasil!', data.message, 'success'); // Tampilkan pesan sukses--}}
+{{--//--}}
+{{--//                         // Kosongkan tabel DataTables--}}
+{{--//                         dataTable.clear().draw();--}}
+{{--//                     }--}}
+{{--//                 })--}}
+{{--//                 .catch(error => {--}}
+{{--//                     console.error('Gagal mereset data kelas mahasiswa:', error);--}}
+{{--//                     Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');--}}
+{{--//                 });--}}
+{{--//         }--}}
+{{--//     });--}}
+{{--// });--}}

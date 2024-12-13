@@ -35,7 +35,7 @@ class ModelDetailJadwal extends Model
         return $this->belongsTo(ModelMatakuliah::class,'matakuliah_id','id');
     }
 
-    public function jadwal_dosen(){
+    public function dosen(){
         return $this->belongsTo(ModelDosen::class,'nidn','nidn');
     }
 

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('model_dosens', function (Blueprint $table) {
             $table->id();
-            $table->string('nidn');
+            $table->unsignedBigInteger('nidn');
             $table->string('nama_dosen');
             $table->string('gelar_depan')->nullable();
             $table->string('gelar_belakang');
