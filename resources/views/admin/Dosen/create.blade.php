@@ -310,7 +310,7 @@
                                         <option value="IVD Pembina Utama Madya">IVD Pembina Utama Madya</option>
                                         <option value="IVE Pembina Utama">IVE Pembina Utama</option>
                                     </select>
-                                    @error('status')
+                                    @error('golongan')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

@@ -32,6 +32,33 @@ class JadwalController extends Controller
         ]);
     }
 
+    public function filter_data(Request $request)
+    {
+
+        $query = ModelDetailJadwal::with('prodi_jadwal','tahun_jadwal',
+            'jadwal_matakuliah','dosen','jadwal_kelas','jadwal_ruangan');
+
+        // Tambahkan kondisi filter jika ada nilai prodi
+        if ($request->prodi){
+            $query->where('prodi_id', $request->prodi)
+                ->where('tahun_akademik', $request->tahun);
+        }
+
+        $data = $query->get();
+
+        return response()->json($data->map(function ($item) {
+            return [
+                'id' =>$item->id,
+                'hari' => $item->hari,
+                'jam' => $item->jam,
+                'matakuliah' => $item->jadwal_matakuliah->nama_mk,
+                'dosen' => $item->dosen->nama_dosen,
+                'kelas' => $item->jadwal_kelas->nama_kelas,
+                'ruangan' => $item->jadwal_ruangan->nama_ruangan,
+            ];
+        }));
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -208,7 +235,7 @@ class JadwalController extends Controller
     public function update(Request $request, $id)
     {
         //
-        \Log::info('Data update:', $request->all());
+        \Log::info('Request masuk ke controller:', ['request' => $request->all()]);
         //dd($request->all());
         // Validasi awal
         $validasi = $request->validate([
@@ -277,26 +304,5 @@ class JadwalController extends Controller
         }
     }
 
-    public function filter(Request $request)
-    {
 
-        $query = ModelDetailJadwal::with('prodi_jadwal','tahun_jadwal',
-            'jadwal_matakuliah','dosen','jadwal_kelas','jadwal_ruangan');
-
-        // Tambahkan kondisi filter jika ada nilai prodi
-        if ($request->prodi){
-            $query->where('prodi_id', $request->prodi);
-        }
-
-        $data = $query->get();
-
-        return response()->json($data->map(function ($item) {
-            return [
-                'nim' => $item->nim,
-                'nama_mhs' => $item->nama_mhs,
-                'nama_prodi' => $item->prodi_mhs->nama_prodi,
-
-            ];
-        }));
-    }
 }

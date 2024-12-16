@@ -69,6 +69,7 @@ class KelasMahasiswaController extends Controller
             return [
                 'nim' => $item->nim,
                 'nama_mhs' => $item->mhs_kelas_mhs->nama_mhs ?? '-',
+                'prodi' => $item->prodi_kelas_mhs->nama_prodi,
                 'program' => $item->kelas_mahasiswa->program ?? '-',
                 'tahun_masuk' => $item->mhs_kelas_mhs->tahun_masuk ?? '-',
             ];

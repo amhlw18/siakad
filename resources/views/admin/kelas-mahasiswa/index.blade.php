@@ -128,6 +128,7 @@
                                 index + 1,
                                 item.nim,
                                 item.nama_mhs || '-',
+                                item.prodi || '-',
                                 item.program || '-',
                                 item.tahun_masuk || '-'
                             ]);

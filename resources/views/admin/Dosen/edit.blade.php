@@ -271,8 +271,6 @@
                                             <option value="Tugas Di Instansi Lain">Tugas Di Instansi Lain</option>
                                             <option value="Aktif Mengajar">Aktif Mengajar</option>
                                         @endif
-
-
                                     </select>
                                     @error('status')
                                     <div class="invalid-feedback">
@@ -339,7 +337,7 @@
 
 
                                     </select>
-                                    @error('status')
+                                    @error('golongan')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
