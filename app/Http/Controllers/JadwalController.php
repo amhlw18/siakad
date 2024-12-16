@@ -258,6 +258,45 @@ class JadwalController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        try {
+
+            $data = ModelDetailJadwal::where('id',$id)->first();
+
+            $data->delete();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Semua data berhasil dihapus.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function filter(Request $request)
+    {
+
+        $query = ModelDetailJadwal::with('prodi_jadwal','tahun_jadwal',
+            'jadwal_matakuliah','dosen','jadwal_kelas','jadwal_ruangan');
+
+        // Tambahkan kondisi filter jika ada nilai prodi
+        if ($request->prodi){
+            $query->where('prodi_id', $request->prodi);
+        }
+
+        $data = $query->get();
+
+        return response()->json($data->map(function ($item) {
+            return [
+                'nim' => $item->nim,
+                'nama_mhs' => $item->nama_mhs,
+                'nama_prodi' => $item->prodi_mhs->nama_prodi,
+
+            ];
+        }));
     }
 }
