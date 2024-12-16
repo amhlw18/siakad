@@ -63,6 +63,7 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+            'identifier' => 'user_id', // Ubah dari default (email) ke user_id
         ],
 
         // 'users' => [

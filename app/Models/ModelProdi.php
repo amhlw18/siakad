@@ -34,7 +34,7 @@ class ModelProdi extends Model
 
     public function ruangan()
     {
-        return $this->hasMany(ModelRuangan::class);
+        return $this->hasMany(ModelRuangan::class,'prodi_id','kode_prodi');
     }
 
     public function kelas()

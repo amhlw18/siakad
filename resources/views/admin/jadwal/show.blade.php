@@ -281,7 +281,7 @@
                                 data.matkul.forEach(matkul => {
                                     const option = document.createElement('option');
                                     option.value = matkul.id;
-                                    option.textContent = `${matkul.nama_mk} | ${matkul.semester} | ${matkul.sks_teori}`;
+                                    option.textContent = `${matkul.nama_mk} | SMT ${matkul.semester} | SKS ${matkul.sks_teori}`;
                                     matkulDropdown.appendChild(option);
                                 });
                             } else {
@@ -296,7 +296,7 @@
                                 data.ruangan.forEach(ruangan => {
                                     const option = document.createElement('option');
                                     option.value = ruangan.id;
-                                    option.textContent = `${ruangan.nama_ruangan} | ${ruangan.gedung}`;
+                                    option.textContent = `${ruangan.nama_ruangan} | Lantai ${ruangan.lantai}`;
                                     ruanganDropdown.appendChild(option);
                                 });
                             } else {
@@ -385,7 +385,7 @@
                                 data.matkul.forEach(matkul => {
                                     const option = document.createElement('option');
                                     option.value = matkul.id;
-                                    option.textContent = `${matkul.nama_mk} | ${matkul.semester} | ${matkul.sks_teori}`;
+                                    option.textContent = `${matkul.nama_mk} | SMT ${matkul.semester} | SKS ${matkul.sks_teori}`;
                                     matkulDropdown.appendChild(option);
                                 });
                             } else {
@@ -400,7 +400,7 @@
                                 data.ruangan.forEach(ruangan => {
                                     const option = document.createElement('option');
                                     option.value = ruangan.id;
-                                    option.textContent = `${ruangan.nama_ruangan} | ${ruangan.gedung}`;
+                                    option.textContent = `${ruangan.nama_ruangan} | Lantai ${ruangan.lantai}`;
                                     ruanganDropdown.appendChild(option);
                                 });
                             } else {
@@ -424,10 +424,17 @@
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
                 // Tambahkan metode PUT secara eksplisit
-                formData.append('_method', 'PUT');
+
 
                 const jadwalId = formData.get('jadwal_id'); // Ambil jadwal_id
-                const url = `/dashboard/data-jadwal/${jadwalId}`;
+                const url = `/dashboard/data-jadwal/${jadwalId}`
+
+                if(jadwalId){
+                    formData.append('_method', 'PUT');
+                    console.log('edit dta');
+                }else{
+                    console.log('tambah dta');
+                }
 
                 fetch(url, {
                     method: 'POST', // Ganti dengan POST

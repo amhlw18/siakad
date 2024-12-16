@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Faker\Factory as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -17,13 +18,25 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+
         return [
+            'user_id' => $this->generateUniqueUserId(),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'role' => fake()->numberBetween(1, 5),
+            'password' => 'rkZraBvZYZTk4tJwjncyMisdTIFOvwb4Roa7I73pXnUGK0rQ8CWo2zBapMTP', // password
             'remember_token' => Str::random(10),
         ];
+    }
+
+    private function generateUniqueUserId()
+    {
+        do {
+            $user_id = random_int(10000000000, 99999999999); // 11 digit angka acak
+        } while (\App\Models\User::where('user_id', $user_id)->exists());
+
+        return $user_id;
     }
 
     /**

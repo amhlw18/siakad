@@ -19,7 +19,7 @@ class ModelRuangan extends Model
 
     public function prodi_ruangan()
     {
-        return $this->belongsTo(ModelProdi::class, 'prodi_id');
+        return $this->belongsTo(ModelProdi::class, 'prodi_id','kode_prodi');
     }
 
     public function jadwal_ruangan(){
