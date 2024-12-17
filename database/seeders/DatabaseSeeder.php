@@ -23,10 +23,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             TahunAkademikSeeder::class,
-            KurikulumSeeder::class,
+            //KurikulumSeeder::class,
             DosenSeeder::class,
             ProdiSeeder::class,
-            MatakuliahSeeder::class,
+            //MatakuliahSeeder::class,
             RuanganSeeder::class,
             KelasSeeder::class,
             MahasiswaSeeder::class,

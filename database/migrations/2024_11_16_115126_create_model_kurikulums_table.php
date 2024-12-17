@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('model_kurikulums', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tahun_akademik_id');
-            $table->string('kode_kurikulum')->unique();
-            $table->string('nama_kurikulum')->unique();
+            $table->string('kode_kurikulum');
+            $table->string('nama_kurikulum');
             //$table->string('prodi');
             $table->string('sks_wajib');
             $table->string('sks_pilihan');

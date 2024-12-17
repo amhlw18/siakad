@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NeoFeeederController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\ProdiController;
@@ -76,7 +77,8 @@ Route::middleware('guest')->group(function (){
     Route::post('/login-user', [LoginController::class, 'authenticate'])->name('login');
 });
 
-
+Route::get('/mata-kuliah', [NeoFeeederController::class, 'getListMataKuliah']);
+Route::get('/kurikulum', [NeoFeeederController::class, 'getKurikulum']);
 
 
 Route::get('/home',function (){

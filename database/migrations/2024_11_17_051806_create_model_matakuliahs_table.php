@@ -23,14 +23,14 @@ return new class extends Migration
             $table->string('sks_teori');
             $table->string('sks_praktek');
             $table->string('sks_lapangan');
-            $table->string('kelompok_mk');
-            $table->string('jenis_kelompok');
-            $table->string('jenis_mk');
-            $table->string('status_mk');
-            $table->string('silabus_mk');
-            $table->string('sap_mk');
-            $table->string('bahan_ajar');
-            $table->string('diktat');
+            $table->string('kelompok_mk')->nullable();
+            $table->string('jenis_kelompok')->nullable();
+            $table->string('jenis_mk')->nullable();
+            $table->string('status_mk')->nullable();
+            $table->string('silabus_mk')->nullable();
+            $table->string('sap_mk')->nullable();
+            $table->string('bahan_ajar')->nullable();
+            $table->string('diktat')->nullable();
             $table->timestamps();
         });
     }

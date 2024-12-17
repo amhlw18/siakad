@@ -18,7 +18,7 @@ class Bendahara
     public function handle(Request $request, Closure $next)
     {
         if(!Auth::check()){
-            return redirect()->route('login');
+            return redirect()->route('/');
         }
 
         if (Auth::user()->role == 2) {
