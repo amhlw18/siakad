@@ -6,8 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-
-class SuperAdmin
+class Dosen
 {
     /**
      * Handle an incoming request.
@@ -22,7 +21,11 @@ class SuperAdmin
             return redirect('/');
         }
 
-        if(Auth::user()->role==1){
+//        if (Auth::user()->role == 3) {
+//            return $next($request);
+//        }
+
+        if (Auth::user()->role == 3 || Auth::user()->role == 1) {
             return $next($request);
         }else{
             return redirect('/dashboard');

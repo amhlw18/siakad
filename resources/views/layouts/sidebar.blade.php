@@ -12,12 +12,12 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ asset('lte/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
+                <img src="{{ asset('lte/dist/img/default-user-photo.png') }}" class="img-circle elevation-2"
                     alt="User Image">
             </div>
 
             <div class="info">
-                <a href="#" class="d-block">Admin IKT</a>
+                <a href="#" class="d-block">{{ auth()->user()->name }}</a>
             </div>
         </div>
 
@@ -145,7 +145,7 @@
 
                 @endcan
 
-                @can('shared')
+                @can('bendahara')
                     <!-- Data Pembayaran Menu -->
                     <li class="nav-item {{ Request::is('dashboard/pembayaran*') ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link {{ Request::is('dashboard/pembayaran*') ? 'active' : '' }}">
@@ -166,7 +166,35 @@
                     </li>
                 @endcan
 
+                @can('dosen')
+                    <!-- Dosen Menu -->
+                    <li class="nav-item {{ Request::is('dashboard/aspek-nilai*') || Request::is('dashboard/nilai-semester') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('dashboard/aspek-nilai*') || Request::is('dashboard/nilai-semester')  ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-clipboard"></i>
+                            <p>
+                                Dosen
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/dashboard/aspek-nilai" class="nav-link {{ Request::is('dashboard/aspek-nilai*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Aspek Penilaian</p>
+                                </a>
+                            </li>
+                        </ul>
 
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/dashboard/nilai-semester" class="nav-link {{ Request::is('dashboard/nilai-semester*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Nilai Semester</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
 
             </ul>
         </nav>

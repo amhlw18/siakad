@@ -5,15 +5,31 @@ Dashboard
 @endsection()
 
 @section('mainmenu')
-Dashboard
+Selamat Datang, {{ auth()->user()->name }}
 @endsection()
 
 @section('menu')
 Dashboard
 @endsection()
 
+
+
 @section('submenu')
-Dashboard Admin
+
+    @if(Auth::user()->role == 1)
+        Dashboard Administrator
+    @endif
+
+    @if(Auth::user()->role == 2)
+        Dashboard Bendahara
+    @endif
+
+    @if(Auth::user()->role == 3)
+        Dashboard Dosen
+    @endif
+
+
+
 @endsection()
 
 @section('content')

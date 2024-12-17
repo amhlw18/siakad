@@ -18,12 +18,17 @@ class Bendahara
     public function handle(Request $request, Closure $next)
     {
         if(!Auth::check()){
-            return redirect()->route('/');
+            return redirect('/');
         }
 
-        if (Auth::user()->role == 2) {
-            // Bendahara dan SuperAdmin diizinkan
+//        if (Auth::user()->role == 2) {
+//            return $next($request);
+//        }
+
+        if (Auth::user()->role == 2 || Auth::user()->role == 1) {
             return $next($request);
-        }
+        }else{
+            return redirect('/dashboard');
+        };
     }
 }

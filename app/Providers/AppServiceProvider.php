@@ -31,12 +31,17 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Gate::define('bendahara', function (User $user) {
-            return $user['role'] == 2;
+            return in_array($user->role, [1, 2]);
         });
 
-        Gate::define('shared', function (User $user) {
-            return in_array($user->role, [1, 2]); // SuperAdmin dan Bendahara
+        Gate::define('dosen', function (User $user) {
+            return in_array($user->role, [1, 3]);
         });
+
+//        Gate::define('shared', function (User $user) {
+//            return in_array($user->role, [1, 2]); // SuperAdmin dan Bendahara
+//        });
+
 
 
     }

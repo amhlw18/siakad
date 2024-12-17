@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AspekPenilaianController;
 use App\Http\Controllers\NeoFeeederController;
+use App\Http\Controllers\NilaiSemesterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\ProdiController;
@@ -55,14 +57,12 @@ Route::middleware('auth')->group(function (){
         Route::put('/dashboard/data-jadwal-update/{id}', [JadwalController::class, 'update']);
         Route::get('/dashboard/jadwal-kls/filter-data', [JadwalController::class, 'filter_data']);
 
-
-
     });
 
     Route::post('/logout-user', [LoginController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [ DashBoardController::class,'index']);
 
-    Route::middleware('shared')->group(function () {
+    Route::middleware('bendahara')->group(function () {
         Route::resource('/dashboard/pembayaran', PembayaranController::class);
         Route::get('/dashboard/data-pembayaran/filter', [PembayaranController::class, 'filter']);
         Route::post('/dashboard/data-pembayaran', [PembayaranController::class, 'store']);
@@ -70,11 +70,16 @@ Route::middleware('auth')->group(function (){
         Route::post('/dashboard/data-pembayaran/{nim}', [PembayaranController::class, 'destroy']);
     });
 
+    Route::middleware('dosen')->group(function (){
+        Route::resource('/dashboard/aspek-nilai', AspekPenilaianController::class);
+        Route::resource('/dashboard/nilai-semester',NilaiSemesterController::class);
+
+    });
 });
 
 Route::middleware('guest')->group(function (){
-    Route::get('/', [ LoginController::class,'index']);
-    Route::post('/login-user', [LoginController::class, 'authenticate'])->name('login');
+    Route::get('/', [ LoginController::class,'index'])->name('login');
+    Route::post('/login-user', [LoginController::class, 'authenticate']);
 });
 
 Route::get('/mata-kuliah', [NeoFeeederController::class, 'getListMataKuliah']);
