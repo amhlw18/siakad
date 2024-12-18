@@ -294,7 +294,7 @@ class JadwalController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Semua data berhasil dihapus.'
+                'message' => 'Data jadwal berhasil dihapus.'
             ]);
         } catch (\Exception $e) {
             return response()->json([

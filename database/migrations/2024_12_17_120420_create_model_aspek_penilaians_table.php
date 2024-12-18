@@ -15,14 +15,13 @@ return new class extends Migration
     {
         Schema::create('model_aspek_penilaians', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('matakuliah_id');
             $table->string('nidn');
             $table->string('nama_dosen');
             $table->string('aspek');
             $table->string('bobot');
             $table->timestamps();
         });
-
-
     }
 
     /**

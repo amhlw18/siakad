@@ -44,4 +44,9 @@ class ModelMatakuliah extends Model
     public function jadwal_matakuliah(){
         return $this->hasMany(ModelDetailJadwal::class,'matakuliah_id','id');
     }
+
+    public function aspek_penilaian()
+    {
+        return $this->hasMany(ModelAspekPenilaian::class,'matakuliah_id','id');
+    }
 }

@@ -72,8 +72,11 @@ Route::middleware('auth')->group(function (){
 
     Route::middleware('dosen')->group(function (){
         Route::resource('/dashboard/aspek-nilai', AspekPenilaianController::class);
-        Route::resource('/dashboard/nilai-semester',NilaiSemesterController::class);
+        Route::post('/dashboard/aspekk-nilai', [AspekPenilaianController::class, 'store']);
+        Route::get('/dashboard/aspekk-nilai/{id}/edit', [AspekPenilaianController::class, 'edit']);
+        Route::get('/dashboard/aspekk-nilai/filter', [AspekPenilaianController::class, 'filter']);
 
+        Route::resource('/dashboard/nilai-semester',NilaiSemesterController::class);
     });
 });
 
@@ -84,6 +87,7 @@ Route::middleware('guest')->group(function (){
 
 Route::get('/mata-kuliah', [NeoFeeederController::class, 'getListMataKuliah']);
 Route::get('/kurikulum', [NeoFeeederController::class, 'getKurikulum']);
+Route::get('/dosen', [NeoFeeederController::class, 'getDosen']);
 
 
 Route::get('/home',function (){

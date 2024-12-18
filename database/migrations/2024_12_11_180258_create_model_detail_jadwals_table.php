@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('prodi_id');
             $table->foreignId('tahun_akademik');
             $table->foreignId('matakuliah_id');
-            $table->foreignId('nidn');
+            $table->string('nidn');
             $table->foreignId('kelas_id');
             $table->foreignId('ruangan_id');
             $table->string('hari');

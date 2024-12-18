@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('model_dosens', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('nidn');
+            $table->string('nidn');
             $table->string('nama_dosen');
             $table->string('gelar_depan')->nullable();
-            $table->string('gelar_belakang');
+            $table->string('gelar_belakang')->nullable();
             $table->string('tempat_lahir');
             $table->string('tgl_lahir');
             $table->string('jenis_kelamin');
@@ -27,10 +27,10 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('alamat');
             $table->string('tgl_kerja')->nullable();
-            $table->string('ikatan_kerja');
-            $table->string('pendidikan');
-            $table->string('status');
-            $table->string('jabatan_akademik');
+            $table->string('ikatan_kerja')->nullable();
+            $table->string('pendidikan')->nullable();
+            $table->string('status')->nullable();
+            $table->string('jabatan_akademik')->nullable();
             $table->string('jabatan_struktural')->nullable();
             $table->string('golongan')->nullable();
             $table->timestamps();
