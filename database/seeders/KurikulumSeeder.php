@@ -34,6 +34,8 @@ class KurikulumSeeder extends Seeder
             ]);
         }
 
+
+
     }
 }
 
