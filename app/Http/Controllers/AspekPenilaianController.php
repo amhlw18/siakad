@@ -47,12 +47,22 @@ class AspekPenilaianController extends Controller
     {
 
         $query = ModelAspekPenilaian::with('aspek_penilaian');
+        $nidn = Auth::user()->user_id;
 
-        // Tambahkan kondisi filter jika ada nilai prodi
-        if ($request->matkul){
-            $query->where('matakuliah_id', $request->matkul);
+        if (Auth::user()->role==3){
+            if ($request->matkul){
+                $query->where('matakuliah_id', $request->matkul)
+                    ->where('nidn', $nidn);
 
+            }
+        }else{
+            if ($request->matkul){
+                $query->where('matakuliah_id', $request->matkul);
+
+            }
         }
+
+
 
         $data = $query->get();
 

@@ -305,9 +305,8 @@
 
             function fetchFilteredData() {
                 const matkul = filterMatkul.value;
-                const nidn = {{ auth()->user()->user_id }};
 
-                fetch(`/dashboard/aspekk-nilai/filter?matkul=${matkul}&nidn=${nidn}`)
+                fetch(`/dashboard/aspekk-nilai/filter?matkul=${matkul}`)
                     .then(response => response.json())
                     .then(data => {
                         // Clear existing table data
@@ -318,7 +317,7 @@
                         data.forEach((item, index) => {
                             dataTable.row.add([
                                 `
-                                <a href="${item.id}"
+                                <a href="${item.id}/{{}}"
                                    class="btn btn-warning btn-edit"
                                    data-bs-toggle="modal"
                                    data-bs-target="#buatJadwalModal"
