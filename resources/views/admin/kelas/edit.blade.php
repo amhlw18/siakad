@@ -38,9 +38,10 @@
                                 <div class="form-group">
                                     <label for="prodi_id">Program Studi</label>
                                     <select class="custom-select rounded-0" id="kurikulum_id" name="prodi_id">
+                                        <option value="" disabled selected>--Pilih Prodi--</option>
                                         @foreach ($prodis as $prodi)
-                                            @if (old('prodi_id') == $prodi->id)
-                                                <option selected value="{{ $prodi->id }}">
+                                            @if (old('prodi_id',$kelas->prodi_id) == $prodi->kode_prodi)
+                                                <option selected value="{{ $prodi->prodi_id }}">
                                                     {{ $prodi->nama_prodi }}</option>
                                             @else
                                                 <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}
@@ -67,8 +68,8 @@
                                     <label for="program">Program</label>
                                     <select class="custom-select rounded-0 @error('program') is-invalid @enderror"
                                             id="program" name="program" >
-
-                                        @if (old('program') == $kelas->program)
+                                        <option value="" disabled selected>--Pilih Program--</option>
+                                        @if (old('program',$kelas->program) == $kelas->program)
                                             <option selected value="{{ $kelas->program }}">
                                                 {{ $kelas->program }}</option>
                                         @else

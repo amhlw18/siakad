@@ -28,6 +28,6 @@ class ModelKurikulum extends Model
 
     public function matakuliah()
     {
-        return $this->hasMany(ModelMatakuliah::class);
+        return $this->hasMany(ModelMatakuliah::class,'kurikulum_id','kode_kurikulum');
     }
 }

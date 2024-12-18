@@ -116,7 +116,7 @@
                             <select class="custom-select rounded-0" id="matakuliah_id" name="matakuliah_id" required>
                                 <option value="" disabled selected>--Pilih Matakuliah--</option>
                                 @foreach ($matakuliah as $matkul)
-                                    <option value="{{ $matkul->jadwal_matakuliah->id }}" {{ old('matakuliah_id') == $matkul->jadwal_matakuliah->id ? 'selected' : '' }}>
+                                    <option value="{{ $matkul->jadwal_matakuliah->kode_mk }}" {{ old('matakuliah_id') == $matkul->jadwal_matakuliah->kode_mk ? 'selected' : '' }}>
                                         {{ $matkul->jadwal_matakuliah->nama_mk }}
                                     </option>
                                 @endforeach

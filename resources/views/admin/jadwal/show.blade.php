@@ -33,7 +33,7 @@
                 <select id="filterTahun" class="form-control">
                     <option value="">Semua Tahun Akademik</option>
                     @foreach ($tahun_akademik as $tahun)
-                        <option value="{{ $tahun->id ?? '-' }}-{{ $prodi->kode_prodi ?? '-' }}">{{ $tahun->tahun_akademik }}</option>
+                        <option value="{{ $tahun->kode ?? '-' }}-{{ $prodi->kode_prodi ?? '-' }}">{{ $tahun->tahun_akademik }}</option>
                     @endforeach
                 </select>
             </div>
@@ -122,7 +122,7 @@
                     <form id="simpanForm">
                         <input type="hidden" id="jadwal_id" name="jadwal_id" value="">
                         <input type="hidden" id="prodi_id" name="prodi_id" value="{{$prodi->kode_prodi ?? '-'}}">
-                        <input type="hidden" id="tahun_akademik" name="tahun_akademik" value="{{$tahun_aktif->id}}">
+                        <input type="hidden" id="tahun_akademik" name="tahun_akademik" value="{{$tahun_aktif->kode}}">
 
                         <div class="form-group">
                             <label for="prodi_id">Dosen</label>
@@ -280,7 +280,7 @@
                             if (data.matkul && data.matkul.length > 0) {
                                 data.matkul.forEach(matkul => {
                                     const option = document.createElement('option');
-                                    option.value = matkul.id;
+                                    option.value = matkul.kode_mk;
                                     option.textContent = `${matkul.nama_mk} | SMT ${matkul.semester} | SKS ${matkul.sks_teori}`;
                                     matkulDropdown.appendChild(option);
                                 });
@@ -384,7 +384,7 @@
                             if (data.matkul && data.matkul.length > 0) {
                                 data.matkul.forEach(matkul => {
                                     const option = document.createElement('option');
-                                    option.value = matkul.id;
+                                    option.value = matkul.kode_mk;
                                     option.textContent = `${matkul.nama_mk} | SMT ${matkul.semester} | SKS ${matkul.sks_teori}`;
                                     matkulDropdown.appendChild(option);
                                 });
@@ -502,7 +502,7 @@
                         if (data.matkul && data.matkul.length > 0) {
                             data.matkul.forEach(matkul => {
                                 const option = document.createElement('option');
-                                option.value = matkul.id;
+                                option.value = matkul.kode_mk;
                                 option.textContent = `${matkul.nama_mk} | ${matkul.semester} | ${matkul.sks_teori}`;
                                 matkulDropdown.appendChild(option);
                             });

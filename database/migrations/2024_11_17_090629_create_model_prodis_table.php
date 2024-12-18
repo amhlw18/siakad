@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string("kode_prodi");
             $table->string("nama_prodi");
             $table->string('jenjang');
-            $table->foreignId('ka_prodi');
+            $table->string('ka_prodi');
             $table->timestamps();
         });
     }

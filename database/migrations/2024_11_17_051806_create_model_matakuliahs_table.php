@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('model_matakuliahs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kurikulum_id');
+            $table->string('kurikulum_id');
             $table->foreignId('kode_prodi');
             $table->string('kode_mk');
             $table->string('nama_mk');

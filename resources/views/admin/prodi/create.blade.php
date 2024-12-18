@@ -64,7 +64,7 @@
                                     <label for="jenjang">Jenjang</label>
                                     <select class="custom-select rounded-0 @error('jenjang') is-invalid @enderror"
                                             id="jenjang" name="jenjang" >
-                                        <option value="">--Pilih Jenjang--</option>
+                                        <option value="" disabled selected>--Pilih Jenjang--</option>
                                         <option value="S1">S1</option>
                                         <option value="S2">S2</option>
                                         <option value="S3">S3</option>
@@ -88,12 +88,13 @@
                                 <div class="form-group">
                                     <label for="ka_prodi">Ka Program Studi</label>
                                     <select class="custom-select rounded-0" id="kurikulum_id" name="ka_prodi">
+                                        <option value="" disabled selected>--Pilih Ka Program Studi--</option>
                                         @foreach ($dosens as $dosen)
-                                            @if (old('ka_prodi') == $dosen->id)
-                                                <option selected value="{{ $dosen->id }}">
+                                            @if (old('ka_prodi' ) == $dosen->nidn)
+                                                <option selected value="{{ $dosen->nidn }}">
                                                     {{ $dosen->nama_dosen }}</option>
                                             @else
-                                                <option value="{{ $dosen->id }}">{{ $dosen->nama_dosen }}
+                                                <option value="{{ $dosen->nidn }}">{{ $dosen->nama_dosen }}
                                                 </option>
                                             @endif
                                         @endforeach

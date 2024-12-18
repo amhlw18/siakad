@@ -33,6 +33,7 @@
                                 <div class="form-group">
                                     <label for="prodi_id">Program Studi</label>
                                     <select class="custom-select rounded-0" id="prodi_id" name="prodi_id" required>
+                                        <option value="" disabled selected>--Pilih Prodi--</option>
                                         @foreach ($prodis as $prodi)
                                             <option value="{{ $prodi->kode_prodi }}" {{ old('prodi_id') == $prodi->kode_prodi ? 'selected' : '' }}>
                                                 {{ $prodi->nama_prodi }}

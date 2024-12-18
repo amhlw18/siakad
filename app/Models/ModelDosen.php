@@ -34,7 +34,7 @@ class ModelDosen extends Model
 
     public function prodi()
     {
-        return $this->hasMany(ModelProdi::class);
+        return $this->hasMany(ModelProdi::class,'ka_prodi','nidn');
     }
 
     public function dosen(){

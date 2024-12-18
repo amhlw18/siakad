@@ -88,6 +88,8 @@ Route::middleware('guest')->group(function (){
 Route::get('/mata-kuliah', [NeoFeeederController::class, 'getListMataKuliah']);
 Route::get('/kurikulum', [NeoFeeederController::class, 'getKurikulum']);
 Route::get('/dosen', [NeoFeeederController::class, 'getDosen']);
+Route::get('/matkul-dosen', [NeoFeeederController::class, 'getMatkulDosen']);
+Route::get('/mahasiswa', [NeoFeeederController::class, 'getMahasiswa']);
 
 
 Route::get('/home',function (){

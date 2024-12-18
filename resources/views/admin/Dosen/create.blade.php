@@ -126,7 +126,7 @@
                                     <label for="jenis_kelamin">Jenis Kelamin</label>
                                     <select class="custom-select rounded-0 @error('jenis_kelamin') is-invalid @enderror"
                                             id="jenis_kelamin" name="jenis_kelamin" >
-                                        <option value="">--Pilih Jenis Kelamin--</option>
+                                        <option value="" disabled selected>--Pilih Jenis Kelamin--</option>
                                         <option value="Laki-Laki">Laki-Laki</option>
                                         <option value="Perempuan">Perempuan</option>
                                     </select>
@@ -141,7 +141,7 @@
                                     <label for="agama">Agama</label>
                                     <select class="custom-select rounded-0 @error('agama') is-invalid @enderror"
                                             id="agama" name="agama" >
-                                        <option value="">--Pilih Agama--</option>
+                                        <option value="" disabled selected>--Pilih Agama--</option>
                                         <option value="Islam">Islam</option>
                                         <option value="Katolik">Katolik</option>
                                         <option value="Protestan">Protestan</option>
@@ -209,7 +209,7 @@
                                     <label for="ikatan_kerja">Ikatan Kerja</label>
                                     <select class="custom-select rounded-0 @error('ikatan_kerja') is-invalid @enderror"
                                             id="ikatan_kerja" name="ikatan_kerja" >
-                                        <option value="">--Pilih Ikatan Kerja--</option>
+                                        <option value="" disabled selected>--Pilih Ikatan Kerja--</option>
                                         <option value="Dosen DPK PNS">Dosen DPK PNS</option>
                                         <option value="Dosen Luar Biasa">Dosen Luar Biasa</option>
                                         <option value="Dosen Kontrak">Dosen Kontrak</option>
@@ -226,7 +226,7 @@
                                     <label for="pendidikan">Pendidikan Tertinggi</label>
                                     <select class="custom-select rounded-0 @error('pendidikan') is-invalid @enderror"
                                             id="pendidikan" name="pendidikan" >
-                                        <option value="">--Pilih Pendidikan Tertinggi--</option>
+                                        <option value="" disabled selected>--Pilih Pendidikan Tertinggi--</option>
                                         <option value="S-3">S-3</option>
                                         <option value="S-2">S-2</option>
                                         <option value="S-1">S-1</option>
@@ -249,7 +249,7 @@
                                     <label for="status">Status</label>
                                     <select class="custom-select rounded-0 @error('status') is-invalid @enderror"
                                             id="status" name="status" >
-                                        <option value="">--Pilih Status--</option>
+                                        <option value="" disabled selected>--Pilih Status--</option>
                                         <option value="Cuti">Cuti</option>
                                         <option value="Keluar">Keluar</option>
                                         <option value="Meninggal">Meninggal</option>
@@ -269,7 +269,7 @@
                                     <label for="jabatan_akademik">Jabatan Akademik</label>
                                     <select class="custom-select rounded-0 @error('jabatan_akademik') is-invalid @enderror"
                                             id="jabatan_akademik" name="jabatan_akademik" >
-                                        <option value="">--Pilih Jabatan Akademik--</option>
+                                        <option value="" disabled selected>--Pilih Jabatan Akademik--</option>
                                         <option value="Tenaga Pengajar">Tenaga Pengajar</option>
                                         <option value="Asisten Ahli">Asisten Ahli</option>
                                         <option value="Lektor">Lektor</option>
@@ -299,7 +299,7 @@
                                     <label for="golongan">Golongan</label>
                                     <select class="custom-select rounded-0 @error('golongan') is-invalid @enderror"
                                             id="golongan" name="golongan" >
-                                        <option value="">--Pilih Golongan--</option>
+                                        <option value="" disabled selected>--Pilih Golongan--</option>
                                         <option value="IIIA Penata Muda">IIIA Penata Muda</option>
                                         <option value="IIIB Penata Muda Tk.1">IIB Penata Muda Tk.1</option>
                                         <option value="IIIC Penata">IIIC Penata</option>

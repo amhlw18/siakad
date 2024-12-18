@@ -24,7 +24,7 @@ class ModelProdi extends Model
 
     public function dosen()
     {
-        return $this->belongsTo(ModelDosen::class, 'ka_prodi');
+        return $this->belongsTo(ModelDosen::class, 'ka_prodi','nidn');
     }
 
     public function matakuliah()
@@ -39,7 +39,7 @@ class ModelProdi extends Model
 
     public function kelas()
     {
-        return $this->hasMany(ModelKelas::class);
+        return $this->hasMany(ModelKelas::class,'prodi_id','kode_prodi');
     }
 
     public function betas_sks()

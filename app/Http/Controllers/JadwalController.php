@@ -49,12 +49,12 @@ class JadwalController extends Controller
         return response()->json($data->map(function ($item) {
             return [
                 'id' =>$item->id,
-                'hari' => $item->hari,
-                'jam' => $item->jam,
-                'matakuliah' => $item->jadwal_matakuliah->nama_mk,
-                'dosen' => $item->dosen->nama_dosen,
-                'kelas' => $item->jadwal_kelas->nama_kelas,
-                'ruangan' => $item->jadwal_ruangan->nama_ruangan,
+                'hari' => $item->hari ?? '-',
+                'jam' => $item->jam  ?? '-',
+                'matakuliah' => $item->jadwal_matakuliah->nama_mk  ?? '-',
+                'dosen' => $item->dosen->nama_dosen  ?? '-',
+                'kelas' => $item->jadwal_kelas->nama_kelas  ?? '-',
+                'ruangan' => $item->jadwal_ruangan->nama_ruangan  ?? '-',
             ];
         }));
     }
@@ -156,7 +156,7 @@ class JadwalController extends Controller
         $jadwal = ModelDetailJadwal::with('prodi_jadwal','tahun_jadwal',
             'jadwal_matakuliah','dosen','jadwal_kelas','jadwal_ruangan')
             ->where('prodi_id',$id)
-            ->where('tahun_akademik', $tahun_akademik->id)
+            ->where('tahun_akademik', $tahun_akademik->kode)
             ->get();
 
 //        foreach ($jadwal as $item) {

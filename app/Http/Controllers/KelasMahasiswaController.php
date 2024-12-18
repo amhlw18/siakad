@@ -103,6 +103,15 @@ class KelasMahasiswaController extends Controller
             ->where('semester_masuk',$request->semester_masuk)
             ->get();
 
+//        foreach ($mahasiswa as $item) {
+//            if ($item->nama_mhs) {
+//                dump($item->nama_mhs);
+//            } else {
+//                dump("Dosen tidak ditemukan untuk NIDN: " . $item->nama_mhs);
+//            }
+//        }
+//        exit;
+
         if (!$mahasiswa) {
             return redirect()->back()->with('error', 'Tidak ditemukan mahasiswa aktif.');
         }

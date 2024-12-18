@@ -32,7 +32,7 @@ class ModelDetailJadwal extends Model
     }
 
     public function jadwal_matakuliah(){
-        return $this->belongsTo(ModelMatakuliah::class,'matakuliah_id','id');
+        return $this->belongsTo(ModelMatakuliah::class,'matakuliah_id','kode_mk');
     }
 
     public function dosen(){

@@ -39,7 +39,6 @@
                         <tr>
                             <th></th>
                             <th>#</th>
-                            <th>Kode Kurikulum</th>
                             <th>Nama Kurikulum</th>
                             <th>SKS Wajib</th>
                             <th>SKS Pilihan</th>
@@ -67,12 +66,11 @@
                                 </td>
 
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $kurikulum->kode_kurikulum}}</td>
                                 <td>{{ $kurikulum->nama_kurikulum }}</td>
                                 <td>{{ $kurikulum->sks_wajib }}</td>
                                 <td>{{ $kurikulum->sks_pilihan }}</td>
                                 <td>{{ $kurikulum->jumlah_sks }}</td>
-                                <td>{{ $kurikulum->tahun_akademik->tahun_akademik }} {{ $kurikulum->tahun_akademik->semester }} </td>
+                                <td>{{ $kurikulum->tahun_akademik->tahun_akademik }} </td>
                                 <td>{{ $kurikulum->status == 1 ? 'Ya' : 'Tidak Aktif' }}</td>
 
                             </tr>

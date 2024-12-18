@@ -37,6 +37,7 @@
                                 <div class="form-group">
                                     <label for="kurikulum">Kurikulum</label>
                                     <select class="custom-select rounded-0" id="kurikulum_id" name="kurikulum_id">
+                                        <option value="" disabled selected>--Pilih Kurikulum--</option>
                                         @foreach ($kurikulums as $kurikulum)
                                             @if (old('kurikulum_id') == $kurikulum->id)
                                                 <option selected value="{{ $kurikulum->id }}">
@@ -77,6 +78,7 @@
                                 <div class="form-group">
                                     <label for="kode_prodi">Program Studi</label>
                                     <select class="custom-select rounded-0" id="kurikulum_id" name="kode_prodi">
+                                        <option value="" disabled selected>--Pilih Prodi--</option>
                                         @foreach ($prodis as $prodi)
                                             @if (old('kode_prodi') == $prodi->kode_prodi)
                                                 <option selected value="{{ $prodi->kode_prodi }}">
@@ -94,7 +96,7 @@
                                     <label for="semester">Semester</label>
                                     <select class="custom-select rounded-0 @error('semester') is-invalid @enderror"
                                         id="semester" name="semester" >
-                                        <option value="">--Pilih Semester--</option>
+                                        <option value="" disabled selected>--Pilih Semester--</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -151,7 +153,7 @@
                                     <label for="kelompok_mk">Kelompok Mata Kuliah</label>
                                     <select class="custom-select rounded-0 @error('kelompok_mk') is-invalid @enderror"
                                         id="kelompok_mk" name="kelompok_mk">
-                                        <option value="">--Pilih Kelompok Matakuliah--</option>
+                                        <option value="" disabled selected>--Pilih Kelompok Matakuliah--</option>
                                         <option value="MPK-Pengembangan Kepribadian">MPK-Pengembangan Kepribadian</option>
                                         <option value="MKK-Keilmuan dan Keterampilan">MKK-Keilmuan dan Keterampilan</option>
                                         <option value="MKB-Keahlian Berkarya">MKB-Keahlian Berkarya</option>
@@ -173,7 +175,7 @@
                                     <label for="jenis_kelompok">Jenis Kelompok</label>
                                     <select class="custom-select rounded-0 @error('jenis_kelompok') is-invalid @enderror"
                                         id="jenis_kelompok" name="jenis_kelompok">
-                                        <option value="">--Pilih Jenis Kelompok--</option>
+                                        <option value="" disabled selected>--Pilih Jenis Kelompok--</option>
                                         <option value="Inti">Inti</option>
                                         <option value="Institusi">Institusi</option>
                                     </select>
@@ -188,7 +190,7 @@
                                     <label for="jenis_mk">Jenis Mata Kuliah</label>
                                     <select class="custom-select rounded-0 @error('jenis_mk') is-invalid @enderror"
                                         id="jenis_mk" name="jenis_mk">
-                                        <option value="">--Pilih Jenis Matakuliah--</option>
+                                        <option value="" disabled selected>--Pilih Jenis Matakuliah--</option>
                                         <option value="Wajib">Wajib</option>
                                         <option value="Pilihan">Pilihan</option>
                                         <option value="Wajib Peminatan">Wajib Peminatan</option>
@@ -206,7 +208,7 @@
                                     <label for="status_mk">Status Mata Kuliah</label>
                                     <select class="custom-select rounded-0 @error('status_mk') is-invalid @enderror"
                                         id="status_mk" name="status_mk">
-                                        <option value="">--Pilih Status Mata Kuliah--</option>
+                                        <option value="" disabled selected>--Pilih Status Mata Kuliah--</option>
                                         <option value="Aktif">Aktif</option>
                                         <option value="Ahli Bentuk">Ahli Bentuk</option>
                                         <option value="Hapus">Hapus</option>
@@ -225,7 +227,7 @@
                                     <label for="silabus_mk">Silabus Mata Kuliah</label>
                                     <select class="custom-select rounded-0 @error('silabus_mk') is-invalid @enderror"
                                         id="silabus_mk" name="silabus_mk">
-                                        <option value="">--Pilih Silabus Mata Kuiliah--</option>
+                                        <option value="" disabled selected>--Pilih Silabus Mata Kuiliah--</option>
                                         <option value="Ya">Ya</option>
                                         <option value="Tidak">Tidak</option>
                                     </select>
@@ -240,7 +242,7 @@
                                     <label for="sap_mk">SAP Mata Kuliah</label>
                                     <select class="custom-select rounded-0 @error('sap_mk') is-invalid @enderror"
                                         id="sap_mk" name="sap_mk">
-                                        <option value="">--Pilih SAP Mata Kuliah--</option>
+                                        <option value="" disabled selected>--Pilih SAP Mata Kuliah--</option>
                                         <option value="Ya">Ya</option>
                                         <option value="Tidak">Tidak</option>
                                     </select>
@@ -271,7 +273,7 @@
                                     <label for="diktat">Diktat Mata Kuliah</label>
                                     <select class="custom-select rounded-0 @error('diktat') is-invalid @enderror"
                                         id="diktat" name="diktat">
-                                        <option value="">--Pilih Diktat Mata Kuliah</option>
+                                        <option value="" disabled selected>--Pilih Diktat Mata Kuliah</option>
                                         <option value="Ya">Ya</option>
                                         <option value="Tidak">Tidak</option>
                                     </select>

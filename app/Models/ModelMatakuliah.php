@@ -33,7 +33,7 @@ class ModelMatakuliah extends Model
 
     public function kurikulum()
     {
-        return $this->belongsTo(ModelKurikulum::class, 'kurikulum_id');
+        return $this->belongsTo(ModelKurikulum::class, 'kurikulum_id','kode_kurikulum');
     }
 
     public function prodi()
@@ -42,7 +42,7 @@ class ModelMatakuliah extends Model
     }
 
     public function jadwal_matakuliah(){
-        return $this->hasMany(ModelDetailJadwal::class,'matakuliah_id','id');
+        return $this->hasMany(ModelDetailJadwal::class,'matakuliah_id','kode_mk');
     }
 
     public function aspek_penilaian()

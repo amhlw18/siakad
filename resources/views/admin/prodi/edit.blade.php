@@ -64,8 +64,8 @@
                                     <label for="jenjang">Jenjang</label>
                                     <select class="custom-select rounded-0 @error('jenjang') is-invalid @enderror"
                                             id="jenjang" name="jenjang" >
-
-                                        @if (old('jenjang') == $prodi->jenjang)
+                                        <option value="" disabled selected>--Pilih Jenjang--</option>
+                                        @if (old('jenjang',$prodi->jenjang) == $prodi->jenjang)
                                             <option selected value="{{ $prodi->jenjang }}">
                                                 {{ $prodi->jenjang }}</option>
                                         @else
@@ -93,12 +93,13 @@
                                 <div class="form-group">
                                     <label for="ka_prodi">Ka Program Studi</label>
                                     <select class="custom-select rounded-0" id="kurikulum_id" name="ka_prodi">
+                                        <option value="" disabled selected>--Pilih Ka Program Studi--</option>
                                         @foreach ($dosens as $dosen)
-                                            @if (old('ka_prodi') == $dosen->id)
-                                                <option selected value="{{ $dosen->id }}">
+                                            @if (old('ka_prodi',$prodi->ka_prodi) == $dosen->kode_prodi)
+                                                <option selected value="{{ $dosen->kode_prodi }}">
                                                     {{ $dosen->nama_dosen }}</option>
                                             @else
-                                                <option value="{{ $dosen->id }}">{{ $dosen->nama_dosen }}
+                                                <option value="{{ $dosen->nidn }}">{{ $dosen->nama_dosen }}
                                                 </option>
                                             @endif
                                         @endforeach

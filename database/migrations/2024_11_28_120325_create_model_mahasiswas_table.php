@@ -29,8 +29,8 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('NIK');
             $table->string('alamat');
-            $table->string('status_masuk');
-            $table->string('program');
+            $table->string('status_masuk')->nullable();
+            $table->string('program')->nullable();
             $table->string('tahun_masuk');
             $table->string('status');
             $table->timestamps();

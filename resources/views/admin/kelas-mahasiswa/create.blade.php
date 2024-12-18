@@ -42,13 +42,12 @@
                                 <div class="form-group">
                                     <label for="prodi_id">Program Studi</label>
                                     <select class="custom-select rounded-0" id="prodi_id" name="prodi_id">
+                                        <option value="" disabled selected>--Pilih Prodi--</option>
                                         @foreach ($prodis as $prodi)
                                             @if (old('prodi_id') == $prodi->kode_prodi)
-                                                <option selected value="{{ $prodi->kode_prodi }}">
-                                                    {{ $prodi->nama_prodi }}</option>
+                                                <option selected value="{{ $prodi->kode_prodi }}">{{ $prodi->kode_prodi }}</option>
                                             @else
-                                                <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}
-                                                </option>
+                                                <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
                                             @endif
                                         @endforeach
 
@@ -58,13 +57,12 @@
                                 <div class="form-group">
                                     <label for="kelas_id">Kelas</label>
                                     <select class="custom-select rounded-0" id="kelas_id" name="kelas_id">
+                                        <option value="" disabled selected>--Pilih Kelas--</option>
                                         @foreach ($kelas as $kls)
                                             @if (old('kelas_id') == $kls->id)
-                                                <option selected value="{{ $kls->id }}">
-                                                    {{ $kls->nama_kelas }} | {{$kls->program}} </option>
+                                                <option selected value="{{ $kls->id }}">{{ $kls->id }} </option>
                                             @else
-                                                <option value="{{ $kls->id }}">{{ $kls->nama_kelas }} | {{$kls->program}}
-                                                </option>
+                                                <option value="{{ $kls->id }}">{{ $kls->nama_kelas }} | {{$kls->program}}</option>
                                             @endif
                                         @endforeach
 
@@ -74,8 +72,9 @@
                                 <div class="form-group">
                                     <label for="semester_masuk">Semester Masuk</label>
                                     <select class="custom-select rounded-0" id="semester_masuk" name="semester_masuk" required>
+                                        <option value="" disabled selected>--Pilih Semester Masuk--</option>
                                         @foreach ($tahun_akademis as $thn_akademik)
-                                            <option value="{{ $thn_akademik->id }}" {{ old('semester_masuk') == $thn_akademik->id ? 'selected' : '' }}>
+                                            <option value="{{ $thn_akademik->kode }}" {{ old('semester_masuk') == $thn_akademik->kode ? 'selected' : '' }}>
                                                 {{ $thn_akademik->tahun_akademik }}
                                             </option>
                                         @endforeach

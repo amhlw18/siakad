@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('prodi_id');
             $table->foreignId('tahun_akademik');
-            $table->foreignId('matakuliah_id');
+            $table->string('matakuliah_id');
             $table->string('nidn');
-            $table->foreignId('kelas_id');
-            $table->foreignId('ruangan_id');
-            $table->string('hari');
-            $table->string('jam');
+            $table->foreignId('kelas_id')->nullable();
+            $table->foreignId('ruangan_id')->nullable();
+            $table->string('hari')->nullable();
+            $table->string('jam')->nullable();
             $table->timestamps();
         });
     }

@@ -111,10 +111,9 @@
                                     <label for="jenis_kelamin">Jenis Kelamin</label>
                                     <select class="custom-select rounded-0 @error('jenis_kelamin') is-invalid @enderror"
                                             id="jenis_kelamin" name="jenis_kelamin" >
-
-                                        @if (old('jenis_kelamin') == $dosen->jenis_kelamin)
-                                            <option selected value="{{ $dosen->jenis_kelamin }}">
-                                                {{ $dosen->jenis_kelamin }}</option>
+                                        <option value="" disabled selected>--Pilih Jenis Kelamin--</option>
+                                        @if (old('jenis_kelamin',$dosen->jenis_kelamin) == $dosen->jenis_kelamin)
+                                            <option selected value="{{ $dosen->jenis_kelamin }}">{{ $dosen->jenis_kelamin }}</option>
                                         @else
                                             <option value="Laki-Laki">Laki-Laki</option>
                                             <option value="Perempuan">Perempuan</option>
@@ -131,8 +130,8 @@
                                     <label for="agama">Agama</label>
                                     <select class="custom-select rounded-0 @error('agama') is-invalid @enderror"
                                             id="agama" name="agama" >
-
-                                        @if (old('agama') == $dosen->agama)
+                                        <option value="" disabled selected>--Pilih Agama--</option>
+                                        @if (old('agama',$dosen->agama) == $dosen->agama)
                                             <option selected value="{{ $dosen->agama }}">
                                                 {{ $dosen->agama }}</option>
                                         @else
@@ -205,8 +204,8 @@
                                     <label for="ikatan_kerja">Ikatan Kerja</label>
                                     <select class="custom-select rounded-0 @error('ikatan_kerja') is-invalid @enderror"
                                             id="ikatan_kerja" name="ikatan_kerja" >
-
-                                        @if (old('ikatan_kerja') == $dosen->ikatan_kerja)
+                                        <option value="" disabled selected>--Pilih Ikatan Kerja--</option>
+                                        @if (old('ikatan_kerja',$dosen->ikatan_kerja) == $dosen->ikatan_kerja)
                                             <option selected value="{{ $dosen->ikatan_kerja }}">
                                                 {{ $dosen->ikatan_kerja }}</option>
                                         @else
@@ -229,8 +228,8 @@
                                     <label for="pendidikan">Pendidikan Tertinggi</label>
                                     <select class="custom-select rounded-0 @error('pendidikan') is-invalid @enderror"
                                             id="pendidikan" name="pendidikan" >
-
-                                        @if (old('pendidikan') == $dosen->pendidikan)
+                                        <option value="" disabled selected>--Pilih Pendidikan--</option>
+                                        @if (old('pendidikan',$dosen->pendidikan) == $dosen->pendidikan)
                                             <option selected value="{{ $dosen->pendidikan }}">
                                                 {{ $dosen->pendidikan }}</option>
                                         @else
@@ -258,8 +257,8 @@
                                     <label for="status">Status</label>
                                     <select class="custom-select rounded-0 @error('status') is-invalid @enderror"
                                             id="status" name="status" >
-
-                                        @if (old('status') == $dosen->status)
+                                        <option value="" disabled selected>--Pilih Status--</option>
+                                        @if (old('status',$dosen->status) == $dosen->status)
                                             <option selected value="{{ $dosen->status }}">
                                                 {{ $dosen->status }}</option>
                                         @else
@@ -283,8 +282,8 @@
                                     <label for="jabatan_akademik">Jabatan Akademik</label>
                                     <select class="custom-select rounded-0 @error('jabatan_akademik') is-invalid @enderror"
                                             id="jabatan_akademik" name="jabatan_akademik" >
-
-                                        @if (old('jabatan_akademik') == $dosen->jabatan_akademik)
+                                        <option value="" disabled selected>--Pilih Jabatan Akademik--</option>
+                                        @if (old('jabatan_akademik',$dosen->jabatan_akademik) == $dosen->jabatan_akademik)
                                             <option selected value="{{ $dosen->jabatan_akademik }}">
                                                 {{ $dosen->jabatan_akademik }}</option>
                                         @else
@@ -319,8 +318,8 @@
                                     <label for="golongan">Golongan</label>
                                     <select class="custom-select rounded-0 @error('golongan') is-invalid @enderror"
                                             id="golongan" name="golongan" >
-
-                                        @if (old('agama') == $dosen->golongan)
+                                        <option value="" disabled selected>--Pilih Golongan--</option>
+                                        @if (old('agama',$dosen->golongan) == $dosen->golongan)
                                             <option selected value="{{ $dosen->golongan }}">
                                                 {{ $dosen->golongan }}</option>
                                         @else

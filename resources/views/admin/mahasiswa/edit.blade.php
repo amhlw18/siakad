@@ -34,8 +34,9 @@
                                 <div class="form-group">
                                     <label for="prodi_id">Program Studi</label>
                                     <select class="custom-select rounded-0" id="prodi_id" name="prodi_id" required>
+                                        <option value="" disabled selected>--Pilih Prodi--</option>
                                         @foreach ($prodis as $prodi)
-                                            @if (old('prodi_id') == $prodi->kode_prodi)
+                                            @if (old('prodi_id',$mhs->prodi_id) == $prodi->kode_prodi)
                                                 <option selected value="{{ $prodi->kode_prodi }}">
                                                     {{ $prodi->nama_prodi }}</option>
                                             @else
@@ -272,12 +273,13 @@
                                 <div class="form-group">
                                     <label for="semester_masuk">Semester Masuk</label>
                                     <select class="custom-select rounded-0" id="semester_masuk" name="semester_masuk" required>
+                                        <option value="" disabled selected>--Pilih Semester Masuk--</option>
                                         @foreach ($tahun_akademis as $thn_akademik)
-                                            @if (old('semester_masuk') == $thn_akademik->id)
-                                                <option selected value="{{ $thn_akademik->id }}">
+                                            @if (old('semester_masuk',$mhs->semester_masuk) == $thn_akademik->kode)
+                                                <option selected value="{{ $thn_akademik->kode }}">
                                                     {{ $thn_akademik->tahun_akademik }}</option>
                                             @else
-                                                <option value="{{ $thn_akademik->id }}">{{ $thn_akademik->tahun_akademik }}
+                                                <option value="{{ $thn_akademik->kode }}">{{ $thn_akademik->tahun_akademik }}
                                                 </option>
                                             @endif
                                         @endforeach
@@ -294,9 +296,9 @@
                                     <select class="custom-select rounded-0 @error('status') is-invalid @enderror"
                                             id="status" name="status" required>
                                         <option value="" disabled selected>--Pilih Status--</option>
-                                        <option value="Aktif" {{ old('status',$mhs->status) == 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                                        <option value="Aktif" {{ old('status') == 'Lulus' ? 'selected' : '' }}>Lulus</option>
-                                        <option value="Non Aktif" {{ old('status',$mhs->status) == 'Non Aktif' ? 'selected' : '' }}>Non Aktif</option>
+                                        <option value="AKTIF" {{ old('status',$mhs->status) == 'AKTIF' ? 'selected' : '' }}>AKTIF</option>
+                                        <option value="Lulus" {{ old('status') == 'Lulus' ? 'selected' : '' }}>Lulus</option>
+                                        <option value="NON AKTIF" {{ old('status',$mhs->status) == 'NON AKTIF' ? 'selected' : '' }}>NON AKTIF</option>
 
                                     </select>
                                     @error('status')

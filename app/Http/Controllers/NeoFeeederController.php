@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ModelDetailJadwal;
 use App\Models\ModelDosen;
 use App\Models\ModelKurikulum;
+use App\Models\ModelMahasiswa;
 use App\Models\ModelMatakuliah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -19,9 +21,9 @@ class NeoFeeederController extends Controller
     {
         // Set nilai URL dan token saat controller dipanggil
         $this->apiUrl = 'http://localhost:3003/ws/live2.php';
-        $this->token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9wZW5nZ3VuYSI6IjFlYmI2OWRkLTY3N2UtNGJmMi1hMmVmLTRkODFkYTc0Njc4MiIsInVzZXJuYW1lIjoid2FvZGVoYXNyaWF0aW9mZmljaWFsQGdtYWlsLmNvbSIsIm5tX3BlbmdndW5hIjoiQkFIVElBUiIsInRlbXBhdF9sYWhpciI6bnVsbCwidGdsX2xhaGlyIjpudWxsLCJqZW5pc19rZWxhbWluIjoiTCIsImFsYW1hdCI6bnVsbCwieW0iOiJ5YXIudW5hYWhhODBAZ21haWwuY29tIiwic2t5cGUiOm51bGwsIm5vX3RlbCI6bnVsbCwiYXBwcm92YWxfcGVuZ2d1bmEiOiI1IiwiYV9ha3RpZiI6IjEiLCJ0Z2xfZ2FudGlfcHdkIjoiMjAyNC0wNi0yNVQxNjowMDowMC4wMDBaIiwiaWRfc2RtX3BlbmdndW5hIjoiNGViNWE4NjUtYTMwNy00ZmEyLWJiZmMtMGQ1YzY4NTM0ZDUwIiwiaWRfcGRfcGVuZ2d1bmEiOm51bGwsImlkX3dpbCI6Ijk5OTk5OSAgIiwibGFzdF91cGRhdGUiOiIyMDI0LTA3LTI2VDEzOjI0OjUxLjM5N1oiLCJzb2Z0X2RlbGV0ZSI6IjAiLCJsYXN0X3N5bmMiOiIyMDI0LTEyLTE3VDAzOjUxOjA1LjYyMFoiLCJpZF91cGRhdGVyIjoiOTE2Y2IzMjgtM2VjNi00YjBiLWIyZmYtZDE3YjAzNDQ1YTBmIiwiY3NmIjoiMCIsInRva2VuX3JlZyI6bnVsbCwiamFiYXRhbiI6bnVsbCwidGdsX2NyZWF0ZSI6IjIwMjQtMDUtMTZUMDI6MjM6NTguMDQwWiIsIm5payI6bnVsbCwic2FsdCI6bnVsbCwiaWRfcGVyYW4iOjMsIm5tX3BlcmFuIjoiQWRtaW4gUERESUtUSSIsImlkX3NwIjoiY2FiNjMzMjMtZmMwYy00ODFmLThlNDMtOTMyYzhjMzhkMDkwIiwiaWRfc210IjoiMjAyNDEiLCJpYXQiOjE3MzQ0OTk4ODYsImV4cCI6MTczNDUxNzg4Nn0.xTbkOE8XgrRdNhewDkQyznGu52-aGIQOB0rvK_oJwQo';
-    }
+        $this->token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9wZW5nZ3VuYSI6IjFlYmI2OWRkLTY3N2UtNGJmMi1hMmVmLTRkODFkYTc0Njc4MiIsInVzZXJuYW1lIjoid2FvZGVoYXNyaWF0aW9mZmljaWFsQGdtYWlsLmNvbSIsIm5tX3BlbmdndW5hIjoiQkFIVElBUiIsInRlbXBhdF9sYWhpciI6bnVsbCwidGdsX2xhaGlyIjpudWxsLCJqZW5pc19rZWxhbWluIjoiTCIsImFsYW1hdCI6bnVsbCwieW0iOiJ5YXIudW5hYWhhODBAZ21haWwuY29tIiwic2t5cGUiOm51bGwsIm5vX3RlbCI6bnVsbCwiYXBwcm92YWxfcGVuZ2d1bmEiOiI1IiwiYV9ha3RpZiI6IjEiLCJ0Z2xfZ2FudGlfcHdkIjoiMjAyNC0wNi0yNVQxNjowMDowMC4wMDBaIiwiaWRfc2RtX3BlbmdndW5hIjoiNGViNWE4NjUtYTMwNy00ZmEyLWJiZmMtMGQ1YzY4NTM0ZDUwIiwiaWRfcGRfcGVuZ2d1bmEiOm51bGwsImlkX3dpbCI6Ijk5OTk5OSAgIiwibGFzdF91cGRhdGUiOiIyMDI0LTA3LTI2VDEzOjI0OjUxLjM5N1oiLCJzb2Z0X2RlbGV0ZSI6IjAiLCJsYXN0X3N5bmMiOiIyMDI0LTEyLTE3VDAzOjUxOjA1LjYyMFoiLCJpZF91cGRhdGVyIjoiOTE2Y2IzMjgtM2VjNi00YjBiLWIyZmYtZDE3YjAzNDQ1YTBmIiwiY3NmIjoiMCIsInRva2VuX3JlZyI6bnVsbCwiamFiYXRhbiI6bnVsbCwidGdsX2NyZWF0ZSI6IjIwMjQtMDUtMTZUMDI6MjM6NTguMDQwWiIsIm5payI6bnVsbCwic2FsdCI6bnVsbCwiaWRfcGVyYW4iOjMsIm5tX3BlcmFuIjoiQWRtaW4gUERESUtUSSIsImlkX3NwIjoiY2FiNjMzMjMtZmMwYy00ODFmLThlNDMtOTMyYzhjMzhkMDkwIiwiaWRfc210IjoiMjAyNDEiLCJpYXQiOjE3MzQ1NTE3NDEsImV4cCI6MTczNDU2OTc0MX0.rBHKZTucZ4Oybtx0xENmZFF4NHFXBqtMJNZYipbomwA';
 
+    }
 
 
     public function getKurikulum()
@@ -47,7 +49,7 @@ class NeoFeeederController extends Controller
                 foreach ($data['data'] as $kurikulum) {
                     ModelKurikulum::create([
                         'tahun_akademik_id' => 1,
-                        'kode_kurikulum' => 1,
+                        'kode_kurikulum' => $kurikulum['id_kurikulum'],
                         'nama_kurikulum' => $kurikulum['nama_kurikulum'],
                         'sks_wajib' => $kurikulum['jumlah_sks_wajib'],
                         'sks_pilihan' => $kurikulum['jumlah_sks_pilihan'],
@@ -104,7 +106,7 @@ class NeoFeeederController extends Controller
                     // Simpan data ke database
                     if ($kodeProdi) {
                         ModelMatakuliah::create([
-                            'kurikulum_id' => 1,
+                            'kurikulum_id' => $mataKuliah['id_kurikulum'],
                             'kode_prodi' => $kodeProdi,
                             'kode_mk' => $mataKuliah['kode_mata_kuliah'],
                             'nama_mk' => $mataKuliah['nama_mata_kuliah'],
@@ -115,7 +117,7 @@ class NeoFeeederController extends Controller
                         ]);
                     }
                 }
-                return response()->json(['message' => 'Data berhasil disimpan.']);
+                return response()->json(['message' => 'Data Matakuliah berhasil disimpan.']);
             }
         }
 
@@ -170,7 +172,172 @@ class NeoFeeederController extends Controller
                         'alamat' => $dosen['jalan'] ?? '-',
                     ]);
                 }
-                return response()->json(['message' => 'Data berhasil disimpan.']);
+                return response()->json(['message' => 'Data Dosen berhasil disimpan.']);
+            }
+        }
+
+        return response()->json(['error' => 'Gagal mengambil data dari API.']);
+    }
+
+    public function getMatkulDosen()
+    {
+        $body = [
+            "act" => "GetListKelasKuliah",
+            "token" => $this->token,
+            "filter" => "",
+            "order" => "",
+            "limit" => "",
+            "offset" => "0"
+        ];
+
+        // Fetch data dari API
+        $response = Http::post($this->apiUrl, $body);
+        //dd($response->body());
+
+        if ($response->successful()) {
+            $data = $response->json();
+
+            if ($data['error_code'] == 0 && isset($data['data'])) {
+                foreach ($data['data'] as $item) {
+
+                    $kodeProdi = null;
+
+                    // Atur kode_prodi berdasarkan nama_program_studi
+                    switch ($item['nama_program_studi']) {
+                        case 'D3 Kebidanan':
+                            $kodeProdi = 15401;
+                            break;
+                        case 'S1 Administrasi Kesehatan':
+                            $kodeProdi = 13263;
+                            break;
+                        case 'S1 Gizi':
+                            $kodeProdi = 13211;
+                            break;
+                        case 'S1 Teknologi Informasi':
+                            $kodeProdi = 59201;
+                            break;
+                    }
+
+                    $nama_dosen = $item['nama_dosen'];
+                    //$kode_mk = $item[''];
+
+                    $nidn = ModelDosen::where('nama_dosen',$nama_dosen)->get();
+
+                    foreach ($nidn as $data){
+                        ModelDetailJadwal::create([
+                            'prodi_id' => $kodeProdi ?? '-',
+                            'tahun_akademik' => $item['id_semester'] ?? '-',
+                            'matakuliah_id' => $item['kode_mata_kuliah'] ?? '-',
+                            'nidn' => $data->nidn ?? '-',
+                        ]);
+                    }
+
+
+                }
+                return response()->json(['message' => 'Data Matakuliah dosen berhasil disimpan.']);
+            }
+        }
+
+        return response()->json(['error' => 'Gagal mengambil data dari API.']);
+    }
+
+
+    public function getMahasiswa()
+    {
+        $body = [
+            "act" => "GetDataLengkapMahasiswaProdi",
+            "token" => $this->token,
+            "filter" => "",
+            "order" => "",
+            "limit" => "",
+            "offset" => "0"
+        ];
+
+        // Fetch data dari API
+        $response = Http::post($this->apiUrl, $body);
+        //dd($response->body());
+
+        if ($response->successful()) {
+            $data = $response->json();
+
+            if ($data['error_code'] == 0 && isset($data['data'])) {
+                foreach ($data['data'] as $item) {
+
+                    $kodeProdi = null;
+
+                    $jk = null;
+
+                    // Atur kode_prodi berdasarkan nama_program_studi
+                    switch ($item['jenis_kelamin']) {
+                        case 'L':
+                            $jk = "Laki-Laki";
+                            break;
+                        case 'P':
+                            $jk = "Perempuan";
+                            break;
+
+                    }
+
+                    // Atur kode_prodi berdasarkan nama_program_studi
+                    switch ($item['nama_program_studi']) {
+                        case 'D3 Kebidanan':
+                            $kodeProdi = 15401;
+                            break;
+                        case 'S1 Administrasi Kesehatan':
+                            $kodeProdi = 13263;
+                            break;
+                        case 'S1 Gizi':
+                            $kodeProdi = 13211;
+                            break;
+                        case 'S1 Teknologi Informasi':
+                            $kodeProdi = 59201;
+                            break;
+                    }
+
+                    $angkatan = null;
+                    switch ($item['id_periode_masuk']) {
+                        case '20212':
+                            $angkatan = '2021';
+                            break;
+                        case '20221':
+                            $angkatan = "2022";
+                            break;
+                        case '20231':
+                            $angkatan = "2023";
+                            break;
+                        case '20241':
+                            $angkatan = "2024";
+                            break;
+                    }
+
+                    ModelMahasiswa::create([
+                        'prodi_id' => $kodeProdi ?? '0',
+                        'semester_masuk' => $item['id_periode_masuk'] ?? '0',
+                        'nim' => $item['nim'] ?? '-',
+                        'nama_mhs' => $item['nama_mahasiswa'] ?? '-',
+                        'tempat_lahir' => $item['tempat_lahir'] ?? '-',
+                        'tgl_lahir' => $item['tanggal_lahir'] ?? '-',
+                        'nama_ibu' => $item['nama_ibu_kandung'] ?? '-',
+                        'nama_ayah' => $item['nama_ayah'] ?? '-',
+
+                        'jenis_kelamin' => $jk ?? '-',
+                        'agama' => $item['nama_agama'] ?? '-',
+                        'no_hp' => $item['handphone'] ?? '-',
+                        'email' => $item['email'] ?? '-',
+
+                        'nik' => $item['nik'] ?? '-',
+                        'alamat' => $item['handphone'] ?? '-',
+                        'jalan' => $item['jalan'] ?? '-',
+
+                        'tahun_masuk' =>  $angkatan?? '0',
+                        'status' => $item['nama_status_mahasiswa'] ?? '-',
+
+                    ]);
+
+
+
+                }
+                return response()->json(['message' => 'Data mahasiswa berhasil disimpan.']);
             }
         }
 

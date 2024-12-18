@@ -15,18 +15,94 @@ class KelasSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create('id_ID');
-        $kode_prodi =['13211','13263','15401','59201'];
-        $programs = ['Reguler', 'Non-Reguler'];
 
-        for ($i = 1; $i <= 4; $i++) {
-            ModelKelas::create([
-                'prodi_id' => $kode_prodi[array_rand($kode_prodi)], // Sesuaikan dengan jumlah data prodi
-                'nama_kelas' => 'Kelas ' . strtoupper($faker->randomLetter()) . $faker->unique()->numberBetween(1, 5),
-                'program' => $programs[array_rand($programs)],
-                'kapasitas' => $faker->numberBetween(20, 50),
-                'aktif' => $faker->boolean(70), // 70% kemungkinan kelas aktif
-            ]);
-        }
+
+        ModelKelas::create([
+            'prodi_id' => '13211',
+            'nama_kelas' => 'Gizi 2022',
+            'program' => 'Reguler',
+            'kapasitas' => '10',
+            'aktif' => 1, // Status aktif hanya untuk data pertama
+        ]);
+
+        ModelKelas::create([
+            'prodi_id' => '13211',
+            'nama_kelas' => 'Gizi 2023',
+            'program' => 'Reguler',
+            'kapasitas' => '20',
+            'aktif' => 1, // Status aktif hanya untuk data pertama
+        ]);
+
+        ModelKelas::create([
+            'prodi_id' => '13211',
+            'nama_kelas' => 'Gizi 2024 A',
+            'program' => 'Reguler',
+            'kapasitas' => '20',
+            'aktif' => 1, // Status aktif hanya untuk data pertama
+        ]);
+
+        ModelKelas::create([
+            'prodi_id' => '13211',
+            'nama_kelas' => 'Gizi 2024 B',
+            'program' => 'Reguler',
+            'kapasitas' => '20',
+            'aktif' => 1, // Status aktif hanya untuk data pertama
+        ]);
+
+        ModelKelas::create([
+            'prodi_id' => '13263',
+            'nama_kelas' => 'Adminkes 2022',
+            'program' => 'Reguler',
+            'kapasitas' => '20',
+            'aktif' => 1, // Status aktif hanya untuk data pertama
+        ]);
+
+        ModelKelas::create([
+            'prodi_id' => '13263',
+            'nama_kelas' => 'Adminkes 2023',
+            'program' => 'Reguler',
+            'kapasitas' => '20',
+            'aktif' => 1, // Status aktif hanya untuk data pertama
+        ]);
+
+        ModelKelas::create([
+            'prodi_id' => '13263',
+            'nama_kelas' => 'Adminkes 2024 A',
+            'program' => 'Reguler',
+            'kapasitas' => '20',
+            'aktif' => 1, // Status aktif hanya untuk data pertama
+        ]);
+
+        ModelKelas::create([
+            'prodi_id' => '13263',
+            'nama_kelas' => 'Adminkes 2024 B',
+            'program' => 'Reguler',
+            'kapasitas' => '20',
+            'aktif' => 1, // Status aktif hanya untuk data pertama
+        ]);
+
+        ModelKelas::create([
+            'prodi_id' => '59201',
+            'nama_kelas' => 'TI 2022',
+            'program' => 'Reguler',
+            'kapasitas' => '20',
+            'aktif' => 1, // Status aktif hanya untuk data pertama
+        ]);
+
+        ModelKelas::create([
+            'prodi_id' => '59201',
+            'nama_kelas' => 'TI 2023',
+            'program' => 'Reguler',
+            'kapasitas' => '20',
+            'aktif' => 1, // Status aktif hanya untuk data pertama
+        ]);
+
+        ModelKelas::create([
+            'prodi_id' => '59201',
+            'nama_kelas' => 'TI 2024',
+            'program' => 'Reguler',
+            'kapasitas' => '20',
+            'aktif' => 1, // Status aktif hanya untuk data pertama
+        ]);
     }
 }

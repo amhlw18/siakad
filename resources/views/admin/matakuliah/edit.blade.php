@@ -39,8 +39,9 @@
                                 <div class="form-group">
                                     <label for="kurikulum">Kurikulum</label>
                                     <select class="custom-select rounded-0" id="kurikulum_id" name="kurikulum_id">
+                                        <option value="" disabled selected>--Pilih Kurikulum--</option>
                                         @foreach ($kurikulums as $kurikulum)
-                                            @if (old('kurikulum_id') == $kurikulum->id)
+                                            @if (old('kurikulum_id',$matkul->kurikulum_id) == $kurikulum->id)
                                                 <option selected value="{{ $kurikulum->id }}">
                                                     {{ $kurikulum->nama_kurikulum }}</option>
                                             @else
@@ -81,8 +82,9 @@
                                 <div class="form-group">
                                     <label for="kode_prodi">Program Studi</label>
                                     <select class="custom-select rounded-0" id="kurikulum_id" name="kode_prodi">
+                                        <option value="" disabled selected>--Pilih Prodi--</option>
                                         @foreach ($prodis as $prodi)
-                                            @if (old('kode_prodi') == $prodi->kode_prodi)
+                                            @if (old('kode_prodi',$matkul->kode_prodi) == $prodi->kode_prodi)
                                                 <option selected value="{{ $prodi->kode_prodi }}">
                                                     {{ $prodi->nama_prodi }}</option>
                                             @else
@@ -99,8 +101,8 @@
                                     <label for="semester">Semester</label>
                                     <select class="custom-select rounded-0 @error('semester') is-invalid @enderror"
                                         id="semester" name="semester">
-
-                                        @if (old('semester') == $matkul->semester)
+                                        <option value="" disabled selected>--Pilih Semester</option>
+                                        @if (old('semester',$matkul->semester) == $matkul->semester)
                                             <option selected value="{{ $matkul->semester }}">
                                                 {{ $matkul->semester }}</option>
                                         @else
@@ -165,8 +167,8 @@
                                     <label for="kelompok_mk">Kelompok Mata Kuliah</label>
                                     <select class="custom-select rounded-0 @error('kelompok_mk') is-invalid @enderror"
                                         id="kelompok_mk" name="kelompok_mk">
-
-                                        @if (old('kelompok_mk') == $matkul->kelompok_mk)
+                                        <option value="" disabled selected>--Pilih Kelompok Mata Kuliah</option>
+                                        @if (old('kelompok_mk',$matkul->kelompok_mk) == $matkul->kelompok_mk)
                                             <option selected value="{{ $matkul->kelompok_mk }}">
                                                 {{ $matkul->kelompok_mk }}</option>
                                         @else
@@ -194,8 +196,8 @@
                                     <label for="jenis_kelompok">Jenis Kelompok</label>
                                     <select class="custom-select rounded-0 @error('jenis_kelompok') is-invalid @enderror"
                                         id="jenis_kelompok" name="jenis_kelompok">
-
-                                        @if (old('jenis_kelompok') == $matkul->jenis_kelompok)
+                                        <option value="" disabled selected>--Pilih Jenis Kelompok</option>
+                                        @if (old('jenis_kelompok',$matkul->jenis_kelompok) == $matkul->jenis_kelompok)
                                             <option selected value="{{ $matkul->jenis_kelompok }}">
                                                 {{ $matkul->jenis_kelompok }}</option>
                                         @else
@@ -214,8 +216,8 @@
                                     <label for="jenis_mk">Jenis Mata Kuliah</label>
                                     <select class="custom-select rounded-0 @error('jenis_mk') is-invalid @enderror"
                                         id="jenis_mk" name="jenis_mk">
-
-                                        @if (old('jenis_mk') == $matkul->jenis_mk)
+                                        <option value="" disabled selected>--Pilih Jenis Mata Kuliah</option>
+                                        @if (old('jenis_mk',$matkul->jenis_mk) == $matkul->jenis_mk)
                                             <option selected value="{{ $matkul->jenis_mk }}">
                                                 {{ $matkul->jenis_mk }}</option>
                                         @else
@@ -238,7 +240,8 @@
                                     <label for="status_mk">Status Mata Kuliah</label>
                                     <select class="custom-select rounded-0 @error('status_mk') is-invalid @enderror"
                                         id="status_mk" name="status_mk">
-                                        @if (old('status_mk') == $matkul->status_mk)
+                                        <option value="" disabled selected>--Pilih Diktat Mata Kuliah</option>
+                                        @if (old('status_mk',$matkul->status_mk) == $matkul->status_mk)
                                             <option selected value="{{ $matkul->status_mk }}">
                                                 {{ $matkul->status_mk }}</option>
                                         @else
@@ -262,8 +265,8 @@
                                     <label for="silabus_mk">Silabus Mata Kuliah</label>
                                     <select class="custom-select rounded-0 @error('silabus_mk') is-invalid @enderror"
                                         id="silabus_mk" name="silabus_mk">
-
-                                        @if (old('silabus_mk') == $matkul->silabus_mk)
+                                        <option value="" disabled selected>--Pilih Silabus Mata Kuliah</option>
+                                        @if (old('silabus_mk',$matkul->silabus_mk) == $matkul->silabus_mk)
                                             <option selected value="{{ $matkul->silabus_mk }}">
                                                 {{ $matkul->silabus_mk }}</option>
                                         @else
@@ -283,8 +286,8 @@
                                     <label for="sap_mk">SAP Mata Kuliah</label>
                                     <select class="custom-select rounded-0 @error('sap_mk') is-invalid @enderror"
                                         id="sap_mk" name="sap_mk">
-
-                                        @if (old('sap_mk') == $matkul->sap_mk)
+                                        <option value="" disabled selected>--Pilih SAP Mata Kuliah</option>
+                                        @if (old('sap_mk',$matkul->sap_mk) == $matkul->sap_mk)
                                             <option selected value="{{ $matkul->sap_mk }}">
                                                 {{ $matkul->sap_mk }}</option>
                                         @else
@@ -305,8 +308,8 @@
                                     <label for="bahan_ajar">Bahan Ajar Mata Kuliah</label>
                                     <select class="custom-select rounded-0 @error('bahan_ajar') is-invalid @enderror"
                                         id="bahan_ajar" name="bahan_ajar">
-
-                                        @if (old('bahan_ajar') == $matkul->bahan_ajar)
+                                        <option value="" disabled selected>--Pilih Bahan Ajar Mata Kuliah</option>
+                                        @if (old('bahan_ajar',$matkul->bahan_ajar) == $matkul->bahan_ajar)
                                             <option selected value="{{ $matkul->bahan_ajar }}">
                                                 {{ $matkul->bahan_ajar }}</option>
                                         @else
@@ -328,8 +331,8 @@
                                     <label for="diktat">Diktat Mata Kuliah</label>
                                     <select class="custom-select rounded-0 @error('diktat') is-invalid @enderror"
                                         id="diktat" name="diktat">
-
-                                        @if (old('diktat') == $matkul->diktat)
+                                        <option value="" disabled selected>--Pilih Diktat Mata Kuliah</option>
+                                        @if (old('diktat',$matkul->diktat) == $matkul->diktat)
                                             <option selected value="{{ $matkul->diktat }}">
                                                 {{ $matkul->diktat }}</option>
                                         @else
