@@ -28,8 +28,6 @@ Dashboard
         Dashboard Dosen
     @endif
 
-
-
 @endsection()
 
 @section('content')
@@ -92,20 +90,20 @@ Dashboard
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-      <table id="example1" class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Nama Peminjam</th>
-            <th>Prodi</th>
-            <th>Status</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
+{{--      <table id="example1" class="table table-bordered table-striped">--}}
+{{--        <thead>--}}
+{{--          <tr>--}}
+{{--            <th>#</th>--}}
+{{--            <th>Nama Peminjam</th>--}}
+{{--            <th>Prodi</th>--}}
+{{--            <th>Status</th>--}}
+{{--            <th>Aksi</th>--}}
+{{--          </tr>--}}
+{{--        </thead>--}}
+{{--        <tbody>--}}
 
-        </tbody>
-      </table>
+{{--        </tbody>--}}
+{{--      </table>--}}
     </div>
     <!-- /.card-body -->
   </div>

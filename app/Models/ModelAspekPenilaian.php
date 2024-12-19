@@ -19,6 +19,6 @@ class ModelAspekPenilaian extends Model
 
     public function aspek_penilaian()
     {
-        return $this->belongsTo(ModelMatakuliah::class,'matakuliah_id','id');
+        return $this->belongsTo(ModelMatakuliah::class,'matakuliah_id','kode_mk');
     }
 }

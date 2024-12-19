@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ModelAspekPenilaian;
 use App\Models\ModelDetailJadwal;
+use App\Models\ModelDosen;
 use App\Models\ModelMatakuliah;
 use App\Models\ModelTahunAkademik;
 use Illuminate\Http\Request;
@@ -20,25 +21,29 @@ class AspekPenilaianController extends Controller
     {
         //
         //$aspek_nilai = ModelAspekPenilaian::with('aspek_penilaian')->where('matakuliah_id','1')->get();
-        $aspek_nilai = ModelAspekPenilaian::with('aspek_penilaian')->get();
+        // = ModelAspekPenilaian::with('aspek_penilaian')->get();
+
+        $dosen = ModelDosen::where('nidn', Auth::user()->user_id)->first();
+        $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
 
         if (Auth::user()->role == 3){
             $nidn =Auth::user()->user_id;
 
             $matakuliah = ModelDetailJadwal::with('prodi_jadwal','tahun_jadwal',
                 'jadwal_matakuliah','dosen','jadwal_kelas','jadwal_ruangan')
-                ->where('tahun_akademik',1)
+                ->where('tahun_akademik',$tahun_aktif->kode)
                 ->where('nidn', $nidn)->get();
 
         }else{
             $matakuliah = ModelDetailJadwal::with('prodi_jadwal','tahun_jadwal',
                 'jadwal_matakuliah','dosen','jadwal_kelas','jadwal_ruangan')
-                ->where('tahun_akademik',1)
+                ->where('tahun_akademik',$tahun_aktif->kode)
                 ->get();
         }
 
-        return view('admin.menu-dosen.index',[
-           'aspeks' => $aspek_nilai,
+        return view('admin.aspek-nilai.index',[
+           'dosen' => $dosen,
+            'tahun_aktif' => $tahun_aktif,
             'matakuliah' => $matakuliah,
         ]);
     }
@@ -94,34 +99,52 @@ class AspekPenilaianController extends Controller
      */
     public function store(Request $request)
     {
-        //
-
-        $validasi = $request->validate([
-            'matakuliah_id' => 'required',
-            'nidn' => 'required',
-            'nama_dosen' => 'required',
-            'aspek' => 'required',
-            'bobot' => [
-                'required',
-                'regex:/^(0(\.[0-9]{1,2})?)$/', // Validasi untuk angka desimal 0 hingga 0.99
-            ],
-        ], [
-            'matakuliah_id.required' => "Matakuliah belum dipilih!",
-            'nidn.required' => "Dosen belum dipilih!",
-            'nama_dosen.required' => "Nama dosen belum diisi!",
-            'aspek.required' => "Aspek belum diisi!",
-            'bobot.required' => "Bobot belum diisi!",
-            'bobot.regex' => "Bobot harus berupa angka desimal antara 0 hingga 0.99 dengan pemisah titik!",
-        ]);
-
-
         try {
+            $validasi = $request->validate([
+                'matakuliah_id' => 'required',
+                'nidn' => 'required',
+                'nama_dosen' => 'required',
+                'aspek' => 'required',
+                'bobot' => [
+                    'required',
+                    'regex:/^(0(\.[0-9]{1,2})?)$/', // Validasi untuk angka desimal 0 hingga 0.99
+                ],
+            ], [
+                'matakuliah_id.required' => "Matakuliah belum dipilih!",
+                'nidn.required' => "Dosen belum dipilih!",
+                'nama_dosen.required' => "Nama dosen belum diisi!",
+                'aspek.required' => "Aspek belum diisi!",
+                'bobot.required' => "Bobot belum diisi!",
+                'bobot.regex' => "Bobot harus berupa angka desimal antara 0 hingga 0.99 dengan pemisah titik!",
+            ]);
+
+//            if (Auth::user()->role == 3){
+//                ModelAspekPenilaian::create($validasi);
+//            }else{
+//                $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
+//
+//                $nidn = ModelDetailJadwal::with('prodi_jadwal','tahun_jadwal',
+//                    'jadwal_matakuliah','dosen','jadwal_kelas','jadwal_ruangan')
+//                    ->where('tahun_akademik',$tahun_aktif->kode)
+//                    ->where('nidn', $request->matakuliah_id)
+//                    ->first();
+//
+//                $validasi['nidn'] = $nidn->dosen->nidn;
+//                $validasi['nama_dosen'] = $nidn->dosen->nama_dosen;
+//
+//
+//
+//
+//            }
             ModelAspekPenilaian::create($validasi);
             return response()->json(['success' => 'Aspek penilaian berhasil dibuat!']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Gagal menyimpan aspek penilaian, coba lagi!']);
+            return response()->json(['error' => 'Gagal menyimpan aspek penilaian, coba lagi!'], 500);
         }
     }
+
 
     /**
      * Display the specified resource.
@@ -131,7 +154,25 @@ class AspekPenilaianController extends Controller
      */
     public function show($id)
     {
-        //
+        $matakuliah_id = ModelMatakuliah::where('kode_mk', $id)->first();
+
+        $aspek_nilai = ModelAspekPenilaian::with('aspek_penilaian')
+            ->where('matakuliah_id', $id)->get();
+
+        $nidn = ModelDosen::where('nidn', Auth::user()->user_id)->first();
+        $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
+
+        $role = ModelDetailJadwal::with('prodi_jadwal','tahun_jadwal',
+            'jadwal_matakuliah','dosen','jadwal_kelas','jadwal_ruangan')
+            ->where('tahun_akademik',$tahun_aktif->kode)
+            ->where('nidn', $nidn->nidn)
+            ->where('matakuliah_id', $id)->first();
+
+        return view('admin.aspek-nilai.show',[
+            'aspeks' => $aspek_nilai,
+            'matkuls' => $matakuliah_id,
+            'role' => $role->id ?? ''
+        ]);
     }
 
     /**
@@ -159,31 +200,34 @@ class AspekPenilaianController extends Controller
     {
         //
 
-        $validasi = $request->validate([
-            'matakuliah_id' => 'required',
-            'nidn' => 'required',
-            'nama_dosen' => 'required',
-            'aspek' => 'required',
-            'bobot' => [
-                'required',
-                'regex:/^(0(\.[0-9]{1,2})?)$/', // Validasi untuk angka desimal 0 hingga 0.99
-            ],
-        ], [
-            'matakuliah_id.required' => "Matakuliah belum dipilih!",
-            'nidn.required' => "Dosen belum dipilih!",
-            'nama_dosen.required' => "Nama dosen belum diisi!",
-            'aspek.required' => "Aspek belum diisi!",
-            'bobot.required' => "Bobot belum diisi!",
-            'bobot.regex' => "Bobot harus berupa angka desimal antara 0 hingga 0.99 dengan pemisah titik!",
-        ]);
-
-
-        $aspek = ModelAspekPenilaian::find($id);
         try {
+            $validasi = $request->validate([
+                'matakuliah_id' => 'required',
+                'nidn' => 'required',
+                'nama_dosen' => 'required',
+                'aspek' => 'required',
+                'bobot' => [
+                    'required',
+                    'regex:/^(0(\.[0-9]{1,2})?)$/', // Validasi untuk angka desimal 0 hingga 0.99
+                ],
+            ], [
+                'matakuliah_id.required' => "Matakuliah belum dipilih!",
+                'nidn.required' => "Dosen belum dipilih!",
+                'nama_dosen.required' => "Nama dosen belum diisi!",
+                'aspek.required' => "Aspek belum diisi!",
+                'bobot.required' => "Bobot belum diisi!",
+                'bobot.regex' => "Bobot harus berupa angka desimal antara 0 hingga 0.99 dengan pemisah titik!",
+            ]);
+
+
+
+            $aspek = ModelAspekPenilaian::find($id);
             $aspek->update($validasi);
-            return response()->json(['success' => 'Aspek penilaian berhasil diubah!']);
+            return response()->json(['success' => 'Aspek penilaian berhasil dibuat!']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Gagal mengubah aspek penilaian, coba lagi!']);
+            return response()->json(['error' => 'Gagal menyimpan aspek penilaian, coba lagi!'], 500);
         }
     }
 

@@ -47,6 +47,6 @@ class ModelMatakuliah extends Model
 
     public function aspek_penilaian()
     {
-        return $this->hasMany(ModelAspekPenilaian::class,'matakuliah_id','id');
+        return $this->hasMany(ModelAspekPenilaian::class,'matakuliah_id','kode_mk');
     }
 }
