@@ -40,4 +40,9 @@ class ModelDosen extends Model
     public function dosen(){
         return $this->hasMany(ModelDetailJadwal::class,'nidn','nidn');
     }
+
+    public  function pa_dosen()
+    {
+        return $this->hasMany(ModelPAMahasiswa::class,'nidn','nidn');
+    }
 }

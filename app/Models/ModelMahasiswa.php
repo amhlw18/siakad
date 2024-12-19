@@ -51,4 +51,14 @@ class ModelMahasiswa extends Model
         return $this->belongsTo(ModelTahunAkademik::class,'semester_masuk','id');
     }
 
+    public  function krs_mhs()
+    {
+        return $this->hasMany(ModelKRSMahasiwa::class,'nim','nim');
+    }
+
+    public  function pa_mhs()
+    {
+        return $this->hasMany(ModelPAMahasiswa::class,'nim','nim');
+    }
+
 }

@@ -39,4 +39,9 @@ class ModelTahunAkademik extends Model
     public function tahun_jadwal(){
         return $this->hasMany(ModelDetailJadwal::class,'tahun_akademik','id');
     }
+
+    public  function krs_tahun_akadmeik()
+    {
+        return $this->hasMany(ModelKRSMahasiwa::class,'tahun_akademik','kode');
+    }
 }

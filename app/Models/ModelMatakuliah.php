@@ -49,4 +49,9 @@ class ModelMatakuliah extends Model
     {
         return $this->hasMany(ModelAspekPenilaian::class,'matakuliah_id','kode_mk');
     }
+
+    public  function krs_matkul()
+    {
+        return $this->hasMany(ModelKRSMahasiwa::class,'matakuliah_id','kode_mk');
+    }
 }

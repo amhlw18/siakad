@@ -18,6 +18,11 @@
   <link rel="stylesheet" href="{{asset('lte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- DataTables CSS  Baru-->
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
 
     <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -133,11 +138,34 @@
   <!-- SweetAlert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+  <script>
+      $(document).ready(function () {
+          // Initialize DataTables
+          const table = $('#mahasiswaTable').DataTable({
+              language: {
+                  search: "Cari:",
+                  lengthMenu: "Tampilkan _MENU_ data per halaman",
+                  zeroRecords: "Tidak ada data ditemukan",
+                  info: "Menampilkan _START_ hingga _END_ dari _TOTAL_ data",
+                  infoEmpty: "Tidak ada data",
+                  infoFiltered: "(difilter dari _MAX_ total data)"
+              }
+          });
+      });
+  </script>
+
   <script>
     $(function() {
-
-      //Initialize Select2 Elements
-      $('.select2').select2()
+      // //Initialize Select2 Elements
+      // $('.select2').select2()
 
       $("#example1").DataTable({
         "responsive": true,

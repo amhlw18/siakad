@@ -65,4 +65,14 @@ class ModelProdi extends Model
     public function prodi_jadwal(){
         return $this->hasMany(ModelDetailJadwal::class,'prodi_id','kode_prodi');
     }
+
+    public  function krs_prodi()
+    {
+        return $this->hasMany(ModelKRSMahasiwa::class,'prodi_id','kode_prodi');
+    }
+
+    public  function pa_prodi()
+    {
+        return $this->hasMany(ModelPAMahasiswa::class,'prodi_id','kode_prodi');
+    }
 }

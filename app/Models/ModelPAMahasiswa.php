@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ModelKRSMahasiwa extends Model
+class ModelPAMahasiswa extends Model
 {
     use HasFactory;
 
@@ -16,23 +16,20 @@ class ModelKRSMahasiwa extends Model
         'nim',
     ];
 
-    public  function krs_tahun_akadmeik()
-    {
-        return $this->belongsTo(ModelTahunAkademik::class,'tahun_akademik','kode');
-    }
-
-    public  function krs_prodi()
+    public  function pa_prodi()
     {
         return $this->belongsTo(ModelProdi::class,'prodi_id','kode_prodi');
     }
 
-    public  function krs_matkul()
+    public  function pa_dosen()
     {
-        return $this->belongsTo(ModelMatakuliah::class,'matakuliah_id','kode_mk');
+        return $this->belongsTo(ModelDosen::class,'nidn','nidn');
     }
 
-    public  function krs_mhs()
+    public  function pa_mhs()
     {
         return $this->belongsTo(ModelMahasiswa::class,'nim','nim');
     }
+
+
 }

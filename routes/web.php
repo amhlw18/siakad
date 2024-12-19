@@ -3,6 +3,7 @@
 use App\Http\Controllers\AspekPenilaianController;
 use App\Http\Controllers\NeoFeeederController;
 use App\Http\Controllers\NilaiSemesterController;
+use App\Http\Controllers\PAMhsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\ProdiController;
@@ -78,6 +79,10 @@ Route::middleware('auth')->group(function (){
 
         Route::resource('/dashboard/nilai-semester',NilaiSemesterController::class);
     });
+
+
+    Route::resource('/dashboard/pa-mhs', PAMhsController::class);
+
 });
 
 Route::middleware('guest')->group(function (){
@@ -90,6 +95,11 @@ Route::get('/kurikulum', [NeoFeeederController::class, 'getKurikulum']);
 Route::get('/dosen', [NeoFeeederController::class, 'getDosen']);
 Route::get('/matkul-dosen', [NeoFeeederController::class, 'getMatkulDosen']);
 Route::get('/mahasiswa', [NeoFeeederController::class, 'getMahasiswa']);
+Route::get('/krs-mhs', [NeoFeeederController::class, 'getKRSMhs']);
+
+//Route::get('/coba', function (){
+//    return view('admin.pa-mhs.index');
+//});
 
 
 Route::get('/home',function (){

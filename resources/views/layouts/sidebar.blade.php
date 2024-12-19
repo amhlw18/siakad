@@ -116,8 +116,8 @@
                     </li>
 
                     <!-- Data Administrasi Menu -->
-                    <li class="nav-item {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal') || Request::is('dashboard/data-jadwal/{prodi_id}') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal') || Request::is('dashboard/data-jadwal/{prodi_id}')  ? 'active' : '' }}">
+                    <li class="nav-item {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal') || Request::is('dashboard/pa-mhs') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal') || Request::is('dashboard/pa-mhs')   ? 'active' : '' }}">
                             <i class="nav-icon fas fa-clipboard"></i>
                             <p>
                                 Data Administrasi
@@ -138,6 +138,15 @@
                                 <a href="/dashboard/data-jadwal" class="nav-link {{ Request::is('dashboard/data-jadwal*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Jadwal Kuliah</p>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/dashboard/pa-mhs" class="nav-link {{ Request::is('dashboard/pa-mhs*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Penasehat Akademik</p>
                                 </a>
                             </li>
                         </ul>

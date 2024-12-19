@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ModelDetailJadwal;
 use App\Models\ModelDosen;
+use App\Models\ModelKRSMahasiwa;
 use App\Models\ModelKurikulum;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelMatakuliah;
@@ -21,8 +22,7 @@ class NeoFeeederController extends Controller
     {
         // Set nilai URL dan token saat controller dipanggil
         $this->apiUrl = 'http://localhost:3003/ws/live2.php';
-        $this->token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9wZW5nZ3VuYSI6IjFlYmI2OWRkLTY3N2UtNGJmMi1hMmVmLTRkODFkYTc0Njc4MiIsInVzZXJuYW1lIjoid2FvZGVoYXNyaWF0aW9mZmljaWFsQGdtYWlsLmNvbSIsIm5tX3BlbmdndW5hIjoiQkFIVElBUiIsInRlbXBhdF9sYWhpciI6bnVsbCwidGdsX2xhaGlyIjpudWxsLCJqZW5pc19rZWxhbWluIjoiTCIsImFsYW1hdCI6bnVsbCwieW0iOiJ5YXIudW5hYWhhODBAZ21haWwuY29tIiwic2t5cGUiOm51bGwsIm5vX3RlbCI6bnVsbCwiYXBwcm92YWxfcGVuZ2d1bmEiOiI1IiwiYV9ha3RpZiI6IjEiLCJ0Z2xfZ2FudGlfcHdkIjoiMjAyNC0wNi0yNVQxNjowMDowMC4wMDBaIiwiaWRfc2RtX3BlbmdndW5hIjoiNGViNWE4NjUtYTMwNy00ZmEyLWJiZmMtMGQ1YzY4NTM0ZDUwIiwiaWRfcGRfcGVuZ2d1bmEiOm51bGwsImlkX3dpbCI6Ijk5OTk5OSAgIiwibGFzdF91cGRhdGUiOiIyMDI0LTA3LTI2VDEzOjI0OjUxLjM5N1oiLCJzb2Z0X2RlbGV0ZSI6IjAiLCJsYXN0X3N5bmMiOiIyMDI0LTEyLTE3VDAzOjUxOjA1LjYyMFoiLCJpZF91cGRhdGVyIjoiOTE2Y2IzMjgtM2VjNi00YjBiLWIyZmYtZDE3YjAzNDQ1YTBmIiwiY3NmIjoiMCIsInRva2VuX3JlZyI6bnVsbCwiamFiYXRhbiI6bnVsbCwidGdsX2NyZWF0ZSI6IjIwMjQtMDUtMTZUMDI6MjM6NTguMDQwWiIsIm5payI6bnVsbCwic2FsdCI6bnVsbCwiaWRfcGVyYW4iOjMsIm5tX3BlcmFuIjoiQWRtaW4gUERESUtUSSIsImlkX3NwIjoiY2FiNjMzMjMtZmMwYy00ODFmLThlNDMtOTMyYzhjMzhkMDkwIiwiaWRfc210IjoiMjAyNDEiLCJpYXQiOjE3MzQ1NTE3NDEsImV4cCI6MTczNDU2OTc0MX0.rBHKZTucZ4Oybtx0xENmZFF4NHFXBqtMJNZYipbomwA';
-
+        $this->token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9wZW5nZ3VuYSI6IjFlYmI2OWRkLTY3N2UtNGJmMi1hMmVmLTRkODFkYTc0Njc4MiIsInVzZXJuYW1lIjoid2FvZGVoYXNyaWF0aW9mZmljaWFsQGdtYWlsLmNvbSIsIm5tX3BlbmdndW5hIjoiQkFIVElBUiIsInRlbXBhdF9sYWhpciI6bnVsbCwidGdsX2xhaGlyIjpudWxsLCJqZW5pc19rZWxhbWluIjoiTCIsImFsYW1hdCI6bnVsbCwieW0iOiJ5YXIudW5hYWhhODBAZ21haWwuY29tIiwic2t5cGUiOm51bGwsIm5vX3RlbCI6bnVsbCwiYXBwcm92YWxfcGVuZ2d1bmEiOiI1IiwiYV9ha3RpZiI6IjEiLCJ0Z2xfZ2FudGlfcHdkIjoiMjAyNC0wNi0yNVQxNjowMDowMC4wMDBaIiwiaWRfc2RtX3BlbmdndW5hIjoiNGViNWE4NjUtYTMwNy00ZmEyLWJiZmMtMGQ1YzY4NTM0ZDUwIiwiaWRfcGRfcGVuZ2d1bmEiOm51bGwsImlkX3dpbCI6Ijk5OTk5OSAgIiwibGFzdF91cGRhdGUiOiIyMDI0LTA3LTI2VDEzOjI0OjUxLjM5N1oiLCJzb2Z0X2RlbGV0ZSI6IjAiLCJsYXN0X3N5bmMiOiIyMDI0LTEyLTE3VDAzOjUxOjA1LjYyMFoiLCJpZF91cGRhdGVyIjoiOTE2Y2IzMjgtM2VjNi00YjBiLWIyZmYtZDE3YjAzNDQ1YTBmIiwiY3NmIjoiMCIsInRva2VuX3JlZyI6bnVsbCwiamFiYXRhbiI6bnVsbCwidGdsX2NyZWF0ZSI6IjIwMjQtMDUtMTZUMDI6MjM6NTguMDQwWiIsIm5payI6bnVsbCwic2FsdCI6bnVsbCwiaWRfcGVyYW4iOjMsIm5tX3BlcmFuIjoiQWRtaW4gUERESUtUSSIsImlkX3NwIjoiY2FiNjMzMjMtZmMwYy00ODFmLThlNDMtOTMyYzhjMzhkMDkwIiwiaWRfc210IjoiMjAyNDEiLCJpYXQiOjE3MzQ2MjQ1MDAsImV4cCI6MTczNDY0MjUwMH0.YManjAq43HHrP2EQ1FAhnQKNXfVEI35hUSVeCE_5uaA';
     }
 
 
@@ -332,6 +332,63 @@ class NeoFeeederController extends Controller
                         'tahun_masuk' =>  $angkatan?? '0',
                         'status' => $item['nama_status_mahasiswa'] ?? '-',
 
+                    ]);
+
+
+
+                }
+                return response()->json(['message' => 'Data mahasiswa berhasil disimpan.']);
+            }
+        }
+
+        return response()->json(['error' => 'Gagal mengambil data dari API.']);
+    }
+
+    public function getKRSMhs()
+    {
+        $body = [
+            "act" => "GetKRSMahasiswa",
+            "token" => $this->token,
+            "filter" => "",
+            "order" => "",
+            "limit" => "",
+            "offset" => "0"
+        ];
+
+        // Fetch data dari API
+        $response = Http::post($this->apiUrl, $body);
+        //dd($response->body());
+
+        if ($response->successful()) {
+            $data = $response->json();
+
+            if ($data['error_code'] == 0 && isset($data['data'])) {
+                foreach ($data['data'] as $item) {
+
+                    $kodeProdi = null;
+
+                    // Atur kode_prodi berdasarkan nama_program_studi
+                    switch ($item['nama_program_studi']) {
+                        case 'D3 Kebidanan':
+                            $kodeProdi = 15401;
+                            break;
+                        case 'S1 Administrasi Kesehatan':
+                            $kodeProdi = 13263;
+                            break;
+                        case 'S1 Gizi':
+                            $kodeProdi = 13211;
+                            break;
+                        case 'S1 Teknologi Informasi':
+                            $kodeProdi = 59201;
+                            break;
+                    }
+
+
+                    ModelKRSMahasiwa::create([
+                        'tahun_akademik' => $item['id_periode'] ?? '0',
+                        'prodi_id' => $kodeProdi ?? '0',
+                        'matakuliah_id' => $item['kode_mata_kuliah'] ?? '-',
+                        'nim' => $item['nim'] ?? '-',
                     ]);
 
 
