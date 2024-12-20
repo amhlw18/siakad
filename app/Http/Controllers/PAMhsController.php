@@ -162,5 +162,21 @@ class PAMhsController extends Controller
     public function destroy($id)
     {
         //
+        try {
+
+            $data = ModelPAMahasiswa::where('id',$id)->first();
+
+            $data->delete();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Mahasiswa berhasil dihapus dari list PA.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 }

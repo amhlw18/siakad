@@ -66,8 +66,8 @@
                         <tr>
                             <td>
                                 <a href="/dashboard/pa-mhs/{{$pa->nim}}"
-                                   class="btn btn-danger"
-                                   data-id="{{$pa->nim}}">
+                                   class="btn btn-danger btn-hapus"
+                                   data-id="{{$pa->id}}">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </td>
@@ -135,6 +135,86 @@
     </div><!-- /.container-fluid -->
 
     <script>
+
+        document.querySelector('#tabel').addEventListener('click', (e) => {
+            if (e.target.closest('.btn-hapus')) {
+                e.preventDefault();
+
+                const button = e.target.closest('.btn-hapus');
+                const id = button.getAttribute('data-id'); // Ambil data-id dari tombol
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                const nidn = document.getElementById('nidn').value;
+                const tablePembayaran = $('#tabel'); // Gunakan jQuery untuk DataTables
+                // Inisialisasi DataTables
+                let dataTable = tablePembayaran.DataTable();
+
+                function fetchFilteredData() {
+
+                    fetch(`/dashboard/pa-mhss/filter?nidn=${nidn}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Clear existing table data
+                            //console.log(data);
+                            dataTable.clear();
+
+                            // Add new rows
+                            data.forEach((item, index) => {
+                                dataTable.row.add([
+                                    `
+                                <a href="#"
+                                   class="btn btn-danger"
+                                   data-id="${item.id}">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                                `,
+                                    index + 1,
+                                    item.nim || '-',
+                                    item.nama || '-',
+                                    item.angkatan || '',
+                                ]);
+                            });
+
+                            // Redraw table
+
+                            dataTable.draw();
+                        });
+                }
+
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Anda yakin menghapus mahasiswa dari list PA ?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/dashboard/pa-mhs/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Accept': 'application/json',
+                            },
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'error') {
+                                    Swal.fire('Error!', data.message, 'error');
+                                } else {
+                                    Swal.fire('Berhasil!', data.message, 'success')
+                                        .then(() => fetchFilteredData());
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');
+                            });
+                    }
+                });
+            }
+        });
 
         document.querySelector('#tabel2').addEventListener('click', (e) => {
             if (e.target.closest('.btn-tambah')) {
