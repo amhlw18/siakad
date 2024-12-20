@@ -95,7 +95,7 @@
                                     <select class="custom-select rounded-0" id="kurikulum_id" name="ka_prodi">
                                         <option value="" disabled selected>--Pilih Ka Program Studi--</option>
                                         @foreach ($dosens as $dosen)
-                                            @if (old('ka_prodi',$prodi->ka_prodi) == $dosen->kode_prodi)
+                                            @if (old('ka_prodi',$prodi->ka_prodi) == $dosen->nidn)
                                                 <option selected value="{{ $dosen->kode_prodi }}">
                                                     {{ $dosen->nama_dosen }}</option>
                                             @else

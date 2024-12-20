@@ -96,7 +96,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $jadwal->hari }}</td>
                             <td>{{ $jadwal->jam }}</td>
-                            <td>{{ $jadwal->jadwal_matakuliah->nama_mk ?? '-' }}</td>
+                            <td>{{ $jadwal->jadwal_matakuliah->nama_mk ?? '-' }} || SMT {{ $jadwal->jadwal_matakuliah->semester ?? '-' }}</td>
                             <td>{{ $jadwal->dosen->nama_dosen ?? 'Dosen Tidak Ditemukan' }}</td>
                             <td>{{ $jadwal->jadwal_kelas->nama_kelas ?? '-' }}</td>
                             <td>{{ $jadwal->jadwal_ruangan->nama_ruangan ?? '-' }}</td>
@@ -630,7 +630,7 @@
                                 index + 1,
                                 item.hari,
                                 item.jam || '-',
-                                item.matakuliah || '-',
+                                item.matakuliah +' || SMT '+ item.semester ||  '-',
                                 item.dosen || '-',
                                 item.kelas || '-',
                                 item.ruangan || '-'

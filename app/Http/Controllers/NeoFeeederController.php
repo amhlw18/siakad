@@ -22,7 +22,8 @@ class NeoFeeederController extends Controller
     {
         // Set nilai URL dan token saat controller dipanggil
         $this->apiUrl = 'http://localhost:3003/ws/live2.php';
-        $this->token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9wZW5nZ3VuYSI6IjFlYmI2OWRkLTY3N2UtNGJmMi1hMmVmLTRkODFkYTc0Njc4MiIsInVzZXJuYW1lIjoid2FvZGVoYXNyaWF0aW9mZmljaWFsQGdtYWlsLmNvbSIsIm5tX3BlbmdndW5hIjoiQkFIVElBUiIsInRlbXBhdF9sYWhpciI6bnVsbCwidGdsX2xhaGlyIjpudWxsLCJqZW5pc19rZWxhbWluIjoiTCIsImFsYW1hdCI6bnVsbCwieW0iOiJ5YXIudW5hYWhhODBAZ21haWwuY29tIiwic2t5cGUiOm51bGwsIm5vX3RlbCI6bnVsbCwiYXBwcm92YWxfcGVuZ2d1bmEiOiI1IiwiYV9ha3RpZiI6IjEiLCJ0Z2xfZ2FudGlfcHdkIjoiMjAyNC0wNi0yNVQxNjowMDowMC4wMDBaIiwiaWRfc2RtX3BlbmdndW5hIjoiNGViNWE4NjUtYTMwNy00ZmEyLWJiZmMtMGQ1YzY4NTM0ZDUwIiwiaWRfcGRfcGVuZ2d1bmEiOm51bGwsImlkX3dpbCI6Ijk5OTk5OSAgIiwibGFzdF91cGRhdGUiOiIyMDI0LTA3LTI2VDEzOjI0OjUxLjM5N1oiLCJzb2Z0X2RlbGV0ZSI6IjAiLCJsYXN0X3N5bmMiOiIyMDI0LTEyLTE3VDAzOjUxOjA1LjYyMFoiLCJpZF91cGRhdGVyIjoiOTE2Y2IzMjgtM2VjNi00YjBiLWIyZmYtZDE3YjAzNDQ1YTBmIiwiY3NmIjoiMCIsInRva2VuX3JlZyI6bnVsbCwiamFiYXRhbiI6bnVsbCwidGdsX2NyZWF0ZSI6IjIwMjQtMDUtMTZUMDI6MjM6NTguMDQwWiIsIm5payI6bnVsbCwic2FsdCI6bnVsbCwiaWRfcGVyYW4iOjMsIm5tX3BlcmFuIjoiQWRtaW4gUERESUtUSSIsImlkX3NwIjoiY2FiNjMzMjMtZmMwYy00ODFmLThlNDMtOTMyYzhjMzhkMDkwIiwiaWRfc210IjoiMjAyNDEiLCJpYXQiOjE3MzQ2MjQ1MDAsImV4cCI6MTczNDY0MjUwMH0.YManjAq43HHrP2EQ1FAhnQKNXfVEI35hUSVeCE_5uaA';
+        $this->token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9wZW5nZ3VuYSI6IjFlYmI2OWRkLTY3N2UtNGJmMi1hMmVmLTRkODFkYTc0Njc4MiIsInVzZXJuYW1lIjoid2FvZGVoYXNyaWF0aW9mZmljaWFsQGdtYWlsLmNvbSIsIm5tX3BlbmdndW5hIjoiQkFIVElBUiIsInRlbXBhdF9sYWhpciI6bnVsbCwidGdsX2xhaGlyIjpudWxsLCJqZW5pc19rZWxhbWluIjoiTCIsImFsYW1hdCI6bnVsbCwieW0iOiJ5YXIudW5hYWhhODBAZ21haWwuY29tIiwic2t5cGUiOm51bGwsIm5vX3RlbCI6bnVsbCwiYXBwcm92YWxfcGVuZ2d1bmEiOiI1IiwiYV9ha3RpZiI6IjEiLCJ0Z2xfZ2FudGlfcHdkIjoiMjAyNC0wNi0yNVQxNjowMDowMC4wMDBaIiwiaWRfc2RtX3BlbmdndW5hIjoiNGViNWE4NjUtYTMwNy00ZmEyLWJiZmMtMGQ1YzY4NTM0ZDUwIiwiaWRfcGRfcGVuZ2d1bmEiOm51bGwsImlkX3dpbCI6Ijk5OTk5OSAgIiwibGFzdF91cGRhdGUiOiIyMDI0LTA3LTI2VDEzOjI0OjUxLjM5N1oiLCJzb2Z0X2RlbGV0ZSI6IjAiLCJsYXN0X3N5bmMiOiIyMDI0LTEyLTE3VDAzOjUxOjA1LjYyMFoiLCJpZF91cGRhdGVyIjoiOTE2Y2IzMjgtM2VjNi00YjBiLWIyZmYtZDE3YjAzNDQ1YTBmIiwiY3NmIjoiMCIsInRva2VuX3JlZyI6bnVsbCwiamFiYXRhbiI6bnVsbCwidGdsX2NyZWF0ZSI6IjIwMjQtMDUtMTZUMDI6MjM6NTguMDQwWiIsIm5payI6bnVsbCwic2FsdCI6bnVsbCwiaWRfcGVyYW4iOjMsIm5tX3BlcmFuIjoiQWRtaW4gUERESUtUSSIsImlkX3NwIjoiY2FiNjMzMjMtZmMwYy00ODFmLThlNDMtOTMyYzhjMzhkMDkwIiwiaWRfc210IjoiMjAyNDEiLCJpYXQiOjE3MzQ2ODM3OTUsImV4cCI6MTczNDcwMTc5NX0._bPbsQJnmXl5vjY0dW6gD-nTNe2GHZtP4veTwQE6ZVs';
+
     }
 
 
@@ -218,10 +219,10 @@ class NeoFeeederController extends Controller
                             break;
                     }
 
-                    $nama_dosen = $item['nama_dosen'];
-                    //$kode_mk = $item[''];
+                    $nama_dosen = explode(',', $item['nama_dosen']);
 
-                    $nidn = ModelDosen::where('nama_dosen',$nama_dosen)->get();
+
+                    $nidn = ModelDosen::whereIn('nama_dosen',$nama_dosen)->get();
 
                     foreach ($nidn as $data){
                         ModelDetailJadwal::create([
@@ -331,7 +332,6 @@ class NeoFeeederController extends Controller
 
                         'tahun_masuk' =>  $angkatan?? '0',
                         'status' => $item['nama_status_mahasiswa'] ?? '-',
-
                     ]);
 
 

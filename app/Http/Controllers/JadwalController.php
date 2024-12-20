@@ -52,6 +52,7 @@ class JadwalController extends Controller
                 'hari' => $item->hari ?? '-',
                 'jam' => $item->jam  ?? '-',
                 'matakuliah' => $item->jadwal_matakuliah->nama_mk  ?? '-',
+                'semester' => $item->jadwal_matakuliah->semester  ?? '-',
                 'dosen' => $item->dosen->nama_dosen  ?? '-',
                 'kelas' => $item->jadwal_kelas->nama_kelas  ?? '-',
                 'ruangan' => $item->jadwal_ruangan->nama_ruangan  ?? '-',

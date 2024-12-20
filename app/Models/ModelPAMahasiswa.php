@@ -10,10 +10,9 @@ class ModelPAMahasiswa extends Model
     use HasFactory;
 
     protected $fillable = [
-        'tahun_akademik',
         'prodi_id',
-        'matakuliah_id',
         'nim',
+        'nidn',
     ];
 
     public  function pa_prodi()

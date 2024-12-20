@@ -43,7 +43,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="mahasiswaTable" class="table table-bordered table-hover">
+                <table id="tabel" class="table table-bordered table-hover">
                     <thead>
                     <tr>
                         <th></th>

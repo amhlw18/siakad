@@ -68,7 +68,7 @@
                                 <td>{{ $prodi->kode_prodi }}</td>
                                 <td>{{ $prodi->nama_prodi }}</td>
                                 <td>{{ $prodi->jenjang }} </td>
-                                <td>{{ $prodi->dosen->nama_dosen }}</td>
+                                <td>{{ $prodi->dosen->nama_dosen  ?? '-'}}</td>
 
 
                             </tr>
