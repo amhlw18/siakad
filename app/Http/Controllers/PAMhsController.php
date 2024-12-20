@@ -73,6 +73,30 @@ class PAMhsController extends Controller
 
     }
 
+    function filter(Request $request)
+    {
+
+        $query = ModelPAMahasiswa::with('pa_prodi','pa_dosen','pa_mhs');
+
+
+
+        if ($request->nidn){
+            $query->where('nidn', $request->nidn);
+        }
+
+        $data = $query->get();
+
+        return response()->json($data->map(function ($item) {
+            return [
+                'id' =>$item->id,
+                'nim' => $item->pa_mhs->nim,
+                'nama' => $item->pa_mhs->nama_mhs,
+                'angkatan' => $item->pa_mhs->nama_mhs,
+            ];
+        }));
+
+    }
+
     /**
      * Display the specified resource.
      *
@@ -96,9 +120,6 @@ class PAMhsController extends Controller
         $mahasiswa = ModelMahasiswa::with('prodi_mhs')
             ->where('prodi_id', $prodi->kode_prodi)
             ->get();
-
-
-
 
         return view('admin.pa-mhs.show',[
            'mahasiswa' => $mahasiswa,

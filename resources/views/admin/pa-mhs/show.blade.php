@@ -136,39 +136,7 @@
 
     <script>
 
-        function fetchFilteredData() {
-            const matkul = filterMatkul.value;
-
-            fetch(`/dashboard/aspekk-nilai/filter`)
-                .then(response => response.json())
-                .then(data => {
-                    // Clear existing table data
-                    //console.log(data);
-                    dataTable.clear();
-
-                    // Add new rows
-                    data.forEach((item, index) => {
-                        dataTable.row.add([
-                            `
-                                <a href="#"
-                                   class="btn btn-danger"
-                                   data-id="${item.id}">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                                `,
-                            index + 1,
-                            item.aspek,
-                            item.bobot || '-',
-                        ]);
-                    });
-
-                    // Redraw table
-
-                    dataTable.draw();
-                });
-        }
-
-        document.querySelector('#tabel').addEventListener('click', (e) => {
+        document.querySelector('#tabel2').addEventListener('click', (e) => {
             if (e.target.closest('.btn-tambah')) {
                 e.preventDefault();
 
@@ -182,6 +150,40 @@
                 nimInput.value = id;
 
                 const formData = new FormData(form);
+                const nidn = document.getElementById('nidn').value;
+                //console.log(nidn);
+
+                function fetchFilteredData() {
+                    const matkul = filterMatkul.value;
+
+                    fetch(`/dashboard/pa-mhs/filter?nidn=${nidn}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Clear existing table data
+                            //console.log(data);
+                            dataTable.clear();
+
+                            // Add new rows
+                            data.forEach((item, index) => {
+                                dataTable.row.add([
+                                    `
+                                <a href="#"
+                                   class="btn btn-danger"
+                                   data-id="${item.id}">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                                `,
+                                    index + 1,
+                                    item.aspek,
+                                    item.bobot || '-',
+                                ]);
+                            });
+
+                            // Redraw table
+
+                            dataTable.draw();
+                        });
+                }
 
                 Swal.fire({
                     title: 'Konfirmasi',
