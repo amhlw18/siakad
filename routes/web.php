@@ -82,7 +82,7 @@ Route::middleware('auth')->group(function (){
 
 
     Route::resource('/dashboard/pa-mhs', PAMhsController::class);
-    Route::get('/dashboard/pa-mhs/filter', [PAMhsController::class,'filter']);
+    Route::get('/dashboard/pa-mhss/filter', [PAMhsController::class,'filter']);
 
 });
 

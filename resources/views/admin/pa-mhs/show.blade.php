@@ -153,10 +153,14 @@
                 const nidn = document.getElementById('nidn').value;
                 //console.log(nidn);
 
-                function fetchFilteredData() {
-                    const matkul = filterMatkul.value;
+                const tablePembayaran = $('#tabel'); // Gunakan jQuery untuk DataTables
 
-                    fetch(`/dashboard/pa-mhs/filter?nidn=${nidn}`)
+                // Inisialisasi DataTables
+                let dataTable = tablePembayaran.DataTable();
+
+                function fetchFilteredData() {
+
+                    fetch(`/dashboard/pa-mhss/filter?nidn=${nidn}`)
                         .then(response => response.json())
                         .then(data => {
                             // Clear existing table data
@@ -174,8 +178,9 @@
                                 </a>
                                 `,
                                     index + 1,
-                                    item.aspek,
-                                    item.bobot || '-',
+                                    item.nim || '-',
+                                    item.nama || '-',
+                                    item.angkatan || '',
                                 ]);
                             });
 
@@ -215,7 +220,7 @@
                                     title: 'Berhasil!',
                                     text: data.success,
                                 }).then(() => {
-                                    location.reload(); // Reload halaman jika diperlukan
+                                    fetchFilteredData(); // Reload halaman jika diperlukan
                                 });
                             })
                             .catch(async error => {
