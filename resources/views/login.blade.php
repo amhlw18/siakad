@@ -27,7 +27,7 @@
                     <div class="login-wrap p-4 p-md-5">
                         <div class="d-flex">
                             <div class="w-100">
-                                <h3 class="mb-4">Silahkan Login !</h3>
+                                <h3 class="mb-4">Selamat datang silahkan login !</h3>
                             </div>
                             <div class="w-100">
                                 <p class="social-media d-flex justify-content-end">
