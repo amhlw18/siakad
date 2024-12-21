@@ -5,7 +5,7 @@
 @endsection()
 
 @section('mainmenu')
-    Data Nilai Mahasiswa
+    Nilai Mahasiswa
 @endsection()
 
 @section('menu')
@@ -30,7 +30,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Daftar Matakuliah {{$tahun->tahun_akademik}} </h3>
+                <h3 class="card-title">Daftar Mahasiswa Matakuliah </h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -39,25 +39,29 @@
                     <tr>
                         <th></th>
                         <th>#</th>
-                        <th>Kode Matakuliah</th>
-                        <th>Nama Matakuliah </th>
-                        <th>Jumlah Mahasiswa</th>
+                        <th>NIM</th>
+                        <th>Nama </th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($matakuliah as $matkul)
+                    @foreach ($mahasiswa as $mhs)
                         <tr>
                             <td>
-                                <a href="/dashboard/nilai-semester/{{$matkul->matakuliah_id}}"
+                                <a href="/dashboard/nilai-semester/{{$mhs->krs_mhs->nim}}"
+                                   class="btn btn-primary"
+                                   data-id="">
+                                    Isi Nilai
+                                </a>
+
+                                <a href="/dashboard/nilai-semester/{{$mhs->krs_mhs->nim}}"
                                    class="btn btn-success"
                                    data-id="">
                                     <i class="bi bi-eye"></i>
                                 </a>
                             </td>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $matkul->matakuliah_id }}</td>
-                            <td>{{ $matkul->jadwal_matakuliah->nama_mk}}</td>
-                            <td>{{ $jumlah_mahasiswa[$matkul->matakuliah_id] ?? 0 }}
+                            <td>{{ $mhs->krs_mhs->nim }}</td>
+                            <td>{{ $mhs->krs_mhs->nama_mhs}}</td>
                         </tr>
                     @endforeach
                     </tbody>

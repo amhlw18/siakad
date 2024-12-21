@@ -72,6 +72,20 @@ class PenilaianController extends Controller
     public function show($id)
     {
         //
+
+        $dosen = ModelDosen::where('nidn',Auth::user()->user_id)->first();
+        $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
+        $mahasiswa = ModelKRSMahasiwa::with('krs_mhs','krs_matkul')
+            ->where('matakuliah_id',$id)
+            ->where('tahun_akademik',$tahun_aktif->kode)
+            ->get();
+
+
+        return view('admin.penilaian.show',[
+            'mahasiswa'=> $mahasiswa,
+            'tahun' => $tahun_aktif,
+            'dosen' => $dosen,
+        ]);
     }
 
     /**
