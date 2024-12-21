@@ -27,19 +27,10 @@
             </div>
         @endif
 
-        {{--        <!-- Informasi Matakulaih -->--}}
-        {{--        <div class="card mb-3">--}}
-        {{--            <div class="card-body">--}}
-        {{--                <p><strong>NIDN  :</strong> {{ $dosen->nidn ?? '-' }}</p>--}}
-        {{--                <p><strong>Nama Dosen :</strong> {{ $dosen->nama_dosen?? '-' }}</p>--}}
-        {{--                <p><strong>Tahun Akademik :</strong> {{ $tahun_aktif->tahun_akademik?? '-' }}</p>--}}
-        {{--            </div>--}}
-        {{--        </div>--}}
-
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Penilaian Mahasiswa</h3>
+                <h3 class="card-title">Daftar Matakuliah {{$tahun->tahun_akademik}} </h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -54,7 +45,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($dosens as $dosen)
+                    @foreach ($matakuliah as $matkul)
                         <tr>
                             <td>
                                 <a href="/dashboard/pa-mhs/{{$dosen->nidn}}"
@@ -64,9 +55,9 @@
                                 </a>
                             </td>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $dosen->nidn }}</td>
-                            <td>{{ $dosen->nama_dosen}}</td>
-                            <td>{{ $jumlah_pa[$dosen->nidn]->jumlah_mahasiswa ?? 0 }}</td>
+                            <td>{{ $matkul->matakuliah_id }}</td>
+                            <td>{{ $matkul->jadwal_matakuliah->nama_mk}}</td>
+                            <td>{{ $jumlah_mahasiswa[$matkul->matakuliah_id] ?? 0 }}
                         </tr>
                     @endforeach
                     </tbody>
