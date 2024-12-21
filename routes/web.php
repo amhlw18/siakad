@@ -4,6 +4,7 @@ use App\Http\Controllers\AspekPenilaianController;
 use App\Http\Controllers\NeoFeeederController;
 use App\Http\Controllers\NilaiSemesterController;
 use App\Http\Controllers\PAMhsController;
+use App\Http\Controllers\PenilaianController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\ProdiController;
@@ -77,7 +78,7 @@ Route::middleware('auth')->group(function (){
         Route::get('/dashboard/aspekk-nilai/{id}/edit', [AspekPenilaianController::class, 'edit']);
         Route::get('/dashboard/aspekk-nilai/filter', [AspekPenilaianController::class, 'filter']);
 
-        Route::resource('/dashboard/nilai-semester',NilaiSemesterController::class);
+        Route::resource('/dashboard/nilai-semester',PenilaianController::class);
     });
 
 
