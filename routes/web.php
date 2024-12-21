@@ -83,6 +83,7 @@ Route::middleware('auth')->group(function (){
 
     Route::resource('/dashboard/pa-mhs', PAMhsController::class);
     Route::get('/dashboard/pa-mhss/filter', [PAMhsController::class,'filter']);
+    //Route::get('/dashboard/get-data/filter', [PAMhsController::class,'filter']);
 
 });
 

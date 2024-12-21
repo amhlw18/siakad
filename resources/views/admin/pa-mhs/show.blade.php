@@ -65,7 +65,7 @@
                     @foreach ($pas as $pa)
                         <tr>
                             <td>
-                                <a href="/dashboard/pa-mhs/{{$pa->nim}}"
+                                <a href=""
                                    class="btn btn-danger btn-hapus"
                                    data-id="{{$pa->id}}">
                                     <i class="bi bi-trash"></i>
@@ -104,7 +104,7 @@
                         @foreach ($mahasiswa as $mhs)
                             <tr>
                                 <td>
-                                    <a href="#"
+                                    <a href=""
                                        class="btn btn-primary btn-tambah"
                                        data-id="{{$mhs->nim}}">
                                          Tambah
@@ -148,7 +148,7 @@
                 // Inisialisasi DataTables
                 let dataTable = tablePembayaran.DataTable();
 
-                function fetchFilteredData() {
+                function fetchFilteredData1() {
 
                     fetch(`/dashboard/pa-mhss/filter?nidn=${nidn}`)
                         .then(response => response.json())
@@ -161,8 +161,8 @@
                             data.forEach((item, index) => {
                                 dataTable.row.add([
                                     `
-                                <a href="#"
-                                   class="btn btn-danger"
+                                <a href=""
+                                   class="btn btn-danger btn-hapus"
                                    data-id="${item.id}">
                                     <i class="bi bi-trash"></i>
                                 </a>
@@ -204,7 +204,7 @@
                                     Swal.fire('Error!', data.message, 'error');
                                 } else {
                                     Swal.fire('Berhasil!', data.message, 'success')
-                                        .then(() => fetchFilteredData());
+                                        .then(() => fetchFilteredData1());
                                 }
                             })
                             .catch(error => {
@@ -251,7 +251,7 @@
                             data.forEach((item, index) => {
                                 dataTable.row.add([
                                     `
-                                <a href="#"
+                                <a href=""
                                    class="btn btn-danger"
                                    data-id="${item.id}">
                                     <i class="bi bi-trash"></i>
