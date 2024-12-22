@@ -125,7 +125,7 @@ class JadwalController extends Controller
             ->first();
 
         if ($bentrok) {
-            return response()->json(['error' => 'Jadwal bertabrakan dengan jadwal lain!'], 422);
+            return response()->json(['errors' => 'Jadwal bertabrakan dengan jadwal lain!'], 422);
         }
 
         // Gabungkan jam_awal dan jam_akhir untuk disimpan dalam kolom 'jam'

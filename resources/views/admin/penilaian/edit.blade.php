@@ -5,7 +5,7 @@
 @endsection()
 
 @section('mainmenu')
-
+    Nilai Mahasiswa
 @endsection()
 
 @section('menu')
@@ -27,10 +27,9 @@
             </div>
         @endif
 
-
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Daftar Mahasiswa Matakuliah {{$matkul->nama_mk}} </h3>
+                <h5 class="card-title">Nilai {{$mhs->nama_mhs}} Matakuliah {{$matkul->nama_mk}} </h5>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -39,33 +38,40 @@
                     <tr>
                         <th></th>
                         <th>#</th>
-                        <th>NIM</th>
-                        <th>Nama </th>
+                        <th>Nama Aspek</th>
+                        <th>Nilai </th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($mahasiswa as $mhs)
+                    @foreach ($nilais as $nilai)
                         <tr>
                             <td>
                                 <a href="#"
-                                   class="btn btn-primary btn-isi-nilai"
-                                   data-bs-toggle="modal"
-                                   data-bs-target="#buatJadwalModal"
-                                   data-id="{{$mhs->nim}}">
-                                    <i class="bi bi-plus"></i>
+                                   class="btn btn-danger btn-hapus"
+                                   data-id="{{$nilai->id}}">
+                                    <i class="bi bi-trash"></i>
                                 </a>
 
-                                <a href="/dashboard/nilai-semester/{{ $mhs->nim }}/{{$matkul->kode_mk}}/edit"
-                                   class="btn btn-success">
-                                    <i class="bi bi-eye"></i>
+                                <a href="#"
+                                   class="btn btn-warning btn-edit"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#buatJadwalModal"
+                                   data-id="{{$nilai->id}}">
+                                    <i class="bi bi-pencil"></i>
                                 </a>
                             </td>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $mhs->krs_mhs->nim }}</td>
-                            <td>{{ $mhs->krs_mhs->nama_mhs}}</td>
+                            <td>{{ $nilai->nilai_aspek->aspek }}</td>
+                            <td>{{ $nilai->nilai}}</td>
                         </tr>
                     @endforeach
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-end"><strong>Total Nilai:</strong></td>
+                        <td><strong>{{$total_nilai}}</strong></td>
+                    </tr>
+                    </tfoot>
                 </table>
             </div>
             <!-- /.card-body -->
@@ -83,27 +89,11 @@
                 </div>
                 <div class="modal-body">
                     <form id="simpanForm">
-                        <input type="hidden" id="nilai_id" name="nilai_id" value="">
-                        <input type="hidden" id="nim" name="nim" value="">
-                        <input type="hidden" id="tahun_akademik" name="tahun_akademik" value="{{$tahun->kode}}">
-                        <input type="hidden" id="matakuliah_id" name="matakuliah_id" value="{{$matkul->kode_mk}}">
-
-                        <div class="form-group">
-                            <label for="prodi_id">Aspek Penilaian</label>
-                            <select class="custom-select rounded-0" id="aspek_id" name="aspek_id" required>
-                                <option value="" disabled selected>--Pilih Aspek Penilai--</option>
-                                @foreach ($aspeks as $aspek)
-                                    <option value="{{ $aspek->id }}" {{ old('aspek_id') == $aspek->id ? 'selected' : '' }}>
-                                        {{ $aspek->aspek }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('aspek_id')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
+                        <input type="text" id="nilai_id" name="nilai_id" value="">
+                        <input type="text" id="nim" name="nim" value="">
+                        <input type="text" id="tahun_akademik" name="tahun_akademik" value="{{$tahun->kode}}">
+                        <input type="text" id="matakuliah_id" name="matakuliah_id" value="{{$matkul->kode_mk}}">
+                        <input type="text" id="aspek_id" name="aspek_id" value="">
 
                         <div class="form-group">
                             <label for="Nilai Angka">Nilai Angka</label>
@@ -135,14 +125,34 @@
             const tahun = document.getElementById('tahun_akademik').value;
             const matkul = document.getElementById('matakuliah_id').value;
 
+
             document.querySelector('#tabel').addEventListener('click', (e) => {
-                if (e.target.closest('.btn-isi-nilai')) {
+                if (e.target.closest('.btn-edit')) {
                     e.preventDefault();
-                    const button = e.target.closest('.btn-isi-nilai');
+                    const button = e.target.closest('.btn-edit');
                     const id = button.getAttribute('data-id'); // Ambil data-id dari tombol
-                    nim.value = id;
+                    nilai_id.value = id;
+
+                    fetch(`/dashboard/nilai-semester/${id}/filter`)
+                        .then(response => {
+                            if (!response.ok) throw new Error('Gagal memuat data');
+                            return response.json();
+                        })
+                        .then(data => {
+                            document.getElementById('nilai').value = data.nilai;
+                            document.getElementById('nim').value = data.nim;
+                            document.getElementById('aspek_id').value = data.aspek_id;
+
+                            modal.show();
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Gagal memuat data');
+                        });
                 }
             });
+
+
 
             document.getElementById('saveChanges').addEventListener('click', () => {
                 const form = document.getElementById('simpanForm');
@@ -183,7 +193,7 @@
                             title: 'Berhasil!',
                             text: data.success,
                         }).then(() => {
-                            //location.reload();
+                            location.reload();
                         });
                     })
                     .catch(async error => {
@@ -208,8 +218,54 @@
 
 
             });
+
+
+        });
+
+        document.querySelector('#tabel').addEventListener('click', (e) => {
+            if (e.target.closest('.btn-hapus')) {
+                e.preventDefault();
+
+                const button = e.target.closest('.btn-hapus');
+                const id = button.getAttribute('data-id');
+
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Anda yakin menghapus aspek penilaian?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/dashboard/nilai-semester/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                                'Accept': 'application/json',
+                            },
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'error') {
+                                    Swal.fire('Error!', data.message, 'error');
+                                } else {
+                                    Swal.fire('Berhasil!', data.message, 'success')
+                                        .then(() => location.reload());
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');
+                            });
+                    }
+                });
+            }
         });
 
     </script>
 
 @endsection()
+

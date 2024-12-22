@@ -292,65 +292,7 @@
                         }
                     });
             });
-
-
-
         });
-
-
-        // document.addEventListener('DOMContentLoaded', () => {
-        //
-        //     const filterMatkul = document.getElementById('filterMatkul');
-        //     const tablePembayaran = $('#tablePembayaran'); // Gunakan jQuery untuk DataTables
-        //
-        //     // Inisialisasi DataTables
-        //     let dataTable = tablePembayaran.DataTable();
-        //
-        //     function fetchFilteredData() {
-        //         const matkul = filterMatkul.value;
-        //
-        //         fetch(`/dashboard/aspekk-nilai/filter?matkul=${matkul}`)
-        //             .then(response => response.json())
-        //             .then(data => {
-        //                 // Clear existing table data
-        //                 //console.log(data);
-        //                 dataTable.clear();
-        //
-        //                 // Add new rows
-        //                 data.forEach((item, index) => {
-        //                     dataTable.row.add([
-        //                         `
-        //                         <a href=""
-        //                            class="btn btn-warning btn-edit"
-        //                            data-bs-toggle="modal"
-        //                            data-bs-target="#buatJadwalModal"
-        //                            data-id="${item.id}">
-        //                             <i class="bi bi-pencil"></i>
-        //                         </a>
-        //
-        //                         <a href=""
-        //                            class="btn btn-danger btn-hapus"
-        //
-        //                            data-id="${item.id}">
-        //                             <i class="bi bi-trash"></i>
-        //                         </a>
-        //                         `,
-        //                         index + 1,
-        //                         item.aspek,
-        //                         item.bobot || '-',
-        //                     ]);
-        //                 });
-        //
-        //                 // Redraw table
-        //
-        //                 dataTable.draw();
-        //             });
-        //     }
-        //
-        //     filterMatkul.addEventListener('change', fetchFilteredData);
-        //     ///filterProdi.addEventListener('change', fetchFilteredData);
-        // });
-
 
     </script>
 

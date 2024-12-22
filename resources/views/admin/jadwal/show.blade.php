@@ -60,7 +60,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="tablePembayaran" class="table table-bordered table-striped">
+                <table id="tabel" class="table table-bordered table-hover">
                     <thead>
                     <tr>
                         <th></th>
@@ -246,11 +246,11 @@
             const jadwalIdField = document.getElementById('jadwal_id');
             const prodiId = document.getElementById('prodi_id');
 
-            document.body.addEventListener('click', (event) => {
-                if (event.target.classList.contains('btn-edit')) {
-                    event.preventDefault();
+            document.querySelector('#tabel').addEventListener('click', (e) => {
+                if (e.target.closest('.btn-edit')) {
+                    e.preventDefault();
 
-                    const button = event.target; // Tombol yang diklik
+                    const button = e.target; // Tombol yang diklik
                     const id = button.getAttribute('data-id'); // Ambil ID jadwal
                     jadwalIdField.value = id;
                     const id_prodi = prodiId.value;
@@ -589,7 +589,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             //const filterProdi = document.getElementById('filterProdi');
             const filterTahun = document.getElementById('filterTahun');
-            const tablePembayaran = $('#tablePembayaran'); // Gunakan jQuery untuk DataTables
+            const tablePembayaran = $('#tabel'); // Gunakan jQuery untuk DataTables
 
             // Inisialisasi DataTables
             let dataTable = tablePembayaran.DataTable();
@@ -656,100 +656,7 @@
 
 @endsection()
 
-{{--// document.querySelectorAll('.btn-edit').forEach(button => {--}}
-{{--//     button.addEventListener('click', (e) => {--}}
-{{--//         e.preventDefault();--}}
-{{--//--}}
-{{--//         const id = button.getAttribute('data-id'); // Ambil ID jadwal--}}
-{{--//         jadwalIdField.value = id;--}}
-{{--//         const id_prodi = prodiId.value;--}}
-{{--//--}}
-{{--//         // Fetch data kelas dan ruangan berdasarkan ID prodi--}}
-{{--//         fetch(`/dashboard/data-jadwal-kuliah/${id_prodi}`)--}}
-{{--//             .then(response => {--}}
-{{--//                 if (!response.ok) throw new Error('Gagal memuat data');--}}
-{{--//                 return response.json();--}}
-{{--//             })--}}
-{{--//             .then(data => {--}}
-{{--//                 // Isi dropdown Kelas--}}
-{{--//                 if (data.kelas && data.kelas.length > 0) {--}}
-{{--//                     data.kelas.forEach(kelas => {--}}
-{{--//                         const option = document.createElement('option');--}}
-{{--//                         option.value = kelas.id;--}}
-{{--//                         option.textContent = `${kelas.nama_kelas} | ${kelas.program}`;--}}
-{{--//                         kelasDropdown.appendChild(option);--}}
-{{--//                     });--}}
-{{--//                 } else {--}}
-{{--//                     const option = document.createElement('option');--}}
-{{--//                     option.value = "";--}}
-{{--//                     option.textContent = "Tidak ada kelas tersedia";--}}
-{{--//                     kelasDropdown.appendChild(option);--}}
-{{--//                 }--}}
-{{--//--}}
-{{--//                 if (data.matkul && data.matkul.length > 0) {--}}
-{{--//                     data.matkul.forEach(matkul => {--}}
-{{--//                         const option = document.createElement('option');--}}
-{{--//                         option.value = matkul.id;--}}
-{{--//                         option.textContent = `${matkul.nama_mk} | ${matkul.semester} | ${matkul.sks_teori}`;--}}
-{{--//                         matkulDropdown.appendChild(option);--}}
-{{--//                     });--}}
-{{--//                 } else {--}}
-{{--//                     const option = document.createElement('option');--}}
-{{--//                     option.value = "";--}}
-{{--//                     option.textContent = "Tidak ada matakuliah tersedia";--}}
-{{--//                     matkulDropdown.appendChild(option);--}}
-{{--//                 }--}}
-{{--//--}}
-{{--//                 // Isi dropdown Ruangan--}}
-{{--//                 if (data.ruangan && data.ruangan.length > 0) {--}}
-{{--//                     data.ruangan.forEach(ruangan => {--}}
-{{--//                         const option = document.createElement('option');--}}
-{{--//                         option.value = ruangan.id;--}}
-{{--//                         option.textContent = `${ruangan.nama_ruangan} | ${ruangan.gedung}`;--}}
-{{--//                         ruanganDropdown.appendChild(option);--}}
-{{--//                     });--}}
-{{--//                 } else {--}}
-{{--//                     const option = document.createElement('option');--}}
-{{--//                     option.value = "";--}}
-{{--//                     option.textContent = "Tidak ada ruangan tersedia";--}}
-{{--//                     ruanganDropdown.appendChild(option);--}}
-{{--//                 }--}}
-{{--//             })--}}
-{{--//             .catch(error => {--}}
-{{--//                 console.error('Error:', error);--}}
-{{--//                 alert('Gagal memuat data');--}}
-{{--//             });--}}
-{{--//--}}
-{{--//         fetch(`/dashboard/data-jadwal/${id}/edit`)--}}
-{{--//             .then(response => {--}}
-{{--//                 if (!response.ok) throw new Error('Gagal memuat data');--}}
-{{--//                 return response.json();--}}
-{{--//             })--}}
-{{--//             .then(data => {--}}
-{{--//                 // Isi dropdown dan field dengan data yang diterima--}}
-{{--//                 document.getElementById('nidn').value = data.nidn;--}}
-{{--//                 document.getElementById('hari').value = data.hari;--}}
-{{--//--}}
-{{--//                 if (data.jam_awal && data.jam_akhir) {--}}
-{{--//                     document.getElementById('jam_awal').value = data.jam_awal;--}}
-{{--//                     document.getElementById('jam_akhir').value = data.jam_akhir;--}}
-{{--//                 } else {--}}
-{{--//                     document.getElementById('jam_awal').value = '';--}}
-{{--//                     document.getElementById('jam_akhir').value = '';--}}
-{{--//                 }--}}
-{{--//--}}
-{{--//                 kelasDropdown.value = data.kelas_id;--}}
-{{--//                 ruanganDropdown.value = data.ruangan_id;--}}
-{{--//                 matkulDropdown.value = data.matakuliah_id;--}}
-{{--//--}}
-{{--//                 modal.show();--}}
-{{--//             })--}}
-{{--//             .catch(error => {--}}
-{{--//                 console.error('Error:', error);--}}
-{{--//                 alert('Gagal memuat data');--}}
-{{--//             });--}}
-{{--//     });--}}
-{{--// });--}}
+
 
 
 

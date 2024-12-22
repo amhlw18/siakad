@@ -79,6 +79,8 @@ Route::middleware('auth')->group(function (){
         Route::get('/dashboard/aspekk-nilai/filter', [AspekPenilaianController::class, 'filter']);
 
         Route::resource('/dashboard/nilai-semester',PenilaianController::class);
+        Route::get('/dashboard/nilai-semester/{id}/{mk}/edit', [PenilaianController::class, 'edit']);
+        Route::get('/dashboard/nilai-semester/{id}/filter', [PenilaianController::class, 'filter']);
     });
 
 

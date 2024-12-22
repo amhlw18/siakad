@@ -21,4 +21,9 @@ class ModelAspekPenilaian extends Model
     {
         return $this->belongsTo(ModelMatakuliah::class,'matakuliah_id','kode_mk');
     }
+
+    public function nilai_aspek()
+    {
+        return $this->hasMany(ModelNilaiSemester::class, 'aspek_id','id');
+    }
 }

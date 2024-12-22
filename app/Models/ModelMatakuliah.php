@@ -54,4 +54,9 @@ class ModelMatakuliah extends Model
     {
         return $this->hasMany(ModelKRSMahasiwa::class,'matakuliah_id','kode_mk');
     }
+
+    public function nilai_matakuliah()
+    {
+        return $this->hasMany(ModelNilaiSemester::class,'matakuliah_id','kode_mk');
+    }
 }

@@ -179,7 +179,7 @@
                     <!-- Dosen Menu -->
                     <li class="nav-item {{ Request::is('dashboard/aspek-nilai*') || Request::is('dashboard/nilai-semester') ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link {{ Request::is('dashboard/aspek-nilai*') || Request::is('dashboard/nilai-semester')  ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-clipboard"></i>
+                            <i class="nav-icon fas fa-user mr-2"></i>
                             <p>
                                 Dosen
                                 <i class="fas fa-angle-left right"></i>

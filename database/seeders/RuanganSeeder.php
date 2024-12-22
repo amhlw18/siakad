@@ -27,5 +27,62 @@ class RuanganSeeder extends Seeder
                 'lantai' => $faker->numberBetween(1, 5),
             ]);
         }
+
+        ModelRuangan::create([
+            'prodi_id' => '13211',
+            'nama_ruangan' => 'Ruangan 1',
+            'gedung' => 'A',
+            'lantai' => '3',
+        ]);
+
+        ModelRuangan::create([
+            'prodi_id' => '13211',
+            'nama_ruangan' => 'Lab Kimia 1',
+            'gedung' => 'A',
+            'lantai' => '3',
+        ]);
+
+        ModelRuangan::create([
+            'prodi_id' => '13211',
+            'nama_ruangan' => 'Ruangan 2',
+            'gedung' => 'A',
+            'lantai' => '3',
+        ]);
+
+        ModelRuangan::create([
+            'prodi_id' => '13263',
+            'nama_ruangan' => 'Ruangan 2',
+            'gedung' => 'A',
+            'lantai' => '3',
+        ]);
+
+        ModelRuangan::create([
+            'prodi_id' => '13263',
+            'nama_ruangan' => 'Ruangan 3',
+            'gedung' => 'A',
+            'lantai' => '3',
+        ]);
+
+        ModelRuangan::create([
+            'prodi_id' => '59201',
+            'nama_ruangan' => 'Ruangan 1',
+            'gedung' => 'A',
+            'lantai' => '2',
+        ]);
+
+        ModelRuangan::create([
+            'prodi_id' => '15401',
+            'nama_ruangan' => 'Ruangan 2',
+            'gedung' => 'A',
+            'lantai' => '1',
+        ]);
+
+        ModelRuangan::create([
+            'prodi_id' => '15401',
+            'nama_ruangan' => 'Ruangan 3',
+            'gedung' => 'A',
+            'lantai' => '1',
+        ]);
+
     }
 }

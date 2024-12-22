@@ -5,7 +5,6 @@
 @endsection()
 
 @section('mainmenu')
-    Data Nilai Mahasiswa
 @endsection()
 
 @section('menu')

@@ -39,13 +39,18 @@ Dashboard
       <div class="small-box bg-info">
         <div class="inner">
           <h3></h3>
+            @if(Auth::user()->role == 3)
+                {{$matkul_dosen}}
+                <p>Jumlah Mata Kuliah</p>
+            @endif
+
 
           <p></p>
         </div>
         <div class="icon">
-          <i class="nav-icon fas fa-solid fa-book"></i>
+          <i class="ion ion-pie-graph"></i>
         </div>
-        <a href="/dashboard/databuku" class="small-box-footer">Kunjungi <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="" class="small-box-footer">Kunjungi <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -54,11 +59,13 @@ Dashboard
       <div class="small-box bg-success">
         <div class="inner">
           <h3><sup style="font-size: 20px"></sup></h3>
-
-          <p></p>
+            @if(Auth::user()->role == 3)
+                {{$jumlah_pa}}
+                <p>Jumlah Bimbingan Akademik</p>
+            @endif
         </div>
         <div class="icon">
-          <i class="nav-icon fas fa-clock rotate-left"></i>
+          <i class="ion ion-pie-graph"></i>
         </div>
         <a href="/dashboard/riwayatpeminjaman" class="small-box-footer">Kunjungi <i class="fas fa-arrow-circle-right"></i></a>
       </div>
@@ -70,7 +77,9 @@ Dashboard
       <!-- small box -->
       <div class="small-box bg-danger">
         <div class="inner">
-          <h3></h3>
+            @if(Auth::user()->role == 3)
+                <p>Jumlah Mata Kuliah</p>
+            @endif
 
           <p></p>
         </div>
@@ -86,24 +95,42 @@ Dashboard
   <!-- Main row -->
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title"></h3>
+      <h3 class="card-title">
+          @if(Auth::user()->role == 3)
+              Jadwal Matakuliah Semester {{$tahun->tahun_akademik}}
+          @endif
+      </h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-{{--      <table id="example1" class="table table-bordered table-striped">--}}
-{{--        <thead>--}}
-{{--          <tr>--}}
-{{--            <th>#</th>--}}
-{{--            <th>Nama Peminjam</th>--}}
-{{--            <th>Prodi</th>--}}
-{{--            <th>Status</th>--}}
-{{--            <th>Aksi</th>--}}
-{{--          </tr>--}}
-{{--        </thead>--}}
-{{--        <tbody>--}}
-
-{{--        </tbody>--}}
-{{--      </table>--}}
+        @if(Auth::user()->role == 3)
+            <table id="table" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Hari</th>
+                    <th>Jam</th>
+                    <th>Matakuliah</th>
+                    <th>Prodi</th>
+                    <th>Kelas</th>
+                    <th>Ruangan</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($jadwal_dosen as $jadwal)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $jadwal->hari ?? '-' }}</td>
+                        <td>{{ $jadwal->jam ?? '-' }}</td>
+                        <td>{{ $jadwal->jadwal_matakuliah->nama_mk ?? '-' }}</td>
+                        <td>{{ $jadwal->prodi_jadwal->nama_prodi }}</td>
+                        <td>{{ $jadwal->jadwal_kelas->nama_kelas ?? '-' }}</td>
+                        <td>{{ $jadwal->jadwal_ruangan->nama_ruangan ?? '-' }}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        @endif
     </div>
     <!-- /.card-body -->
   </div>

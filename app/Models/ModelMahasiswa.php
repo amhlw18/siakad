@@ -61,4 +61,9 @@ class ModelMahasiswa extends Model
         return $this->hasMany(ModelPAMahasiswa::class,'nim','nim');
     }
 
+    public function nilai_mhs()
+    {
+        return $this->hasMany(ModelNilaiSemester::class, 'nim','nim');
+    }
+
 }

@@ -118,24 +118,6 @@ class AspekPenilaianController extends Controller
                 'bobot.regex' => "Bobot harus berupa angka desimal antara 0 hingga 0.99 dengan pemisah titik!",
             ]);
 
-//            if (Auth::user()->role == 3){
-//                ModelAspekPenilaian::create($validasi);
-//            }else{
-//                $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
-//
-//                $nidn = ModelDetailJadwal::with('prodi_jadwal','tahun_jadwal',
-//                    'jadwal_matakuliah','dosen','jadwal_kelas','jadwal_ruangan')
-//                    ->where('tahun_akademik',$tahun_aktif->kode)
-//                    ->where('nidn', $request->matakuliah_id)
-//                    ->first();
-//
-//                $validasi['nidn'] = $nidn->dosen->nidn;
-//                $validasi['nama_dosen'] = $nidn->dosen->nama_dosen;
-//
-//
-//
-//
-//            }
             ModelAspekPenilaian::create($validasi);
             return response()->json(['success' => 'Aspek penilaian berhasil dibuat!']);
         } catch (\Illuminate\Validation\ValidationException $e) {

@@ -29,8 +29,8 @@ class DatabaseSeeder extends Seeder
             //MatakuliahSeeder::class,
             RuanganSeeder::class,
             KelasSeeder::class,
-            MahasiswaSeeder::class,
-            PembayaranSeeder::class,
+            //MahasiswaSeeder::class,
+            //PembayaranSeeder::class,
 
         ]);
     }

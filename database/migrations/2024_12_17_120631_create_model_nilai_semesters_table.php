@@ -15,7 +15,12 @@ return new class extends Migration
     {
         Schema::create('model_nilai_semesters', function (Blueprint $table) {
             $table->id();
-
+            $table->foreignId('tahun_akademik');
+            $table->string('matakuliah_id');
+            $table->foreignId('aspek_id');
+            $table->foreignId('nim');
+            $table->string('nilai');
+            $table->string('nilai_angka');
             $table->timestamps();
         });
     }
