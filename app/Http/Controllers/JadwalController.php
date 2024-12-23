@@ -81,61 +81,64 @@ class JadwalController extends Controller
     {
         //\Log::info('Data diterima:', $request->all());
 
-        // Validasi awal
-        $validasi = $request->validate([
-            'prodi_id' => 'required',
-            'tahun_akademik' => 'required',
-            'matakuliah_id' => 'required',
-            'nidn' => 'required',
-            'kelas_id' => 'required',
-            'ruangan_id' => 'required',
-            'hari' => 'required',
-            'jam_awal' => 'required|date_format:H:i',
-            'jam_akhir' => 'required|date_format:H:i|after:jam_awal'
-        ], [
-            'matakuliah_id.required' => "Matakuliah belum dipilih!",
-            'nidn.required' => "Dosen belum dipilih!",
-            'kelas_id.required' => "Kelas belum dipilih!",
-            'ruangan_id.required' => "Ruangan belum dipilih!",
-            'hari.required' => "Hari belum dipilih!",
-            'jam_awal.required' => "Jam masuk belum diatur!",
-            'jam_akhir.required' => "Jam keluar belum diatur!",
-            'jam_akhir.after' => "Jam keluar harus di atas jam masuk!"
-        ]);
-
-        $jam_awal_baru = $request->jam_awal;
-        $jam_akhir_baru = $request->jam_akhir;
-        $prodi_id = $request->prodi_id;
-        $tahun = $request->tahun_akademik;
-        $hari = $request->hari;
-        $ruangan_id = $request->ruangan_id;
-
-        // Cek bentrok jadwal berdasarkan irisan waktu
-        $bentrok = ModelDetailJadwal::where('tahun_akademik', $tahun)
-            ->where('hari', $hari)
-            ->where('ruangan_id', $ruangan_id)
-            ->get()
-            ->filter(function ($jadwal) use ($jam_awal_baru, $jam_akhir_baru) {
-                [$jam_awal, $jam_akhir] = explode(' - ', $jadwal->jam);
-
-                return (
-                ($jam_awal_baru < $jam_akhir && $jam_akhir_baru > $jam_awal) // Periksa irisan waktu
-                );
-            })
-            ->first();
-
-        if ($bentrok) {
-            return response()->json(['errors' => 'Jadwal bertabrakan dengan jadwal lain!'], 422);
-        }
-
-        // Gabungkan jam_awal dan jam_akhir untuk disimpan dalam kolom 'jam'
-        $validasi['jam'] = $jam_awal_baru . ' - ' . $jam_akhir_baru;
-
         try {
+            // Validasi awal
+            $validasi = $request->validate([
+                'prodi_id' => 'required',
+                'tahun_akademik' => 'required',
+                'matakuliah_id' => 'required',
+                'nidn' => 'required',
+                'kelas_id' => 'required',
+                'ruangan_id' => 'required',
+                'hari' => 'required',
+                'jam_awal' => 'required|date_format:H:i',
+                'jam_akhir' => 'required|date_format:H:i|after:jam_awal'
+            ], [
+                'matakuliah_id.required' => "Matakuliah belum dipilih!",
+                'nidn.required' => "Dosen belum dipilih!",
+                'kelas_id.required' => "Kelas belum dipilih!",
+                'ruangan_id.required' => "Ruangan belum dipilih!",
+                'hari.required' => "Hari belum dipilih!",
+                'jam_awal.required' => "Jam masuk belum diatur!",
+                'jam_akhir.required' => "Jam keluar belum diatur!",
+                'jam_akhir.after' => "Jam keluar harus di atas jam masuk!"
+            ]);
+
+            $jam_awal_baru = $request->jam_awal;
+            $jam_akhir_baru = $request->jam_akhir;
+            $prodi_id = $request->prodi_id;
+            $tahun = $request->tahun_akademik;
+            $hari = $request->hari;
+            $ruangan_id = $request->ruangan_id;
+
+            // Cek bentrok jadwal berdasarkan irisan waktu
+            $bentrok = ModelDetailJadwal::where('tahun_akademik', $tahun)
+                ->where('hari', $hari)
+                ->where('ruangan_id', $ruangan_id)
+                ->get()
+                ->filter(function ($jadwal) use ($jam_awal_baru, $jam_akhir_baru) {
+                    [$jam_awal, $jam_akhir] = explode(' - ', $jadwal->jam);
+
+                    return (
+                    ($jam_awal_baru < $jam_akhir && $jam_akhir_baru > $jam_awal) // Periksa irisan waktu
+                    );
+                })
+                ->first();
+
+            if ($bentrok) {
+                return response()->json(['errors' => 'Jadwal bertabrakan dengan jadwal lain!'], 422);
+            }
+
+            // Gabungkan jam_awal dan jam_akhir untuk disimpan dalam kolom 'jam'
+            $validasi['jam'] = $jam_awal_baru . ' - ' . $jam_akhir_baru;
+
+
             ModelDetailJadwal::create($validasi);
             return response()->json(['success' => 'Jadwal berhasil dibuat!']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Gagal menyimpan jadwal, coba lagi!']);
+            return response()->json(['error' => 'Gagal menyimpan jadwal, coba lagi!'], 500);
         }
     }
 
@@ -160,6 +163,11 @@ class JadwalController extends Controller
             ->where('tahun_akademik', $tahun_akademik->kode)
             ->get();
 
+        // Ambil data kelas dan ruangan berdasarkan ID prodi
+        $kelas = ModelKelas::where('prodi_id', $id)->get();
+        $ruangan = ModelRuangan::where('prodi_id', $id)->get();
+        $matkul = ModelMatakuliah::where('kode_prodi', $id)->get();
+
 //        foreach ($jadwal as $item) {
 //            if ($item->dosen) {
 //                dump($item->dosen->toArray());
@@ -175,30 +183,32 @@ class JadwalController extends Controller
             'tahun_aktif' => $tahun_akademik,
             'tahun_akademik' => ModelTahunAkademik::get(),
             'dosens' => ModelDosen::get(),
-            'ruangans' =>ModelRuangan::get(),
+            'kelas' => $kelas,
+            'ruangans' => $ruangan,
+            'matakuliah' => $matkul,
         ]);
 
 
 
     }
 
-    public function getByProdi($id)
-    {
-        // Ambil data kelas dan ruangan berdasarkan ID prodi
-        $kelas = ModelKelas::where('prodi_id', $id)->get();
-        $ruangan = ModelRuangan::where('prodi_id', $id)->get();
-        $matkul = ModelMatakuliah::where('kode_prodi', $id)->get();
-
-        if ($kelas->isEmpty() && $ruangan->isEmpty()) {
-            return response()->json(['message' => 'Data tidak ditemukan'], 404);
-        }
-
-        return response()->json([
-            'matkul'=> $matkul,
-            'kelas' => $kelas,
-            'ruangan' => $ruangan,
-        ], 200);
-    }
+//    public function getByProdi($id)
+//    {
+//        // Ambil data kelas dan ruangan berdasarkan ID prodi
+//        $kelas = ModelKelas::where('prodi_id', $id)->get();
+//        $ruangan = ModelRuangan::where('prodi_id', $id)->get();
+//        $matkul = ModelMatakuliah::where('kode_prodi', $id)->get();
+//
+//        if ($kelas->isEmpty() && $ruangan->isEmpty()) {
+//            return response()->json(['message' => 'Data tidak ditemukan'], 404);
+//        }
+//
+//        return response()->json([
+//            'matkul'=> $matkul,
+//            'kelas' => $kelas,
+//            'ruangan' => $ruangan,
+//        ], 200);
+//    }
 
 
 
@@ -212,7 +222,7 @@ class JadwalController extends Controller
     {
         //
 
-        $jadwal = ModelDetailJadwal::find($id);
+        $jadwal = ModelDetailJadwal::where('id', $id)->first();
 
         if ($jadwal) {
             // Pisahkan jam awal dan akhir berdasarkan karakter "-"

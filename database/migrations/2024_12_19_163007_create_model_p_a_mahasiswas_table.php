@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('prodi_id');
             $table->foreignId('nim');
+            $table->foreignId('krs_mhs');
             $table->string('nidn');
             $table->timestamps();
         });

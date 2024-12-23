@@ -35,4 +35,9 @@ class ModelKRSMahasiwa extends Model
     {
         return $this->belongsTo(ModelMahasiswa::class,'nim','nim');
     }
+
+    public  function pa_krs()
+    {
+        return $this->hasMany(ModelPAMahasiswa::class,'krs_mhs','nim');
+    }
 }

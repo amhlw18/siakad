@@ -73,67 +73,111 @@ Dashboard
     <!-- ./col -->
 
     <!-- ./col -->
-    <div class="col-lg-3 col-6">
-      <!-- small box -->
-      <div class="small-box bg-danger">
-        <div class="inner">
-            @if(Auth::user()->role == 3)
-                <p>Jumlah Mata Kuliah</p>
-            @endif
+{{--    <div class="col-lg-3 col-6">--}}
+{{--      <!-- small box -->--}}
+{{--      <div class="small-box bg-danger">--}}
+{{--        <div class="inner">--}}
+{{--            @if(Auth::user()->role == 3)--}}
+{{--                <p>Jumlah Mata Kuliah</p>--}}
+{{--            @endif--}}
 
-          <p></p>
-        </div>
-        <div class="icon">
-          <i class="ion ion-pie-graph"></i>
-        </div>
-        <a href="/dashboard/datapeminjaman" class="small-box-footer">Kunjungi <i class="fas fa-arrow-circle-right"></i></a>
-      </div>
-    </div>
+{{--          <p></p>--}}
+{{--        </div>--}}
+{{--        <div class="icon">--}}
+{{--          <i class="ion ion-pie-graph"></i>--}}
+{{--        </div>--}}
+{{--        <a href="/dashboard/datapeminjaman" class="small-box-footer">Kunjungi <i class="fas fa-arrow-circle-right"></i></a>--}}
+{{--      </div>--}}
+{{--    </div>--}}
     <!-- ./col -->
   </div>
   <!-- /.row -->
   <!-- Main row -->
-  <div class="card">
-    <div class="card-header">
-      <h3 class="card-title">
-          @if(Auth::user()->role == 3)
-              Jadwal Matakuliah Semester {{$tahun->tahun_akademik}}
-          @endif
-      </h3>
-    </div>
-    <!-- /.card-header -->
-    <div class="card-body">
-        @if(Auth::user()->role == 3)
-            <table id="table" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Hari</th>
-                    <th>Jam</th>
-                    <th>Matakuliah</th>
-                    <th>Prodi</th>
-                    <th>Kelas</th>
-                    <th>Ruangan</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($jadwal_dosen as $jadwal)
+    @if(Auth::user()->role == 3)
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+
+                    Jadwal Matakuliah Semester {{$tahun->tahun_akademik}}
+
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+
+                <table id="tabel" class="table table-bordered table-striped">
+                    <thead>
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $jadwal->hari ?? '-' }}</td>
-                        <td>{{ $jadwal->jam ?? '-' }}</td>
-                        <td>{{ $jadwal->jadwal_matakuliah->nama_mk ?? '-' }}</td>
-                        <td>{{ $jadwal->prodi_jadwal->nama_prodi }}</td>
-                        <td>{{ $jadwal->jadwal_kelas->nama_kelas ?? '-' }}</td>
-                        <td>{{ $jadwal->jadwal_ruangan->nama_ruangan ?? '-' }}</td>
+                        <th>#</th>
+                        <th>Hari</th>
+                        <th>Jam</th>
+                        <th>Matakuliah</th>
+                        <th>Prodi</th>
+                        <th>Kelas</th>
+                        <th>Ruangan</th>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
-        @endif
-    </div>
-    <!-- /.card-body -->
-  </div>
+                    </thead>
+                    <tbody>
+                    @foreach($jadwal_dosen as $jadwal)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $jadwal->hari ?? '-' }}</td>
+                            <td>{{ $jadwal->jam ?? '-' }}</td>
+                            <td>{{ $jadwal->jadwal_matakuliah->nama_mk ?? '-' }}</td>
+                            <td>{{ $jadwal->prodi_jadwal->nama_prodi }}</td>
+                            <td>{{ $jadwal->jadwal_kelas->nama_kelas ?? '-' }}</td>
+                            <td>{{ $jadwal->jadwal_ruangan->nama_ruangan ?? '-' }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+
+                    KRS Mahasiswa {{$tahun->tahun_akademik}}
+
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+
+                <table id="tabel" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Hari</th>
+                        <th>Jam</th>
+                        <th>Matakuliah</th>
+                        <th>Prodi</th>
+                        <th>Kelas</th>
+                        <th>Ruangan</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($jadwal_dosen as $jadwal)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $jadwal->hari ?? '-' }}</td>
+                            <td>{{ $jadwal->jam ?? '-' }}</td>
+                            <td>{{ $jadwal->jadwal_matakuliah->nama_mk ?? '-' }}</td>
+                            <td>{{ $jadwal->prodi_jadwal->nama_prodi }}</td>
+                            <td>{{ $jadwal->jadwal_kelas->nama_kelas ?? '-' }}</td>
+                            <td>{{ $jadwal->jadwal_ruangan->nama_ruangan ?? '-' }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+    @endif
   <!-- /.row (main row) -->
 </div><!-- /.container-fluid -->
 @endsection()

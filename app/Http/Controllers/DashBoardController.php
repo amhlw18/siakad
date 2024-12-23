@@ -40,6 +40,8 @@ class DashBoardController extends Controller
                 ->get();
 
             $jumlah_pa = ModelPAMahasiswa::where('nidn',$nidn)->count();
+
+            $bimbingan_akademik = ModelPAMahasiswa::with('pa_prodi','pa_mhs','pa_krs')->where('nim','')->get();
         }
 
         return view('admin.index',[
