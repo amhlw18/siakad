@@ -8,6 +8,7 @@ use App\Models\ModelDosen;
 use App\Models\ModelKRSMahasiwa;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelMatakuliah;
+use App\Models\ModelNilaiMHS;
 use App\Models\ModelNilaiSemester;
 use App\Models\ModelTahunAkademik;
 use Illuminate\Http\Request;
@@ -189,6 +190,11 @@ class PenilaianController extends Controller
             $nilai_angka = '0';
         }
 
+        $cek_nilai_mhs = ModelNilaiMHS::where('nim', $id)
+            ->where('matakuliah_id',$mk)
+            ->where('tahun_akademik',$tahun_aktif->kode)
+            ->first();
+
         return view('admin.penilaian.edit',[
             'nilais' => $nilai,
             'mhs' => $mhs,
@@ -199,13 +205,33 @@ class PenilaianController extends Controller
             'jml_nilai' => $jumlah_nilai,
             'nilai_huruf' => $nilai_huruf,
             'nilai_angka' => $nilai_angka,
+            'cek_nilai' => $cek_nilai_mhs,
         ]);
 
     }
 
-    public function simpanNilai()
+    public function simpanNilai(Request $request)
     {
+       // \Log::info('Simpan Nilai:', $request->all());
+        try {
+            $validasi_bentrok = ModelNilaiMHS::where('nim', $request->nim)
+                ->where('matakuliah_id',$request->matakuliah_id)
+                ->where('tahun_akademik',$request->tahun_akademik)
+                ->first();
 
+            if ($validasi_bentrok){
+                return response()->json(['errors' => 'Nilai matakuliah sudah ada !'], 422);
+            }
+
+            ModelNilaiMHS::create($request->all());
+
+            return response()->json(['success' => 'Nilai berhasil disimpan!'], 200);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            \Log::error('Gagal menyimpan nilai:', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Gagal memperbarui nilai, coba lagi!'], 500);
+        }
     }
 
 
@@ -219,7 +245,7 @@ class PenilaianController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            \Log::info('Data nilai:', $request->all());
+
             $validasi = $request->validate([
                 'matakuliah_id' => 'required',
                 'tahun_akademik' => 'required',
@@ -264,6 +290,28 @@ class PenilaianController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Data aspek penilaian berhasil dihapus.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function hapusNilai(Request $request)
+    {
+        try {
+            $data = ModelNilaiMHS::where('nim', $request->nim)
+                ->where('matakuliah_id',$request->matakuliah_id)
+                ->where('tahun_akademik',$request->tahun_akademik)
+                ->first();
+
+            $data->delete();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Nilai berhasil direset !'
             ]);
         } catch (\Exception $e) {
             return response()->json([

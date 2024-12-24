@@ -37,10 +37,26 @@
             </div>
         @endif
 
+        @if($cek_nilai)
+            <div class="alert alert-success" role="alert">
+                Nilai mahasiswa telah disimpan, jika ada perubahan tekan tombol Reset Nilai Untuk melakukan perubahan !
+            </div>
+        @else
+            <div class="alert alert-danger" role="alert">
+                Nilai mahasiswa belum disimpan, tekan tombol simpan untuk menyimpan nilai mahasiswa !
+            </div>
+        @endif
+
         @if($jml_aspek==$jml_nilai)
             <a href="#" class="btn btn-primary mb-2 btn-simpan" ><span data-feather="plus"></span>Simpan Nilai</a>
         @else
             <a href="" class="btn btn-primary mb-2 disabled" ><span data-feather="plus"></span>Simpan Nilai</a>
+        @endif
+
+        @if($cek_nilai)
+            <a href="" class="btn btn-danger mb-2 btn-hapus-nilai"><span data-feather="plus"></span>Reset Nilai</a>
+        @else
+            <a href="" class="btn btn-danger mb-2 disabled"><span data-feather="plus"></span>Reset Nilai</a>
         @endif
 
         <div class="card">
@@ -62,19 +78,37 @@
                     @foreach ($nilais as $nilai)
                         <tr>
                             <td>
-                                <a href="#"
-                                   class="btn btn-danger btn-hapus"
-                                   data-id="{{$nilai->id}}">
-                                    <i class="bi bi-trash"></i>
-                                </a>
 
-                                <a href="#"
-                                   class="btn btn-warning btn-edit"
-                                   data-bs-toggle="modal"
-                                   data-bs-target="#buatJadwalModal"
-                                   data-id="{{$nilai->id}}">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
+                                @if($cek_nilai)
+                                    <a href="#"
+                                       class="btn btn-danger btn-hapus disabled"
+                                       data-id="{{$nilai->id}}">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+
+                                    <a href="#"
+                                       class="btn btn-warning btn-edit disabled"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#buatJadwalModal"
+                                       data-id="{{$nilai->id}}">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                @else
+                                    <a href="#"
+                                       class="btn btn-danger btn-hapus"
+                                       data-id="{{$nilai->id}}">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+
+                                    <a href="#"
+                                       class="btn btn-warning btn-edit"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#buatJadwalModal"
+                                       data-id="{{$nilai->id}}">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                @endif
+
                             </td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $nilai->nilai_aspek->aspek }}</td>
@@ -87,6 +121,10 @@
                         <td colspan="3" class="text-end"><strong>Total Nilai:</strong></td>
                         <td><strong>{{$total_nilai}}</strong></td>
                     </tr>
+                    <tr>
+                        <td colspan="3" class="text-end"><strong>Nilai Huruf:</strong></td>
+                        <td><strong>{{$nilai_huruf}}</strong></td>
+                    </tr>
                     </tfoot>
                 </table>
             </div>
@@ -94,14 +132,13 @@
         </div>
 
         <form id="simpanNilaiForm">
-            <input type="text" id="tahun_akademik" name="tahun_akademik" value="{{$tahun->kode}}">
-            <input type="text" id="matakuliah_id" name="matakuliah_id" value="{{$matkul->kode_mk}}">
-            <input type="text" id="nim" name="nim" value="{{$mhs->nim}}">
-            <input type="text" id="nim" name="nilai_angka" value="{{$nilai_angka}}">
-            <input type="text" id="nidn" name="nilai_huruf" value="{{$nilai_huruf}}">
+            <input type="hidden" id="tahun_akademik" name="tahun_akademik" value="{{$tahun->kode}}">
+            <input type="hidden" id="matakuliah_id" name="matakuliah_id" value="{{$matkul->kode_mk}}">
+            <input type="hidden" id="nim" name="nim" value="{{$mhs->nim}}">
+            <input type="hidden" id="nim" name="nilai_angka" value="{{$nilai_angka}}">
+            <input type="hidden" id="nidn" name="nilai_huruf" value="{{$nilai_huruf}}">
+            <input type="hidden" id="total_nilai" name="total_nilai" value="{{$total_nilai}}">
         </form>
-
-        <a href="" class="btn btn-danger mb-2"><span data-feather="plus"></span>Reset Nilai</a>
         <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
 
@@ -310,7 +347,7 @@
                     cancelButtonText: 'Batal',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        fetch(`/dashboard/pa-mhs`, {
+                        fetch(`/dashboard/nilai-semester/simpan-nilai`, {
                             method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': csrfToken,
@@ -329,7 +366,72 @@
                                     title: 'Berhasil!',
                                     text: data.success,
                                 }).then(() => {
-                                    fetchFilteredData(); // Reload halaman jika diperlukan
+                                    location.reload();
+                                });
+                            })
+                            .catch(async error => {
+                                if (error.status === 422) {
+                                    const errorData = await error.json();
+                                    const errorMessages = Object.values(errorData.errors).flat().join('\n');
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Validasi Gagal!',
+                                        text: errorMessages,
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error!',
+                                        text: 'Terjadi kesalahan saat menyimpan data. Coba lagi!',
+                                    });
+                                    console.error('Error:', error);
+                                }
+                            });
+                    }
+                });
+
+            });
+        });
+
+        document.querySelectorAll('.btn-hapus-nilai').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const form = document.getElementById('simpanNilaiForm');
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                const formData = new FormData(form);
+
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Anda yakin mereset nilai mahasiswa?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, simpan!',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/dashboard/nilai-semester/hapus-nilai`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                            },
+                            body: formData,
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw response; // Lempar error jika respons tidak OK
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil!',
+                                    text: data.success,
+                                }).then(() => {
+                                    location.reload();
                                 });
                             })
                             .catch(async error => {

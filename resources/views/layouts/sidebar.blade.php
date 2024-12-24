@@ -53,7 +53,7 @@
                         <a href="#" class="nav-link {{ Request::is('dashboard/matakuliah*') || Request::is('dashboard/prodi*') || Request::is('dashboard/ruangan*') || Request::is('dashboard/kelas*') || Request::is('dashboard/tahun-akademik*') || Request::is('dashboard/kurikulum*') || Request::is('dashboard/batas-sks*') || Request::is('dashboard/data-dosen*') || Request::is('dashboard/data-mahasiswa*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-graduation-cap"></i>
                             <p>
-                                Master Data Akademik
+                                Data Pokok
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
@@ -120,7 +120,7 @@
                         <a href="#" class="nav-link {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal') || Request::is('dashboard/pa-mhs')   ? 'active' : '' }}">
                             <i class="nav-icon fas fa-clipboard"></i>
                             <p>
-                                Data Administrasi
+                                Perkuliahan
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
