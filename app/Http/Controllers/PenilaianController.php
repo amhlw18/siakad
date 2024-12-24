@@ -68,6 +68,7 @@ class PenilaianController extends Controller
     public function store(Request $request)
     {
         try {
+
             $validasi = $request->validate([
                 'matakuliah_id' => 'required',
                 'tahun_akademik' => 'required',
@@ -134,7 +135,6 @@ class PenilaianController extends Controller
     {
         $nilai = ModelNilaiSemester::find($id);
 
-
         return response()->json($nilai);
     }
 
@@ -146,29 +146,65 @@ class PenilaianController extends Controller
      */
     public function edit($id,$mk)
     {
-
+        $dosen = ModelDosen::where('nidn',Auth::user()->user_id)->first();
         $mhs = ModelMahasiswa::where('nim', $id)->first();
         $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
         $matakuliah = ModelMatakuliah::where('kode_mk',$mk)->first();
 
+        $jumlah_aspek = ModelAspekPenilaian::where('nidn', $dosen->nidn)
+            ->where('matakuliah_id', $mk)
+            ->count();
+        $jumlah_nilai = ModelNilaiSemester::where('nim',$id)
+            ->where('matakuliah_id', $mk)
+            ->where('tahun_akademik', $tahun_aktif->kode)
+            ->count();
+
         $nilai = ModelNilaiSemester::with('nilai_aspek','nilai_mhs')
             ->where('nim',$id)
             ->where('matakuliah_id', $mk)
-            ->where('tahun_akademik', $tahun_aktif->kode)->get();
+            ->where('tahun_akademik', $tahun_aktif->kode)
+            ->get();
 
-        $nilai_angka = DB::table('model_nilai_semesters')
+        $total_nilai = DB::table('model_nilai_semesters')
             ->where('nim',$id)
             ->where('matakuliah_id', $mk)
             ->where('tahun_akademik', $tahun_aktif->kode)
             ->sum('nilai');
+
+
+        if ($total_nilai >=  79 && $total_nilai <= 100 ){
+            $nilai_huruf = 'A';
+            $nilai_angka = '4';
+        }else if ($total_nilai >=  69 && $total_nilai <= 78){
+            $nilai_huruf = 'B';
+            $nilai_angka = '3';
+        }else if ($total_nilai >=  55 && $total_nilai <= 68){
+            $nilai_huruf = 'C';
+            $nilai_angka = '2';
+        }else if ($total_nilai >=  41 && $total_nilai <= 55){
+            $nilai_huruf = 'D';
+            $nilai_angka = '1';
+        }else if ($total_nilai >=  0 && $total_nilai <= 40){
+            $nilai_huruf = 'E';
+            $nilai_angka = '0';
+        }
 
         return view('admin.penilaian.edit',[
             'nilais' => $nilai,
             'mhs' => $mhs,
             'tahun' => $tahun_aktif,
             'matkul' => $matakuliah,
-            'total_nilai' => $nilai_angka,
+            'total_nilai' => $total_nilai,
+            'jml_aspek' => $jumlah_aspek,
+            'jml_nilai' => $jumlah_nilai,
+            'nilai_huruf' => $nilai_huruf,
+            'nilai_angka' => $nilai_angka,
         ]);
+
+    }
+
+    public function simpanNilai()
+    {
 
     }
 
@@ -183,6 +219,7 @@ class PenilaianController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            \Log::info('Data nilai:', $request->all());
             $validasi = $request->validate([
                 'matakuliah_id' => 'required',
                 'tahun_akademik' => 'required',

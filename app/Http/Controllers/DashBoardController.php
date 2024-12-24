@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ModelDetailJadwal;
+use App\Models\ModelKRSMahasiwa;
 use App\Models\ModelPAMahasiswa;
 use App\Models\ModelTahunAkademik;
 use Illuminate\Http\Request;
@@ -41,15 +42,22 @@ class DashBoardController extends Controller
 
             $jumlah_pa = ModelPAMahasiswa::where('nidn',$nidn)->count();
 
-            $bimbingan_akademik = ModelPAMahasiswa::with('pa_prodi','pa_mhs','pa_krs')->where('nim','')->get();
+            $bimbingan_akademik = ModelPAMahasiswa::with('pa_prodi','pa_mhs','pa_krs')->where('nidn',$nidn)->get();
+
+
+
+            return view('admin.index',[
+                'matkul_dosen' => $jumlah_matakuliah_dosen,
+                'jadwal_dosen' => $jadwal_dosen,
+                'jumlah_pa' => $jumlah_pa,
+                'tahun' => $tahun_aktif,
+                'pa' => $bimbingan_akademik,
+            ]);
         }
 
         return view('admin.index',[
-            'matkul_dosen' => $jumlah_matakuliah_dosen,
-            'jadwal_dosen' => $jadwal_dosen,
-            'jumlah_pa' => $jumlah_pa,
-            'tahun' => $tahun_aktif,
 
         ]);
+
     }
 }

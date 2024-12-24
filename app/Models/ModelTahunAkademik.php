@@ -49,4 +49,9 @@ class ModelTahunAkademik extends Model
     {
         return$this->hasMany(ModelNilaiSemester::class, 'tahun_akademik','kode');
     }
+
+    public function nilai_ta_mhs()
+    {
+        return$this->hasMany(ModelNilaiMHS::class, 'tahun_akademik','kode');
+    }
 }

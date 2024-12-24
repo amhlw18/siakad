@@ -27,6 +27,22 @@
             </div>
         @endif
 
+        @if($jml_aspek==$jml_nilai)
+            <div class="alert alert-success" role="alert">
+                Semua aspek penilaian telah dimasukan !
+            </div>
+        @else
+            <div class="alert alert-danger" role="alert">
+                Aspek penilaian belum semua dimasukan !
+            </div>
+        @endif
+
+        @if($jml_aspek==$jml_nilai)
+            <a href="#" class="btn btn-primary mb-2 btn-simpan" ><span data-feather="plus"></span>Simpan Nilai</a>
+        @else
+            <a href="" class="btn btn-primary mb-2 disabled" ><span data-feather="plus"></span>Simpan Nilai</a>
+        @endif
+
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title">Nilai {{$mhs->nama_mhs}} Matakuliah {{$matkul->nama_mk}} </h5>
@@ -76,6 +92,16 @@
             </div>
             <!-- /.card-body -->
         </div>
+
+        <form id="simpanNilaiForm">
+            <input type="text" id="tahun_akademik" name="tahun_akademik" value="{{$tahun->kode}}">
+            <input type="text" id="matakuliah_id" name="matakuliah_id" value="{{$matkul->kode_mk}}">
+            <input type="text" id="nim" name="nim" value="{{$mhs->nim}}">
+            <input type="text" id="nim" name="nilai_angka" value="{{$nilai_angka}}">
+            <input type="text" id="nidn" name="nilai_huruf" value="{{$nilai_huruf}}">
+        </form>
+
+        <a href="" class="btn btn-danger mb-2"><span data-feather="plus"></span>Reset Nilai</a>
         <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
 
@@ -90,7 +116,7 @@
                 <div class="modal-body">
                     <form id="simpanForm">
                         <input type="text" id="nilai_id" name="nilai_id" value="">
-                        <input type="text" id="nim" name="nim" value="">
+                        <input type="text" id="nim" name="nim" value="{{$mhs->nim}}">
                         <input type="text" id="tahun_akademik" name="tahun_akademik" value="{{$tahun->kode}}">
                         <input type="text" id="matakuliah_id" name="matakuliah_id" value="{{$matkul->kode_mk}}">
                         <input type="text" id="aspek_id" name="aspek_id" value="">
@@ -124,7 +150,7 @@
             const nim = document.getElementById('nim');
             const tahun = document.getElementById('tahun_akademik').value;
             const matkul = document.getElementById('matakuliah_id').value;
-
+            const aspekId = document.getElementById('aspek_id');
 
             document.querySelector('#tabel').addEventListener('click', (e) => {
                 if (e.target.closest('.btn-edit')) {
@@ -139,9 +165,9 @@
                             return response.json();
                         })
                         .then(data => {
+                            console.log(data);
                             document.getElementById('nilai').value = data.nilai;
-                            document.getElementById('nim').value = data.nim;
-                            document.getElementById('aspek_id').value = data.aspek_id;
+                            aspekId.value = data.aspek_id;
 
                             modal.show();
                         })
@@ -263,6 +289,71 @@
                     }
                 });
             }
+        });
+
+        document.querySelectorAll('.btn-simpan').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const form = document.getElementById('simpanNilaiForm');
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                const formData = new FormData(form);
+
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Anda yakin menyimpan nilai mahasiswa?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, simpan!',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/dashboard/pa-mhs`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                            },
+                            body: formData,
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw response; // Lempar error jika respons tidak OK
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil!',
+                                    text: data.success,
+                                }).then(() => {
+                                    fetchFilteredData(); // Reload halaman jika diperlukan
+                                });
+                            })
+                            .catch(async error => {
+                                if (error.status === 422) {
+                                    const errorData = await error.json();
+                                    const errorMessages = Object.values(errorData.errors).flat().join('\n');
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Validasi Gagal!',
+                                        text: errorMessages,
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error!',
+                                        text: 'Terjadi kesalahan saat menyimpan data. Coba lagi!',
+                                    });
+                                    console.error('Error:', error);
+                                }
+                            });
+                    }
+                });
+
+            });
         });
 
     </script>

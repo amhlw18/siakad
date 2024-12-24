@@ -50,7 +50,7 @@ Dashboard
         <div class="icon">
           <i class="ion ion-pie-graph"></i>
         </div>
-        <a href="" class="small-box-footer">Kunjungi <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="#" class="small-box-footer"> <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -67,7 +67,7 @@ Dashboard
         <div class="icon">
           <i class="ion ion-pie-graph"></i>
         </div>
-        <a href="/dashboard/riwayatpeminjaman" class="small-box-footer">Kunjungi <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="#" class="small-box-footer"> <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -139,9 +139,7 @@ Dashboard
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">
-
-                    KRS Mahasiswa {{$tahun->tahun_akademik}}
-
+                    Bimbingan Akademik
                 </h3>
             </div>
             <!-- /.card-header -->
@@ -150,25 +148,25 @@ Dashboard
                 <table id="tabel" class="table table-bordered table-striped">
                     <thead>
                     <tr>
+                        <th></th>
                         <th>#</th>
-                        <th>Hari</th>
-                        <th>Jam</th>
-                        <th>Matakuliah</th>
-                        <th>Prodi</th>
-                        <th>Kelas</th>
-                        <th>Ruangan</th>
+                        <th>NIM</th>
+                        <th>Nama</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($jadwal_dosen as $jadwal)
+                    @foreach($pa as $item)
                         <tr>
+                            <td>
+                                <a href="/dashboard/aspek-nilai/{{$item->nim}}"
+                                   class="btn btn-success"
+                                   data-id="{{ $item->nim }}">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                            </td>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $jadwal->hari ?? '-' }}</td>
-                            <td>{{ $jadwal->jam ?? '-' }}</td>
-                            <td>{{ $jadwal->jadwal_matakuliah->nama_mk ?? '-' }}</td>
-                            <td>{{ $jadwal->prodi_jadwal->nama_prodi }}</td>
-                            <td>{{ $jadwal->jadwal_kelas->nama_kelas ?? '-' }}</td>
-                            <td>{{ $jadwal->jadwal_ruangan->nama_ruangan ?? '-' }}</td>
+                            <td>{{ $item->nim ?? '-' }}</td>
+                            <td>{{ $item->pa_mhs->nama_mhs ?? '-' }}</td>
                         </tr>
                     @endforeach
                     </tbody>
