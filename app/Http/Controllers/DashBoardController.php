@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\ModelDetailJadwal;
 use App\Models\ModelKRSMahasiwa;
+use App\Models\ModelMahasiswa;
+use App\Models\ModelNilaiMHS;
 use App\Models\ModelPAMahasiswa;
 use App\Models\ModelTahunAkademik;
 use Illuminate\Http\Request;
@@ -59,5 +61,23 @@ class DashBoardController extends Controller
 
         ]);
 
+    }
+
+    public function detailsPA($id)
+    {
+        $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
+        $mhs = ModelMahasiswa::with('prodi_mhs')->where('nim', $id)->first();
+
+        $khs_mhs = ModelNilaiMHS::with('nilai_matakuliah_mhs',
+            'nilai_mhs_mhs')
+            ->where('nim', $id)
+            ->where('tahun_akademik', $tahun_aktif->kode)
+            ->get();
+
+        return view('dosen.penilaian.detail-penilaian',[
+            'mhs' => $mhs,
+            'khs_mhs' => $khs_mhs,
+            'tahun' => $tahun_aktif,
+        ]);
     }
 }

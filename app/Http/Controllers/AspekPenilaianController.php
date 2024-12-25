@@ -41,7 +41,7 @@ class AspekPenilaianController extends Controller
                 ->get();
         }
 
-        return view('admin.aspek-nilai.index',[
+        return view('dosen.aspek-nilai.index',[
            'dosen' => $dosen,
             'tahun_aktif' => $tahun_aktif,
             'matakuliah' => $matakuliah,
@@ -150,7 +150,7 @@ class AspekPenilaianController extends Controller
             ->where('nidn', $nidn->nidn)
             ->where('matakuliah_id', $id)->first();
 
-        return view('admin.aspek-nilai.show',[
+        return view('dosen.aspek-nilai.show',[
             'aspeks' => $aspek_nilai,
             'matkuls' => $matakuliah_id,
             'role' => $role->id ?? ''

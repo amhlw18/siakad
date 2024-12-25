@@ -158,7 +158,7 @@ Dashboard
                     @foreach($pa as $item)
                         <tr>
                             <td>
-                                <a href="/dashboard/aspek-nilai/{{$item->nim}}"
+                                <a href="/dashboard/dosen/detail-pa/{{$item->nim}}"
                                    class="btn btn-success"
                                    data-id="{{ $item->nim }}">
                                     <i class="bi bi-eye"></i>

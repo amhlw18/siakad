@@ -41,7 +41,7 @@ class PenilaianController extends Controller
             ->groupBy('matakuliah_id')
             ->pluck('total', 'matakuliah_id');
 
-        return view('admin.penilaian.index',[
+        return view('dosen.penilaian.index',[
             'matakuliah'=> $matakuliah,
             'tahun' => $tahun_aktif,
             'dosen' => $dosen,
@@ -124,7 +124,7 @@ class PenilaianController extends Controller
             ->where('nidn', Auth::user()->user_id)
             ->get();
 
-        return view('admin.penilaian.show',[
+        return view('dosen.penilaian.show',[
             'mahasiswa'=> $mahasiswa,
             'tahun' => $tahun_aktif,
             'matkul' => $matakuliah,
@@ -195,7 +195,7 @@ class PenilaianController extends Controller
             ->where('tahun_akademik',$tahun_aktif->kode)
             ->first();
 
-        return view('admin.penilaian.edit',[
+        return view('dosen.penilaian.edit',[
             'nilais' => $nilai,
             'mhs' => $mhs,
             'tahun' => $tahun_aktif,
