@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('title')
-
+    KHS Mahasiswa
 @endsection()
 
 @section('mainmenu')
@@ -48,26 +48,45 @@
                         <th>#</th>
                         <th>Kode Matakuliah</th>
                         <th>Nama Matakuliah </th>
-                        <th>NIM</th>
-                        <th>Nama</th>
+                        <th>Total SKS</th>
                         <th>Nilai Angka </th>
                         <th>Nilai Huruf </th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($matakuliah as $matkul)
+                    @foreach ($khs_mhs as $item)
                         <tr>
                             <td>
-                                <a href="/dashboard/nilai-semester/{{$matkul->matakuliah_id}}"
+                                <a href="/dashboard/nilai-semester/"
                                    class="btn btn-success"
                                    data-id="">
                                     <i class="bi bi-eye"></i>
                                 </a>
                             </td>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $matkul->matakuliah_id }}</td>
-                            <td>{{ $matkul->jadwal_matakuliah->nama_mk}}</td>
-                            <td>{{ $jumlah_mahasiswa[$matkul->matakuliah_id] ?? 0 }}
+                            <td>{{ $item->matakuliah_id }}</td>
+                            <td>{{ $item->nilai_matakuliah_mhs->nama_mk}}</td>
+                            <td>{{ $item->total_sks}}</td>
+                            <td>{{ $item->nilai_angka }}</td>
+                            @if($item->nilai_huruf == 'A')
+                                <td><label class="badge badge-success">{{ $item->nilai_huruf }}</label></td>
+                            @endif
+
+                            @if($item->nilai_huruf == 'B')
+                                <td><label class="badge badge-success">{{ $item->nilai_huruf }}</label></td>
+                            @endif
+
+                            @if($item->nilai_huruf == 'C')
+                                <td><label class="badge badge-warning">{{ $item->nilai_huruf }}</label></td>
+                            @endif
+
+                            @if($item->nilai_huruf == 'D')
+                                <td><label class="badge badge-danger">{{ $item->nilai_huruf }}</label></td>
+                            @endif
+
+                            @if($item->nilai_huruf == 'A')
+                                <td><label class="badge badge-danger">{{ $item->nilai_huruf }}</label></td>
+                            @endif
                         </tr>
                     @endforeach
                     </tbody>

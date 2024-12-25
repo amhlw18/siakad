@@ -214,6 +214,9 @@ class PenilaianController extends Controller
     {
        // \Log::info('Simpan Nilai:', $request->all());
         try {
+
+
+
             $validasi_bentrok = ModelNilaiMHS::where('nim', $request->nim)
                 ->where('matakuliah_id',$request->matakuliah_id)
                 ->where('tahun_akademik',$request->tahun_akademik)

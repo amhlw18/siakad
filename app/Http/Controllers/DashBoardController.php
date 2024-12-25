@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ModelDetailJadwal;
 use App\Models\ModelKRSMahasiwa;
 use App\Models\ModelMahasiswa;
+use App\Models\ModelMatakuliah;
 use App\Models\ModelNilaiMHS;
 use App\Models\ModelPAMahasiswa;
 use App\Models\ModelTahunAkademik;
@@ -68,11 +69,17 @@ class DashBoardController extends Controller
         $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
         $mhs = ModelMahasiswa::with('prodi_mhs')->where('nim', $id)->first();
 
-        $khs_mhs = ModelNilaiMHS::with('nilai_matakuliah_mhs',
-            'nilai_mhs_mhs')
+        $khs_mhs = ModelNilaiMHS::with('nilai_matakuliah_mhs')
             ->where('nim', $id)
             ->where('tahun_akademik', $tahun_aktif->kode)
-            ->get();
+            ->get()
+            ->map(function ($item) {
+                $item->total_sks =
+                    (int) ($item->nilai_matakuliah_mhs->sks_teori ?? 0) +
+                    (int) ($item->nilai_matakuliah_mhs->sks_praktek ?? 0) +
+                    (int) ($item->nilai_matakuliah_mhs->sks_lapangan ?? 0);
+                return $item;
+            });
 
         return view('dosen.penilaian.detail-penilaian',[
             'mhs' => $mhs,

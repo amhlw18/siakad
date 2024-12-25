@@ -12,6 +12,7 @@ class ModelNilaiMHS extends Model
     protected $fillable = [
         'tahun_akademik',
         'matakuliah_id',
+        'sks',
         'nim',
         'total_nilai',
         'nilai_angka',
