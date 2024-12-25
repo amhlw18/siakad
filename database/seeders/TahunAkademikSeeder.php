@@ -113,12 +113,12 @@ class TahunAkademikSeeder extends Seeder
             'Kode' => '20241',
             'tahun_akademik' => '2024/2025 Ganjil',
             'semester' => 'Ganjil',
-            'periode_pembayaran' => $startDate->copy()->addMonths(1)->format('Y-m-d'),
-            'periode_perkuliahan' => $startDate->copy()->addMonths(2)->format('Y-m-d'),
-            'periode_krs' => $startDate->copy()->addMonths(3)->format('Y-m-d'),
-            'periode_penilaian' => $startDate->copy()->addMonths(4)->format('Y-m-d'),
-            'periode_uts' => $startDate->copy()->addMonths(5)->format('Y-m-d'),
-            'periode_uas' => $startDate->copy()->addMonths(6)->format('Y-m-d'),
+            'periode_pembayaran' => '2024-08-01' .' - '. '2024-08-16',
+            'periode_perkuliahan' => '2024-09-23' .' - '. '2025-01-15',
+            'periode_krs' =>'2024-09-09' .' - '. '2024-09-21',
+            'periode_penilaian' => '2025-02-01' .' - '. '2025-02-28',
+            'periode_uts' => '2024-11-18' .' - '. '2024-11-23',
+            'periode_uas' => '2025-01-20' .' - '. '2025-01-31',
             'status' => 1, // Status aktif hanya untuk data pertama
         ]);
     }

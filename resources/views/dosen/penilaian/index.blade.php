@@ -40,6 +40,7 @@
                         <th>#</th>
                         <th>Kode Matakuliah</th>
                         <th>Nama Matakuliah </th>
+                        <th>Prodi</th>
                         <th>Jumlah Mahasiswa</th>
                     </tr>
                     </thead>
@@ -55,7 +56,8 @@
                             </td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $matkul->matakuliah_id }}</td>
-                            <td>{{ $matkul->jadwal_matakuliah->nama_mk}}</td>
+                            <td>{{ $matkul->jadwal_matakuliah->nama_mk }} | Semester {{$matkul->jadwal_matakuliah->semester}}  </td>
+                            <td>{{ $matkul->prodi_jadwal->nama_prodi}}</td>
                             <td>{{ $jumlah_mahasiswa[$matkul->matakuliah_id] ?? 0 }}
                         </tr>
                     @endforeach

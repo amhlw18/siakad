@@ -132,12 +132,16 @@
         </div>
 
         <form id="simpanNilaiForm">
+{{--        <form id="simpanNilaiForm" action="/dashboard/nilai-semester/simpan-nilai" method="post">--}}
+{{--            @csrf--}}
             <input type="hidden" id="tahun_akademik" name="tahun_akademik" value="{{$tahun->kode}}">
             <input type="hidden" id="matakuliah_id" name="matakuliah_id" value="{{$matkul->kode_mk}}">
             <input type="hidden" id="nim" name="nim" value="{{$mhs->nim}}">
             <input type="hidden" id="nim" name="nilai_angka" value="{{$nilai_angka}}">
             <input type="hidden" id="nidn" name="nilai_huruf" value="{{$nilai_huruf}}">
             <input type="hidden" id="total_nilai" name="total_nilai" value="{{$total_nilai}}">
+
+{{--            <input type="submit" >--}}
         </form>
         <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
@@ -152,11 +156,11 @@
                 </div>
                 <div class="modal-body">
                     <form id="simpanForm">
-                        <input type="text" id="nilai_id" name="nilai_id" value="">
-                        <input type="text" id="nim" name="nim" value="{{$mhs->nim}}">
-                        <input type="text" id="tahun_akademik" name="tahun_akademik" value="{{$tahun->kode}}">
-                        <input type="text" id="matakuliah_id" name="matakuliah_id" value="{{$matkul->kode_mk}}">
-                        <input type="text" id="aspek_id" name="aspek_id" value="">
+                        <input type="hidden" id="nilai_id" name="nilai_id" value="">
+                        <input type="hidden" id="nim" name="nim" value="{{$mhs->nim}}">
+                        <input type="hidden" id="tahun_akademik" name="tahun_akademik" value="{{$tahun->kode}}">
+                        <input type="hidden" id="matakuliah_id" name="matakuliah_id" value="{{$matkul->kode_mk}}">
+                        <input type="hidden" id="aspek_id" name="aspek_id" value="">
 
                         <div class="form-group">
                             <label for="Nilai Angka">Nilai Angka</label>
@@ -358,6 +362,7 @@
                                 if (!response.ok) {
                                     throw response; // Lempar error jika respons tidak OK
                                 }
+                                //console.log('Response status:', response.status);
                                 return response.json();
                             })
                             .then(data => {

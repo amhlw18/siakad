@@ -26,75 +26,220 @@
             </div>
         @endif
 
+        <div class="alert alert-warning d-flex align-items-center" role="alert">
+            <i class="fa fa-exclamation-triangle me-2"></i>
+            - Jika KHS mahasiswa belum tampil, menandakan bahwa dosen belum menginput nilai matakuliah atau mahasiswa adalah mahasiswa baru. <br>
+            - Jika KRS Mahasiswa belum tampil, menandakan bahwa mahasiswa belum mengunci KRS atau mahasiswa belum mengisi KRS.<br>
+
+        </div>
+
         <div class="card mb-3">
             <div class="card-body">
                 <p><strong>NIM  :</strong> {{ $mhs->nim ?? '-' }}</p>
                 <p><strong>Nama Mahasiswa :</strong> {{ $mhs->nama_mhs ?? '-' }}</p>
                 <p><strong>Tahun Akademik :</strong> {{ $tahun->tahun_akademik?? '-' }}</p>
                 <p><strong>Prodi :</strong> {{ $mhs->prodi_mhs->nama_prodi ?? '-'}}</p>
+                <p><strong>Semester :</strong> {{ $smt_mhs ?? '-'}}</p>
+                <p><strong>Status KRS :</strong>  <label class="{{ $status_krs->disetujui==1 ? 'badge badge-success' : 'badge badge-danger' }} ">{{ $status_krs->disetujui==1 ? 'Disetujui' : 'Belum disetujui' }}</label></p>
             </div>
         </div>
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">KARTU HASIL STUDI {{$mhs->nama_mhs}} {{$tahun->tahun_akademik}} </h3>
+                <h3 class="card-title">KARTU HASIL STUDI </h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
                 <table id="tabel" class="table table-bordered table-hover">
                     <thead>
                     <tr>
-                        <th></th>
                         <th>#</th>
                         <th>Kode Matakuliah</th>
                         <th>Nama Matakuliah </th>
                         <th>Total SKS</th>
                         <th>Nilai Angka </th>
                         <th>Nilai Huruf </th>
+                        <th>Total (SKS X Nilai Angka)</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($khs_mhs as $item)
                         <tr>
-                            <td>
-                                <a href="/dashboard/nilai-semester/"
-                                   class="btn btn-success"
-                                   data-id="">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            </td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->matakuliah_id }}</td>
                             <td>{{ $item->nilai_matakuliah_mhs->nama_mk}}</td>
-                            <td>{{ $item->total_sks}}</td>
-                            <td>{{ $item->nilai_angka }}</td>
+                            <td>{{ $item->sks}}</td>
                             @if($item->nilai_huruf == 'A')
+                                <td><label class="badge badge-success">{{ $item->nilai_angka }}</label></td>
                                 <td><label class="badge badge-success">{{ $item->nilai_huruf }}</label></td>
+                                <td><label class="badge badge-success">{{ $item->total_nilai }}</label></td>
                             @endif
 
                             @if($item->nilai_huruf == 'B')
+                                <td><label class="badge badge-success">{{ $item->nilai_angka }}</label></td>
                                 <td><label class="badge badge-success">{{ $item->nilai_huruf }}</label></td>
+                                <td><label class="badge badge-success">{{ $item->total_nilai }}</label></td>
                             @endif
 
                             @if($item->nilai_huruf == 'C')
+                                <td><label class="badge badge-warning">{{ $item->nilai_angka }}</label></td>
                                 <td><label class="badge badge-warning">{{ $item->nilai_huruf }}</label></td>
+                                <td><label class="badge badge-warning">{{ $item->total_nilai }}</label></td>
                             @endif
 
                             @if($item->nilai_huruf == 'D')
+                                <td><label class="badge badge-danger">{{ $item->nilai_angka }}</label></td>
                                 <td><label class="badge badge-danger">{{ $item->nilai_huruf }}</label></td>
+                                <td><label class="badge badge-danger">{{ $item->total_nilai }}</label></td>
                             @endif
 
-                            @if($item->nilai_huruf == 'A')
+                            @if($item->nilai_huruf == 'E')
+                                <td><label class="badge badge-danger">{{ $item->nilai_angka }}</label></td>
                                 <td><label class="badge badge-danger">{{ $item->nilai_huruf }}</label></td>
+                                <td><label class="badge badge-danger">{{ $item->total_nilai }}</label></td>
                             @endif
                         </tr>
                     @endforeach
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="6" class="text-end"><strong>Jumlah SKS:</strong></td>
+                        <td><strong>{{$jumlah_sks}}</strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="text-end"><strong>Jumlah Matakuliah Diambil:</strong></td>
+                        <td><strong>{{$jumlah_mk}}</strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="text-end"><strong>IP Semester:</strong></td>
+                        @if($ips >= 0 &&  $ips <= 2.50  )
+                            <td> <label class="badge badge-danger"><strong>{{$ips}}</strong></label> </td>
+                        @endif
+
+                        @if($ips >= 2.51 &&  $ips <= 3.10  )
+                            <td> <label class="badge badge-warning"><strong>{{$ips}}</strong></label> </td>
+                        @endif
+
+                        @if($ips >= 3.11 &&  $ips <= 4.00  )
+                            <td> <label class="badge badge-success"><strong>{{$ips}}</strong></label> </td>
+                        @endif
+                    </tr>
+                    </tfoot>
                 </table>
             </div>
             <!-- /.card-body -->
         </div>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">KARTU RENCANA STUDI</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="tabel2" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Kode Matakuliah</th>
+                        <th>Nama Matakuliah </th>
+                        <th>Semester</th>
+                        <th>SKS</th>
+                    </tr>
+                    </thead>
+                    @if($status_krs->dikunci)
+                        <tbody>
+                        @foreach ($krs_mhs as $item)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->matakuliah_id }}</td>
+                                <td>{{ $item->krs_matkul->nama_mk}}</td>
+                                <td>{{ $item->krs_matkul->semester}}</td>
+                                <td>{{ $item->total_sks}}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    @else
+
+                    @endif
+
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+        @if($status_krs->disetujui)
+            <a href="#" class="btn btn-danger mb-2 btn-batal-krs" ><span data-feather="plus"></span>Batalkan KRS</a>
+        @else
+            <a href="#" class="btn btn-primary mb-2 btn-simpan-krs" ><span data-feather="plus"></span>Setujui KRS</a>
+        @endif
         <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
+
+    <script>
+        document.querySelectorAll('.btn-simpan').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const form = document.getElementById('simpanNilaiForm');
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                const formData = new FormData(form);
+
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Anda yakin menyetujui KRS ?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Setujui!',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/dashboard/nilai-semester/simpan-nilai`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                            },
+                            body: formData,
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw response; // Lempar error jika respons tidak OK
+                                }
+                                //console.log('Response status:', response.status);
+                                return response.json();
+                            })
+                            .then(data => {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil!',
+                                    text: data.success,
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            })
+                            .catch(async error => {
+                                if (error.status === 422) {
+                                    const errorData = await error.json();
+                                    const errorMessages = Object.values(errorData.errors).flat().join('\n');
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Validasi Gagal!',
+                                        text: errorMessages,
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error!',
+                                        text: 'Terjadi kesalahan saat menyimpan data. Coba lagi!',
+                                    });
+                                    console.error('Error:', error);
+                                }
+                            });
+                    }
+                });
+
+            });
+        });
+    </script>
 
 @endsection()

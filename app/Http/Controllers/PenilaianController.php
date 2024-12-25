@@ -30,7 +30,7 @@ class PenilaianController extends Controller
         $dosen = ModelDosen::where('nidn',Auth::user()->user_id)->first();
 
         $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
-        $matakuliah = ModelDetailJadwal::with('jadwal_matakuliah')
+        $matakuliah = ModelDetailJadwal::with('jadwal_matakuliah','prodi_jadwal')
             ->where('nidn',$dosen->nidn)
             ->where('tahun_akademik',$tahun_aktif->kode)
             ->get();
@@ -214,8 +214,21 @@ class PenilaianController extends Controller
     {
        // \Log::info('Simpan Nilai:', $request->all());
         try {
+            $khs_mhs = ModelMatakuliah::where('kode_mk', $request->matakuliah_id)
+                ->get()
+                ->map(function ($item) {
+                    $item->total_sks =
+                        (int) ($item->sks_teori ?? 0) +
+                        (int) ($item->sks_praktek ?? 0) +
+                        (int) ($item->sks_lapangan ?? 0);
+                    return $item;
+                });
 
+            foreach ($khs_mhs as $item){
+                $total_sks = $item->total_sks;
+                $total_nilai = $total_sks * $request->nilai_angka;
 
+            }
 
             $validasi_bentrok = ModelNilaiMHS::where('nim', $request->nim)
                 ->where('matakuliah_id',$request->matakuliah_id)
@@ -226,7 +239,15 @@ class PenilaianController extends Controller
                 return response()->json(['errors' => 'Nilai matakuliah sudah ada !'], 422);
             }
 
-            ModelNilaiMHS::create($request->all());
+            ModelNilaiMHS::create([
+                'tahun_akademik' => $request->tahun_akademik,
+                'matakuliah_id' => $request->matakuliah_id,
+                'sks' =>$total_sks,
+                'nim' => $request->nim,
+                'total_nilai' => $total_nilai,
+                'nilai_angka' => $request->nilai_angka,
+                'nilai_huruf' => $request->nilai_huruf,
+            ]);
 
             return response()->json(['success' => 'Nilai berhasil disimpan!'], 200);
         } catch (\Illuminate\Validation\ValidationException $e) {

@@ -84,7 +84,7 @@ Route::middleware('auth')->group(function (){
         Route::post('/dashboard/nilai-semester/simpan-nilai',[PenilaianController::class,'simpanNilai']);
         Route::post('/dashboard/nilai-semester/hapus-nilai',[PenilaianController::class,'hapusNilai']);
 
-        Route::get('/dashboard/dosen/detail-pa/{id}',[DashBoardController::class, 'detailsPA']);
+        Route::get('/dashboard/dosen/detail-pa/{id}',[DashBoardController::class, 'detailPA']);
     });
 
 
