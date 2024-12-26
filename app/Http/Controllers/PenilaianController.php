@@ -193,6 +193,7 @@ class PenilaianController extends Controller
         $cek_nilai_mhs = ModelNilaiMHS::where('nim', $id)
             ->where('matakuliah_id',$mk)
             ->where('tahun_akademik',$tahun_aktif->kode)
+            ->where('status', 1)
             ->first();
 
         return view('dosen.penilaian.edit',[

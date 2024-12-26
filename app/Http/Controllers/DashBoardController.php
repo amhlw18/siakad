@@ -11,6 +11,7 @@ use App\Models\ModelPAMahasiswa;
 use App\Models\ModelPembayaran;
 use App\Models\ModelStatusKRS;
 use App\Models\ModelTahunAkademik;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\DataBuku;
 use App\Models\Mahasiswa;
@@ -104,6 +105,35 @@ class DashBoardController extends Controller
             $ips = number_format($ips, 2,'.','');
         }
 
+        $tanggalSekarang = Carbon::today();
+
+        $tahunAkademik = ModelTahunAkademik::where('status', 1)->get();
+
+        $pesan = null;
+        $periode = false;
+        foreach ($tahunAkademik as $item) {
+            // Pisahkan tanggal awal dan akhir dari kolom periode
+            [$tanggalAwal, $tanggalAkhir] = explode(' - ', $item->periode_krs);
+
+            // Konversi menjadi format Carbon
+            $tanggalAwal = Carbon::parse($tanggalAwal);
+            $tanggalAkhir = Carbon::parse($tanggalAkhir);
+
+            //dd($tanggalAwal .' '. $tanggalAkhir);
+
+             //Cek apakah tanggal sistem berada di antara tanggal awal dan akhir
+            if ($tanggalSekarang->between($tanggalAwal, $tanggalAkhir)) {
+                $pesan = 'Periode KRS berlangsung '.' s/d ' . $tanggalAkhir;
+                $periode = true;
+                break; // Keluar dari loop jika sudah menemukan periode yang sesuai
+            }else{
+                $pesan = 'Periode KRS telah berakhir pada tanggal'.' '. $tanggalAkhir;
+                $periode = false;
+                break; // Keluar dari loop jika sudah menemukan periode yang sesuai
+            }
+        }
+
+
         $status_krs = ModelStatusKRS::where('nim',$id)->first();
 
         $krs_mhs = ModelKRSMahasiwa::with('krs_matkul','krs_mhs')
@@ -131,7 +161,84 @@ class DashBoardController extends Controller
             'status_krs' => $status_krs,
             'krs_mhs' => $krs_mhs,
             'status_krs' => $status_krs,
+            'pesan' => $pesan,
+            'periode' => $periode,
         ]);
+    }
+
+    public function simpanKRS(Request $request)
+    {
+        try {
+
+            $nim = $request->nim;
+            $tahun = $request->tahun_akademik;
+
+            $krs_mhs = ModelKRSMahasiwa::with('krs_matkul','krs_mhs')
+                ->where('nim',$nim)
+                ->where('tahun_akademik',$tahun)
+                ->get()
+                ->map(function ($item) {
+                    $item->total_sks =
+                        (int) ($item->krs_matkul->sks_teori ?? 0) +
+                        (int) ($item->krs_matkul->sks_praktek ?? 0) +
+                        (int) ($item->krs_matkul->sks_lapangan ?? 0);
+                    return $item;
+                });
+
+            foreach ($krs_mhs as $item){
+                ModelNilaiMHS::create([
+                    'tahun_akademik' => $item->tahun_akademik,
+                    'matakuliah_id' => $item->matakuliah_id,
+                    'sks' => $item->total_sks,
+                    'nim' => $item->nim,
+                    'total_nilai' => '0',
+                    'nilai_angka' => '0',
+                    'nilai_huruf' => 'E',
+                ]);
+            }
+
+            $data = [
+                'nim' => $nim,
+                'dikunci' => 1,
+                'disetujui' => 1,
+            ];
+
+            ModelStatusKRS::where('nim', $nim)->update($data);
+
+            return response()->json(['success' => 'KRS berhasil disetujui!'], 200);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            \Log::error('Gagal menyimpan nilai:', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Gagal menyetujui KRS, coba lagi!'], 500);
+        }
+    }
+
+    public function batalkanKRS(Request $request)
+    {
+        try {
+            ModelNilaiMHS::where('nim', $request->nim)
+                ->where('tahun_akademik',$request->tahun_akademik)
+                ->delete();
+
+            $data = [
+                'nim' => $request->nim,
+                'dikunci' => 1,
+                'disetujui' => 0,
+            ];
+
+            ModelStatusKRS::where('nim', $request->nim)->update($data);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'KRS berhasil dibatalkan !'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 
 

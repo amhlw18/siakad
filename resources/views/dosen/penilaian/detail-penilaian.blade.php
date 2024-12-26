@@ -26,12 +26,22 @@
             </div>
         @endif
 
-        <div class="alert alert-warning d-flex align-items-center" role="alert">
-            <i class="fa fa-exclamation-triangle me-2"></i>
-            - Jika KHS mahasiswa belum tampil, menandakan bahwa dosen belum menginput nilai matakuliah atau mahasiswa adalah mahasiswa baru. <br>
-            - Jika KRS Mahasiswa belum tampil, menandakan bahwa mahasiswa belum mengunci KRS atau mahasiswa belum mengisi KRS.<br>
+        @if ($periode)
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+                <i class="fa fa-exclamation-triangle me-2"></i>
+                - {{ $pesan }}
+            </div>
 
-        </div>
+            <div class="alert alert-warning d-flex align-items-center" role="alert">
+                <i class="fa fa-exclamation-triangle me-2"></i>
+                - Jika KRS Mahasiswa belum tampil, menandakan bahwa mahasiswa belum mengunci KRS atau mahasiswa belum mengisi KRS.<br>
+            </div>
+        @else
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <i class="fa fa-exclamation-triangle me-2"></i>
+                - {{ $pesan }}
+            </div>
+        @endif
 
         <div class="card mb-3">
             <div class="card-body">
@@ -166,20 +176,37 @@
             <!-- /.card-body -->
         </div>
 
-        @if($status_krs->disetujui)
+        @if(! $status_krs->disetujui && $status_krs->dikunci)
+            <a href="#" class="btn btn-primary mb-2 btn-setujui-krs" ><span data-feather="plus"></span>Setujui KRS</a>
+        @endif
+
+        @if($status_krs->disetujui && $periode)
             <a href="#" class="btn btn-danger mb-2 btn-batal-krs" ><span data-feather="plus"></span>Batalkan KRS</a>
         @else
-            <a href="#" class="btn btn-primary mb-2 btn-simpan-krs" ><span data-feather="plus"></span>Setujui KRS</a>
+            <a href="#" class="btn btn-danger mb-2 btn-batal-krs disabled"><span data-feather="plus"></span>Batalkan KRS</a>
         @endif
+
+        <form id="simpanKRSForm">
+            <input type="hidden" id="tahun_akademik" name="tahun_akademik" value="{{$tahun->kode}}">
+            <input type="hidden" id="nim" name="nim" value="{{$mhs->nim}}">
+        </form>
+
+{{--        <form id="simpanKRSForm" action="/dashboard/dosen/detail-pa" method="post">--}}
+{{--            @csrf--}}
+{{--            <input type="hidden" id="tahun_akademik" name="tahun_akademik" value="{{$tahun->kode}}">--}}
+{{--            <input type="hidden" id="nim" name="nim" value="{{$mhs->nim}}">--}}
+
+{{--            <input type="submit" >--}}
+{{--        </form>--}}
         <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
 
     <script>
-        document.querySelectorAll('.btn-simpan').forEach(button => {
+        document.querySelectorAll('.btn-setujui-krs').forEach(button => {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
 
-                const form = document.getElementById('simpanNilaiForm');
+                const form = document.getElementById('simpanKRSForm');
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
                 const formData = new FormData(form);
 
@@ -194,7 +221,73 @@
                     cancelButtonText: 'Batal',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        fetch(`/dashboard/nilai-semester/simpan-nilai`, {
+                        fetch(`/dashboard/dosen/detail-pa`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                            },
+                            body: formData,
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw response; // Lempar error jika respons tidak OK
+                                }
+                                //console.log('Response status:', response.status);
+                                return response.json();
+                            })
+                            .then(data => {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil!',
+                                    text: data.success,
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            })
+                            .catch(async error => {
+                                if (error.status === 422) {
+                                    const errorData = await error.json();
+                                    const errorMessages = Object.values(errorData.errors).flat().join('\n');
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Validasi Gagal!',
+                                        text: errorMessages,
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error!',
+                                        text: 'Terjadi kesalahan saat menyimpan data. Coba lagi!',
+                                    });
+                                    console.error('Error:', error);
+                                }
+                            });
+                    }
+                });
+
+            });
+        });
+
+        document.querySelectorAll('.btn-batal-krs').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const form = document.getElementById('simpanKRSForm');
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                const formData = new FormData(form);
+
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Anda yakin menyetujui KRS ?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Setujui!',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/dashboard/dosen/detail-pa/delete`, {
                             method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': csrfToken,

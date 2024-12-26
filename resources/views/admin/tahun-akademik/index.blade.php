@@ -27,6 +27,13 @@
                 {{ session('success') }}
             </div>
         @endif
+
+        @if (session()->has('error'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <a href="/dashboard/tahun-akademik/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Tambah Tahun Akademik</a>
         <div class="card">
             <div class="card-header">

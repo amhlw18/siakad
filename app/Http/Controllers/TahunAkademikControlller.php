@@ -14,8 +14,10 @@ class TahunAkademikControlller extends Controller
      */
     public function index()
     {
+        //$tahun_akademik = ModelTahunAkademik::
+
         return view('admin.tahun-akademik.index',[
-            'akademis' => ModelTahunAkademik::get()
+            'akademis' => ModelTahunAkademik::orderBY('kode','desc')->get()
         ]);
     }
 
@@ -134,7 +136,15 @@ class TahunAkademikControlller extends Controller
 
         // Defaultkan status ke 0 jika checkbox tidak dicentang
         $validate['status'] = $request->has('status') ? 1 : 0;
-    
+
+        $validasiAktifLain = ModelTahunAkademik::where('status', 1)
+            ->where('id', '!=', $id)
+            ->first();
+
+        if ($validate['status'] === 1 && $validasiAktifLain) {
+            return redirect('/dashboard/tahun-akademik')->with('error', 'Hanya 1 tahun akademik yang boleh aktif!');
+        }
+
         ModelTahunAkademik::where('id', $id)->update($validate);
 
         return redirect('/dashboard/tahun-akademik')->with('success', 'Tahun akademik berhasil di ubah !');
@@ -149,7 +159,7 @@ class TahunAkademikControlller extends Controller
     public function destroy($id)
     {
         $data = ModelTahunAkademik::where('id', $id)->first();
-        
+
         $data->delete();
 
         return redirect('/dashboard/tahun-akademik')->with('success', 'Tahun akademik berhasil di hapus !');

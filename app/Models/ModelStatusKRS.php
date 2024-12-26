@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ModelStatusKRS extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'nim',
+
+    ];
 }
