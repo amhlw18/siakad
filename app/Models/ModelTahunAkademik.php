@@ -29,7 +29,7 @@ class ModelTahunAkademik extends Model
 
     public  function pembayaran_tahun_akademik()
     {
-        return $this->hasMany(ModelPembayaran::class, 'tahun_akademik','id');
+        return $this->hasMany(ModelPembayaran::class, 'tahun_akademik','kode');
     }
 
     public function smt_masuk(){

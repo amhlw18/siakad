@@ -123,13 +123,18 @@ class DashBoardController extends Controller
 
              //Cek apakah tanggal sistem berada di antara tanggal awal dan akhir
             if ($tanggalSekarang->between($tanggalAwal, $tanggalAkhir)) {
-                $pesan = 'Periode KRS berlangsung '.' s/d ' . $tanggalAkhir;
+                $pesan = 'Periode KRS berlangsung '.' s/d ' . $tanggalAkhir->format('d-m-Y') . '.';
                 $periode = true;
                 break; // Keluar dari loop jika sudah menemukan periode yang sesuai
-            }else{
-                $pesan = 'Periode KRS telah berakhir pada tanggal'.' '. $tanggalAkhir;
+            }elseif ($tanggalSekarang->lessThan($tanggalAwal)) {
+                // Jika periode belum dimulai
+                $pesan = 'Periode KRS akan dimulai pada tanggal ' . $tanggalAwal->format('d-m-Y') . '.';
                 $periode = false;
-                break; // Keluar dari loop jika sudah menemukan periode yang sesuai
+                break;
+            } elseif ($tanggalSekarang->greaterThan($tanggalAkhir)) {
+                // Jika periode telah berakhir
+                $pesan = 'Periode KRS telah berakhir pada tanggal ' . $tanggalAkhir->format('d-m-Y') . '.';
+                $periode = false;
             }
         }
 

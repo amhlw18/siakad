@@ -29,6 +29,6 @@ class ModelPembayaran extends Model
 
     public function tahun_akademik_pembayaran()
     {
-        return $this->belongsTo(ModelTahunAkademik::class, 'tahun_akademik','id');
+        return $this->belongsTo(ModelTahunAkademik::class, 'tahun_akademik','kode');
     }
 }

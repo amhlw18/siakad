@@ -25,8 +25,6 @@ class PembayaranController extends Controller
     }
 
 
-
-
     /**
      * Show the form for creating a new resource.
      *
@@ -98,7 +96,7 @@ class PembayaranController extends Controller
         $validatedData['is_bayar'] = $request->has('is_bayar') ? 1 : 0;
 
         ModelPembayaran::create([
-           'tahun_akademik'=>$tahun_akademik->id,
+           'tahun_akademik'=>$tahun_akademik->kode,
            'nim' => $mahasiswa->nim,
            'prodi_id' => $mahasiswa->prodi_id,
             'tgl_bayar' => now()->format('Y-m-d H:i:s'),

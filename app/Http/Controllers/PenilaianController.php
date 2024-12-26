@@ -11,6 +11,7 @@ use App\Models\ModelMatakuliah;
 use App\Models\ModelNilaiMHS;
 use App\Models\ModelNilaiSemester;
 use App\Models\ModelTahunAkademik;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -111,6 +112,38 @@ class PenilaianController extends Controller
      */
     public function show($id)
     {
+        $tanggalSekarang = Carbon::today();
+
+        $tahunAkademik = ModelTahunAkademik::where('status', 1)->get();
+
+        $pesan = null;
+        $periode = false;
+        foreach ($tahunAkademik as $item) {
+            // Pisahkan tanggal awal dan akhir dari kolom periode
+            [$tanggalAwal, $tanggalAkhir] = explode(' - ', $item->periode_penilaian);
+
+            // Konversi menjadi format Carbon
+            $tanggalAwal = Carbon::parse($tanggalAwal);
+            $tanggalAkhir = Carbon::parse($tanggalAkhir);
+
+            //dd($tanggalAwal .' '. $tanggalAkhir);
+
+            //Cek apakah tanggal sistem berada di antara tanggal awal dan akhir
+            if ($tanggalSekarang->between($tanggalAwal, $tanggalAkhir)) {
+                $pesan = 'Periode penilaian berlangsung '.' s/d ' . $tanggalAkhir>format('d-m-Y') . '.';
+                $periode = true;
+                break; // Keluar dari loop jika sudah menemukan periode yang sesuai
+            }elseif ($tanggalSekarang->lessThan($tanggalAwal)) {
+                // Jika periode belum dimulai
+                $pesan = 'Periode penilaian akan dimulai pada tanggal ' . $tanggalAwal->format('d-m-Y') . '.';
+                $periode = false;
+                break;
+            } elseif ($tanggalSekarang->greaterThan($tanggalAkhir)) {
+                // Jika periode telah berakhir
+                $pesan = 'Periode penilaian telah berakhir pada tanggal ' . $tanggalAkhir->format('d-m-Y') . '.';
+                $periode = false;
+            }
+        }
 
         $matakuliah = ModelMatakuliah::where('kode_mk',$id)->first();
 
@@ -129,6 +162,8 @@ class PenilaianController extends Controller
             'tahun' => $tahun_aktif,
             'matkul' => $matakuliah,
             'aspeks' => $aspek_nilai,
+            'pesan' => $pesan,
+            'periode' => $periode,
         ]);
     }
 
@@ -230,25 +265,38 @@ class PenilaianController extends Controller
                 $total_nilai = $total_sks * $request->nilai_angka;
 
             }
-
+//
             $validasi_bentrok = ModelNilaiMHS::where('nim', $request->nim)
                 ->where('matakuliah_id',$request->matakuliah_id)
                 ->where('tahun_akademik',$request->tahun_akademik)
+                ->where('status', 1)
                 ->first();
 
             if ($validasi_bentrok){
                 return response()->json(['errors' => 'Nilai matakuliah sudah ada !'], 422);
             }
 
-            ModelNilaiMHS::create([
-                'tahun_akademik' => $request->tahun_akademik,
-                'matakuliah_id' => $request->matakuliah_id,
-                'sks' =>$total_sks,
-                'nim' => $request->nim,
-                'total_nilai' => $total_nilai,
+//            ModelNilaiMHS::create([
+//                'tahun_akademik' => $request->tahun_akademik,
+//                'matakuliah_id' => $request->matakuliah_id,
+//                'sks' =>$total_sks,
+//                'nim' => $request->nim,
+//                'total_nilai' => $total_nilai,
+//                'nilai_angka' => $request->nilai_angka,
+//                'nilai_huruf' => $request->nilai_huruf,
+//            ]);
+
+            $data = [
+                'total_nilai'=>$total_nilai,
                 'nilai_angka' => $request->nilai_angka,
                 'nilai_huruf' => $request->nilai_huruf,
-            ]);
+                'status' => 1,
+            ];
+
+            ModelNilaiMHS::where('nim', $request->nim)
+                ->where('matakuliah_id', $request->matakuliah_id)
+                ->where('tahun_akademik', $request->tahun_akademik)
+                ->update($data);
 
             return response()->json(['success' => 'Nilai berhasil disimpan!'], 200);
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -327,12 +375,21 @@ class PenilaianController extends Controller
     public function hapusNilai(Request $request)
     {
         try {
-            $data = ModelNilaiMHS::where('nim', $request->nim)
-                ->where('matakuliah_id',$request->matakuliah_id)
-                ->where('tahun_akademik',$request->tahun_akademik)
-                ->first();
+//            $data = ModelNilaiMHS::where('nim', $request->nim)
+//                ->where('matakuliah_id',$request->matakuliah_id)
+//                ->where('tahun_akademik',$request->tahun_akademik)
+//                ->first();
+//
+//            $data->delete();
 
-            $data->delete();
+            $data = [
+                'status' => 0,
+            ];
+
+            ModelNilaiMHS::where('nim', $request->nim)
+                ->where('matakuliah_id', $request->matakuliah_id)
+                ->where('tahun_akademik', $request->tahun_akademik)
+                ->update($data);
 
             return response()->json([
                 'status' => 'success',

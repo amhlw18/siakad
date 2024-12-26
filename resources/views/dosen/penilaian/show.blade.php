@@ -27,6 +27,23 @@
             </div>
         @endif
 
+        @if ($periode)
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+                <i class="fa fa-exclamation-triangle me-2"></i>
+                - {{ $pesan }}
+            </div>
+
+            <div class="alert alert-warning d-flex align-items-center" role="alert">
+                <i class="fa fa-exclamation-triangle me-2"></i>
+                - Jika KRS Mahasiswa belum tampil, menandakan bahwa mahasiswa belum mengunci KRS atau mahasiswa belum mengisi KRS.<br>
+            </div>
+        @else
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <i class="fa fa-exclamation-triangle me-2"></i>
+                - {{ $pesan }}
+            </div>
+        @endif
+
 
         <div class="card">
             <div class="card-header">
@@ -47,18 +64,33 @@
                     @foreach ($mahasiswa as $mhs)
                         <tr>
                             <td>
-                                <a href="#"
-                                   class="btn btn-primary btn-isi-nilai"
-                                   data-bs-toggle="modal"
-                                   data-bs-target="#buatJadwalModal"
-                                   data-id="{{$mhs->nim}}">
-                                    <i class="bi bi-plus"></i>
-                                </a>
+                                @if($periode)
+                                    <a href="#"
+                                       class="btn btn-primary btn-isi-nilai"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#buatJadwalModal"
+                                       data-id="{{$mhs->nim}}">
+                                        <i class="bi bi-plus"></i>
+                                    </a>
 
-                                <a href="/dashboard/nilai-semester/{{ $mhs->nim }}/{{$matkul->kode_mk}}/edit"
-                                   class="btn btn-success">
-                                    <i class="bi bi-eye"></i>
-                                </a>
+                                    <a href="/dashboard/nilai-semester/{{ $mhs->nim }}/{{$matkul->kode_mk}}/edit"
+                                       class="btn btn-success">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                @else
+                                    <a href="#"
+                                       class="btn btn-primary btn-isi-nilai disabled"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#buatJadwalModal"
+                                       data-id="{{$mhs->nim}}">
+                                        <i class="bi bi-plus"></i>
+                                    </a>
+
+                                    <a href="/dashboard/nilai-semester/{{ $mhs->nim }}/{{$matkul->kode_mk}}/edit"
+                                       class="btn btn-success disabled">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                @endif
                             </td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $mhs->krs_mhs->nim }}</td>
