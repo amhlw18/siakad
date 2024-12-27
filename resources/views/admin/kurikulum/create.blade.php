@@ -38,11 +38,11 @@ Tambah Data Kurikulum
                 <label for="exampleSelectRounded0">Berlaku Tahun Akademik</label>
                 <select class="custom-select rounded-0" id="tahun_akademik_id" name="tahun_akademik_id">
                   @foreach ($tahun_akademis as $tahun_akademik)
-                  @if( old('tahun_akademik_id') == $tahun_akademik->id)
-                  <option selected value="{{$tahun_akademik->id}}">{{$tahun_akademik->tahun_akademik}}</option>
-                  @else
-                  <option value="{{$tahun_akademik->id}}">{{ $tahun_akademik->tahun_akademik }}</option>
-                  @endif
+                        @if( old('tahun_akademik_id') == $tahun_akademik->kode)
+                            <option selected value="{{$tahun_akademik->kode}}">{{$tahun_akademik->tahun_akademik}}</option>
+                        @else
+                            <option value="{{$tahun_akademik->kode}}">{{ $tahun_akademik->tahun_akademik }}</option>
+                        @endif
                   @endforeach
 
                 </select>

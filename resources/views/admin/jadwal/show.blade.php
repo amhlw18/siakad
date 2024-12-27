@@ -78,11 +78,8 @@
                         <tr>
                             <td>
 
-                                <a href="#"
-                                   class="btn btn-warning btn-edit"
-                                   data-bs-toggle="modal"
-                                   data-bs-target="#buatJadwalModal"
-                                   data-id="{{ $jadwal->id }}">
+                                <a href="/dashboard/data-jadwal/{{ $jadwal->id }}/{{ $prodi->kode_prodi ?? '-' }}/edit"
+                                   class="btn btn-warning btn-edit">
                                     <i class="bi bi-pencil"></i>
                                 </a>
 
@@ -254,6 +251,7 @@
 
     <script>
 
+        //let dataTable;
         document.addEventListener('DOMContentLoaded', () => {
             //const filterProdi = document.getElementById('filterProdi');
             const filterTahun = document.getElementById('filterTahun');
@@ -279,12 +277,8 @@
                         // Add new rows
                         data.forEach((item, index) => {
                             dataTable.row.add([
-                                `
-                                <a href="/dashboard/data-jadwal/${item.id}/{{ $prodi->kode_prodi ?? '-' }}"
-                                   class="btn btn-warning btn-edit"
-                                   data-bs-toggle="modal"
-                                   data-bs-target="#buatJadwalModal"
-                                   data-id="${item.id}">
+                                `<a href="/dashboard/data-jadwal/${item.id}/{{ $prodi->kode_prodi ?? '-' }}/edit"
+                                   class="btn btn-warning btn-edit">
                                     <i class="bi bi-pencil"></i>
                                 </a>
 
@@ -294,7 +288,8 @@
                                    data-id="${item.id}">
                                     <i class="bi bi-trash"></i>
                                 </a>
-                                `,
+                                `
+                                ,
                                 index + 1,
                                 item.hari,
                                 item.jam || '-',
@@ -315,6 +310,7 @@
             filterTahun.addEventListener('change', fetchFilteredData);
         });
 
+
         document.addEventListener('DOMContentLoaded', () => {
             const modal = new bootstrap.Modal(document.getElementById('buatJadwalModal'));
             const kelasDropdown = document.getElementById('kelas_id');
@@ -323,46 +319,46 @@
             const jadwalIdField = document.getElementById('jadwal_id');
             const prodiId = document.getElementById('prodi_id');
 
-            document.querySelector('#tabel').addEventListener('click', (e) => {
-                if (e.target.closest('.btn-edit')) {
-                    e.preventDefault();
-
-                    const button = e.target; // Tombol yang diklik
-                    const id = button.getAttribute('data-id'); // Ambil ID jadwal
-                    jadwalIdField.value = id;
-                    const id_prodi = prodiId.value;
-
-                    // Lakukan fetch dan update dropdown, serta tampilkan modal
-                    fetch(`/dashboard/data-jadwal/${id}/edit`)
-                        .then(response => {
-                            if (!response.ok) throw new Error('Gagal memuat data');
-                            return response.json();
-                        })
-                        .then(data => {
-                            console.log(data);
-                            document.getElementById('nidn').value = data.nidn;
-                            document.getElementById('hari').value = data.hari;
-
-                            if (data.jam_awal && data.jam_akhir) {
-                                document.getElementById('jam_awal').value = data.jam_awal;
-                                document.getElementById('jam_akhir').value = data.jam_akhir;
-                            } else {
-                                document.getElementById('jam_awal').value = '';
-                                document.getElementById('jam_akhir').value = '';
-                            }
-
-                            kelasDropdown.value = data.kelas_id;
-                            ruanganDropdown.value = data.ruangan_id;
-                            matkulDropdown.value = data.matakuliah_id;
-
-                            modal.show();
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Gagal memuat data');
-                        });
-                }
-            });
+            // document.querySelector('#tabel').addEventListener('click', (e) => {
+            //     if (e.target.closest('.btn-edit')) {
+            //         e.preventDefault();
+            //
+            //         const button = e.target; // Tombol yang diklik
+            //         const id = button.getAttribute('data-id'); // Ambil ID jadwal
+            //         jadwalIdField.value = id;
+            //         const id_prodi = prodiId.value;
+            //
+            //         // Lakukan fetch dan update dropdown, serta tampilkan modal
+            //         fetch(`/dashboard/data-jadwal/${id}/edit`)
+            //             .then(response => {
+            //                 if (!response.ok) throw new Error('Gagal memuat data');
+            //                 return response.json();
+            //             })
+            //             .then(data => {
+            //                 console.log(data);
+            //                 document.getElementById('nidn').value = data.nidn;
+            //                 document.getElementById('hari').value = data.hari;
+            //
+            //                 if (data.jam_awal && data.jam_akhir) {
+            //                     document.getElementById('jam_awal').value = data.jam_awal;
+            //                     document.getElementById('jam_akhir').value = data.jam_akhir;
+            //                 } else {
+            //                     document.getElementById('jam_awal').value = '';
+            //                     document.getElementById('jam_akhir').value = '';
+            //                 }
+            //
+            //                 kelasDropdown.value = data.kelas_id;
+            //                 ruanganDropdown.value = data.ruangan_id;
+            //                 matkulDropdown.value = data.matakuliah_id;
+            //
+            //                 modal.show();
+            //             })
+            //             .catch(error => {
+            //                 console.error('Error:', error);
+            //                 alert('Gagal memuat data');
+            //             });
+            //     }
+            // });
 
             document.querySelector('#tabel').addEventListener('click', (e) => {
                 if (e.target.closest('.btn-hapus')) {

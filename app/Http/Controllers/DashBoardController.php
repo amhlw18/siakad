@@ -50,8 +50,6 @@ class DashBoardController extends Controller
 
             $bimbingan_akademik = ModelPAMahasiswa::with('pa_prodi','pa_mhs','pa_krs')->where('nidn',$nidn)->get();
 
-
-
             return view('admin.index',[
                 'matkul_dosen' => $jumlah_matakuliah_dosen,
                 'jadwal_dosen' => $jadwal_dosen,

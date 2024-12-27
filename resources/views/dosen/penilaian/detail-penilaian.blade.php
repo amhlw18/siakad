@@ -49,7 +49,7 @@
                 <p><strong>Nama Mahasiswa :</strong> {{ $mhs->nama_mhs ?? '-' }}</p>
                 <p><strong>Tahun Akademik :</strong> {{ $tahun->tahun_akademik?? '-' }}</p>
                 <p><strong>Prodi :</strong> {{ $mhs->prodi_mhs->nama_prodi ?? '-'}}</p>
-                <p><strong>Semester :</strong> {{ $smt_mhs ?? '-'}}</p>
+                <p><strong>Semester :</strong> {{ $mhs->semester ?? '-'}}</p>
                 <p><strong>Status KRS :</strong>  <label class="{{ $status_krs->disetujui==1 ? 'badge badge-success' : 'badge badge-danger' }} ">{{ $status_krs->disetujui==1 ? 'Disetujui' : 'Belum disetujui' }}</label></p>
             </div>
         </div>

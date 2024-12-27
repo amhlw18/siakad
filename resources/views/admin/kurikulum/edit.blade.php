@@ -41,8 +41,8 @@
                                     <select id="tahun_akademik_id" class="custom-select rounded-0" name="tahun_akademik_id"
                                         autocomplete="tahun_akademik_id">
                                         @foreach ($tahun_akademis as $tahun_akademik)
-                                            <option value="{{ $tahun_akademik->id }}"
-                                                {{ old('tahun_akademik_id', $tahun_akademik->tahun_akademik_id) == $tahun_akademik->id ? 'selected' : '' }}>
+                                            <option value="{{ $tahun_akademik->kode }}"
+                                                {{ old('tahun_akademik_id', $tahun_akademik->kode) == $tahun_akademik->kode ? 'selected' : '' }}>
                                                 {{ $tahun_akademik->tahun_akademik }}
                                             </option>
                                         @endforeach

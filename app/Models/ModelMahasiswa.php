@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Controllers\KelasMahasiswaController;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -31,6 +32,22 @@ class ModelMahasiswa extends Model
         'status',
 
     ];
+
+    public function getSemesterAttribute()
+    {
+        $tahunSekarang = Carbon::now()->year;
+        $tahunAngkatan = $this->tahun_masuk; // Kolom tahun angkatan
+        $bulanSekarang = Carbon::now()->month;
+
+        // Hitung selisih tahun
+        $jarakTahun = $tahunSekarang - $tahunAngkatan;
+
+        // Tentukan semester (1 = ganjil, 2 = genap)
+        $semesterBerjalan = ($bulanSekarang >= 1 && $bulanSekarang <= 6) ? 2 : 1;
+
+        // Hitung semester saat ini
+        return ($jarakTahun * 2) + $semesterBerjalan;
+    }
 
     public function prodi_mhs()
     {

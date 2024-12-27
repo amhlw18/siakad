@@ -62,7 +62,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="tabel" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th></th>
@@ -164,7 +164,7 @@
             const aspekId = document.getElementById('aspek_id');
 
             // Delegasikan event listener untuk tombol edit
-            document.querySelector('#example1').addEventListener('click', (e) => {
+            document.querySelector('#tabel').addEventListener('click', (e) => {
                 if (e.target.closest('.btn-edit')) {
                     e.preventDefault();
 
@@ -191,7 +191,7 @@
                 }
             });
 
-            document.querySelector('#example1').addEventListener('click', (e) => {
+            document.querySelector('#tabel').addEventListener('click', (e) => {
                 if (e.target.closest('.btn-hapus')) {
                     e.preventDefault();
 

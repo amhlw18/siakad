@@ -218,12 +218,18 @@ class JadwalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id,$prodi_id)
     {
+        $dosen = ModelDosen::all();
+        $prodi = ModelProdi::where('kode_prodi',$prodi_id)->first();
+        $tahun_akademik = ModelTahunAkademik::where('status',1)->first();
+        $kelas = ModelKelas::where('prodi_id', $prodi_id)->get();
+        $ruangan = ModelRuangan::where('prodi_id', $prodi_id)->get();
+        $matkul = ModelMatakuliah::where('kode_prodi', $prodi_id)->get();
         //
 
         $jadwal = ModelDetailJadwal::where('id', $id)->first();
-
+//
         if ($jadwal) {
             // Pisahkan jam awal dan akhir berdasarkan karakter "-"
             if (isset($jadwal->jam)) {
@@ -232,8 +238,19 @@ class JadwalController extends Controller
                 $jadwal->jam_akhir = isset($jam[1]) ? trim(date('H:i', strtotime($jam[1]))) : null;
             }
         }
+//
+//        return response()->json($jadwal);
 
-        return response()->json($jadwal);
+        return view('admin.jadwal.edit',[
+            'id' => $id,
+            'dosen' => $dosen,
+            'prodi' => $prodi,
+            'tahun' => $tahun_akademik,
+            'kelas' => $kelas,
+            'ruangan' => $ruangan,
+            'matkul' => $matkul,
+            'jadwal' => $jadwal,
+        ]);
     }
 
     /**
