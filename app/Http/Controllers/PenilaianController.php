@@ -130,17 +130,17 @@ class PenilaianController extends Controller
 
             //Cek apakah tanggal sistem berada di antara tanggal awal dan akhir
             if ($tanggalSekarang->between($tanggalAwal, $tanggalAkhir)) {
-                $pesan = 'Periode penilaian berlangsung '.' s/d ' . $tanggalAkhir>format('d-m-Y') . '.';
+                $pesan = 'Periode penilaian berlangsung '.' s/d ' . $tanggalAkhir;
                 $periode = true;
                 break; // Keluar dari loop jika sudah menemukan periode yang sesuai
             }elseif ($tanggalSekarang->lessThan($tanggalAwal)) {
                 // Jika periode belum dimulai
-                $pesan = 'Periode penilaian akan dimulai pada tanggal ' . $tanggalAwal->format('d-m-Y') . '.';
+                $pesan = 'Periode penilaian akan dimulai pada tanggal ' . $tanggalAwal;
                 $periode = false;
                 break;
             } elseif ($tanggalSekarang->greaterThan($tanggalAkhir)) {
                 // Jika periode telah berakhir
-                $pesan = 'Periode penilaian telah berakhir pada tanggal ' . $tanggalAkhir->format('d-m-Y') . '.';
+                $pesan = 'Periode penilaian telah berakhir pada tanggal ' . $tanggalAkhir;
                 $periode = false;
             }
         }

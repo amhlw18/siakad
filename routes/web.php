@@ -61,7 +61,6 @@ Route::middleware('auth')->group(function (){
         Route::post('/dashboard/data-jadwal-update/{id}', [JadwalController::class, 'update']);
 
     });
-
     Route::post('/logout-user', [LoginController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [ DashBoardController::class,'index']);
 
