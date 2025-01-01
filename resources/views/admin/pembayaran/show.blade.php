@@ -41,7 +41,7 @@
                 <h3 class="card-title">Riwayat Pembayaran SPP</h3>
             </div>
             <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="tabel" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th></th>
