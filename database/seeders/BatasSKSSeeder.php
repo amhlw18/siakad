@@ -16,32 +16,149 @@ class BatasSKSSeeder extends Seeder
     public function run()
     {
         //
+        $prodi_id = 13211;
         ModelBatasSKS::create([
-            'kode_prodi' => '13211',
-            'nama_prodi' => 'Gizi',
-            'Jenjang' => 'S-1',
-            'ka_prodi' => '1',
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '0.00',
+            'ipk_max' => '2.00',
+            'jumlah_sks' => '18',
         ]);
 
-        ModelProdi::create([
-            'kode_prodi' => '13263',
-            'nama_prodi' => 'Adminstrasi Kesehatan',
-            'Jenjang' => 'S-1',
-            'ka_prodi' => '1',
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '2.01',
+            'ipk_max' => '2.50',
+            'jumlah_sks' => '20',
         ]);
 
-        ModelProdi::create([
-            'kode_prodi' => '15401',
-            'nama_prodi' => 'Kebidanan',
-            'Jenjang' => 'D-3',
-            'ka_prodi' => '1',
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '2.51',
+            'ipk_max' => '2.99',
+            'jumlah_sks' => '22',
         ]);
 
-        ModelProdi::create([
-            'kode_prodi' => '59201',
-            'nama_prodi' => 'Teknologi Informasi',
-            'Jenjang' => 'S-1',
-            'ka_prodi' => '1',
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '3.00',
+            'ipk_max' => '4.00',
+            'jumlah_sks' => '24',
+        ]);
+
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '0.00',
+            'ipk_max' => '4.00',
+            'jumlah_sks' => '24',
+        ]);
+
+
+        $prodi_id = 13263;
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '0.00',
+            'ipk_max' => '2.00',
+            'jumlah_sks' => '18',
+        ]);
+
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '2.01',
+            'ipk_max' => '2.50',
+            'jumlah_sks' => '20',
+        ]);
+
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '2.51',
+            'ipk_max' => '2.99',
+            'jumlah_sks' => '22',
+        ]);
+
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '3.00',
+            'ipk_max' => '4.00',
+            'jumlah_sks' => '24',
+        ]);
+
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '0.00',
+            'ipk_max' => '4.00',
+            'jumlah_sks' => '24',
+        ]);
+
+        $prodi_id = 15401;
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '0.00',
+            'ipk_max' => '2.00',
+            'jumlah_sks' => '18',
+        ]);
+
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '2.01',
+            'ipk_max' => '2.50',
+            'jumlah_sks' => '20',
+        ]);
+
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '2.51',
+            'ipk_max' => '2.99',
+            'jumlah_sks' => '22',
+        ]);
+
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '3.00',
+            'ipk_max' => '4.00',
+            'jumlah_sks' => '24',
+        ]);
+
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '0.00',
+            'ipk_max' => '4.00',
+            'jumlah_sks' => '24',
+        ]);
+
+        $prodi_id = 59201;
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '0.00',
+            'ipk_max' => '2.00',
+            'jumlah_sks' => '18',
+        ]);
+
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '2.01',
+            'ipk_max' => '2.50',
+            'jumlah_sks' => '20',
+        ]);
+
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '2.51',
+            'ipk_max' => '2.99',
+            'jumlah_sks' => '22',
+        ]);
+
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '3.00',
+            'ipk_max' => '4.00',
+            'jumlah_sks' => '24',
+        ]);
+
+        ModelBatasSKS::create([
+            'prodi_id' => $prodi_id,
+            'ipk_min' => '0.00',
+            'ipk_max' => '4.00',
+            'jumlah_sks' => '24',
         ]);
     }
 }

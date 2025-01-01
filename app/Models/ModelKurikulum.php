@@ -23,7 +23,7 @@ class ModelKurikulum extends Model
 
     public function tahun_akademik()
     {
-        return $this->belongsTo(ModelTahunAkademik::class, 'tahun_akademik_id');
+        return $this->belongsTo(ModelTahunAkademik::class, 'tahun_akademik_id','kode');
     }
 
     public function matakuliah()

@@ -24,7 +24,7 @@ class ModelTahunAkademik extends Model
 
     public function kurikulum()
     {
-        return $this->hasMany(ModelKurikulum::class);
+        return $this->hasMany(ModelKurikulum::class,'tahun_akademik_id','kode');
     }
 
     public  function pembayaran_tahun_akademik()

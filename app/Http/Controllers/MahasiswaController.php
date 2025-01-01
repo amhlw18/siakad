@@ -6,6 +6,7 @@ use App\Models\ModelMahasiswa;
 use App\Models\ModelProdi;
 use App\Models\ModelTahunAkademik;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class MahasiswaController extends Controller
 {
@@ -18,7 +19,8 @@ class MahasiswaController extends Controller
     {
         //
         return view('admin.mahasiswa.index',[
-            'mahasiswa' => ModelMahasiswa::with('prodi_mhs')->get()
+            'mahasiswa' => ModelMahasiswa::with('prodi_mhs')->get(),
+            'prodis' => ModelProdi::all(),
         ]);
 
     }
@@ -44,6 +46,43 @@ class MahasiswaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function filterData(Request $request)
+    {
+        $query = ModelMahasiswa::with('prodi_mhs'); // Include relasi 'prodi_mhs'
+
+        if ($request->prodi) {
+            $query->where('prodi_id', $request->prodi);
+        }
+
+        if ($request->angkatan) {
+            $query->where('tahun_masuk', $request->angkatan);
+        }
+
+        return DataTables::of($query)
+            ->addIndexColumn() // Menambahkan nomor index
+            ->addColumn('action', function ($row) {
+                return '
+            <form action="/dashboard/data-mahasiswa/' . $row->nim . '" method="post" style="display:inline;">
+                ' . csrf_field() . '
+                <input type="hidden" name="_method" value="DELETE">
+                <a href="/dashboard/data-mahasiswa/' . $row->nim . '/edit" class="btn btn-warning">
+                    <i class="bi bi-pencil"></i>
+                </a>
+                <button type="submit" class="btn btn-danger" onclick="return confirm(\'Yakin akan menghapus?\')">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </form>
+        ';
+            })
+            ->addColumn('nama_prodi', function ($row) {
+                return $row->prodi_mhs->nama_prodi ?? '-';
+            }) // Tambahkan kolom 'nama_prodi' ke JSON
+            ->rawColumns(['action']) // Mengizinkan kolom 'action' menggunakan HTML
+            ->make(true);
+    }
+
+
     public function store(Request $request)
     {
         //dd($request->all());

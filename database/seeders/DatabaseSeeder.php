@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             TahunAkademikSeeder::class,
             //KurikulumSeeder::class,
             //DosenSeeder::class,
-            ProdiSeeder::class,
+            //ProdiSeeder::class,
             //MatakuliahSeeder::class,
             RuanganSeeder::class,
             KelasSeeder::class,

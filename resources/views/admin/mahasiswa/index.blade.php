@@ -35,13 +35,32 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="filterProdi">Filter Program Studi:</label>
+                        <select id="filterProdi" class="form-control">
+                            <option value="">-- Semua Prodi --</option>
+                            @foreach($prodis as $prodi)
+                                <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="filterAngkatan">Filter Angkatan:</label>
+                        <select id="filterAngkatan" class="form-control">
+                            <option value="">-- Semua Angkatan --</option>
+
+                        </select>
+                    </div>
+                </div>
+                <table id="tabel5" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th></th>
                         <th>#</th>
                         <th>NIM</th>
                         <th>Nama </th>
+{{--                        <th>Prodi</th>--}}
                         <th>Tempat Lahir</th>
                         <th>Tanggal Lahir</th>
                         <th>No HP </th>
@@ -68,6 +87,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $mhs->nim }}</td>
                             <td>{{ $mhs->nama_mhs}}</td>
+{{--                            <td>{{ $mhs->prodi_mhs->nama_prodi ?? '-'}}</td>--}}
                             <td>{{ $mhs->tempat_lahir }}</td>
                             <td>{{ $mhs->tgl_lahir }}</td>
                             <td>{{ $mhs->no_hp}}</td>
@@ -81,4 +101,57 @@
         </div>
         <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
+
+    <script>
+        $(document).ready(function () {
+            $('#tabel5').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('mhs.filter') }}",
+                    type: "GET",
+                    data: function (d) {
+                        d.prodi = $('#filterProdi').val();
+                        d.angkatan = $('#filterAngkatan').val();
+                    }
+                },
+                columns: [
+                    { data: 'action', name: 'action', orderable: false, searchable: false },
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'nim', name: 'nim' },
+                    { data: 'nama_mhs', name: 'nama_mhs' },
+                    // { data: 'nama_prodi', name: 'nama_prodi' },
+                    { data: 'tempat_lahir', name: 'tempat_lahir' },
+                    { data: 'tgl_lahir', name: 'tgl_lahir' },
+                    { data: 'no_hp', name: 'no_hp' },
+                    { data: 'status', name: 'status' },
+                ]
+            });
+
+            // Refresh DataTables on filter change
+            $('#filterProdi, #filterAngkatan').on('change', function () {
+                $('#tabel5').DataTable().ajax.reload();
+            });
+        });
+
+    </script>
+
+    <script>
+        // Mendapatkan elemen select
+        const selectTahun = document.getElementById('filterAngkatan');
+
+        // Tahun mulai
+        const startYear = 2020;
+
+        // Tahun saat ini
+        const currentYear = new Date().getFullYear();
+
+        // Loop untuk menambahkan opsi tahun
+        for (let year = startYear; year <= currentYear; year++) {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            selectTahun.appendChild(option);
+        }
+    </script>
 @endsection()

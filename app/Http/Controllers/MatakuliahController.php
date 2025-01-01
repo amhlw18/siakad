@@ -6,6 +6,7 @@ use App\Models\ModelProdi;
 use Illuminate\Http\Request;
 use App\Models\ModelKurikulum;
 use App\Models\ModelMatakuliah;
+use Yajra\DataTables\Facades\DataTables;
 
 class MatakuliahController extends Controller
 {
@@ -17,8 +18,13 @@ class MatakuliahController extends Controller
     public function index()
     {
         //
+        $prodi = ModelProdi::all();
+        $kurikulum = ModelKurikulum::where('status', 1)->get();
+
         return view('admin.matakuliah.index',[
-            'matkuls' => ModelMatakuliah::get()
+            'matkuls' => ModelMatakuliah::get(),
+            'prodis' => $prodi,
+            'kurikulums' => $kurikulum,
         ]);
     }
 
@@ -37,12 +43,50 @@ class MatakuliahController extends Controller
 
     }
 
+
+
+
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function filterData(Request $request)
+    {
+
+        $query = ModelMatakuliah::query();
+
+        if ($request->prodi) {
+            $query->where('kode_prodi', $request->prodi);
+        }
+
+        if ($request->kurikulum) {
+            $query->where('kurikulum_id', $request->kurikulum);
+        }
+
+        return DataTables::of($query)
+            ->addIndexColumn() // Menambahkan nomor index
+            ->addColumn('action', function ($row) {
+                return '
+            <form action="/dashboard/matakuliah/' . $row->kode_mk . '" method="post" style="display:inline;">
+                ' . csrf_field() . '
+                <input type="hidden" name="_method" value="DELETE">
+                <a href="/dashboard/matakuliah/' . $row->kode_mk . '/edit" class="btn btn-warning">
+                    <i class="bi bi-pencil"></i>
+                </a>
+                <button type="submit" class="btn btn-danger" onclick="return confirm(\'Yakin akan menghapus?\')">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </form>
+        ';
+            })
+            ->rawColumns(['action']) // Mengizinkan kolom 'action' menggunakan HTML
+            ->make(true);
+    }
+
     public function store(Request $request)
     {
         //

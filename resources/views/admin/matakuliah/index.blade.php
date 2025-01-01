@@ -35,7 +35,27 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="filterProdi">Filter Program Studi:</label>
+                        <select id="filterProdi" class="form-control">
+                            <option value="">-- Semua Prodi --</option>
+                            @foreach($prodis as $prodi)
+                                <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="filterKurikulum">Filter Kurikulum:</label>
+                        <select id="filterKurikulum" class="form-control">
+                            <option value="">-- Semua Kurikulum --</option>
+                            @foreach($kurikulums as $kurikulum)
+                                <option value="{{ $kurikulum->kode_kurikulum }}">{{ $kurikulum->nama_kurikulum }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <table id="tabel5" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th></th>
@@ -48,7 +68,7 @@
                             <th>SKS L</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tabelBody">
                         @foreach ($matkuls as $matkul)
                             <tr>
                                 <td>
@@ -73,7 +93,6 @@
                                 <td>{{ $matkul->sks_praktek }}</td>
                                 <td>{{ $matkul->sks_lapangan }} </td>
 
-
                             </tr>
                         @endforeach
                     </tbody>
@@ -83,4 +102,40 @@
         </div>
         <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
+
+    <script>
+        $(document).ready(function () {
+            $('#tabel5').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('matakuliah.filter') }}",
+                    type: "GET",
+                    data: function (d) {
+                        d.prodi = $('#filterProdi').val();
+                        d.kurikulum = $('#filterKurikulum').val();
+                    }
+                },
+                columns: [
+                    { data: 'action', name: 'action', orderable: false, searchable: false },
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'kode_mk', name: 'kode_mk' },
+                    { data: 'nama_mk', name: 'nama_mk' },
+                    { data: 'jenis_mk', name: 'jenis_mk' },
+                    { data: 'sks_teori', name: 'sks_teori' },
+                    { data: 'sks_praktek', name: 'sks_praktek' },
+                    { data: 'sks_lapangan', name: 'sks_lapangan' },
+                ]
+            });
+
+            // Refresh DataTables on filter change
+            $('#filterProdi, #filterKurikulum').on('change', function () {
+                $('#tabel5').DataTable().ajax.reload();
+            });
+        });
+
+    </script>
+
+
+
 @endsection()

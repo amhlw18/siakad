@@ -18,6 +18,6 @@ class ModelBatasSKS extends Model
 
     public function prodi_batas_sks()
     {
-        return $this->belongsTo(ModelBatasSKS::class, 'prodi_id');
+        return $this->belongsTo(ModelProdi::class, 'prodi_id','kode_prodi');
     }
 }

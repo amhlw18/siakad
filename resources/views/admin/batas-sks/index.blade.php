@@ -35,11 +35,12 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="tabel" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th></th>
                         <th>#</th>
+                        <th>Prodi</th>
                         <th>IPK Minimal</th>
                         <th>IPK Maximal </th>
                         <th>Jumlah SKS</th>
@@ -64,10 +65,10 @@
                                 </form>
                             </td>
                             <td>{{ $loop->iteration }}</td>
+                            <td>{{ $batas->prodi_batas_sks->nama_prodi }}</td>
                             <td>{{ $batas->ipk_min }}</td>
                             <td>{{ $batas->ipk_max}}</td>
                             <td>{{ $batas->jumlah_sks }}</td>
-
                         </tr>
                     @endforeach
                     </tbody>

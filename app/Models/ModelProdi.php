@@ -42,9 +42,9 @@ class ModelProdi extends Model
         return $this->hasMany(ModelKelas::class,'prodi_id','kode_prodi');
     }
 
-    public function betas_sks()
+    public function batas_sks()
     {
-        return $this->hasMany(ModelBatasSKS::class);
+        return $this->hasMany(ModelBatasSKS::class,'prodi_id','kode_prodi');
     }
 
     public function mahasiswa()

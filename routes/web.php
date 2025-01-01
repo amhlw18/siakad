@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function (){
         Route::resource('/dashboard/kurikulum', KurikulumControlller::class);
         Route::resource('/dashboard/tahun-akademik', TahunAkademikControlller::class);
         Route::resource('/dashboard/matakuliah', MatakuliahController::class);
+
         Route::resource('/dashboard/prodi', ProdiController::class);
         Route::resource('/dashboard/ruangan', RuanganController::class);
         Route::resource('/dashboard/kelas', KelasController::class);
@@ -107,6 +108,9 @@ Route::get('/dosen', [NeoFeeederController::class, 'getDosen']);
 Route::get('/matkul-dosen', [NeoFeeederController::class, 'getMatkulDosen']);
 Route::get('/mahasiswa', [NeoFeeederController::class, 'getMahasiswa']);
 Route::get('/krs-mhs', [NeoFeeederController::class, 'getKRSMhs']);
+
+Route::get('matakuliah/filter', [MatakuliahController::class, 'filterData'])->name('matakuliah.filter');
+Route::get('mhs/filter', [MahasiswaController::class, 'filterData'])->name('mhs.filter');
 
 //Route::get('/coba', function (){
 //    return view('admin.pa-mhs.index');

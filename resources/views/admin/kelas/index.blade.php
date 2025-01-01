@@ -4,7 +4,6 @@
     Data Kelas
 @endsection()
 
-
 @section('mainmenu')
     Data Kelas
 @endsection()
@@ -35,12 +34,13 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="tabel" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th></th>
                         <th>#</th>
                         <th>Nama Kelas</th>
+                        <th>Prodi</th>
                         <th>Program </th>
                         <th>Kapasitas</th>
                         <th>Aktif</th>
@@ -66,6 +66,7 @@
                             </td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $kelas->nama_kelas }}</td>
+                            <td>{{ $kelas->prodi_kelas->nama_prodi }}</td>
                             <td>{{ $kelas->program}}</td>
                             <td>{{ $kelas->kapasitas }}</td>
                             <td>{{ $kelas->aktif == 1 ? 'Ya' : 'Tidak' }} </td>
