@@ -287,9 +287,10 @@
                                             id="status" name="status" required>
                                         <option value="" disabled selected>--Pilih Status--</option>
                                         <option value="AKTIF" {{ old('status') == 'AKTIF' ? 'selected' : '' }}>AKTIF</option>
-                                        <option value="LULUS" {{ old('status') == 'LULUS' ? 'selected' : '' }}>LULUS</option>
+                                        <option value="Lulus" {{ old('status') == 'Lulus' ? 'selected' : '' }}>LULUS</option>
                                         <option value="NON AKTIF" {{ old('status') == 'NON AKTIF' ? 'selected' : '' }}>NON AKTIF</option>
                                         <option value="CUTI" {{ old('status') == 'CUTI' ? 'selected' : '' }}>CUTI</option>
+                                        <option value="Dikeluarkan" {{ old('status') == 'Dikeluarkan' ? 'selected' : '' }}>DIKELUARKAN</option>
                                     </select>
                                     @error('status')
                                     <div class="invalid-feedback">

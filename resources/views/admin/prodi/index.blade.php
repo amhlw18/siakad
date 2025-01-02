@@ -27,8 +27,16 @@
                 {{ session('success') }}
             </div>
         @endif
-        <a href="/dashboard/prodi/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Tambah
-            Program Studi</a>
+
+        <div class="alert alert-warning d-flex align-items-center" role="alert">
+            <i class="fa fa-exclamation-triangle me-2"></i>
+            - Daftar Program Studi yang ditampilkan berdasarkan informasi dari PD DIKTI.<br>
+            - Untuk menambah Program Studi silahkan melalui laman PDDIKTI.<br>
+            - Anda hanya dapat mengupdate informasi Program Studi dan tidak dapat melakukan hapus program studi.
+        </div>
+
+{{--        <a href="/dashboard/prodi/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Tambah--}}
+{{--            Program Studi</a>--}}
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Master Data Program Studi</h3>
@@ -60,8 +68,9 @@
                                         <a href="/dashboard/prodi/{{ $prodi->kode_prodi }}/edit"
                                            class="btn btn-warning"><i class="bi bi-pencil"></i></a>
 
-                                        <button class="btn btn-danger"
-                                                onclick="return confirm('Yakin akan menghapus program studi {{ $prodi->kode_prodi }} ?')"><i class="bi bi-trash"></i></button>
+{{--                                        <button class="btn btn-danger"--}}
+{{--                                                onclick="return confirm('Yakin akan menghapus program studi {{ $prodi->kode_prodi }} ?')"><i class="bi bi-trash"></i></button>--}}
+{{--                                    --}}
                                     </form>
                                 </td>
                                 <td>{{ $loop->iteration }}</td>

@@ -8,6 +8,7 @@ use App\Models\ModelKRSMahasiwa;
 use App\Models\ModelKurikulum;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelMatakuliah;
+use App\Models\ModelProdi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -22,10 +23,44 @@ class NeoFeeederController extends Controller
     {
         // Set nilai URL dan token saat controller dipanggil
         $this->apiUrl = 'http://localhost:3003/ws/live2.php';
-        $this->token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9wZW5nZ3VuYSI6IjFlYmI2OWRkLTY3N2UtNGJmMi1hMmVmLTRkODFkYTc0Njc4MiIsInVzZXJuYW1lIjoid2FvZGVoYXNyaWF0aW9mZmljaWFsQGdtYWlsLmNvbSIsIm5tX3BlbmdndW5hIjoiQkFIVElBUiIsInRlbXBhdF9sYWhpciI6bnVsbCwidGdsX2xhaGlyIjpudWxsLCJqZW5pc19rZWxhbWluIjoiTCIsImFsYW1hdCI6bnVsbCwieW0iOiJ5YXIudW5hYWhhODBAZ21haWwuY29tIiwic2t5cGUiOm51bGwsIm5vX3RlbCI6bnVsbCwiYXBwcm92YWxfcGVuZ2d1bmEiOiI1IiwiYV9ha3RpZiI6IjEiLCJ0Z2xfZ2FudGlfcHdkIjoiMjAyNC0wNi0yNVQxNjowMDowMC4wMDBaIiwiaWRfc2RtX3BlbmdndW5hIjoiNGViNWE4NjUtYTMwNy00ZmEyLWJiZmMtMGQ1YzY4NTM0ZDUwIiwiaWRfcGRfcGVuZ2d1bmEiOm51bGwsImlkX3dpbCI6Ijk5OTk5OSAgIiwibGFzdF91cGRhdGUiOiIyMDI0LTA3LTI2VDEzOjI0OjUxLjM5N1oiLCJzb2Z0X2RlbGV0ZSI6IjAiLCJsYXN0X3N5bmMiOiIyMDI0LTEyLTE3VDAzOjUxOjA1LjYyMFoiLCJpZF91cGRhdGVyIjoiOTE2Y2IzMjgtM2VjNi00YjBiLWIyZmYtZDE3YjAzNDQ1YTBmIiwiY3NmIjoiMCIsInRva2VuX3JlZyI6bnVsbCwiamFiYXRhbiI6bnVsbCwidGdsX2NyZWF0ZSI6IjIwMjQtMDUtMTZUMDI6MjM6NTguMDQwWiIsIm5payI6bnVsbCwic2FsdCI6bnVsbCwiaWRfcGVyYW4iOjMsIm5tX3BlcmFuIjoiQWRtaW4gUERESUtUSSIsImlkX3NwIjoiY2FiNjMzMjMtZmMwYy00ODFmLThlNDMtOTMyYzhjMzhkMDkwIiwiaWRfc210IjoiMjAyNDEiLCJpYXQiOjE3MzQ2ODM3OTUsImV4cCI6MTczNDcwMTc5NX0._bPbsQJnmXl5vjY0dW6gD-nTNe2GHZtP4veTwQE6ZVs';
-
+        $this->token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9wZW5nZ3VuYSI6IjFlYmI2OWRkLTY3N2UtNGJmMi1hMmVmLTRkODFkYTc0Njc4MiIsInVzZXJuYW1lIjoid2FvZGVoYXNyaWF0aW9mZmljaWFsQGdtYWlsLmNvbSIsIm5tX3BlbmdndW5hIjoiQkFIVElBUiIsInRlbXBhdF9sYWhpciI6bnVsbCwidGdsX2xhaGlyIjpudWxsLCJqZW5pc19rZWxhbWluIjoiTCIsImFsYW1hdCI6bnVsbCwieW0iOiJ5YXIudW5hYWhhODBAZ21haWwuY29tIiwic2t5cGUiOm51bGwsIm5vX3RlbCI6bnVsbCwiYXBwcm92YWxfcGVuZ2d1bmEiOiI1IiwiYV9ha3RpZiI6IjEiLCJ0Z2xfZ2FudGlfcHdkIjoiMjAyNC0wNi0yNVQxNjowMDowMC4wMDBaIiwiaWRfc2RtX3BlbmdndW5hIjoiNGViNWE4NjUtYTMwNy00ZmEyLWJiZmMtMGQ1YzY4NTM0ZDUwIiwiaWRfcGRfcGVuZ2d1bmEiOm51bGwsImlkX3dpbCI6Ijk5OTk5OSAgIiwibGFzdF91cGRhdGUiOiIyMDI0LTA3LTI2VDEzOjI0OjUxLjM5N1oiLCJzb2Z0X2RlbGV0ZSI6IjAiLCJsYXN0X3N5bmMiOiIyMDI0LTEyLTE3VDAzOjUxOjA1LjYyMFoiLCJpZF91cGRhdGVyIjoiOTE2Y2IzMjgtM2VjNi00YjBiLWIyZmYtZDE3YjAzNDQ1YTBmIiwiY3NmIjoiMCIsInRva2VuX3JlZyI6bnVsbCwiamFiYXRhbiI6bnVsbCwidGdsX2NyZWF0ZSI6IjIwMjQtMDUtMTZUMDI6MjM6NTguMDQwWiIsIm5payI6bnVsbCwic2FsdCI6bnVsbCwiaWRfcGVyYW4iOjMsIm5tX3BlcmFuIjoiQWRtaW4gUERESUtUSSIsImlkX3NwIjoiY2FiNjMzMjMtZmMwYy00ODFmLThlNDMtOTMyYzhjMzhkMDkwIiwiaWRfc210IjoiMjAyNDEiLCJpYXQiOjE3MzU3ODM2NDIsImV4cCI6MTczNTgwMTY0Mn0.MQsZQn5-tEY_YIjLtwGMo6mLe7ZwOmkElaWWgxzVA4o';
     }
 
+
+    public function getProdi()
+    {
+        $body = [
+            "act" => "GetProdi",
+            "token" => $this->token,
+            "filter" => "",
+            "order" => "",
+            "limit" => "",
+            "offset" => "0"
+        ];
+
+        // Fetch data dari API
+        $response = Http::post($this->apiUrl, $body);
+        //dd($response->body());
+
+        if ($response->successful()) {
+            $data = $response->json();
+
+            // Periksa jika data tersedia
+            if ($data['error_code'] == 0 && isset($data['data'])) {
+                foreach ($data['data'] as $prodi) {
+                    ModelProdi::create([
+                        'kode_prodi' => $prodi['kode_program_studi'],
+                        'nama_prodi' => $prodi['nama_program_studi'],
+                        'jenjang' => $prodi['nama_jenjang_pendidikan'],
+                        'ka_prodi' => '0',
+                    ]);
+                }
+                return response()->json(['message' => 'Data prodi berhasil disimpan.']);
+            }
+        }
+
+        return response()->json(['error' => 'Gagal mengambil data dari API.']);
+    }
 
     public function getKurikulum()
     {
@@ -350,6 +385,7 @@ class NeoFeeederController extends Controller
             "act" => "GetKRSMahasiswa",
             "token" => $this->token,
             "filter" => "",
+            //"filter" => "nim LIKE '2024103043%'",
             "order" => "",
             "limit" => "",
             "offset" => "0"

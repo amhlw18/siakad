@@ -60,7 +60,7 @@
                         <th>#</th>
                         <th>NIM</th>
                         <th>Nama </th>
-{{--                        <th>Prodi</th>--}}
+                        <th>Prodi</th>
                         <th>Tempat Lahir</th>
                         <th>Tanggal Lahir</th>
                         <th>No HP </th>
@@ -87,7 +87,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $mhs->nim }}</td>
                             <td>{{ $mhs->nama_mhs}}</td>
-{{--                            <td>{{ $mhs->prodi_mhs->nama_prodi ?? '-'}}</td>--}}
+                            <td>{{ $mhs->prodi_mhs->nama_prodi ?? '-'}}</td>
                             <td>{{ $mhs->tempat_lahir }}</td>
                             <td>{{ $mhs->tgl_lahir }}</td>
                             <td>{{ $mhs->no_hp}}</td>
@@ -120,7 +120,7 @@
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     { data: 'nim', name: 'nim' },
                     { data: 'nama_mhs', name: 'nama_mhs' },
-                    // { data: 'nama_prodi', name: 'nama_prodi' },
+                    { data: 'nama_prodi', name: 'nama_prodi' },
                     { data: 'tempat_lahir', name: 'tempat_lahir' },
                     { data: 'tgl_lahir', name: 'tgl_lahir' },
                     { data: 'no_hp', name: 'no_hp' },

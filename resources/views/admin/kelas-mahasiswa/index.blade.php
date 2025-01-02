@@ -60,11 +60,11 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="tablePembayaran" class="table table-bordered table-striped">
+                <table id="tabel5" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th></th>
-{{--                        <th>#</th>--}}
+                        <th>#</th>
                         <th>NIM</th>
                         <th>Nama </th>
                         <th>Prodi</th>
@@ -75,21 +75,18 @@
                     <tbody>
                     @foreach ($mahasiswa as $mhs)
                         <tr>
-{{--                            <td>--}}
-{{--                                <form action="/dashboard/kelas-mhs/{{ $mhs->nim }}" class="inline-block"--}}
-{{--                                      method="post">--}}
-{{--                                    @method('DELETE')--}}
-{{--                                    @csrf--}}
-
-{{--                                    <button class="btn btn-danger"--}}
-{{--                                            onclick="return confirm('Yakin akan menghapus mahasiswa {{ $mhs->nama_mhs }} ?')"><i class="bi bi-trash"></i></button>--}}
-{{--                                </form>--}}
-{{--                            </td>--}}
+                            <td>
+                                <a href=""
+                                   class="btn btn-danger btn-hapus"
+                                   data-id="{{$mhs->id}}">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $mhs->nim }}</td>
                             <td>{{ $mhs->mhs_kelas_mhs->nama_mhs}}</td>
                             <td>{{ $mhs->prodi_kelas_mhs->nama_prodi}}</td>
-                            <td>{{ $mhs->kelas_mahasiswa->program }}</td>
+                            <td>{{ $mhs->kelas_mahasiswa->nama_kelas }}</td>
                             <td>{{ $mhs->mhs_kelas_mhs->tahun_masuk }}</td>
                         </tr>
                     @endforeach
@@ -102,51 +99,51 @@
     </div><!-- /.container-fluid -->
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const filterProdi = document.getElementById('filterProdi');
-            const filterTahun = document.getElementById('filterTahun');
-            const tablePembayaran = $('#tablePembayaran'); // Gunakan jQuery untuk DataTables
+        $(document).ready(function () {
+            $('#tabel5').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('kelas-mhs.filter') }}",
+                    type: "GET",
+                    data: function (d) {
+                        d.prodi = $('#filterProdi').val();
+                        d.tahun = $('#filterTahun').val();
 
-            // Inisialisasi DataTables
-            let dataTable = tablePembayaran.DataTable();
 
-            function fetchFilteredData() {
-                const tahun = filterTahun.value;
-                const prodi = filterProdi.value;
+                        //console.log(prodi_id);
+                    }
+                },
+                columns: [
+                    { data: 'action', name: 'action', orderable: false, searchable: false },
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'nim', name: 'nim' },
+                    { data: 'nama_mhs', name: 'nama_mhs' },
+                    { data: 'nama_prodi', name: 'nama_prodi' },
+                    { data: 'nama_kelas', name: 'nama_kelas' },
+                    { data: 'tahun_masuk', name: 'tahun_masuk' },
 
+                ]
+            });
 
-                fetch(`/dashboard/kelas-mahasiswa/filter?tahun=${tahun}&prodi=${prodi}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Clear existing table data
-                        //console.log(data);
-                        dataTable.clear();
+            // Refresh DataTables on filter change
+            $('#filterProdi,#filterTahun').on('change', function () {
+                $('#tabel5').DataTable().ajax.reload();
 
-                        // Add new rows
-                        data.forEach((item, index) => {
-                            dataTable.row.add([
-                                index + 1,
-                                item.nim,
-                                item.nama_mhs || '-',
-                                item.prodi || '-',
-                                item.program || '-',
-                                item.tahun_masuk || '-'
-                            ]);
-                        });
+                // const prodiID = document.getElementById('prodi_id');
+                // const id = $('#filterProdi').val();
+                // prodiID.value = id;
 
-                        // Redraw table
-                        dataTable.draw();
-                    });
-            }
-
-            filterTahun.addEventListener('change', fetchFilteredData);
-            filterProdi.addEventListener('change', fetchFilteredData);
+            });
         });
 
+    </script>
+
+    <script>
         document.getElementById('btnReset').addEventListener('click', () => {
             const tablePembayaran = $('#tablePembayaran'); // Gunakan jQuery untuk DataTables
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-            let dataTable = tablePembayaran.DataTable();
+
 
             // Tampilkan dialog konfirmasi SweetAlert
             Swal.fire({
@@ -176,7 +173,7 @@
                                 Swal.fire('Berhasil!', data.message, 'success'); // Tampilkan pesan sukses
 
                                 // Kosongkan tabel DataTables
-                                dataTable.clear().draw();
+                                location.reload();
                             }
                         })
                         .catch(error => {
@@ -187,7 +184,49 @@
             });
         });
 
+        document.querySelector('#tabel5').addEventListener('click', (e) => {
+            if (e.target.closest('.btn-hapus')) {
+                e.preventDefault();
 
+                const button = e.target.closest('.btn-hapus');
+                const id = button.getAttribute('data-id'); // Ambil data-id dari tombol
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Anda yakin menghapus mahasiswa dari kelas ?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/dashboard/kls-mhs/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Accept': 'application/json',
+                            },
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'error') {
+                                    Swal.fire('Error!', data.message, 'error');
+                                } else {
+                                    Swal.fire('Berhasil!', data.message, 'success')
+                                        .then(() => location.reload());
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');
+                            });
+                    }
+                });
+            }
+        });
 
     </script>
 

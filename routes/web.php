@@ -104,6 +104,7 @@ Route::middleware('guest')->group(function (){
 
 Route::get('/mata-kuliah', [NeoFeeederController::class, 'getListMataKuliah']);
 Route::get('/kurikulum', [NeoFeeederController::class, 'getKurikulum']);
+Route::get('/prodi', [NeoFeeederController::class, 'getProdi']);
 Route::get('/dosen', [NeoFeeederController::class, 'getDosen']);
 Route::get('/matkul-dosen', [NeoFeeederController::class, 'getMatkulDosen']);
 Route::get('/mahasiswa', [NeoFeeederController::class, 'getMahasiswa']);
@@ -111,6 +112,9 @@ Route::get('/krs-mhs', [NeoFeeederController::class, 'getKRSMhs']);
 
 Route::get('matakuliah/filter', [MatakuliahController::class, 'filterData'])->name('matakuliah.filter');
 Route::get('mhs/filter', [MahasiswaController::class, 'filterData'])->name('mhs.filter');
+Route::get('kls/filter', [KelasMahasiswaController::class, 'filterData'])->name('kelas.filter');
+Route::get('kls-mhs/filter', [KelasMahasiswaController::class, 'filterDataKelas'])->name('kelas-mhs.filter');
+Route::get('/get-kelas/{prodiId}', [KelasMahasiswaController::class, 'getKelas'])->name('get.kelas');
 
 //Route::get('/coba', function (){
 //    return view('admin.pa-mhs.index');
