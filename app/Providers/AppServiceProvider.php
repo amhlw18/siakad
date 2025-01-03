@@ -38,11 +38,13 @@ class AppServiceProvider extends ServiceProvider
             return in_array($user->role, [1, 3]);
         });
 
+        Gate::define('mahasiswa', function (User $user) {
+            return in_array($user->role, [1, 4, 5]);
+        });
+
 //        Gate::define('shared', function (User $user) {
 //            return in_array($user->role, [1, 2]); // SuperAdmin dan Bendahara
 //        });
-
-
 
     }
 }

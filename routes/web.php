@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AspekPenilaianController;
+use App\Http\Controllers\KRSController;
 use App\Http\Controllers\NeoFeeederController;
 use App\Http\Controllers\NilaiSemesterController;
 use App\Http\Controllers\PAMhsController;
 use App\Http\Controllers\PenilaianController;
+use App\Models\ModelKRSMahasiwa;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\ProdiController;
@@ -89,6 +91,12 @@ Route::middleware('auth')->group(function (){
         Route::post('/dashboard/dosen/detail-pa',[DashBoardController::class,'simpanKRS']);
         Route::post('/dashboard/dosen/detail-pa/delete',[DashBoardController::class,'batalkanKRS']);
     });
+
+    Route::middleware('mahasiswa')->group(function (){
+        Route::resource('dashboard/krs-mhs', KRSController::class);
+
+    });
+
 
 
     Route::resource('/dashboard/pa-mhs', PAMhsController::class);

@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'bendahara' => \App\Http\Middleware\Bendahara::class,
         'shared' =>  \App\Http\Middleware\Shared::class,
         'dosen' => \App\Http\Middleware\Dosen::class,
+        'mahasiswa' => \App\Http\Middleware\Mahasiswa::class,
     ];
 }

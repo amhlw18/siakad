@@ -205,6 +205,45 @@
                     </li>
                 @endcan
 
+                @can('mahasiswa')
+                    <!-- Dosen Menu -->
+                    <li class="nav-item {{ Request::is('dashboard/aspek-nilai*') || Request::is('dashboard/nilai-semester') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('dashboard/aspek-nilai*') || Request::is('dashboard/nilai-semester')  ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-user mr-2"></i>
+                            <p>
+                                Mahasiswa
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/dashboard/aspek-nilai" class="nav-link {{ Request::is('dashboard/aspek-nilai*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>KRS</p>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/dashboard/nilai-semester" class="nav-link {{ Request::is('dashboard/nilai-semester*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>KHS</p>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/dashboard/nilai-semester" class="nav-link {{ Request::is('dashboard/nilai-semester*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Transkrip Nilai</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+
             </ul>
         </nav>
 

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class Dosen
+class Mahasiswa
 {
     /**
      * Handle an incoming request.
@@ -21,10 +21,11 @@ class Dosen
             return redirect('/');
         }
 
-        if (Auth::user()->role == 3 || Auth::user()->role == 1) {
+        if (Auth::user()->role == 1 || Auth::user()->role == 4 || Auth::user()->role == 5) {
             return $next($request);
         }else{
             return redirect('/dashboard');
         };
+
     }
 }
