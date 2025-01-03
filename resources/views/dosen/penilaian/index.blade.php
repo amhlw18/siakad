@@ -41,14 +41,14 @@
                         <th>Kode Matakuliah</th>
                         <th>Nama Matakuliah </th>
                         <th>Prodi</th>
-                        <th>Jumlah Mahasiswa</th>
+                        <th>Kelas</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($matakuliah as $matkul)
                         <tr>
                             <td>
-                                <a href="/dashboard/nilai-semester/{{$matkul->matakuliah_id}}"
+                                <a href="/dashboard/nilai-semester/{{$matkul->matakuliah_id}}/{{$matkul->kelas_id ?? '-'}}"
                                    class="btn btn-success"
                                    data-id="">
                                     <i class="bi bi-eye"></i>
@@ -58,7 +58,7 @@
                             <td>{{ $matkul->matakuliah_id }}</td>
                             <td>{{ $matkul->jadwal_matakuliah->nama_mk }} | Semester {{$matkul->jadwal_matakuliah->semester}}  </td>
                             <td>{{ $matkul->prodi_jadwal->nama_prodi}}</td>
-                            <td>{{ $jumlah_mahasiswa[$matkul->matakuliah_id] ?? 0 }}
+                            <td>{{ $matkul->jadwal_kelas->nama_kelas ?? '-' }}
                         </tr>
                     @endforeach
                     </tbody>

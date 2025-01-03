@@ -60,7 +60,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="tabel5" class="table table-bordered table-striped">
+                <table id="tabel5" class="table table-bordered table-hover">
                     <thead>
                     <tr>
                         <th></th>
@@ -118,10 +118,10 @@
                     { data: 'action', name: 'action', orderable: false, searchable: false },
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     { data: 'nim', name: 'nim' },
-                    { data: 'nama_mhs', name: 'nama_mhs' },
-                    { data: 'nama_prodi', name: 'nama_prodi' },
-                    { data: 'nama_kelas', name: 'nama_kelas' },
-                    { data: 'tahun_masuk', name: 'tahun_masuk' },
+                    { data: 'nama_mhs', name: 'mhs_kelas_mhs.nama_mhs' },
+                    { data: 'nama_prodi', name: 'prodi_kelas_mhs.nama_prodi' },
+                    { data: 'nama_kelas', name: 'kelas_mahasiswa.nama_kelas' },
+                    { data: 'tahun_masuk', name: 'mhs_kelas_mhs.tahun_masuk' },
 
                 ]
             });
@@ -129,10 +129,6 @@
             // Refresh DataTables on filter change
             $('#filterProdi,#filterTahun').on('change', function () {
                 $('#tabel5').DataTable().ajax.reload();
-
-                // const prodiID = document.getElementById('prodi_id');
-                // const id = $('#filterProdi').val();
-                // prodiID.value = id;
 
             });
         });

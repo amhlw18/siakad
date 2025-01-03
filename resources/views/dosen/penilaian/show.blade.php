@@ -93,8 +93,8 @@
                                 @endif
                             </td>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $mhs->krs_mhs->nim }}</td>
-                            <td>{{ $mhs->krs_mhs->nama_mhs}}</td>
+                            <td>{{ $mhs->nim }}</td>
+                            <td>{{ $mhs->mhs_kelas_mhs->nama_mhs}}</td>
                         </tr>
                     @endforeach
                     </tbody>

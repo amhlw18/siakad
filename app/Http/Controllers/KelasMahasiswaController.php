@@ -22,7 +22,9 @@ class KelasMahasiswaController extends Controller
     {
         $kelas_mhs =ModelKelasMahasiswa::with(
             'prodi_kelas_mhs','mhs_kelas_mhs',
-            'kelas_mahasiswa')->get();
+            'kelas_mahasiswa')
+            ->orderBY('nim','asc')
+            ->get();
         //
 
         $cekData = $kelas_mhs->first();
@@ -83,7 +85,9 @@ class KelasMahasiswaController extends Controller
 
 
         return view('admin.kelas-mahasiswa.create',[
-            'mahasiswa'=>ModelMahasiswa::with('prodi_mhs')->get(),
+            'mahasiswa'=>ModelMahasiswa::with('prodi_mhs')
+                ->orderBY('nim','desc')
+                ->get(),
             'prodis' =>ModelProdi::get(),
             'kelas' =>ModelKelas::get(),
         ]);
@@ -108,13 +112,13 @@ class KelasMahasiswaController extends Controller
             'kelas_mahasiswa');
 
         if ($request->prodi) {
-            $query->where('prodi_id', $request->prodi);
+            $query->where('prodi_id', $request->prodi)->orderBY('nim','asc');
         }
 
         // Filter berdasarkan tahun_masuk (relasi ke tabel mahasiswa)
         if ($request->tahun){
             $query->whereHas('mhs_kelas_mhs', function ($subQuery) use ($request) {
-                $subQuery->where('tahun_masuk', $request->tahun);
+                $subQuery->where('tahun_masuk', $request->tahun)->orderBY('nim','desc');
             });
         }
 
@@ -153,11 +157,11 @@ class KelasMahasiswaController extends Controller
         $query = ModelMahasiswa::with('prodi_mhs'); // Include relasi 'prodi_mhs'
 
         if ($request->prodi) {
-            $query->where('prodi_id', $request->prodi);
+            $query->where('prodi_id', $request->prodi)->orderBY('nim','asc');
         }
 
         if ($request->angkatan) {
-            $query->where('tahun_masuk', $request->angkatan);
+            $query->where('tahun_masuk', $request->angkatan)->orderBY('nim','desc');
         }
 
         return DataTables::of($query)

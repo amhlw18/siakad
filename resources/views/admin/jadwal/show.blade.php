@@ -60,7 +60,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="tabel" class="table table-bordered table-hover">
+                <table id="tabel5" class="table table-bordered table-hover">
                     <thead>
                     <tr>
                         <th></th>
@@ -78,8 +78,11 @@
                         <tr>
                             <td>
 
-                                <a href="/dashboard/data-jadwal/{{ $jadwal->id }}/{{ $prodi->kode_prodi ?? '-' }}/edit"
-                                   class="btn btn-warning btn-edit">
+                                <a href="#"
+                                   class="btn btn-warning btn-edit"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#buatJadwalModal"
+                                    data-id="{{ $jadwal->id }}">
                                     <i class="bi bi-pencil"></i>
                                 </a>
 
@@ -224,7 +227,7 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-6">
-                                     <input type="time" name="jam_akhir"
+                                    <input type="time" name="jam_akhir"
                                            class="form-control @error('jam_akhir') is-invalid @enderror"
                                            id="jam_akhir" placeholder=""
                                            value="{{ old('jam_akhir') }}" required>
@@ -241,7 +244,6 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                     <button type="button" class="btn btn-primary" id="saveChanges">Buat Jadwal</button>
                 </div>
@@ -250,66 +252,51 @@
     </div>
 
     <script>
-
-        //let dataTable;
-        document.addEventListener('DOMContentLoaded', () => {
-            //const filterProdi = document.getElementById('filterProdi');
-            const filterTahun = document.getElementById('filterTahun');
-            const tabel_data = $('#tabel'); // Gunakan jQuery untuk DataTables
-
-            // Inisialisasi DataTables
-            let dataTable = tabel_data.DataTable();
-
-            function fetchFilteredData() {
-                const id = filterTahun.value;
-                const [id_tahun, id_prodi] = id.split('-');
-                const tahun = id_tahun;
-                const prodi = id_prodi;
-
-
-                fetch(`/dashboard/jadwal-kls/filter-data?tahun=${tahun}&prodi=${prodi}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Clear existing table data
-                        //console.log(data);
-                        dataTable.clear();
-
-                        // Add new rows
-                        data.forEach((item, index) => {
-                            dataTable.row.add([
-                                `<a href="/dashboard/data-jadwal/${item.id}/{{ $prodi->kode_prodi ?? '-' }}/edit"
-                                   class="btn btn-warning btn-edit">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-
-                                <a href=""
-                                   class="btn btn-danger btn-hapus"
-
-                                   data-id="${item.id}">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                                `
-                                ,
-                                index + 1,
-                                item.hari,
-                                item.jam || '-',
-                                item.matakuliah +' || SMT '+ item.semester ||  '-',
-                                item.dosen || '-',
-                                item.kelas || '-',
-                                item.ruangan || '-'
-                            ]);
-                        });
-
-                        // Redraw table
-
-                        dataTable.draw();
-                    });
+        function initializeDataTable() {
+            // Periksa apakah DataTable sudah diinisialisasi
+            if ($.fn.DataTable.isDataTable('#tabel5')) {
+                // Hancurkan DataTable yang sudah ada
+                $('#tabel5').DataTable().destroy();
             }
 
+            // Inisialisasi DataTable baru
+            $('#tabel5').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('get.jadwal') }}",
+                    type: "GET",
+                    data: function (d) {
+                        const id = $('#filterTahun').val();
+                        if (id) {
+                            const [id_tahun, id_prodi] = id.split('-');
+                            d.tahun = id_tahun;
+                            d.prodi = id_prodi;
+                        }
+                    }
+                },
+                columns: [
+                    { data: 'action', name: 'action', orderable: false, searchable: false },
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'hari', name: 'hari' },
+                    { data: 'jam', name: 'jam' },
+                    { data: 'matakuliah', name: 'jadwal_matakuliah.nama_mk' },
+                    { data: 'dosen', name: 'dosen.nama_dosen' },
+                    { data: 'kelas', name: 'jadwal_kelas.nama_kelas' },
+                    { data: 'ruangan', name: 'jadwal_ruangan.nama_ruangan' },
+                ]
+            });
+        }
 
-            filterTahun.addEventListener('change', fetchFilteredData);
+        // Tambahkan event listener untuk filterTahun
+        document.getElementById('filterTahun').addEventListener('change', function () {
+            initializeDataTable();
         });
+    </script>
 
+
+
+    <script>
 
         document.addEventListener('DOMContentLoaded', () => {
             const modal = new bootstrap.Modal(document.getElementById('buatJadwalModal'));
@@ -319,87 +306,44 @@
             const jadwalIdField = document.getElementById('jadwal_id');
             const prodiId = document.getElementById('prodi_id');
 
-            // document.querySelector('#tabel').addEventListener('click', (e) => {
-            //     if (e.target.closest('.btn-edit')) {
-            //         e.preventDefault();
-            //
-            //         const button = e.target; // Tombol yang diklik
-            //         const id = button.getAttribute('data-id'); // Ambil ID jadwal
-            //         jadwalIdField.value = id;
-            //         const id_prodi = prodiId.value;
-            //
-            //         // Lakukan fetch dan update dropdown, serta tampilkan modal
-            //         fetch(`/dashboard/data-jadwal/${id}/edit`)
-            //             .then(response => {
-            //                 if (!response.ok) throw new Error('Gagal memuat data');
-            //                 return response.json();
-            //             })
-            //             .then(data => {
-            //                 console.log(data);
-            //                 document.getElementById('nidn').value = data.nidn;
-            //                 document.getElementById('hari').value = data.hari;
-            //
-            //                 if (data.jam_awal && data.jam_akhir) {
-            //                     document.getElementById('jam_awal').value = data.jam_awal;
-            //                     document.getElementById('jam_akhir').value = data.jam_akhir;
-            //                 } else {
-            //                     document.getElementById('jam_awal').value = '';
-            //                     document.getElementById('jam_akhir').value = '';
-            //                 }
-            //
-            //                 kelasDropdown.value = data.kelas_id;
-            //                 ruanganDropdown.value = data.ruangan_id;
-            //                 matkulDropdown.value = data.matakuliah_id;
-            //
-            //                 modal.show();
-            //             })
-            //             .catch(error => {
-            //                 console.error('Error:', error);
-            //                 alert('Gagal memuat data');
-            //             });
-            //     }
-            // });
-
-            document.querySelector('#tabel').addEventListener('click', (e) => {
-                if (e.target.closest('.btn-hapus')) {
+            document.querySelector('#tabel5').addEventListener('click', (e) => {
+                if (e.target.closest('.btn-edit')) {
                     e.preventDefault();
 
-                    const button = e.target.closest('.btn-hapus');
-                    const id = button.getAttribute('data-id');
+                    const button = e.target; // Tombol yang diklik
+                    const id = button.getAttribute('data-id'); // Ambil ID jadwal
+                    jadwalIdField.value = id;
+                    const id_prodi = prodiId.value;
 
-                    Swal.fire({
-                        title: 'Konfirmasi',
-                        text: 'Anda yakin menghapus data jadwal kuliah??',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Ya, hapus!',
-                        cancelButtonText: 'Batal',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            fetch(`/dashboard/data-jadwal/${id}`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                                    'Accept': 'application/json',
-                                },
-                            })
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (data.status === 'error') {
-                                        Swal.fire('Error!', data.message, 'error');
-                                    } else {
-                                        Swal.fire('Berhasil!', data.message, 'success')
-                                            .then(() => location.reload());
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error('Error:', error);
-                                    Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');
-                                });
-                        }
-                    });
+                    // Lakukan fetch dan update dropdown, serta tampilkan modal
+                    fetch(`/dashboard/data-jadwal/${id}/edit`)
+                        .then(response => {
+                            if (!response.ok) throw new Error('Gagal memuat data');
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log(data);
+                            document.getElementById('nidn').value = data.nidn;
+                            document.getElementById('hari').value = data.hari;
+
+                            if (data.jam_awal && data.jam_akhir) {
+                                document.getElementById('jam_awal').value = data.jam_awal;
+                                document.getElementById('jam_akhir').value = data.jam_akhir;
+                            } else {
+                                document.getElementById('jam_awal').value = '';
+                                document.getElementById('jam_akhir').value = '';
+                            }
+
+                            kelasDropdown.value = data.kelas_id;
+                            ruanganDropdown.value = data.ruangan_id;
+                            matkulDropdown.value = data.matakuliah_id;
+
+                            modal.show();
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Gagal memuat data');
+                        });
                 }
             });
 
@@ -478,13 +422,50 @@
                 });
             });
 
-
-
         });
 
+        document.querySelector('#tabel5').addEventListener('click', (e) => {
+            if (e.target.closest('.btn-hapus')) {
+                e.preventDefault();
 
+                const button = e.target.closest('.btn-hapus');
+                const id = button.getAttribute('data-id');
 
-
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Anda yakin menghapus data jadwal kuliah??',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/dashboard/data-jadwal/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                                'Accept': 'application/json',
+                            },
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'error') {
+                                    Swal.fire('Error!', data.message, 'error');
+                                } else {
+                                    Swal.fire('Berhasil!', data.message, 'success')
+                                        .then(() => location.reload());
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');
+                            });
+                    }
+                });
+            }
+        });
 
     </script>
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ModelAspekPenilaian;
 use App\Models\ModelDetailJadwal;
 use App\Models\ModelDosen;
+use App\Models\ModelKelasMahasiswa;
 use App\Models\ModelKRSMahasiwa;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelMatakuliah;
@@ -31,22 +32,23 @@ class PenilaianController extends Controller
         $dosen = ModelDosen::where('nidn',Auth::user()->user_id)->first();
 
         $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
-        $matakuliah = ModelDetailJadwal::with('jadwal_matakuliah','prodi_jadwal')
+        $matakuliah = ModelDetailJadwal::with('jadwal_matakuliah','prodi_jadwal','jadwal_kelas')
             ->where('nidn',$dosen->nidn)
             ->where('tahun_akademik',$tahun_aktif->kode)
             ->get();
 
         // Hitung jumlah mahasiswa per mata kuliah berdasarkan tahun akademik aktif
-        $jumlah_mahasiswa = ModelKRSMahasiwa::where('tahun_akademik', $tahun_aktif->kode)
-            ->select('matakuliah_id', \DB::raw('count(*) as total'))
-            ->groupBy('matakuliah_id')
-            ->pluck('total', 'matakuliah_id');
+//        $jumlah_mahasiswa = ModelKRSMahasiwa::where('tahun_akademik', $tahun_aktif->kode)
+//            ->select('matakuliah_id', \DB::raw('count(*) as total'))
+//            ->groupBy('matakuliah_id')
+//            ->pluck('total', 'matakuliah_id');
+
 
         return view('dosen.penilaian.index',[
             'matakuliah'=> $matakuliah,
             'tahun' => $tahun_aktif,
             'dosen' => $dosen,
-            'jumlah_mahasiswa' => $jumlah_mahasiswa,
+
         ]);
     }
 
@@ -110,7 +112,7 @@ class PenilaianController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,$id_kelas)
     {
         $tanggalSekarang = Carbon::today();
 
@@ -148,9 +150,9 @@ class PenilaianController extends Controller
         $matakuliah = ModelMatakuliah::where('kode_mk',$id)->first();
 
         $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
-        $mahasiswa = ModelKRSMahasiwa::with('krs_mhs','krs_matkul')
-            ->where('matakuliah_id',$id)
-            ->where('tahun_akademik',$tahun_aktif->kode)
+
+        $mahasiswa = ModelKelasMahasiswa::with('mhs_kelas_mhs')
+            ->where('kelas_id',$id_kelas)
             ->get();
 
         $aspek_nilai = ModelAspekPenilaian::where('matakuliah_id', $id)

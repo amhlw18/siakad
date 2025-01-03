@@ -11,6 +11,7 @@ use App\Models\ModelProdi;
 use App\Models\ModelRuangan;
 use App\Models\ModelTahunAkademik;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class JadwalController extends Controller
 {
@@ -34,30 +35,50 @@ class JadwalController extends Controller
 
     public function filter_data(Request $request)
     {
-
         $query = ModelDetailJadwal::with('prodi_jadwal','tahun_jadwal',
-            'jadwal_matakuliah','dosen','jadwal_kelas','jadwal_ruangan');
+            'jadwal_matakuliah','dosen','jadwal_kelas','jadwal_ruangan'); // Include relasi 'prodi_mhs'
 
-        // Tambahkan kondisi filter jika ada nilai prodi
-        if ($request->prodi){
+        if ($request->tahun) {
             $query->where('prodi_id', $request->prodi)
                 ->where('tahun_akademik', $request->tahun);
         }
 
-        $data = $query->get();
+        return DataTables::of($query)
+            ->addIndexColumn() // Menambahkan nomor index
+            ->addColumn('action', function ($row) {
+                return '
 
-        return response()->json($data->map(function ($item) {
-            return [
-                'id' =>$item->id,
-                'hari' => $item->hari ?? '-',
-                'jam' => $item->jam  ?? '-',
-                'matakuliah' => $item->jadwal_matakuliah->nama_mk  ?? '-',
-                'semester' => $item->jadwal_matakuliah->semester  ?? '-',
-                'dosen' => $item->dosen->nama_dosen  ?? '-',
-                'kelas' => $item->jadwal_kelas->nama_kelas  ?? '-',
-                'ruangan' => $item->jadwal_ruangan->nama_ruangan  ?? '-',
-            ];
-        }));
+                                <a href="#"
+                                   class="btn btn-warning btn-edit"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#buatJadwalModal"
+                                    data-id="' .$row->id. '">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+
+                                <a href="#"
+                                   class="btn btn-danger btn-hapus"
+                                   data-id="' .$row->id. '">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+
+
+        ';
+            })
+            ->addColumn('matakuliah', function ($row) {
+                return $row->jadwal_matakuliah->nama_mk ?? '-';
+            }) // Tambahkan kolom 'nama_prodi' ke JSON
+            ->addColumn('dosen', function ($row) {
+                return $row->dosen->nama_dosen ?? '-';
+            }) // Tambahkan kolom 'nama_prodi' ke JSON
+            ->addColumn('kelas', function ($row) {
+                return $row->jadwal_kelas->nama_kelas ?? '-';
+            })
+            ->addColumn('ruangan', function ($row) {
+                return $row->jadwal_ruangan->nama_ruangan ?? '-';
+            })
+            ->rawColumns(['action']) // Mengizinkan kolom 'action' menggunakan HTML
+            ->make(true);
     }
 
 
@@ -218,18 +239,10 @@ class JadwalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id,$prodi_id)
+    public function edit($id)
     {
-        $dosen = ModelDosen::all();
-        $prodi = ModelProdi::where('kode_prodi',$prodi_id)->first();
-        $tahun_akademik = ModelTahunAkademik::where('status',1)->first();
-        $kelas = ModelKelas::where('prodi_id', $prodi_id)->get();
-        $ruangan = ModelRuangan::where('prodi_id', $prodi_id)->get();
-        $matkul = ModelMatakuliah::where('kode_prodi', $prodi_id)->get();
-        //
 
-        $jadwal = ModelDetailJadwal::where('id', $id)->first();
-//
+        $jadwal = ModelDetailJadwal::find($id);
         if ($jadwal) {
             // Pisahkan jam awal dan akhir berdasarkan karakter "-"
             if (isset($jadwal->jam)) {
@@ -238,19 +251,8 @@ class JadwalController extends Controller
                 $jadwal->jam_akhir = isset($jam[1]) ? trim(date('H:i', strtotime($jam[1]))) : null;
             }
         }
-//
-//        return response()->json($jadwal);
 
-        return view('admin.jadwal.edit',[
-            'id' => $id,
-            'dosen' => $dosen,
-            'prodi' => $prodi,
-            'tahun' => $tahun_akademik,
-            'kelas' => $kelas,
-            'ruangan' => $ruangan,
-            'matkul' => $matkul,
-            'jadwal' => $jadwal,
-        ]);
+        return response()->json($jadwal);
     }
 
     /**

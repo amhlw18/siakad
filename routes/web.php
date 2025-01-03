@@ -56,9 +56,8 @@ Route::middleware('auth')->group(function (){
 
        // Route::get('/dashboard/data-jadwal-kuliah/{id}',[JadwalController::class, 'getByProdi']);
         Route::post('/dashboard/data-jadwal', [JadwalController::class, 'store']);
-        Route::get('/dashboard/data-jadwal/{id}/{prodi_id}/edit', [JadwalController::class, 'edit']);
+       // Route::get('/dashboard/data-jadwal/{id}/{prodi_id}/edit', [JadwalController::class, 'edit']);
         Route::put('/dashboard/data-jadwal-update/{id}', [JadwalController::class, 'update']);
-        Route::get('/dashboard/jadwal-kls/filter-data', [JadwalController::class, 'filter_data']);
         Route::post('/dashboard/data-jadwal-update/{id}', [JadwalController::class, 'update']);
 
     });
@@ -82,6 +81,7 @@ Route::middleware('auth')->group(function (){
         Route::resource('/dashboard/nilai-semester',PenilaianController::class);
         Route::get('/dashboard/nilai-semester/{id}/{mk}/edit', [PenilaianController::class, 'edit']);
         Route::get('/dashboard/nilai-semester/{id}/filter', [PenilaianController::class, 'filter']);
+        Route::get('/dashboard/nilai-semester/{id}/{id_kelas}', [PenilaianController::class, 'show']);
         Route::post('/dashboard/nilai-semester/simpan-nilai',[PenilaianController::class,'simpanNilai']);
         Route::post('/dashboard/nilai-semester/hapus-nilai',[PenilaianController::class,'hapusNilai']);
 
@@ -115,6 +115,8 @@ Route::get('mhs/filter', [MahasiswaController::class, 'filterData'])->name('mhs.
 Route::get('kls/filter', [KelasMahasiswaController::class, 'filterData'])->name('kelas.filter');
 Route::get('kls-mhs/filter', [KelasMahasiswaController::class, 'filterDataKelas'])->name('kelas-mhs.filter');
 Route::get('/get-kelas/{prodiId}', [KelasMahasiswaController::class, 'getKelas'])->name('get.kelas');
+
+Route::get('/filter-kls/filter-data', [JadwalController::class, 'filter_data'])->name('get.jadwal');
 
 //Route::get('/coba', function (){
 //    return view('admin.pa-mhs.index');
