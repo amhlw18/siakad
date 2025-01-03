@@ -56,7 +56,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Master Data Jadwal Kuliah Prodi {{ $prodi->nama_prodi ?? '-' }}</h3>
+                <h3 id="judul" class="card-title">Master Data Jadwal Kuliah Prodi {{ $prodi->nama_prodi ?? '-' }}</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">

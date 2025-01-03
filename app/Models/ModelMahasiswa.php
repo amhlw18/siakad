@@ -35,19 +35,27 @@ class ModelMahasiswa extends Model
 
     public function getSemesterAttribute()
     {
-        $tahunSekarang = Carbon::now()->year;
-        $tahunAngkatan = $this->tahun_masuk; // Kolom tahun angkatan
-        $bulanSekarang = Carbon::now()->month;
+        $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
+        $semester = $tahun_aktif->kode;
+        $angkatan = $this->tahun_masuk; // Kolom tahun masuk dalam database
 
-        // Hitung selisih tahun
-        $jarakTahun = $tahunSekarang - $tahunAngkatan;
 
-        // Tentukan semester (1 = ganjil, 2 = genap)
-        $semesterBerjalan = ($bulanSekarang >= 1 && $bulanSekarang <= 6) ? 2 : 1;
+        if ($semester %2 != 0){
+            $a = (($semester + 10)-1)/10;
+            $b = $a - $angkatan;
+            $c = ($b*2)-1;
+            //echo "Semester : $c";
+        }else{
+            $a = (($semester + 10)-2)/10;
+            $b = $a - $angkatan;
+            $c = $b * 2;
+            //echo "Semester : $c";
+        }
 
-        // Hitung semester saat ini
-        return ($jarakTahun * 2) + $semesterBerjalan;
+        return $c; // Mengembalikan hasil semester
     }
+
+
 
     public function prodi_mhs()
     {

@@ -7,6 +7,7 @@
         <span class="brand-text font-weight-light">SIAKAD IKT</span>
     </a>
 
+
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
@@ -17,7 +18,26 @@
             </div>
 
             <div class="info">
-                <a href="#" class="d-block">{{ auth()->user()->name }}</a>
+                @if(auth()->user()->role== 1)
+                    <a href="#" class="d-block">Admininstrator</a>
+                @endif
+
+                @if(auth()->user()->role== 2)
+                    <a href="#" class="d-block">Keuangan</a>
+                @endif
+
+                @if(auth()->user()->role== 3)
+                    <a href="#" class="d-block">Dosen</a>
+                @endif
+
+                @if(auth()->user()->role== 4)
+                    <a href="#" class="d-block">Mahasiswa</a>
+                @endif
+
+                @if(auth()->user()->role== 5)
+                    <a href="#" class="d-block">Progam Studi</a>
+                @endif
+
             </div>
         </div>
 
@@ -177,8 +197,8 @@
 
                 @can('dosen')
                     <!-- Dosen Menu -->
-                    <li class="nav-item {{ Request::is('dashboard/aspek-nilai*') || Request::is('dashboard/nilai-semester') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('dashboard/aspek-nilai*') || Request::is('dashboard/nilai-semester')  ? 'active' : '' }}">
+                    <li class="nav-item {{ Request::is('dashboard/aspek-nilai*') || Request::is('dashboard/nilai-semester*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('dashboard/aspek-nilai*') || Request::is('dashboard/nilai-semester*')  ? 'active' : '' }}">
                             <i class="nav-icon fas fa-user mr-2"></i>
                             <p>
                                 Dosen
@@ -207,8 +227,8 @@
 
                 @can('mahasiswa')
                     <!-- Dosen Menu -->
-                    <li class="nav-item {{ Request::is('dashboard/aspek-nilai*') || Request::is('dashboard/nilai-semester') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('dashboard/aspek-nilai*') || Request::is('dashboard/nilai-semester')  ? 'active' : '' }}">
+                    <li class="nav-item {{ Request::is('dashboard/krs-mhs*') || Request::is('dashboard/khs-mhs*') || Request::is('dashboard/transkrip-nilai*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('dashboard/krs-mhs*') || Request::is('dashboard/khs-mhs*') || REquest::is('dashboard/transkrip-nilai*')  ? 'active' : '' }}">
                             <i class="nav-icon fas fa-user mr-2"></i>
                             <p>
                                 Mahasiswa
@@ -217,9 +237,16 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/dashboard/aspek-nilai" class="nav-link {{ Request::is('dashboard/aspek-nilai*') ? 'active' : '' }}">
+                                <a href="/dashboard/krs-mhs" class="nav-link {{ Request::is('dashboard/krs-mhs*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>KRS</p>
+
+                                    @if(auth()->user()->role== 1 || auth()->user()->role == 5)
+                                        <p>KRS</p>
+                                    @endif
+
+                                    @if(auth()->user()->role== 4)
+                                        <p>Ambil KRS</p>
+                                    @endif
                                 </a>
                             </li>
                         </ul>

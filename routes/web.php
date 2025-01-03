@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\AspekPenilaianController;
+use App\Http\Controllers\KHSController;
 use App\Http\Controllers\KRSController;
 use App\Http\Controllers\NeoFeeederController;
 use App\Http\Controllers\NilaiSemesterController;
 use App\Http\Controllers\PAMhsController;
 use App\Http\Controllers\PenilaianController;
+use App\Http\Controllers\TranskripNilaiController;
 use App\Models\ModelKRSMahasiwa;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DosenController;
@@ -93,8 +95,9 @@ Route::middleware('auth')->group(function (){
     });
 
     Route::middleware('mahasiswa')->group(function (){
-        Route::resource('dashboard/krs-mhs', KRSController::class);
-
+        Route::resource('/dashboard/krs-mhs', KRSController::class);
+        Route::resource('/dashboard/khs-mhs', KHSController::class);
+        Route::resource('/dashboard/transkrip-nilai', TranskripNilaiController::class);
     });
 
 
@@ -125,6 +128,7 @@ Route::get('kls-mhs/filter', [KelasMahasiswaController::class, 'filterDataKelas'
 Route::get('/get-kelas/{prodiId}', [KelasMahasiswaController::class, 'getKelas'])->name('get.kelas');
 
 Route::get('/filter-kls/filter-data', [JadwalController::class, 'filter_data'])->name('get.jadwal');
+Route::get('/krs/filter-data', [KRSController::class, 'filter_data'])->name('get.krs');
 
 //Route::get('/coba', function (){
 //    return view('admin.pa-mhs.index');
