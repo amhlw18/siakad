@@ -38,6 +38,8 @@ class JadwalController extends Controller
         $query = ModelDetailJadwal::with('prodi_jadwal','tahun_jadwal',
             'jadwal_matakuliah','dosen','jadwal_kelas','jadwal_ruangan'); // Include relasi 'prodi_mhs'
 
+        $query->where('prodi_id', $request->prodi);
+
         if ($request->tahun) {
             $query->where('prodi_id', $request->prodi)
                 ->where('tahun_akademik', $request->tahun);
@@ -67,6 +69,9 @@ class JadwalController extends Controller
             })
             ->addColumn('matakuliah', function ($row) {
                 return $row->jadwal_matakuliah->nama_mk ?? '-';
+            }) // Tambahkan kolom 'nama_prodi' ke JSON
+            ->addColumn('semester', function ($row) {
+                return $row->jadwal_matakuliah->semester ?? '-';
             }) // Tambahkan kolom 'nama_prodi' ke JSON
             ->addColumn('dosen', function ($row) {
                 return $row->dosen->nama_dosen ?? '-';

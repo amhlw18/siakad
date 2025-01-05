@@ -33,7 +33,7 @@
                 <select id="filterTahun" class="form-control">
                     <option value="">Semua Tahun Akademik</option>
                     @foreach ($tahun_akademik as $tahun)
-                        <option value="{{ $tahun->kode ?? '-' }}-{{ $prodi->kode_prodi ?? '-' }}">{{ $tahun->tahun_akademik }}</option>
+                        <option value="{{ $tahun->kode ?? '-' }}">{{ $tahun->tahun_akademik }}</option>
                     @endforeach
                 </select>
             </div>
@@ -68,6 +68,7 @@
                         <th>Hari</th>
                         <th>Jam </th>
                         <th>Mata Kuliah</th>
+                        <th>Semester</th>
                         <th>Dosen</th>
                         <th>Kelas</th>
                         <th>Ruangan</th>
@@ -109,6 +110,10 @@
         </div>
         <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
+
+    <form id="">
+        <input type="hidden" id="prodi_id" name="prodi_id" value="{{$prodi->kode_prodi ?? '-'}}">
+    </form>
 
     <!-- Modal -->
     <div class="modal fade" id="buatJadwalModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -252,27 +257,16 @@
     </div>
 
     <script>
-        function initializeDataTable() {
-            // Periksa apakah DataTable sudah diinisialisasi
-            if ($.fn.DataTable.isDataTable('#tabel5')) {
-                // Hancurkan DataTable yang sudah ada
-                $('#tabel5').DataTable().destroy();
-            }
-
-            // Inisialisasi DataTable baru
-            $('#tabel5').DataTable({
+        $(document).ready(function () {
+            const table = $('#tabel5').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
                     url: "{{ route('get.jadwal') }}",
                     type: "GET",
                     data: function (d) {
-                        const id = $('#filterTahun').val();
-                        if (id) {
-                            const [id_tahun, id_prodi] = id.split('-');
-                            d.tahun = id_tahun;
-                            d.prodi = id_prodi;
-                        }
+                        d.tahun = $('#filterTahun').val();
+                        d.prodi = $('#prodi_id').val();
                     }
                 },
                 columns: [
@@ -280,19 +274,58 @@
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     { data: 'hari', name: 'hari' },
                     { data: 'jam', name: 'jam' },
-                    { data: 'matakuliah', name: 'jadwal_matakuliah.nama_mk' },
+                    { data: 'matakuliah', name: 'jadwal_matakuliah.nama_mk'},
+                    { data: 'semester', name: 'jadwal_matakuliah.semester'},
                     { data: 'dosen', name: 'dosen.nama_dosen' },
                     { data: 'kelas', name: 'jadwal_kelas.nama_kelas' },
                     { data: 'ruangan', name: 'jadwal_ruangan.nama_ruangan' },
                 ]
             });
-        }
 
-        // Tambahkan event listener untuk filterTahun
-        document.getElementById('filterTahun').addEventListener('change', function () {
-            initializeDataTable();
+            // Refresh table data on filter change
+            $('#filterTahun').on('change', function () {
+                table.ajax.reload();
+            });
         });
     </script>
+
+{{--    <script>--}}
+{{--        function initializeDataTable() {--}}
+{{--            // Periksa apakah DataTable sudah diinisialisasi--}}
+{{--            if ($.fn.DataTable.isDataTable('#tabel5')) {--}}
+{{--                // Hancurkan DataTable yang sudah ada--}}
+{{--                $('#tabel5').DataTable().destroy();--}}
+{{--            }--}}
+{{--            // Inisialisasi DataTable baru--}}
+{{--            $('#tabel5').DataTable({--}}
+{{--                processing: true,--}}
+{{--                serverSide: true,--}}
+{{--                ajax: {--}}
+{{--                    url: "{{ route('get.jadwal') }}",--}}
+{{--                    type: "GET",--}}
+{{--                    data: function (d) {--}}
+{{--                        d.tahun = $('#filterTahun').val();--}}
+{{--                        d.prodi = $('#prodi_id').val();--}}
+{{--                    }--}}
+{{--                },--}}
+{{--                columns: [--}}
+{{--                    { data: 'action', name: 'action', orderable: false, searchable: false },--}}
+{{--                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },--}}
+{{--                    { data: 'hari', name: 'hari' },--}}
+{{--                    { data: 'jam', name: 'jam' },--}}
+{{--                    { data: 'matakuliah', name: 'jadwal_matakuliah.nama_mk' },--}}
+{{--                    { data: 'dosen', name: 'dosen.nama_dosen' },--}}
+{{--                    { data: 'kelas', name: 'jadwal_kelas.nama_kelas' },--}}
+{{--                    { data: 'ruangan', name: 'jadwal_ruangan.nama_ruangan' },--}}
+{{--                ]--}}
+{{--            });--}}
+{{--        }--}}
+
+{{--        // Tambahkan event listener untuk filterTahun--}}
+{{--        document.getElementById('filterTahun').addEventListener('change', function () {--}}
+{{--            initializeDataTable();--}}
+{{--        });--}}
+{{--    </script>--}}
 
 
 
