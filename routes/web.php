@@ -7,6 +7,7 @@ use App\Http\Controllers\NeoFeeederController;
 use App\Http\Controllers\NilaiSemesterController;
 use App\Http\Controllers\PAMhsController;
 use App\Http\Controllers\PenilaianController;
+use App\Http\Controllers\PrintController;
 use App\Http\Controllers\TranskripNilaiController;
 use App\Models\ModelKRSMahasiwa;
 use Illuminate\Support\Facades\Route;
@@ -98,6 +99,8 @@ Route::middleware('auth')->group(function (){
         Route::resource('/dashboard/krs-mhs', KRSController::class);
         Route::resource('/dashboard/khs-mhs', KHSController::class);
         Route::resource('/dashboard/transkrip-nilai', TranskripNilaiController::class);
+
+        Route::post('/print/khs', [PrintController::class,'print_khs']);
     });
 
 
@@ -129,6 +132,7 @@ Route::get('/get-kelas/{prodiId}', [KelasMahasiswaController::class, 'getKelas']
 
 Route::get('/filter-kls/filter-data', [JadwalController::class, 'filter_data'])->name('get.jadwal');
 Route::get('/krs/filter-data', [KRSController::class, 'filter_data'])->name('get.krs');
+Route::get('/khs/filter-data', [KHSController::class, 'filter_data'])->name('get.khs');
 
 //Route::get('/coba', function (){
 //    return view('admin.pa-mhs.index');

@@ -22,16 +22,16 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            TahunAkademikSeeder::class,
+            //TahunAkademikSeeder::class,
             //KurikulumSeeder::class,
             //DosenSeeder::class,
             //ProdiSeeder::class,
             //MatakuliahSeeder::class,
-            RuanganSeeder::class,
-            KelasSeeder::class,
+            //RuanganSeeder::class,
+            //KelasSeeder::class,
             //MahasiswaSeeder::class,
             //PembayaranSeeder::class,
-            UserSeeder::class,
+            //UserSeeder::class,
         ]);
     }
 }

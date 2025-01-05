@@ -32,15 +32,15 @@
             - Untuk menampilkan KRS silahkan pilih tahun akademik terlebih dahulu !.<br>
         </div>
 
-                <!-- Informasi mhs -->
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <p><strong>NIM  :</strong> {{ $mhs->nim ?? '-' }}</p>
-                        <p><strong>Nama Mahasiswa :</strong> {{ $mhs->nama_mhs?? '-' }}</p>
-                        <p><strong>Program Studi :</strong> {{ $mhs->prodi_mhs->nama_prodi?? '-' }}</p>
-                        <p><strong>Semester :</strong> {{ $mhs->semester ?? '-'}}</p>
-                    </div>
-                </div>
+        <!-- Informasi mhs -->
+        <div class="card mb-3">
+            <div class="card-body">
+                <p><strong>NIM  :</strong> {{ $mhs->nim ?? '-' }}</p>
+                <p><strong>Nama Mahasiswa :</strong> {{ $mhs->nama_mhs?? '-' }}</p>
+                <p><strong>Program Studi :</strong> {{ $mhs->prodi_mhs->nama_prodi?? '-' }}</p>
+                <p><strong>Semester :</strong> {{ $mhs->semester ?? '-'}}</p>
+            </div>
+        </div>
 
         @if(auth()->user()->role== 1 || auth()->user()->role == 5)
 

@@ -22,6 +22,8 @@ class StatusKRSSeeder extends Seeder
         foreach ($mahasiswa as $mhs) {
             ModelStatusKRS::create([
                 'nim' => $mhs->nim,
+                'dikunci' => 1,
+                'disetujui' => 1,
             ]);
         }
     }

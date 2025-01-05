@@ -253,7 +253,7 @@
 
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/dashboard/nilai-semester" class="nav-link {{ Request::is('dashboard/nilai-semester*') ? 'active' : '' }}">
+                                <a href="/dashboard/khs-mhs" class="nav-link {{ Request::is('dashboard/khs-mhs*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>KHS</p>
                                 </a>
@@ -262,7 +262,7 @@
 
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/dashboard/nilai-semester" class="nav-link {{ Request::is('dashboard/nilai-semester*') ? 'active' : '' }}">
+                                <a href="/dashboard/transkrip-nilai" class="nav-link {{ Request::is('dashboard/transkrip-nilai*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Transkrip Nilai</p>
                                 </a>
