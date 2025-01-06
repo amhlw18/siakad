@@ -44,6 +44,17 @@
 
         @if(auth()->user()->role== 1 || auth()->user()->role == 5)
 
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <form action="/print/khs" target="_blank" method="post">
+                        @csrf
+                        <input type="hidden" name="nim" value="{{$mhs->nim}}">
+                        <input type="hidden" id="tahun" name="tahun" value="">
+                        <button type="submit" id="Button" rel="noopener" target="_blank" class="btn btn-primary "><i class="fas fa-print"></i> Cetak KHS</button>
+                    </form>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-header">
                     <h3 id="judul" class="card-title"></h3>
@@ -156,6 +167,7 @@
 
         <script>
             $(document).ready(function () {
+                $('#Button').prop('disabled', true);
                 const table = $('#tabel5').DataTable({
                     processing: true,
                     serverSide: true,
@@ -165,12 +177,18 @@
                         data: function (d) {
                             d.tahun = $('#filterTahun').val();
                             d.nim = $('#nim').val();
+                            const tahun_akademik = document.getElementById('tahun');
+                            tahun_akademik.value = $('#filterTahun').val();
                         },
                         dataSrc: function (json) {
                             // Update footer values
                             $('#jumlah_sks').text(json.jumlah_sks);
                             $('#jumlah_mk').text(json.jumlah_mk);
                             $('#ips').text(json.ips);
+
+                            if (!json.jumlah_sks){
+                                $('#Button').prop('disabled', true);
+                            }
                             return json.data.data; // Return the actual data for the table
                         }
                     },
@@ -190,6 +208,7 @@
                     table.ajax.reload();
                     $("#pesan").remove();
                     //document.getElementById('judul_tabel').innerHTML = '';
+                    $('#Button').prop('disabled', false);
                 });
             });
         </script>

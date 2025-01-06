@@ -172,10 +172,13 @@ class KRSController extends Controller
                     return $item;
                 });
 
+            $status_krs = ModelStatusKRS::where('nim',$id)->first();
+
             return view('mahasiswa.krs.show',[
                 'tahun_aktif' => $tahun_aktif,
                 'tahun_akademik' => $tahun_akademik,
                 'mhs' => $mhs,
+                'status_krs' => $status_krs,
                 'krs' => $krs,
             ]);
         }

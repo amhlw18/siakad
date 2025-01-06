@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KARTU HASIL STUDI</title>
+    <title>KARTU HASIL STUDI {{$mhs->nim}} </title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -54,7 +54,7 @@
 </head>
 <body>
     <div class="header">
-        <img src="{{ asset('lte/dist/img/ikt.png') }}" alt="Logo Universitas">
+        <img src="{{ public_path('lte/dist/img/ikt.png') }}" alt="Logo Universitas">
         <h2>INSTITUT KESEHATAN DAN TEKNOLOGI BUTON RAYA</h2>
         <h3>KARTU HASIL STUDI</h3>
         <h3>{{$tahun_akademik->tahun_akademik}}</h3>
@@ -176,10 +176,6 @@
 {{--        <p>Prof. Dr. Dwia Aries Tina Pulubuhu, M.A.</p>--}}
 {{--        <p>NIP. 19640814 198601 2 001</p>--}}
 {{--    </div>--}}
-
-    <script>
-        window.addEventListener("load", window.print());
-    </script>
 
 {{--    <script>--}}
 {{--        document.addEventListener('DOMContentLoaded', () => {--}}

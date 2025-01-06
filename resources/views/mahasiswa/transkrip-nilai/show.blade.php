@@ -1,15 +1,11 @@
 @extends('layouts.main')
 
 @section('title')
-     Transkrip Nilai Mahasiswa
+    Transkrip Nilai Mahasiswa
 @endsection()
 
 @section('mainmenu')
-    @if(auth()->user()->role == 4)
-        Transkrip Nilai
-    @else
-        Transkrip Nilai Mahasiswa
-    @endif
+    Transkrip Nilai Mahasiswa
 @endsection()
 
 @section('menu')
@@ -31,7 +27,7 @@
             </div>
         @endif
 
-        @if(auth()->user()->role == 4)
+        @if(auth()->user()->role== 1 || auth()->user()->role == 5)
 
             <!-- Informasi mhs -->
             <div class="card mb-3">
@@ -46,50 +42,8 @@
             </div>
         @endif
 
-        @if(auth()->user()->role== 1)
 
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Data Mahasiswa</h3>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <table id="tabel" class="table table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>#</th>
-                            <th>NIM</th>
-                            <th>Nama Mahasiswa </th>
-                            <th>Prodi</th>
-                            <th>Angkatan</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($mahasiswa as $mhs)
-                            <tr>
-                                <td>
-                                    <a href="/dashboard/transkrip-nilai/{{$mhs->nim}}"
-                                       class="btn btn-success"
-                                       data-id="">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                </td>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $mhs->nim }}</td>
-                                <td>{{ $mhs->nama_mhs}}</td>
-                                <td>{{ $mhs->prodi_mhs->nama_prodi ?? '-' }}</td>
-                                <td>{{ $mhs->tahun_masuk }}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.card-body -->
-            </div>
-        @endif
-
-        @if(auth()->user()->role== 4)
+        @if(auth()->user()->role== 1 || auth()->user()->role == 5)
             <div class="row mb-3">
                 <div class="col-md-4">
                     <form action="/print/transkrip-nilai" target="_blank" method="post">
@@ -164,46 +118,6 @@
             </div>
         @endif
 
-        @if(auth()->user()->role== 5)
-
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Data Mahasiswa Prodi {{$prodi->nama_prodi}} </h3>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <table id="tabel" class="table table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>#</th>
-                            <th>NIM</th>
-                            <th>Nama Mahasiswa </th>
-                            <th>Angkatan</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($mahasiswa as $mhs)
-                            <tr>
-                                <td>
-                                    <a href="/dashboard/transkrip-nilai/{{$mhs->nim}}"
-                                       class="btn btn-success"
-                                       data-id="">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                </td>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $mhs->nim }}</td>
-                                <td>{{ $mhs->nama_mhs}}</td>
-                                <td>{{ $mhs->tahun_masuk }}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.card-body -->
-            </div>
-        @endif
 
         <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->

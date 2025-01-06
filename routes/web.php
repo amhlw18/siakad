@@ -101,6 +101,7 @@ Route::middleware('auth')->group(function (){
         Route::resource('/dashboard/transkrip-nilai', TranskripNilaiController::class);
 
         Route::post('/print/khs', [PrintController::class,'print_khs']);
+        Route::post('/print/transkrip-nilai', [PrintController::class,'print_transkrip_nilai']);
     });
 
 

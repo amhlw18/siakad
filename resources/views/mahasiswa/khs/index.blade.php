@@ -101,7 +101,6 @@
                         <input type="hidden" id="tahun" name="tahun" value="">
                         <button type="submit" id="Button" rel="noopener" target="_blank" class="btn btn-primary "><i class="fas fa-print"></i> Cetak KHS</button>
                     </form>
-
                 </div>
             </div>
 
