@@ -34,21 +34,21 @@
                             @csrf
                             <div class="card-body">
 
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="prodi_id">Homebase Program Studi</label>--}}
-{{--                                    <select class="custom-select rounded-0" id="kurikulum_id" name="prodi_id">--}}
-{{--                                        @foreach ($prodis as $prodi)--}}
-{{--                                            @if (old('prodi_id') == $prodi->id)--}}
-{{--                                                <option selected value="{{ $prodi->id }}">--}}
-{{--                                                    {{ $prodi->nama_prodi }}</option>--}}
-{{--                                            @else--}}
-{{--                                                <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}--}}
-{{--                                                </option>--}}
-{{--                                            @endif--}}
-{{--                                        @endforeach--}}
+                                <div class="form-group">
+                                    <label for="prodi_id">Homebase Program Studi</label>
+                                    <select class="custom-select rounded-0" id="prodi_id" name="prodi_id">
+                                        @foreach ($prodis as $prodi)
+                                            @if (old('prodi_id') == $prodi->kode_prodi)
+                                                <option selected value="{{ $prodi->kode_prodi }}">
+                                                    {{ $prodi->nama_prodi }}</option>
+                                            @else
+                                                <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}
+                                                </option>
+                                            @endif
+                                        @endforeach
 
-{{--                                    </select>--}}
-{{--                                </div>--}}
+                                    </select>
+                                </div>
 
                                 <div class="form-group">
                                     <label for="nidn">NIDN</label>

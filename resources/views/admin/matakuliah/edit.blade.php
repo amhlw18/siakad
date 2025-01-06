@@ -41,11 +41,11 @@
                                     <select class="custom-select rounded-0" id="kurikulum_id" name="kurikulum_id">
                                         <option value="" disabled selected>--Pilih Kurikulum--</option>
                                         @foreach ($kurikulums as $kurikulum)
-                                            @if (old('kurikulum_id',$matkul->kurikulum_id) == $kurikulum->id)
-                                                <option selected value="{{ $kurikulum->id }}">
+                                            @if (old('kurikulum_id',$matkul->kurikulum_id) == $kurikulum->kode_kurikulum)
+                                                <option selected value="{{ $kurikulum->kode_kurikulum }}">
                                                     {{ $kurikulum->nama_kurikulum }}</option>
                                             @else
-                                                <option value="{{ $kurikulum->id }}">{{ $kurikulum->nama_kurikulum }}
+                                                <option value="{{ $kurikulum->kode_kurikulum }}">{{ $kurikulum->nama_kurikulum }}
                                                 </option>
                                             @endif
                                         @endforeach
@@ -106,15 +106,16 @@
                                             <option selected value="{{ $matkul->semester }}">
                                                 {{ $matkul->semester }}</option>
                                         @else
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
+
                                         @endif
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
 
                                     </select>
                                     @error('semester')
@@ -172,18 +173,19 @@
                                             <option selected value="{{ $matkul->kelompok_mk }}">
                                                 {{ $matkul->kelompok_mk }}</option>
                                         @else
-                                            <option value="MPK-Pengembangan Kepribadian">MPK-Pengembangan Kepribadian
-                                            </option>
-                                            <option value="MKK-Keilmuan dan Keterampilan">MKK-Keilmuan dan Keterampilan
-                                            </option>
-                                            <option value="MKB-Keahlian Berkarya">MKB-Keahlian Berkarya</option>
-                                            <option value="MPK-Prilaku Berkarya">MPK-Prilaku Berkarya</option>
-                                            <option value="MBB-Berkehidupan Bermasyarakat">MBB-Berkehidupan Bermasyarakat
-                                            </option>
-                                            <option value="MKU/MKDU">MKU/MKDU</option>
-                                            <option value="MKDK">MKDK</option>
-                                            <option value="MKK">MKK</option>
+
                                         @endif
+                                        <option value="MPK-Pengembangan Kepribadian">MPK-Pengembangan Kepribadian
+                                        </option>
+                                        <option value="MKK-Keilmuan dan Keterampilan">MKK-Keilmuan dan Keterampilan
+                                        </option>
+                                        <option value="MKB-Keahlian Berkarya">MKB-Keahlian Berkarya</option>
+                                        <option value="MPK-Prilaku Berkarya">MPK-Prilaku Berkarya</option>
+                                        <option value="MBB-Berkehidupan Bermasyarakat">MBB-Berkehidupan Bermasyarakat
+                                        </option>
+                                        <option value="MKU/MKDU">MKU/MKDU</option>
+                                        <option value="MKDK">MKDK</option>
+                                        <option value="MKK">MKK</option>
                                     </select>
                                     @error('kelompok_mk')
                                         <div class="invalid-feedback">
@@ -201,9 +203,10 @@
                                             <option selected value="{{ $matkul->jenis_kelompok }}">
                                                 {{ $matkul->jenis_kelompok }}</option>
                                         @else
-                                            <option value="Inti">Inti</option>
-                                            <option value="Institusi">Institusi</option>
+
                                         @endif
+                                        <option value="Inti">Inti</option>
+                                        <option value="Institusi">Institusi</option>
                                     </select>
                                     @error('jenis_kelompok')
                                         <div class="invalid-feedback">
@@ -221,12 +224,13 @@
                                             <option selected value="{{ $matkul->jenis_mk }}">
                                                 {{ $matkul->jenis_mk }}</option>
                                         @else
-                                            <option value="Wajib">Wajib</option>
-                                            <option value="Pilihan">Pilihan</option>
-                                            <option value="Wajib Peminatan">Wajib Peminatan</option>
-                                            <option value="Pilihan Peminatan">Pilihan Peminatan</option>
-                                            <option value="TA/Skripsi/Tesis/Desertasi">TA/Skripsi/Tesis/Desertasi</option>
+
                                         @endif
+                                        <option value="Wajib">Wajib</option>
+                                        <option value="Pilihan">Pilihan</option>
+                                        <option value="Wajib Peminatan">Wajib Peminatan</option>
+                                        <option value="Pilihan Peminatan">Pilihan Peminatan</option>
+                                        <option value="TA/Skripsi/Tesis/Desertasi">TA/Skripsi/Tesis/Desertasi</option>
 
                                     </select>
                                     @error('jenis_mk')
@@ -245,13 +249,14 @@
                                             <option selected value="{{ $matkul->status_mk }}">
                                                 {{ $matkul->status_mk }}</option>
                                         @else
-                                            <option value="Aktif">Aktif</option>
-                                            <option value="Ahli Bentuk">Ahli Bentuk</option>
-                                            <option value="Hapus">Hapus</option>
-                                            <option value="Ahli Kelola">Alih Kelola</option>
-                                            <option value="Marger">Marger</option>
-                                            <option value="Nonaktif">Nonaktif</option>
+
                                         @endif
+                                        <option value="Aktif">Aktif</option>
+                                        <option value="Ahli Bentuk">Ahli Bentuk</option>
+                                        <option value="Hapus">Hapus</option>
+                                        <option value="Ahli Kelola">Alih Kelola</option>
+                                        <option value="Marger">Marger</option>
+                                        <option value="Nonaktif">Nonaktif</option>
 
                                     </select>
                                     @error('status_mk')
@@ -270,9 +275,10 @@
                                             <option selected value="{{ $matkul->silabus_mk }}">
                                                 {{ $matkul->silabus_mk }}</option>
                                         @else
-                                            <option value="Ya">Ya</option>
-                                            <option value="Tidak">Tidak</option>
+
                                         @endif
+                                        <option value="Ya">Ya</option>
+                                        <option value="Tidak">Tidak</option>
 
                                     </select>
                                     @error('silabus_mk')
@@ -291,9 +297,10 @@
                                             <option selected value="{{ $matkul->sap_mk }}">
                                                 {{ $matkul->sap_mk }}</option>
                                         @else
-                                            <option value="Ya">Ya</option>
-                                            <option value="Tidak">Tidak</option>
+
                                         @endif
+                                        <option value="Ya">Ya</option>
+                                        <option value="Tidak">Tidak</option>
 
 
                                     </select>
@@ -313,10 +320,10 @@
                                             <option selected value="{{ $matkul->bahan_ajar }}">
                                                 {{ $matkul->bahan_ajar }}</option>
                                         @else
-                                            <option value="Ya">Ya</option>
-                                            <option value="Tidak">Tidak</option>
-                                        @endif
 
+                                        @endif
+                                        <option value="Ya">Ya</option>
+                                        <option value="Tidak">Tidak</option>
 
                                     </select>
 
@@ -336,9 +343,10 @@
                                             <option selected value="{{ $matkul->diktat }}">
                                                 {{ $matkul->diktat }}</option>
                                         @else
-                                            <option value="Ya">Ya</option>
-                                            <option value="Tidak">Tidak</option>
+
                                         @endif
+                                        <option value="Ya">Ya</option>
+                                        <option value="Tidak">Tidak</option>
 
                                     </select>
 

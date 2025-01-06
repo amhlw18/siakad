@@ -8,6 +8,7 @@ use App\Models\ModelMahasiswa;
 use App\Models\ModelProdi;
 use App\Models\ModelTahunAkademik;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -20,22 +21,42 @@ class KelasMahasiswaController extends Controller
      */
     public function index()
     {
-        $kelas_mhs =ModelKelasMahasiswa::with(
-            'prodi_kelas_mhs','mhs_kelas_mhs',
-            'kelas_mahasiswa')
-            ->orderBY('nim','asc')
-            ->get();
-        //
 
-        $cekData = $kelas_mhs->first();
-        $nim = $cekData ? $cekData->nim : null;
+        if (Auth::user()->role==1){
+            $kelas_mhs =ModelKelasMahasiswa::with(
+                'prodi_kelas_mhs','mhs_kelas_mhs',
+                'kelas_mahasiswa')
+                ->orderBY('nim','asc')
+                ->get();
 
+            $cekData = $kelas_mhs->first();
+            $nim = $cekData ? $cekData->nim : null;
 
-        return view('admin.kelas-mahasiswa.index',[
-            'mahasiswa' => $kelas_mhs,
-            'prodis'=>ModelProdi::get(),
-            'nim'=>$nim,
-        ]);
+            return view('admin.kelas-mahasiswa.index',[
+                'mahasiswa' => $kelas_mhs,
+                'prodis'=>ModelProdi::get(),
+                'nim'=>$nim,
+            ]);
+        }
+
+        if (Auth::user()->role==5){
+            $prodi_id = Auth::user()->prodi;
+            $kelas_mhs =ModelKelasMahasiswa::with(
+                'prodi_kelas_mhs','mhs_kelas_mhs',
+                'kelas_mahasiswa')
+                ->where('prodi_id',$prodi_id)
+                ->orderBY('nim','asc')
+                ->get();
+
+            $cekData = $kelas_mhs->first();
+            $nim = $cekData ? $cekData->nim : null;
+
+            return view('admin.kelas-mahasiswa.index',[
+                'mahasiswa' => $kelas_mhs,
+                'prodis'=>ModelProdi::get(),
+                'nim'=>$nim,
+            ]);
+        }
     }
 
     /**
@@ -83,14 +104,34 @@ class KelasMahasiswaController extends Controller
     {
         //
 
+        if (Auth::user()->role==1){
+            return view('admin.kelas-mahasiswa.create',[
+                'mahasiswa'=>ModelMahasiswa::with('prodi_mhs')
+                    ->orderBY('nim','desc')
+                    ->get(),
+                'prodis' =>ModelProdi::get(),
+                'kelas' =>ModelKelas::get(),
+            ]);
+        }
 
-        return view('admin.kelas-mahasiswa.create',[
-            'mahasiswa'=>ModelMahasiswa::with('prodi_mhs')
+        if (Auth::user()->role==5){
+            $prodi_id = Auth::user()->prodi;
+
+            $mhs = ModelMahasiswa::with('prodi_mhs')
+                ->where('prodi_id', $prodi_id)
                 ->orderBY('nim','desc')
-                ->get(),
-            'prodis' =>ModelProdi::get(),
-            'kelas' =>ModelKelas::get(),
-        ]);
+                ->get();
+
+            $prodi = ModelProdi::where('kode_prodi',$prodi_id)->get();
+
+            return view('admin.kelas-mahasiswa.create',[
+                'mahasiswa'=> $mhs,
+                'prodis' =>$prodi,
+                'kelas' =>ModelKelas::get(),
+            ]);
+        }
+
+
     }
 
     /**
@@ -154,20 +195,21 @@ class KelasMahasiswaController extends Controller
 
     public function filterData(Request $request)
     {
-        $query = ModelMahasiswa::with('prodi_mhs'); // Include relasi 'prodi_mhs'
+        if (Auth::user()->role==1){
+            $query = ModelMahasiswa::with('prodi_mhs'); // Include relasi 'prodi_mhs'
 
-        if ($request->prodi) {
-            $query->where('prodi_id', $request->prodi)->orderBY('nim','asc');
-        }
+            if ($request->prodi) {
+                $query->where('prodi_id', $request->prodi)->orderBY('nim','asc');
+            }
 
-        if ($request->angkatan) {
-            $query->where('tahun_masuk', $request->angkatan)->orderBY('nim','desc');
-        }
+            if ($request->angkatan) {
+                $query->where('tahun_masuk', $request->angkatan)->orderBY('nim','desc');
+            }
 
-        return DataTables::of($query)
-            ->addIndexColumn() // Menambahkan nomor index
-            ->addColumn('action', function ($row) {
-                return '
+            return DataTables::of($query)
+                ->addIndexColumn() // Menambahkan nomor index
+                ->addColumn('action', function ($row) {
+                    return '
 
                                     <a href=""
                                        class="btn btn-primary btn-tambah"
@@ -177,12 +219,47 @@ class KelasMahasiswaController extends Controller
 
 
         ';
-            })
-            ->addColumn('nama_prodi', function ($row) {
-                return $row->prodi_mhs->nama_prodi ?? '-';
-            }) // Tambahkan kolom 'nama_prodi' ke JSON
-            ->rawColumns(['action']) // Mengizinkan kolom 'action' menggunakan HTML
-            ->make(true);
+                })
+                ->addColumn('nama_prodi', function ($row) {
+                    return $row->prodi_mhs->nama_prodi ?? '-';
+                }) // Tambahkan kolom 'nama_prodi' ke JSON
+                ->rawColumns(['action']) // Mengizinkan kolom 'action' menggunakan HTML
+                ->make(true);
+        }
+
+        if (Auth::user()->role==5){
+            $query = ModelMahasiswa::with('prodi_mhs'); // Include relasi 'prodi_mhs'
+
+            $request->prodi = Auth::user()->prodi;
+
+            if ($request->prodi) {
+                $query->where('prodi_id', $request->prodi)->orderBY('nim','asc');
+            }
+
+            if ($request->angkatan) {
+                $query->where('tahun_masuk', $request->angkatan)->orderBY('nim','desc');
+            }
+
+            return DataTables::of($query)
+                ->addIndexColumn() // Menambahkan nomor index
+                ->addColumn('action', function ($row) {
+                    return '
+
+                                    <a href=""
+                                       class="btn btn-primary btn-tambah"
+                                       data-id="' .$row->nim. '">
+                                        Tambah
+                                    </a>
+
+
+        ';
+                })
+                ->addColumn('nama_prodi', function ($row) {
+                    return $row->prodi_mhs->nama_prodi ?? '-';
+                }) // Tambahkan kolom 'nama_prodi' ke JSON
+                ->rawColumns(['action']) // Mengizinkan kolom 'action' menggunakan HTML
+                ->make(true);
+        }
     }
 
     public function store(Request $request)

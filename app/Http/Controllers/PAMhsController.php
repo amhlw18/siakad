@@ -18,18 +18,37 @@ class PAMhsController extends Controller
      */
     public function index()
     {
-        $dosens = ModelDosen::all();
+        if (Auth::user()->role == 1){
+            $dosens = ModelDosen::all();
 
-        // Menghitung jumlah mahasiswa bimbingan per dosen
-        $jumlah_pa = ModelPAMahasiswa::select('nidn', \DB::raw('COUNT(*) as jumlah_mahasiswa'))
-            ->groupBy('nidn')
-            ->get()
-            ->keyBy('nidn'); // Mengubah menjadi array dengan nidn sebagai kunci
+            // Menghitung jumlah mahasiswa bimbingan per dosen
+            $jumlah_pa = ModelPAMahasiswa::select('nidn', \DB::raw('COUNT(*) as jumlah_mahasiswa'))
+                ->groupBy('nidn')
+                ->get()
+                ->keyBy('nidn'); // Mengubah menjadi array dengan nidn sebagai kunci
 
-        return view('admin.pa-mhs.index', [
-            'dosens' => $dosens,
-            'jumlah_pa' => $jumlah_pa,
-        ]);
+            return view('admin.pa-mhs.index', [
+                'dosens' => $dosens,
+                'jumlah_pa' => $jumlah_pa,
+            ]);
+        }
+
+        if (Auth::user()->role == 5){
+            $prodi_id = Auth::user()->prodi;
+            $dosens = ModelDosen::with('dosen_homebase')
+                ->where('prodi_id',$prodi_id)
+                ->get();
+
+            $jumlah_pa = ModelPAMahasiswa::select('nidn', \DB::raw('COUNT(*) as jumlah_mahasiswa'))
+                ->groupBy('nidn')
+                ->get()
+                ->keyBy('nidn'); // Mengubah menjadi array dengan nidn sebagai kunci
+
+            return view('admin.pa-mhs.index', [
+                'dosens' => $dosens,
+                'jumlah_pa' => $jumlah_pa,
+            ]);
+        }
 
     }
 
@@ -77,9 +96,6 @@ class PAMhsController extends Controller
     {
 
         $query = ModelPAMahasiswa::with('pa_prodi','pa_dosen','pa_mhs');
-
-
-
         if ($request->nidn){
             $query->where('nidn', $request->nidn);
         }
@@ -106,28 +122,53 @@ class PAMhsController extends Controller
     public function show($id)
     {
         //
+        if (Auth::user()->role == 1){
+            $pa = ModelPAMahasiswa::with('pa_prodi','pa_dosen','pa_mhs')
+                ->where('nidn', $id)
+                ->get();
+
+            $dosen = ModelDosen::where('nidn', $id)->first();
+            $prodi_id = $dosen->prodi_id;
+
+            $prodi = ModelProdi::where('kode_prodi',$prodi_id)->first();
+
+            $mahasiswa = ModelMahasiswa::with('prodi_mhs')
+                ->where('prodi_id', $prodi_id)
+                ->get();
+
+            return view('admin.pa-mhs.show',[
+                'mahasiswa' => $mahasiswa,
+                'pas' => $pa,
+                'dosen' => $dosen,
+                'mahasiswa' => $mahasiswa,
+                'prodi' => $prodi,
+            ]);
+        }
+
+        if (Auth::user()->role == 5){
+            $prodi_id = Auth::user()->prodi;
+            $pa = ModelPAMahasiswa::with('pa_prodi','pa_dosen','pa_mhs')
+                ->where('nidn', $id)
+                ->get();
+
+            $dosen = ModelDosen::where('nidn', $id)->first();
+            $prodi = ModelProdi::where('kode_prodi',$prodi_id)->first();
+
+            $mahasiswa = ModelMahasiswa::with('prodi_mhs')
+                ->where('prodi_id', $prodi_id)
+                ->get();
+
+            return view('admin.pa-mhs.show',[
+                'mahasiswa' => $mahasiswa,
+                'pas' => $pa,
+                'dosen' => $dosen,
+                'mahasiswa' => $mahasiswa,
+                'prodi' => $prodi,
+            ]);
+        }
+
         //$mahasiswa = ModelMahasiswa::all();
-        $pa = ModelPAMahasiswa::with('pa_prodi','pa_dosen','pa_mhs')
-            ->where('nidn', $id)
-            ->get();
 
-
-        $dosen = ModelDosen::where('nidn', $id)->first();
-
-        $nidn =Auth::user()->user_id;
-        $prodi = ModelProdi::where('ka_prodi', $nidn)->first();
-
-        $mahasiswa = ModelMahasiswa::with('prodi_mhs')
-            ->where('prodi_id', $prodi->kode_prodi)
-            ->get();
-
-        return view('admin.pa-mhs.show',[
-           'mahasiswa' => $mahasiswa,
-            'pas' => $pa,
-            'dosen' => $dosen,
-            'role' =>  $prodi ?? '',
-            'mahasiswa' => $mahasiswa,
-        ]);
     }
 
     /**

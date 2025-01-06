@@ -37,14 +37,6 @@
         {{--        </div>--}}
 
 
-        @if($role->id)
-        @else
-            <div class="alert alert-warning" role="alert">
-                Hanya admin prodi yang dapat mengelolah data pada halaman ini !
-            </div>
-        @endif
-
-
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Data Bimbingan Akademik {{$dosen->nama_dosen}}</h3>
@@ -83,49 +75,47 @@
             <!-- /.card-body -->
         </div>
 
-        @if($role->id)
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Data Mahasiswa Prodi {{$role->nama_prodi}}</h3>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <table id="tabel2" class="table table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>#</th>
-                            <th>NIM</th>
-                            <th>Nama </th>
-                            <th>Angkatan</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($mahasiswa as $mhs)
-                            <tr>
-                                <td>
-                                    <a href=""
-                                       class="btn btn-primary btn-tambah"
-                                       data-id="{{$mhs->nim}}">
-                                         Tambah
-                                    </a>
-                                </td>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $mhs->nim  }}</td>
-                                <td>{{ $mhs->nama_mhs }}</td>
-                                <td>{{ $mhs->tahun_masuk}}</td>
-                            </tr>
-                        @endforeach
-
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.card-body -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Data Mahasiswa Prodi {{$prodi->nama_prodi}}</h3>
             </div>
-        @endif
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="tabel2" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>#</th>
+                        <th>NIM</th>
+                        <th>Nama </th>
+                        <th>Angkatan</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($mahasiswa as $mhs)
+                        <tr>
+                            <td>
+                                <a href=""
+                                   class="btn btn-primary btn-tambah"
+                                   data-id="{{$mhs->nim}}">
+                                    Tambah
+                                </a>
+                            </td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $mhs->nim  }}</td>
+                            <td>{{ $mhs->nama_mhs }}</td>
+                            <td>{{ $mhs->tahun_masuk}}</td>
+                        </tr>
+                    @endforeach
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
 
         <form id="simpanForm">
-            <input type="hidden" id="prodi_id" name="prodi_id" value="{{$role->kode_prodi}}">
+            <input type="hidden" id="prodi_id" name="prodi_id" value="{{$prodi->kode_prodi}}">
             <input type="hidden" id="nim" name="nim" value="">
             <input type="hidden" id="nidn" name="nidn" value="{{$dosen->nidn}}">
         </form>

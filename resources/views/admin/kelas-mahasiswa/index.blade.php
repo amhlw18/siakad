@@ -30,11 +30,14 @@
         <a href="/dashboard/kls-mhs/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Tambah Kelas
             Mahasiswa</a>
 
-        @if($nim)
-            <button id="btnReset" class="btn btn-danger mb-2" ><span data-feather="plus"></span>Reset Kelas</button>
-        @else
-            <button id="btnReset" class="btn btn-danger mb-2"  disabled><span data-feather="plus"></span>Reset Kelas</button>
+        @if(auth()->user()->role==1)
+            @if($nim)
+                <button id="btnReset" class="btn btn-danger mb-2" ><span data-feather="plus"></span>Reset Kelas</button>
+            @else
+                <button id="btnReset" class="btn btn-danger mb-2"  disabled><span data-feather="plus"></span>Reset Kelas</button>
+            @endif
         @endif
+
         <!-- Filter Section -->
         <div class="row mb-3">
             <div class="col-md-4">

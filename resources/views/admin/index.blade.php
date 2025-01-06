@@ -28,6 +28,14 @@ Dashboard
         Dashboard Dosen
     @endif
 
+    @if(Auth::user()->role == 4)
+    Dashboard Mahasiswa
+    @endif
+
+    @if(Auth::user()->role == 5)
+        Dashboard Program Studi
+    @endif
+
 @endsection()
 
 @section('content')
@@ -39,11 +47,16 @@ Dashboard
       <div class="small-box bg-info">
         <div class="inner">
           <h3></h3>
+
             @if(Auth::user()->role == 3)
                 {{$matkul_dosen}}
                 <p>Jumlah Mata Kuliah</p>
             @endif
 
+            @if(Auth::user()->role == 5)
+                {{$jumlah_mhs}}
+                <p>Jumlah Mahasiswa Aktif</p>
+            @endif
 
           <p></p>
         </div>
@@ -62,6 +75,11 @@ Dashboard
             @if(Auth::user()->role == 3)
                 {{$jumlah_pa}}
                 <p>Jumlah Bimbingan Akademik</p>
+            @endif
+
+            @if(Auth::user()->role == 5)
+                {{$jumlah_dosen}}
+                <p>Jumlah Dosen Homebase</p>
             @endif
         </div>
         <div class="icon">

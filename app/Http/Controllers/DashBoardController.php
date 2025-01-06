@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ModelDetailJadwal;
+use App\Models\ModelDosen;
 use App\Models\ModelKRSMahasiwa;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelMatakuliah;
@@ -56,6 +57,22 @@ class DashBoardController extends Controller
                 'jumlah_pa' => $jumlah_pa,
                 'tahun' => $tahun_aktif,
                 'pa' => $bimbingan_akademik,
+            ]);
+        }
+
+        if (Auth::user()->role == 5){
+            $prodi_id = Auth::user()->prodi;
+
+            $jumlah_mhs = ModelMahasiswa::where('prodi_id',$prodi_id)
+                ->where('status','AKTIF')
+                ->count();
+
+            $jumlah_dosen = ModelDosen::where('prodi_id',$prodi_id)->count();
+
+
+            return view('admin.index',[
+                'jumlah_mhs' => $jumlah_mhs,
+                'jumlah_dosen' => $jumlah_dosen
             ]);
         }
 

@@ -11,6 +11,7 @@ use App\Models\ModelProdi;
 use App\Models\ModelRuangan;
 use App\Models\ModelTahunAkademik;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class JadwalController extends Controller
@@ -22,15 +23,25 @@ class JadwalController extends Controller
      */
     public function index()
     {
-//
-        $prodi = ModelProdi::get();
 
-        //dd($prodi);
+        if (Auth::user()->role ==1){
+            $prodi = ModelProdi::get();
+
+            return view('admin.jadwal.index', [
+                'prodis' => $prodi,
+            ]);
+        }
 //
-//
-        return view('admin.jadwal.index', [
-            'prodis' => $prodi,
-        ]);
+        if (Auth::user()->role ==5){
+
+            $prodi_id = Auth::user()->prodi;
+
+            $prodi = ModelProdi::where('kode_prodi',$prodi_id)->get();
+
+            return view('admin.jadwal.index', [
+                'prodis' => $prodi,
+            ]);
+        }
     }
 
     public function filter_data(Request $request)

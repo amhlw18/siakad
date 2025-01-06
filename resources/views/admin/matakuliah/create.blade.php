@@ -39,11 +39,11 @@
                                     <select class="custom-select rounded-0" id="kurikulum_id" name="kurikulum_id">
                                         <option value="" disabled selected>--Pilih Kurikulum--</option>
                                         @foreach ($kurikulums as $kurikulum)
-                                            @if (old('kurikulum_id') == $kurikulum->id)
-                                                <option selected value="{{ $kurikulum->id }}">
+                                            @if (old('kurikulum_id') == $kurikulum->kode_kurikulum)
+                                                <option selected value="{{ $kurikulum->kode_kurikulum }}">
                                                     {{ $kurikulum->nama_kurikulum }}</option>
                                             @else
-                                                <option value="{{ $kurikulum->id }}">{{ $kurikulum->nama_kurikulum }}
+                                                <option value="{{ $kurikulum->kode_kurikulum }}">{{ $kurikulum->nama_kurikulum }}
                                                 </option>
                                             @endif
                                         @endforeach
