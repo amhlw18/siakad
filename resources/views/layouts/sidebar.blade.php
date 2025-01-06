@@ -134,10 +134,12 @@
                             </li>
                         </ul>
                     </li>
+                @endcan
 
+                @can('prodi')
                     <!-- Data Administrasi Menu -->
-                    <li class="nav-item {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal') || Request::is('dashboard/pa-mhs') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal') || Request::is('dashboard/pa-mhs')   ? 'active' : '' }}">
+                    <li class="nav-item {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal*') || Request::is('dashboard/pa-mhs*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal*') || Request::is('dashboard/pa-mhs*')   ? 'active' : '' }}">
                             <i class="nav-icon fas fa-clipboard"></i>
                             <p>
                                 Perkuliahan
@@ -171,8 +173,9 @@
                             </li>
                         </ul>
                     </li>
-
                 @endcan
+
+
 
                 @can('bendahara')
                     <!-- Data Pembayaran Menu -->

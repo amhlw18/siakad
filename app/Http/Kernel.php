@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\Prodi;
 use App\Http\Middleware\SuperAdmin;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -69,5 +70,6 @@ class Kernel extends HttpKernel
         'shared' =>  \App\Http\Middleware\Shared::class,
         'dosen' => \App\Http\Middleware\Dosen::class,
         'mahasiswa' => \App\Http\Middleware\Mahasiswa::class,
+        'prodi' => \App\Http\Middleware\Prodi::class,
     ];
 }

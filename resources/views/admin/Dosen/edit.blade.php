@@ -36,6 +36,23 @@
                             <div class="card-body">
 
                                 <div class="form-group">
+                                    <label for="prodi_id">Homebase Program Studi</label>
+                                    <select class="custom-select rounded-0" id="prodi_id" name="prodi_id">
+                                        <option value="" >--Pilih Prodi--</option>
+                                        @foreach ($prodis as $prodi)
+                                            @if (old('prodi_id', $dosen->prodi_id) == $prodi->kode_prodi)
+                                                <option selected value="{{ $prodi->kode_prodi }}">
+                                                    {{ $prodi->nama_prodi }}</option>
+                                            @else
+                                                <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
                                     <label for="nidn">NIDN</label>
                                     <input type="text" name="nidn"
                                            class="form-control @error('nidn') is-invalid @enderror" id="nidn"
@@ -135,14 +152,15 @@
                                             <option selected value="{{ $dosen->agama }}">
                                                 {{ $dosen->agama }}</option>
                                         @else
-                                            <option value="Islam">Islam</option>
-                                            <option value="Katolik">Katolik</option>
-                                            <option value="Protestan">Protestan</option>
-                                            <option value="Hindu">Hindu</option>
-                                            <option value="Budha">Budha</option>
-                                            <option value="Konghucu">Konghucu</option>
-                                            <option value="Lain-Lain">Lain-Lain</option>
+
                                         @endif
+                                        <option value="Islam">Islam</option>
+                                        <option value="Katolik">Katolik</option>
+                                        <option value="Protestan">Protestan</option>
+                                        <option value="Hindu">Hindu</option>
+                                        <option value="Budha">Budha</option>
+                                        <option value="Konghucu">Konghucu</option>
+                                        <option value="Lain-Lain">Lain-Lain</option>
 
                                     </select>
                                     @error('agama')
@@ -210,11 +228,12 @@
                                                 {{ $dosen->ikatan_kerja }}</option>
                                         @else
 
-                                            <option value="Dosen DPK PNS">Dosen DPK PNS</option>
-                                            <option value="Dosen Luar Biasa">Dosen Luar Biasa</option>
-                                            <option value="Dosen Kontrak">Dosen Kontrak</option>
-                                            <option value="Dosen Tetap">Dosen Tetap</option>
+
                                         @endif
+                                        <option value="Dosen DPK PNS">Dosen DPK PNS</option>
+                                        <option value="Dosen Luar Biasa">Dosen Luar Biasa</option>
+                                        <option value="Dosen Kontrak">Dosen Kontrak</option>
+                                        <option value="Dosen Tetap">Dosen Tetap</option>
 
                                     </select>
                                     @error('ikatan_kerja')
@@ -233,17 +252,18 @@
                                             <option selected value="{{ $dosen->pendidikan }}">
                                                 {{ $dosen->pendidikan }}</option>
                                         @else
-                                            <option value="S-3">S-3</option>
-                                            <option value="S-2">S-2</option>
-                                            <option value="S-1">S-1</option>
-                                            <option value="D-4">D-4</option>
-                                            <option value="D-3">D-3</option>
-                                            <option value="D-2">D-2</option>
-                                            <option value="D-1">D-1</option>
-                                            <option value="SP-1">SP-1</option>
-                                            <option value="SP-2">SP-2</option>
-                                            <option value="Profesi">Profesi</option>
+
                                         @endif
+                                        <option value="S-3">S-3</option>
+                                        <option value="S-2">S-2</option>
+                                        <option value="S-1">S-1</option>
+                                        <option value="D-4">D-4</option>
+                                        <option value="D-3">D-3</option>
+                                        <option value="D-2">D-2</option>
+                                        <option value="D-1">D-1</option>
+                                        <option value="SP-1">SP-1</option>
+                                        <option value="SP-2">SP-2</option>
+                                        <option value="Profesi">Profesi</option>
 
                                     </select>
                                     @error('pendidikan')
@@ -262,14 +282,15 @@
                                             <option selected value="{{ $dosen->status }}">
                                                 {{ $dosen->status }}</option>
                                         @else
-                                            <option value="Cuti">Cuti</option>
-                                            <option value="Keluar">Keluar</option>
-                                            <option value="Meninggal">Meninggal</option>
-                                            <option value="Pensiun">Pensiun</option>
-                                            <option value="Studi Lanjut">Studi Lanjut</option>
-                                            <option value="Tugas Di Instansi Lain">Tugas Di Instansi Lain</option>
-                                            <option value="Aktif Mengajar">Aktif Mengajar</option>
+
                                         @endif
+                                        <option value="Cuti">Cuti</option>
+                                        <option value="Keluar">Keluar</option>
+                                        <option value="Meninggal">Meninggal</option>
+                                        <option value="Pensiun">Pensiun</option>
+                                        <option value="Studi Lanjut">Studi Lanjut</option>
+                                        <option value="Tugas Di Instansi Lain">Tugas Di Instansi Lain</option>
+                                        <option value="Aktif Mengajar">Aktif Mengajar</option>
                                     </select>
                                     @error('status')
                                     <div class="invalid-feedback">
@@ -287,12 +308,13 @@
                                             <option selected value="{{ $dosen->jabatan_akademik }}">
                                                 {{ $dosen->jabatan_akademik }}</option>
                                         @else
-                                            <option value="Tenaga Pengajar">Tenaga Pengajar</option>
-                                            <option value="Asisten Ahli">Asisten Ahli</option>
-                                            <option value="Lektor">Lektor</option>
-                                            <option value="Lektor Kepala">Lektor Kepala</option>
-                                            <option value="Guru Besar">Guru Besar</option>
+
                                         @endif
+                                        <option value="Tenaga Pengajar">Tenaga Pengajar</option>
+                                        <option value="Asisten Ahli">Asisten Ahli</option>
+                                        <option value="Lektor">Lektor</option>
+                                        <option value="Lektor Kepala">Lektor Kepala</option>
+                                        <option value="Guru Besar">Guru Besar</option>
 
                                     </select>
                                     @error('jabatan_akademik')
@@ -323,16 +345,17 @@
                                             <option selected value="{{ $dosen->golongan }}">
                                                 {{ $dosen->golongan }}</option>
                                         @else
-                                            <option value="IIIA Penata Muda">IIIA Penata Muda</option>
-                                            <option value="IIIB Penata Muda Tk.1">IIB Penata Muda Tk.1</option>
-                                            <option value="IIIC Penata">IIIC Penata</option>
-                                            <option value="IIID Penata Tk.1">IIID Penata Tk.1</option>
-                                            <option value="IVA Pembina">IVA Pembina</option>
-                                            <option value="IVB Pembina Tk.1">IVB Pembina Tk.1</option>
-                                            <option value="IVC Pembina Utama Muda">IVC Pembina Utama Muda</option>
-                                            <option value="IVD Pembina Utama Madya">IVD Pembina Utama Madya</option>
-                                            <option value="IVE Pembina Utama">IVE Pembina Utama</option>
+
                                         @endif
+                                        <option value="IIIA Penata Muda">IIIA Penata Muda</option>
+                                        <option value="IIIB Penata Muda Tk.1">IIB Penata Muda Tk.1</option>
+                                        <option value="IIIC Penata">IIIC Penata</option>
+                                        <option value="IIID Penata Tk.1">IIID Penata Tk.1</option>
+                                        <option value="IVA Pembina">IVA Pembina</option>
+                                        <option value="IVB Pembina Tk.1">IVB Pembina Tk.1</option>
+                                        <option value="IVC Pembina Utama Muda">IVC Pembina Utama Muda</option>
+                                        <option value="IVD Pembina Utama Madya">IVD Pembina Utama Madya</option>
+                                        <option value="IVE Pembina Utama">IVE Pembina Utama</option>
 
 
                                     </select>

@@ -76,6 +76,8 @@
                                             <option value="Reguler">Reguler</option>
                                             <option value="Non Reguler">Non Reguler</option>
                                         @endif
+                                        <option value="Reguler">Reguler</option>
+                                        <option value="Non Reguler">Non Reguler</option>
                                     </select>
                                     @error('program')
                                     <div class="invalid-feedback">

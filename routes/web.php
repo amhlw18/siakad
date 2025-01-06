@@ -50,20 +50,7 @@ Route::middleware('auth')->group(function (){
         Route::resource('/dashboard/batas-sks', BatasSKSController::class);
         Route::resource('/dashboard/data-dosen', DosenController::class);
         Route::resource('/dashboard/data-mahasiswa', MahasiswaController::class);
-        Route::resource('/dashboard/kls-mhs', KelasMahasiswaController::class);
 
-        Route::resource('/dashboard/data-jadwal', JadwalController::class);
-
-
-
-        Route::get('/dashboard/kelas-mahasiswa/filter', [KelasMahasiswaController::class, 'filter']);
-        Route::delete('/dashboard/kelas-mahasiswa/delete-all', [KelasMahasiswaController::class, 'deleteAll']);
-
-       // Route::get('/dashboard/data-jadwal-kuliah/{id}',[JadwalController::class, 'getByProdi']);
-        Route::post('/dashboard/data-jadwal', [JadwalController::class, 'store']);
-       // Route::get('/dashboard/data-jadwal/{id}/{prodi_id}/edit', [JadwalController::class, 'edit']);
-        Route::put('/dashboard/data-jadwal-update/{id}', [JadwalController::class, 'update']);
-        Route::post('/dashboard/data-jadwal-update/{id}', [JadwalController::class, 'update']);
 
     });
     Route::post('/logout-user', [LoginController::class, 'logout'])->name('logout');
@@ -89,6 +76,24 @@ Route::middleware('auth')->group(function (){
         Route::get('/dashboard/nilai-semester/{id}/{id_kelas}', [PenilaianController::class, 'show']);
         Route::post('/dashboard/nilai-semester/simpan-nilai',[PenilaianController::class,'simpanNilai']);
         Route::post('/dashboard/nilai-semester/hapus-nilai',[PenilaianController::class,'hapusNilai']);
+
+        Route::get('/dashboard/dosen/detail-pa/{id}',[DashBoardController::class, 'detailPA']);
+        Route::post('/dashboard/dosen/detail-pa',[DashBoardController::class,'simpanKRS']);
+        Route::post('/dashboard/dosen/detail-pa/delete',[DashBoardController::class,'batalkanKRS']);
+    });
+
+    Route::middleware('prodi')->group(function (){
+        Route::resource('/dashboard/kls-mhs', KelasMahasiswaController::class);
+
+        Route::resource('/dashboard/data-jadwal', JadwalController::class);
+        Route::get('/dashboard/kelas-mahasiswa/filter', [KelasMahasiswaController::class, 'filter']);
+        Route::delete('/dashboard/kelas-mahasiswa/delete-all', [KelasMahasiswaController::class, 'deleteAll']);
+
+        // Route::get('/dashboard/data-jadwal-kuliah/{id}',[JadwalController::class, 'getByProdi']);
+        Route::post('/dashboard/data-jadwal', [JadwalController::class, 'store']);
+        // Route::get('/dashboard/data-jadwal/{id}/{prodi_id}/edit', [JadwalController::class, 'edit']);
+        Route::put('/dashboard/data-jadwal-update/{id}', [JadwalController::class, 'update']);
+        Route::post('/dashboard/data-jadwal-update/{id}', [JadwalController::class, 'update']);
 
         Route::get('/dashboard/dosen/detail-pa/{id}',[DashBoardController::class, 'detailPA']);
         Route::post('/dashboard/dosen/detail-pa',[DashBoardController::class,'simpanKRS']);

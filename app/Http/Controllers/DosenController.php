@@ -47,6 +47,7 @@ class DosenController extends Controller
         //dd($request->all());
         $validasi = $request->validate([
             'nidn' => 'required|unique:model_dosens,nidn',
+            'prodi_id' => 'required',
             'nama_dosen' => 'required|string|max:255',
             'gelar_depan' => 'nullable|string|max:50',
             'gelar_belakang' => 'required|string|max:50',
@@ -114,6 +115,7 @@ class DosenController extends Controller
         //dd($request->all());
         $validasi = $request->validate([
             'nidn' => 'required',
+            'prodi_id' => 'required',
             'nama_dosen' => 'required|string|max:255',
             'gelar_depan' => 'nullable|string|max:50',
             'gelar_belakang' => 'nullable|string|max:50',
