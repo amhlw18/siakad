@@ -9,6 +9,7 @@ use App\Models\ModelKurikulum;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelMatakuliah;
 use App\Models\ModelProdi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -23,7 +24,8 @@ class NeoFeeederController extends Controller
     {
         // Set nilai URL dan token saat controller dipanggil
         $this->apiUrl = 'http://localhost:3003/ws/live2.php';
-        $this->token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9wZW5nZ3VuYSI6IjFlYmI2OWRkLTY3N2UtNGJmMi1hMmVmLTRkODFkYTc0Njc4MiIsInVzZXJuYW1lIjoid2FvZGVoYXNyaWF0aW9mZmljaWFsQGdtYWlsLmNvbSIsIm5tX3BlbmdndW5hIjoiQkFIVElBUiIsInRlbXBhdF9sYWhpciI6bnVsbCwidGdsX2xhaGlyIjpudWxsLCJqZW5pc19rZWxhbWluIjoiTCIsImFsYW1hdCI6bnVsbCwieW0iOiJ5YXIudW5hYWhhODBAZ21haWwuY29tIiwic2t5cGUiOm51bGwsIm5vX3RlbCI6bnVsbCwiYXBwcm92YWxfcGVuZ2d1bmEiOiI1IiwiYV9ha3RpZiI6IjEiLCJ0Z2xfZ2FudGlfcHdkIjoiMjAyNC0wNi0yNVQxNjowMDowMC4wMDBaIiwiaWRfc2RtX3BlbmdndW5hIjoiNGViNWE4NjUtYTMwNy00ZmEyLWJiZmMtMGQ1YzY4NTM0ZDUwIiwiaWRfcGRfcGVuZ2d1bmEiOm51bGwsImlkX3dpbCI6Ijk5OTk5OSAgIiwibGFzdF91cGRhdGUiOiIyMDI0LTA3LTI2VDEzOjI0OjUxLjM5N1oiLCJzb2Z0X2RlbGV0ZSI6IjAiLCJsYXN0X3N5bmMiOiIyMDI0LTEyLTE3VDAzOjUxOjA1LjYyMFoiLCJpZF91cGRhdGVyIjoiOTE2Y2IzMjgtM2VjNi00YjBiLWIyZmYtZDE3YjAzNDQ1YTBmIiwiY3NmIjoiMCIsInRva2VuX3JlZyI6bnVsbCwiamFiYXRhbiI6bnVsbCwidGdsX2NyZWF0ZSI6IjIwMjQtMDUtMTZUMDI6MjM6NTguMDQwWiIsIm5payI6bnVsbCwic2FsdCI6bnVsbCwiaWRfcGVyYW4iOjMsIm5tX3BlcmFuIjoiQWRtaW4gUERESUtUSSIsImlkX3NwIjoiY2FiNjMzMjMtZmMwYy00ODFmLThlNDMtOTMyYzhjMzhkMDkwIiwiaWRfc210IjoiMjAyNDEiLCJpYXQiOjE3MzU3ODM2NDIsImV4cCI6MTczNTgwMTY0Mn0.MQsZQn5-tEY_YIjLtwGMo6mLe7ZwOmkElaWWgxzVA4o';
+        $this->token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9wZW5nZ3VuYSI6IjFlYmI2OWRkLTY3N2UtNGJmMi1hMmVmLTRkODFkYTc0Njc4MiIsInVzZXJuYW1lIjoid2FvZGVoYXNyaWF0aW9mZmljaWFsQGdtYWlsLmNvbSIsIm5tX3BlbmdndW5hIjoiQkFIVElBUiIsInRlbXBhdF9sYWhpciI6bnVsbCwidGdsX2xhaGlyIjpudWxsLCJqZW5pc19rZWxhbWluIjoiTCIsImFsYW1hdCI6bnVsbCwieW0iOiJ5YXIudW5hYWhhODBAZ21haWwuY29tIiwic2t5cGUiOm51bGwsIm5vX3RlbCI6bnVsbCwiYXBwcm92YWxfcGVuZ2d1bmEiOiI1IiwiYV9ha3RpZiI6IjEiLCJ0Z2xfZ2FudGlfcHdkIjoiMjAyNC0wNi0yNVQxNjowMDowMC4wMDBaIiwiaWRfc2RtX3BlbmdndW5hIjoiNGViNWE4NjUtYTMwNy00ZmEyLWJiZmMtMGQ1YzY4NTM0ZDUwIiwiaWRfcGRfcGVuZ2d1bmEiOm51bGwsImlkX3dpbCI6Ijk5OTk5OSAgIiwibGFzdF91cGRhdGUiOiIyMDI0LTA3LTI2VDEzOjI0OjUxLjM5N1oiLCJzb2Z0X2RlbGV0ZSI6IjAiLCJsYXN0X3N5bmMiOiIyMDI0LTEyLTE3VDAzOjUxOjA1LjYyMFoiLCJpZF91cGRhdGVyIjoiOTE2Y2IzMjgtM2VjNi00YjBiLWIyZmYtZDE3YjAzNDQ1YTBmIiwiY3NmIjoiMCIsInRva2VuX3JlZyI6bnVsbCwiamFiYXRhbiI6bnVsbCwidGdsX2NyZWF0ZSI6IjIwMjQtMDUtMTZUMDI6MjM6NTguMDQwWiIsIm5payI6bnVsbCwic2FsdCI6bnVsbCwiaWRfcGVyYW4iOjMsIm5tX3BlcmFuIjoiQWRtaW4gUERESUtUSSIsImlkX3NwIjoiY2FiNjMzMjMtZmMwYy00ODFmLThlNDMtOTMyYzhjMzhkMDkwIiwiaWRfc210IjoiMjAyNDEiLCJpYXQiOjE3MzYxNjUwMzMsImV4cCI6MTczNjE4MzAzM30.ZHbWr0g6b9NDO9biuS8tPi5uVl21oz1av-C7Cm-NdYs';
+
     }
 
 
@@ -197,11 +199,14 @@ class NeoFeeederController extends Controller
 
                     }
 
+                    $tgl_lahir = Carbon::createFromFormat('d-m-Y', $dosen['tanggal_lahir'])->format('Y-m-d');
+
                     ModelDosen::create([
                         'nidn' => $dosen['nidn'] ?? '-',
+                        'prodi_id' => 0,
                         'nama_dosen' => $dosen['nama_dosen'] ?? '-',
                         'tempat_lahir' => $dosen['tempat_lahir'] ?? '-',
-                        'tgl_lahir' => $dosen['tanggal_lahir'] ?? '-',
+                        'tgl_lahir' => $tgl_lahir ?? '-',
                         'jenis_kelamin' => $jk,
                         'agama' => $dosen['nama_agama'] ?? '-',
                         'no_hp' => $dosen['handphone'] ?? '-',

@@ -14,6 +14,7 @@ class ModelDosen extends Model
 
     protected $fillable = [
         'nidn',
+        'prodi_id',
         'nama_dosen',
         'gelar_depan',
         'gelar_belakang',
