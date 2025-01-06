@@ -22,6 +22,11 @@ class ModelProdi extends Model
     ];
 
 
+    public function dosen_homebase()
+    {
+        return $this->hasMany(ModelDosen::class,'prodi_id','kode_prodi');
+    }
+
     public function dosen()
     {
         return $this->belongsTo(ModelDosen::class, 'ka_prodi','nidn');

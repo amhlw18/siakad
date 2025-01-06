@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ModelDosen;
 use App\Models\ModelProdi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DosenController extends Controller
@@ -90,8 +91,13 @@ class DosenController extends Controller
      */
     public function edit($id)
     {
+       $dosen = ModelDosen::where('nidn',$id)->first();
+
+       //dd($dosen->tgl_lahir);
+       // $dosen->tgl_lahir = Carbon::createFromFormat('d-m-Y', $dosen->tgl_lahir)->format('Y-m-d');
+
         return view('admin.dosen.edit',[
-            'dosen' => ModelDosen::where('nidn',$id)->first(),
+            'dosen' => $dosen,
             'prodis' => ModelProdi::get()
         ]);
     }
@@ -110,7 +116,7 @@ class DosenController extends Controller
             'nidn' => 'required',
             'nama_dosen' => 'required|string|max:255',
             'gelar_depan' => 'nullable|string|max:50',
-            'gelar_belakang' => 'required|string|max:50',
+            'gelar_belakang' => 'nullable|string|max:50',
             'tempat_lahir' => 'required|string|max:100',
             'tgl_lahir' => 'required',
             'jenis_kelamin' => 'required',
@@ -119,10 +125,10 @@ class DosenController extends Controller
             'email' => 'nullable|email|max:100',
             'alamat' => 'required|string|max:255',
             'tgl_kerja' => 'nullable',
-            'ikatan_kerja' => 'required|string|max:50',
-            'pendidikan' => 'required|string|max:50',
-            'status' => 'required|string|max:50',
-            'jabatan_akademik' => 'required|string|max:50',
+            'ikatan_kerja' => 'nullable|string|max:50',
+            'pendidikan' => 'nullable|string|max:50',
+            'status' => 'nullable|string|max:50',
+            'jabatan_akademik' => 'nullable|string|max:50',
             'jabatan_struktural' => 'nullable|string|max:50',
             'golongan' => 'nullable|string|max:50',
         ]);

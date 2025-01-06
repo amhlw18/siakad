@@ -65,8 +65,10 @@ class TranskripNilaiController extends Controller
                 $total_nilai = ModelNilaiMHS::where('nim', $nim)
                     ->sum('total_nilai');
 
-                $ips = $total_nilai/$jumlah_sks;
-                $ips = number_format($ips, 2,'.','');
+                if (!$total_nilai && $jumlah_mk == 0){
+                    $ips = $total_nilai/$jumlah_sks;
+                    $ips = number_format($ips, 2,'.','');
+                }
             }
 
 
@@ -161,8 +163,11 @@ class TranskripNilaiController extends Controller
                 $total_nilai = ModelNilaiMHS::where('nim', $nim)
                     ->sum('total_nilai');
 
-                $ips = $total_nilai/$jumlah_sks;
-                $ips = number_format($ips, 2,'.','');
+                if (!$total_nilai && $jumlah_mk == 0){
+                    $ips = $total_nilai/$jumlah_sks;
+                    $ips = number_format($ips, 2,'.','');
+                }
+
             }
 
 
