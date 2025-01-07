@@ -111,7 +111,9 @@ Route::middleware('auth')->group(function (){
     });
 
     Route::get('/dashboard/profile', [ProfileController::class,'index']);
-
+    Route::post('/upload-profile-photo', [ProfileController::class, 'uploadPhoto']);
+    Route::put('/update-password', [ProfileController::class, 'update_password']);
+    Route::put('/update-profile', [ProfileController::class, 'update_profile']);
 });
 
 Route::middleware('guest')->group(function (){
