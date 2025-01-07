@@ -49,7 +49,6 @@ class PAMhsController extends Controller
                 'jumlah_pa' => $jumlah_pa,
             ]);
         }
-
     }
 
     /**
@@ -60,7 +59,6 @@ class PAMhsController extends Controller
     public function create()
     {
         //
-
     }
 
     /**
@@ -73,7 +71,6 @@ class PAMhsController extends Controller
     {
         //
         try {
-
             $validasi = $request->validate([
                 'prodi_id' => 'required',
                 'nim' => 'required|unique:model_p_a_mahasiswas,nim',
@@ -89,12 +86,10 @@ class PAMhsController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Gagal menambahkan mahasiswa, coba lagi!'], 500);
         }
-
     }
 
     function filter(Request $request)
     {
-
         $query = ModelPAMahasiswa::with('pa_prodi','pa_dosen','pa_mhs');
         if ($request->nidn){
             $query->where('nidn', $request->nidn);
@@ -110,7 +105,6 @@ class PAMhsController extends Controller
                 'angkatan' => $item->pa_mhs->nama_mhs,
             ];
         }));
-
     }
 
     /**
@@ -204,9 +198,7 @@ class PAMhsController extends Controller
     {
         //
         try {
-
             $data = ModelPAMahasiswa::where('id',$id)->first();
-
             $data->delete();
 
             return response()->json([

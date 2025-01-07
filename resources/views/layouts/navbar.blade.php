@@ -20,7 +20,7 @@
                     <i class="fas fa-user-circle"></i> {{ auth()->user()->name }} <i class="fas fa-chevron-down ml-1"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a href="/profile" class="dropdown-item">
+                    <a href="/dashboard/profile" class="dropdown-item">
                         <i class="fas fa-user mr-2"></i> Profile
                     </a>
 

@@ -53,7 +53,7 @@ class KelasMahasiswaController extends Controller
 
             return view('admin.kelas-mahasiswa.index',[
                 'mahasiswa' => $kelas_mhs,
-                'prodis'=>ModelProdi::get(),
+                'prodis'=>ModelProdi::where('kode_prodi', $prodi_id)->get(),
                 'nim'=>$nim,
             ]);
         }

@@ -8,6 +8,7 @@ use App\Http\Controllers\NilaiSemesterController;
 use App\Http\Controllers\PAMhsController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\PrintController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TranskripNilaiController;
 use App\Models\ModelKRSMahasiwa;
 use Illuminate\Support\Facades\Route;
@@ -95,9 +96,9 @@ Route::middleware('auth')->group(function (){
         Route::put('/dashboard/data-jadwal-update/{id}', [JadwalController::class, 'update']);
         Route::post('/dashboard/data-jadwal-update/{id}', [JadwalController::class, 'update']);
 
-        Route::get('/dashboard/dosen/detail-pa/{id}',[DashBoardController::class, 'detailPA']);
-        Route::post('/dashboard/dosen/detail-pa',[DashBoardController::class,'simpanKRS']);
-        Route::post('/dashboard/dosen/detail-pa/delete',[DashBoardController::class,'batalkanKRS']);
+        Route::resource('/dashboard/pa-mhs', PAMhsController::class);
+        Route::get('/dashboard/pa-mhss/filter', [PAMhsController::class,'filter']);
+        //Route::get('/dashboard/get-data/filter', [PAMhsController::class,'filter']);
     });
 
     Route::middleware('mahasiswa')->group(function (){
@@ -109,11 +110,7 @@ Route::middleware('auth')->group(function (){
         Route::post('/print/transkrip-nilai', [PrintController::class,'print_transkrip_nilai']);
     });
 
-
-
-    Route::resource('/dashboard/pa-mhs', PAMhsController::class);
-    Route::get('/dashboard/pa-mhss/filter', [PAMhsController::class,'filter']);
-    //Route::get('/dashboard/get-data/filter', [PAMhsController::class,'filter']);
+    Route::get('/dashboard/profile', [ProfileController::class,'index']);
 
 });
 
