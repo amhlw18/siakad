@@ -29,6 +29,7 @@ class DashBoardController extends Controller
 
     public function index()
     {
+
         $jumlah_matakuliah_dosen =null;
         $jadwal_dosen = null;
         $jumlah_pa = null;
@@ -57,6 +58,7 @@ class DashBoardController extends Controller
                 'jumlah_pa' => $jumlah_pa,
                 'tahun' => $tahun_aktif,
                 'pa' => $bimbingan_akademik,
+                'tahun' => $tahun_aktif,
             ]);
         }
 
@@ -67,17 +69,35 @@ class DashBoardController extends Controller
                 ->where('status','AKTIF')
                 ->count();
 
+            $jumlah_alumni = ModelMahasiswa::where('prodi_id', $prodi_id)
+                ->where('status','Lulus')
+                ->count();
+
             $jumlah_dosen = ModelDosen::where('prodi_id',$prodi_id)->count();
 
+            $belum_krs = ModelStatusKRS::with('status_krs_mhs','status_krs_prodi')
+                ->where('prodi_id', $prodi_id)
+                ->where('dikunci', 0)
+                ->get();
+
+            $belum_bayar = ModelPembayaran::with('pembayaran_mhs')
+                ->where('tahun_akademik',$tahun_aktif->kode)
+                ->where('prodi_id', $prodi_id)
+                ->where('is_bayar', 0)
+                ->get();
 
             return view('admin.index',[
                 'jumlah_mhs' => $jumlah_mhs,
-                'jumlah_dosen' => $jumlah_dosen
+                'jumlah_dosen' => $jumlah_dosen,
+                'jumlah_alumni' => $jumlah_alumni,
+                'tahun' => $tahun_aktif,
+                'belum_krs' => $belum_krs,
+                'belum_bayar' => $belum_bayar,
             ]);
         }
 
         return view('admin.index',[
-
+            'tahun' => $tahun_aktif,
         ]);
 
     }

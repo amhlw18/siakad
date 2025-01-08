@@ -8,12 +8,13 @@
     </a>
 
 
+
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ asset('lte/dist/img/default-user-photo.png') }}" class="img-circle elevation-2"
+                <img src="{{ auth()->user()->profile_picture ? asset('storage/' . auth()->user()->profile_picture) : asset('lte/dist/img/default-user-photo.png') }}" class="img-circle elevation-2"
                     alt="User Image">
             </div>
 
@@ -272,7 +273,70 @@
                             </li>
                         </ul>
                     </li>
+
                 @endcan
+
+                @can('superadmin')
+                    <li class="nav-header">Administrator Tool</li>
+
+                    <li class="nav-item {{ Request::is('dashboard/pengguna*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('dashboard/pengguna*')  ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-tools mr-2"></i>
+                            <p>
+                                Konfigurasi
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/dashboard/pengguna" class="nav-link {{ Request::is('dashboard/pengguna*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Pengguna</p>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </li>
+
+{{--                    <li class="nav-item {{ Request::is('*dashboard') ? 'menu-open' : '' }}">--}}
+{{--                        <a href="#" class="nav-link {{ Request::is('dashboard*')  ? 'active' : '' }}">--}}
+{{--                            <i class="nav-icon fas fa-tools mr-2"></i>--}}
+{{--                            <p>--}}
+{{--                                PDDIKTI--}}
+{{--                                <i class="fas fa-angle-left right"></i>--}}
+{{--                            </p>--}}
+{{--                        </a>--}}
+{{--                        <ul class="nav nav-treeview">--}}
+{{--                            <li class="nav-item">--}}
+{{--                                <a href="#" class="nav-link {{ Request::is('dashboard/*') ? 'active' : '' }}">--}}
+{{--                                    <i class="far fa-circle nav-icon"></i>--}}
+{{--                                    <p>Server Feeder</p>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+
+{{--                        <ul class="nav nav-treeview">--}}
+{{--                            <li class="nav-item">--}}
+{{--                                <a href="#" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">--}}
+{{--                                    <i class="far fa-circle nav-icon"></i>--}}
+{{--                                    <p>Push Feeder</p>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+
+{{--                        <ul class="nav nav-treeview">--}}
+{{--                            <li class="nav-item">--}}
+{{--                                <a href="#" class="nav-link {{ Request::is('*') ? 'active' : '' }}">--}}
+{{--                                    <i class="far fa-circle nav-icon"></i>--}}
+{{--                                    <p>Pull Feeder</p>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+{{--                    </li>--}}
+
+                @endcan
+
+
 
             </ul>
         </nav>

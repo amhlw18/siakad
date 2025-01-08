@@ -122,7 +122,7 @@
         <td id="jumlah_mk"><strong>{{$jumlah_mk}}</strong></td>
     </tr>
     <tr>
-        <td colspan="6" class="text-end"><strong>IP Semester:</strong></td>
+        <td colspan="6" class="text-end"><strong>IP Kumulatif:</strong></td>
         <td id="ips"><strong>{{$ips}}</strong></td>
     </tr>
     </tfoot>

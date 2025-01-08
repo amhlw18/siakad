@@ -38,8 +38,8 @@
                                 <div class="form-group">
                                     <label for="kode_prodi">Kode Program Studi</label>
                                     <input type="text" name="kode_prodi"
-                                           class="form-control @error('kode_prodi') is-invalid @enderror" id="kode_prodi"
-                                           placeholder="Kode Program Studi" value="{{ old('kode_prodi', $prodi->kode_prodi) }}" required>
+                                           class="form-control @error('kode_prodi') is-invalid @enderror " id="kode_prodi"
+                                           placeholder="Kode Program Studi" value="{{ old('kode_prodi', $prodi->kode_prodi) }}" disabled>
                                     @error('kode_prodi')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -51,7 +51,7 @@
                                     <label for="nama_prodi">Program Studi</label>
                                     <input type="text" name="nama_prodi"
                                            class="form-control @error('nama_prodi') is-invalid @enderror" id="nama_prodi"
-                                           placeholder="Nama Program Studi" value="{{ old('nama_mk',$prodi->nama_prodi) }}" required>
+                                           placeholder="Nama Program Studi" value="{{ old('nama_mk',$prodi->nama_prodi) }}" disabled>
                                     @error('nama_mk')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -63,7 +63,7 @@
                                 <div class="form-group">
                                     <label for="jenjang">Jenjang</label>
                                     <select class="custom-select rounded-0 @error('jenjang') is-invalid @enderror"
-                                            id="jenjang" name="jenjang" >
+                                            id="jenjang" name="jenjang" disabled>
                                         <option value="" disabled selected>--Pilih Jenjang--</option>
                                         @if (old('jenjang',$prodi->jenjang) == $prodi->jenjang)
                                             <option selected value="{{ $prodi->jenjang }}">

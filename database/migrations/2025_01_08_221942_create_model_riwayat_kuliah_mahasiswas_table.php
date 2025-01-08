@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('model_p_a_mahasiswas', function (Blueprint $table) {
+        Schema::create('model_riwayat_kuliah_mahasiswas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('prodi_id');
-            $table->foreignId('nim');
-            $table->string('nidn');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('model_p_a_mahasiswas');
+        Schema::dropIfExists('model_riwayat_kuliah_mahasiswas');
     }
 };

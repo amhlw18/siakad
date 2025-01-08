@@ -96,4 +96,9 @@ class ModelMahasiswa extends Model
         return $this->hasMany(ModelNilaiMHS::class, 'nim','nim');
     }
 
+    public  function status_krs_mhs()
+    {
+        return $this->hasMany(ModelStatusKRS::class,'nim','nim');
+    }
+
 }

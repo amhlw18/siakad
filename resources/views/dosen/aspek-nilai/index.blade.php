@@ -27,14 +27,14 @@
             </div>
         @endif
 
-        <!-- Informasi Matakulaih -->
-        <div class="card mb-3">
-            <div class="card-body">
-                <p><strong>NIDN  :</strong> {{ $dosen->nidn ?? '-' }}</p>
-                <p><strong>Nama Dosen :</strong> {{ $dosen->nama_dosen?? '-' }}</p>
-                <p><strong>Tahun Akademik :</strong> {{ $tahun_aktif->tahun_akademik?? '-' }}</p>
-            </div>
-        </div>
+{{--        <!-- Informasi Matakulaih -->--}}
+{{--        <div class="card mb-3">--}}
+{{--            <div class="card-body">--}}
+{{--                <p><strong>NIDN  :</strong> {{ $dosen->nidn ?? '-' }}</p>--}}
+{{--                <p><strong>Nama Dosen :</strong> {{ $dosen->nama_dosen?? '-' }}</p>--}}
+{{--                <p><strong>Tahun Akademik :</strong> {{ $tahun_aktif->tahun_akademik?? '-' }}</p>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
 
         <div class="card">

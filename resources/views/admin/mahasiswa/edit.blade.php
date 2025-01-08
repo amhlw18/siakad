@@ -297,7 +297,7 @@
                                             id="status" name="status" required>
                                         <option value="" disabled selected>--Pilih Status--</option>
                                         <option value="AKTIF" {{ old('status',$mhs->status) == 'AKTIF' ? 'selected' : '' }}>AKTIF</option>
-                                        <option value="Lulus" {{ old('status') == 'Lulus' ? 'selected' : '' }}>LULUS</option>
+                                        <option value="Lulus" {{ old('status', $mhs->status) == 'Lulus' ? 'selected' : '' }}>LULUS</option>
                                         <option value="NON AKTIF" {{ old('status',$mhs->status) == 'NON AKTIF' ? 'selected' : '' }}>NON AKTIF</option>
                                         <option value="CUTI" {{ old('status',$mhs->status) == 'CUTI' ? 'selected' : '' }}>CUTI</option>
                                         <option value="Dikeluarkan" {{ old('status',$mhs->status) == 'Dikeluarkan' ? 'selected' : '' }}>DIKELUARKAN</option>

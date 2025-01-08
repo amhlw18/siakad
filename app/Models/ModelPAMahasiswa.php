@@ -32,7 +32,7 @@ class ModelPAMahasiswa extends Model
 
     public  function pa_krs()
     {
-        return $this->belongsTo(ModelMahasiswa::class,'krs_mhs','nim');
+        return $this->belongsTo(ModelStatusKRS::class,'nim','nim');
     }
 
 }

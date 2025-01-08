@@ -6,6 +6,7 @@ use App\Http\Controllers\KRSController;
 use App\Http\Controllers\NeoFeeederController;
 use App\Http\Controllers\NilaiSemesterController;
 use App\Http\Controllers\PAMhsController;
+use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\PrintController;
 use App\Http\Controllers\ProfileController;
@@ -51,8 +52,7 @@ Route::middleware('auth')->group(function (){
         Route::resource('/dashboard/batas-sks', BatasSKSController::class);
         Route::resource('/dashboard/data-dosen', DosenController::class);
         Route::resource('/dashboard/data-mahasiswa', MahasiswaController::class);
-
-
+        Route::resource('/dashboard/pengguna', PenggunaController::class);
     });
     Route::post('/logout-user', [LoginController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [ DashBoardController::class,'index']);

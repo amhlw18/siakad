@@ -75,7 +75,10 @@
                     <p><strong>Nama Mahasiswa :</strong> {{ $mhs->nama_mhs?? '-' }}</p>
                     <p><strong>Program Studi :</strong> {{ $mhs->prodi_mhs->nama_prodi?? '-' }}</p>
                     <p><strong>Semester :</strong> {{ $mhs->semester ?? '-'}}</p>
-                    <p><strong>Status KRS :</strong>  <label class="{{ $status_krs->disetujui==1 ? 'badge badge-success' : 'badge badge-danger' }} ">{{ $status_krs->disetujui==1 ? 'Disetujui' : 'Belum disetujui' }}</label></p>
+                    @if($status_krs)
+                        <p><strong>Status KRS :</strong>  <label class="{{ $status_krs->disetujui==1 ? 'badge badge-success' : 'badge badge-danger' }} ">{{ $status_krs->disetujui==1 ? 'Disetujui' : 'Belum disetujui'}}</label></p>
+
+                    @endif
                 </div>
             </div>
                 @if ($periode && $pembayaran->is_bayar)

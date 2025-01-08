@@ -80,4 +80,9 @@ class ModelProdi extends Model
     {
         return $this->hasMany(ModelPAMahasiswa::class,'prodi_id','kode_prodi');
     }
+
+    public  function status_krs_prodi()
+    {
+        return $this->hasMany(ModelProdi::class,'prodi_id','kode_prodi');
+    }
 }

@@ -67,6 +67,8 @@ class KRSController extends Controller
                     $pesan = 'Periode KRS telah berakhir pada tanggal ' . $tanggalAkhir;
                     $periode = false;
                 }
+
+
             }
             $nim = Auth::user()->user_id;
             $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
@@ -78,7 +80,19 @@ class KRSController extends Controller
                 ->where('tahun_akademik', $tahun_aktif->kode)
                 ->first();
 
-            $status_krs = ModelStatusKRS::where('nim',$nim)->first();
+            $status_krs = ModelStatusKRS::where('nim',$nim)
+                ->where('tahun_akademik', $tahun_aktif->kode)
+                ->first();
+
+            if ($periode){
+                if (!$status_krs){
+                    ModelStatusKRS::create([
+                        'tahun_akademik' => $tahun_aktif->kode,
+                        'prodi_id' => $mhs->prodi_id,
+                        'nim' => $nim,
+                    ]);
+                }
+            }
 
             $krs_mhs = ModelKRSMahasiwa::with('krs_matkul')
                 ->where('nim',$nim)
@@ -98,7 +112,7 @@ class KRSController extends Controller
                 'periode' => $periode,
                 'tahun_aktif' => $tahun_aktif,
                 'pembayaran' => $pembayaran,
-                'status_krs' => $status_krs,
+                'status_krs' => $status_krs ?? 0,
                 'krs_mhs' => $krs_mhs,
             ]);
         }
@@ -172,7 +186,9 @@ class KRSController extends Controller
                     return $item;
                 });
 
-            $status_krs = ModelStatusKRS::where('nim',$id)->first();
+            $status_krs = ModelStatusKRS::where('nim',$nim)
+                ->where('tahun_akademik', $tahun_aktif->kode)
+                ->first();
 
             return view('mahasiswa.krs.show',[
                 'tahun_aktif' => $tahun_aktif,

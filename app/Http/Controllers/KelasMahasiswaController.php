@@ -149,24 +149,25 @@ class KelasMahasiswaController extends Controller
 
     public function filterDataKelas(Request $request)
     {
-        $query = ModelKelasMahasiswa::with('prodi_kelas_mhs','mhs_kelas_mhs',
-            'kelas_mahasiswa');
+        if (Auth::user()->role ==1 ){
+            $query = ModelKelasMahasiswa::with('prodi_kelas_mhs','mhs_kelas_mhs',
+                'kelas_mahasiswa');
 
-        if ($request->prodi) {
-            $query->where('prodi_id', $request->prodi)->orderBY('nim','asc');
-        }
+            if ($request->prodi) {
+                $query->where('prodi_id', $request->prodi)->orderBY('nim','asc');
+            }
 
-        // Filter berdasarkan tahun_masuk (relasi ke tabel mahasiswa)
-        if ($request->tahun){
-            $query->whereHas('mhs_kelas_mhs', function ($subQuery) use ($request) {
-                $subQuery->where('tahun_masuk', $request->tahun)->orderBY('nim','desc');
-            });
-        }
+            // Filter berdasarkan tahun_masuk (relasi ke tabel mahasiswa)
+            if ($request->tahun){
+                $query->whereHas('mhs_kelas_mhs', function ($subQuery) use ($request) {
+                    $subQuery->where('tahun_masuk', $request->tahun)->orderBY('nim','desc');
+                });
+            }
 
-        return DataTables::of($query)
-            ->addIndexColumn() // Menambahkan nomor index
-            ->addColumn('action', function ($row) {
-                return '
+            return DataTables::of($query)
+                ->addIndexColumn() // Menambahkan nomor index
+                ->addColumn('action', function ($row) {
+                    return '
 
                                     <a href=""
                                        class="btn btn-danger btn-hapus"
@@ -176,21 +177,69 @@ class KelasMahasiswaController extends Controller
 
 
         ';
-            })
-            ->addColumn('nama_mhs', function ($row) {
-                return $row->mhs_kelas_mhs->nama_mhs ?? '-';
-            }) // Tambahkan kolom 'nama_prodi' ke JSON
-            ->addColumn('nama_prodi', function ($row) {
-                return $row->prodi_kelas_mhs->nama_prodi ?? '-';
-            }) // Tambahkan kolom 'nama_prodi' ke JSON
-            ->addColumn('nama_kelas', function ($row) {
-                return $row->kelas_mahasiswa->nama_kelas ?? '-';
-            })
-            ->addColumn('tahun_masuk', function ($row) {
-                return $row->mhs_kelas_mhs->tahun_masuk ?? '-';
-            })
-            ->rawColumns(['action']) // Mengizinkan kolom 'action' menggunakan HTML
-            ->make(true);
+                })
+                ->addColumn('nama_mhs', function ($row) {
+                    return $row->mhs_kelas_mhs->nama_mhs ?? '-';
+                }) // Tambahkan kolom 'nama_prodi' ke JSON
+                ->addColumn('nama_prodi', function ($row) {
+                    return $row->prodi_kelas_mhs->nama_prodi ?? '-';
+                }) // Tambahkan kolom 'nama_prodi' ke JSON
+                ->addColumn('nama_kelas', function ($row) {
+                    return $row->kelas_mahasiswa->nama_kelas ?? '-';
+                })
+                ->addColumn('tahun_masuk', function ($row) {
+                    return $row->mhs_kelas_mhs->tahun_masuk ?? '-';
+                })
+                ->rawColumns(['action']) // Mengizinkan kolom 'action' menggunakan HTML
+                ->make(true);
+        }
+
+        if (Auth::user()->role ==5 ){
+            $query = ModelKelasMahasiswa::with('prodi_kelas_mhs','mhs_kelas_mhs',
+                'kelas_mahasiswa');
+
+            $request->prodi = Auth::user()->prodi;
+
+            if ($request->prodi) {
+                $query->where('prodi_id', $request->prodi)->orderBY('nim','asc');
+            }
+
+            // Filter berdasarkan tahun_masuk (relasi ke tabel mahasiswa)
+            if ($request->tahun){
+                $query->whereHas('mhs_kelas_mhs', function ($subQuery) use ($request) {
+                    $subQuery->where('tahun_masuk', $request->tahun)->orderBY('nim','desc');
+                });
+            }
+
+            return DataTables::of($query)
+                ->addIndexColumn() // Menambahkan nomor index
+                ->addColumn('action', function ($row) {
+                    return '
+
+                                    <a href=""
+                                       class="btn btn-danger btn-hapus"
+                                       data-id="' .$row->id. '">
+                                       <i class="bi bi-trash"></i>
+                                    </a>
+
+
+        ';
+                })
+                ->addColumn('nama_mhs', function ($row) {
+                    return $row->mhs_kelas_mhs->nama_mhs ?? '-';
+                }) // Tambahkan kolom 'nama_prodi' ke JSON
+                ->addColumn('nama_prodi', function ($row) {
+                    return $row->prodi_kelas_mhs->nama_prodi ?? '-';
+                }) // Tambahkan kolom 'nama_prodi' ke JSON
+                ->addColumn('nama_kelas', function ($row) {
+                    return $row->kelas_mahasiswa->nama_kelas ?? '-';
+                })
+                ->addColumn('tahun_masuk', function ($row) {
+                    return $row->mhs_kelas_mhs->tahun_masuk ?? '-';
+                })
+                ->rawColumns(['action']) // Mengizinkan kolom 'action' menggunakan HTML
+                ->make(true);
+        }
     }
 
     public function filterData(Request $request)

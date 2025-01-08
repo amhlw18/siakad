@@ -26,7 +26,7 @@
                         <div class="text-center">
                             <label for="profilePictureInput">
                                 <img src="{{ auth()->user()->profile_picture ? asset('storage/' . auth()->user()->profile_picture) : asset('lte/dist/img/default-user-photo.png') }}" alt="Profile Picture" class="rounded-circle"
-                                     style="width: 120px; height: 120px; cursor: pointer;" id="profilePicture">
+                                     style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; cursor: pointer;" id="profilePicture">
                                 <p>Ganti foto</p>
                             </label>
                             <!-- Hidden File Input -->

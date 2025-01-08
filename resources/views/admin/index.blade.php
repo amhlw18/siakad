@@ -12,8 +12,6 @@ Selamat Datang, {{ auth()->user()->name }}
 Dashboard
 @endsection()
 
-
-
 @section('submenu')
 
     @if(Auth::user()->role == 1)
@@ -38,79 +36,234 @@ Dashboard
 
 @endsection()
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    .header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .header img {
+        width: 80px;
+        height: auto;
+        margin-bottom: 10px;
+    }
+    table {
+        width: 40%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+    table, th, td {
+        border: 0px solid black;
+    }
+    th, td {
+        padding: 5px;
+        text-align: left;
+    }
+    .info-table {
+        margin-bottom: 20px;
+    }
+    .info-table td {
+        border: none;
+        padding: 8px;
+    }
+</style>
+
 @section('content')
 <div class="container-fluid">
   <!-- Small boxes (Stat box) -->
   <div class="row">
-    <div class="col-lg-3 col-6">
-      <!-- small box -->
-      <div class="small-box bg-info">
-        <div class="inner">
-          <h3></h3>
 
-            @if(Auth::user()->role == 3)
-                {{$matkul_dosen}}
-                <p>Jumlah Mata Kuliah</p>
-            @endif
+      @if(auth()->user()->role== 1 || auth()->user()->role==2 || auth()->user()->role==3 || auth()->user()->role==5)
+          <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-success">
+                  <div class="inner">
+                      <h3></h3>
 
-            @if(Auth::user()->role == 5)
-                {{$jumlah_mhs}}
-                <p>Jumlah Mahasiswa Aktif</p>
-            @endif
+                      @if(Auth::user()->role == 3)
+                          {{$matkul_dosen}}
+                          <p>Jumlah Mata Kuliah</p>
+                      @endif
 
-          <p></p>
-        </div>
-        <div class="icon">
-          <i class="ion ion-pie-graph"></i>
-        </div>
-        <a href="#" class="small-box-footer"> <i class="fas fa-arrow-circle-right"></i></a>
-      </div>
-    </div>
-    <!-- ./col -->
-    <div class="col-lg-3 col-6">
-      <!-- small box -->
-      <div class="small-box bg-success">
-        <div class="inner">
-          <h3><sup style="font-size: 20px"></sup></h3>
-            @if(Auth::user()->role == 3)
-                {{$jumlah_pa}}
-                <p>Jumlah Bimbingan Akademik</p>
-            @endif
+                      @if(Auth::user()->role == 5)
+                          {{$jumlah_mhs}}
+                          <p>Jumlah Mahasiswa Aktif</p>
+                      @endif
 
-            @if(Auth::user()->role == 5)
-                {{$jumlah_dosen}}
-                <p>Jumlah Dosen Homebase</p>
-            @endif
-        </div>
-        <div class="icon">
-          <i class="ion ion-pie-graph"></i>
-        </div>
-        <a href="#" class="small-box-footer"> <i class="fas fa-arrow-circle-right"></i></a>
-      </div>
-    </div>
-    <!-- ./col -->
+                      <p></p>
+                  </div>
+                  <div class="icon">
+                      <i class="ion ion-pie-graph"></i>
+                  </div>
+                  <a href="#" class="small-box-footer"> <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-success">
+                  <div class="inner">
+                      <h3><sup style="font-size: 20px"></sup></h3>
+                      @if(Auth::user()->role == 3)
+                          {{$jumlah_pa}}
+                          <p>Jumlah Bimbingan Akademik</p>
+                      @endif
 
-    <!-- ./col -->
-{{--    <div class="col-lg-3 col-6">--}}
-{{--      <!-- small box -->--}}
-{{--      <div class="small-box bg-danger">--}}
-{{--        <div class="inner">--}}
-{{--            @if(Auth::user()->role == 3)--}}
-{{--                <p>Jumlah Mata Kuliah</p>--}}
-{{--            @endif--}}
+                      @if(Auth::user()->role == 5)
+                          {{$jumlah_dosen}}
+                          <p>Jumlah Dosen Homebase</p>
+                      @endif
+                  </div>
+                  <div class="icon">
+                      <i class="ion ion-pie-graph"></i>
+                  </div>
+                  <a href="#" class="small-box-footer"> <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+          </div>
+          <!-- ./col -->
+      @endif
 
-{{--          <p></p>--}}
-{{--        </div>--}}
-{{--        <div class="icon">--}}
-{{--          <i class="ion ion-pie-graph"></i>--}}
-{{--        </div>--}}
-{{--        <a href="/dashboard/datapeminjaman" class="small-box-footer">Kunjungi <i class="fas fa-arrow-circle-right"></i></a>--}}
-{{--      </div>--}}
-{{--    </div>--}}
-    <!-- ./col -->
+
+      @if(auth()->user()->role==5)
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-success">
+                  <div class="inner">
+                      <h3><sup style="font-size: 20px"></sup></h3>
+
+                      @if(Auth::user()->role == 5)
+                          {{$jumlah_alumni}}
+                          <p>Jumlah Alumni</p>
+                      @endif
+                  </div>
+                  <div class="icon">
+                      <i class="ion ion-pie-graph"></i>
+                  </div>
+                  <a href="#" class="small-box-footer"> <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+          </div>
+          <!-- ./col -->
+      @endif
+
   </div>
   <!-- /.row -->
   <!-- Main row -->
+
+    <div class="callout callout-info">
+        <h5><i class="fas fa-info"></i> Informasi: </h5>
+        <strong> Kalender Akademik </strong>
+        <table class="info-table">
+            <tr>
+                <td>Tahun Akademik</td>
+                <td>: </td>
+                <td>{{$tahun->tahun_akademik}}</td>
+            </tr>
+            <tr>
+                <td>Periode Pembayaran SPP</td>
+                <td>: </td>
+                <td>{{$tahun->periode_pembayaran}}</td>
+            </tr>
+            <tr>
+                <td>Periode KRS Online</td>
+                <td>: </td>
+                <td>{{$tahun->periode_krs}}</td>
+            </tr>
+
+            <tr>
+                <td>Periode Kuliah</td>
+                <td>: </td>
+                <td> {{$tahun->periode_perkuliahan}}</td>
+            </tr>
+            <tr>
+                <td>Periode UTS</td>
+                <td>: </td>
+                <td>{{$tahun->periode_uts}}</td>
+            </tr>
+            <tr>
+                <td>Periode UAS</td>
+                <td>: </td>
+                <td>{{$tahun->periode_uas}}</td>
+            </tr>
+            <tr>
+                <td>Periode Penilaian</td>
+                <td>: </td>
+                <td>{{$tahun->periode_penilaian}}</td>
+            </tr>
+        </table>
+    </div>
+
+    @if(Auth::user()->role == 5)
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Mahasiswa belum mengisi KRS {{$tahun->tahun_akademik}}
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="tabel" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>NIM</th>
+                        <th>Nama</th>
+                        <th>Angkatan</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($belum_krs as $item)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->nim ?? '-' }}</td>
+                            <td>{{ $item->status_krs_mhs->nama_mhs ?? '-' }}</td>
+                            <td>{{ $item->status_krs_mhs->tahun_masuk ?? '-' }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Mahasiswa belum Melakukan Pembayaran SPP {{$tahun->tahun_akademik}}
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="tabel2" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>NIM</th>
+                        <th>Nama</th>
+                        <th>Angkatan</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($belum_bayar as $item)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->nim ?? '-' }}</td>
+                            <td>{{ $item->pembayaran_mhs->nama_mhs ?? '-' }}</td>
+                            <td>{{ $item->pembayaran_mhs->tahun_masuk ?? '-' }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+    @endif
+
     @if(Auth::user()->role == 3)
         <div class="card">
             <div class="card-header">
@@ -163,7 +316,7 @@ Dashboard
             <!-- /.card-header -->
             <div class="card-body">
 
-                <table id="tabel" class="table table-bordered table-striped">
+                <table id="tabel2" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th></th>
