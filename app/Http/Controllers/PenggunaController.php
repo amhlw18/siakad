@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ModelRole;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class PenggunaController extends Controller
 {
@@ -16,7 +18,7 @@ class PenggunaController extends Controller
      */
     public function index()
     {
-        //
+        $role = ModelRole::all();
         $pengguna = User::orderBy('last_Login_at', 'desc')->get();
         foreach ($pengguna as $user) {
             $user->lastLogin = $user->last_login_at
@@ -26,7 +28,7 @@ class PenggunaController extends Controller
 
         return view('pengguna.index',[
             'pengguna' => $pengguna,
-
+            'role' =>  $role,
         ]);
     }
 
@@ -83,6 +85,19 @@ class PenggunaController extends Controller
     public function update(Request $request, $id)
     {
         //
+        try {
+
+
+
+            User::find($id)->update(['password' => Hash::make('12345678')]);
+
+            return response()->json(['success' => 'Berhasil mereset password !']);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal mereset password, coba lagi!'], 500);
+        }
     }
 
     /**
