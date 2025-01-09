@@ -46,20 +46,24 @@ class JadwalController extends Controller
 
     public function filter_data(Request $request)
     {
-        $query = ModelDetailJadwal::with('prodi_jadwal','tahun_jadwal',
-            'jadwal_matakuliah','dosen','jadwal_kelas','jadwal_ruangan'); // Include relasi 'prodi_mhs'
+        if (Auth::user()->role == 1){
+            $query = ModelDetailJadwal::with('prodi_jadwal','tahun_jadwal',
+                'jadwal_matakuliah','dosen','jadwal_kelas','jadwal_ruangan'); // Include relasi 'prodi_mhs'
 
-        $query->where('prodi_id', $request->prodi);
+            $query->where('prodi_id', $request->prodi);
 
-        if ($request->tahun) {
-            $query->where('prodi_id', $request->prodi)
-                ->where('tahun_akademik', $request->tahun);
-        }
 
-        return DataTables::of($query)
-            ->addIndexColumn() // Menambahkan nomor index
-            ->addColumn('action', function ($row) {
-                return '
+            //$request->tahun = 20241;
+
+            if ($request->tahun) {
+                $query->where('prodi_id', $request->prodi)
+                    ->where('tahun_akademik', $request->tahun);
+            }
+
+            return DataTables::of($query)
+                ->addIndexColumn() // Menambahkan nomor index
+                ->addColumn('action', function ($row) {
+                    return '
 
                                 <a href="#"
                                    class="btn btn-warning btn-edit"
@@ -77,24 +81,81 @@ class JadwalController extends Controller
 
 
         ';
-            })
-            ->addColumn('matakuliah', function ($row) {
-                return $row->jadwal_matakuliah->nama_mk ?? '-';
-            }) // Tambahkan kolom 'nama_prodi' ke JSON
-            ->addColumn('semester', function ($row) {
-                return $row->jadwal_matakuliah->semester ?? '-';
-            }) // Tambahkan kolom 'nama_prodi' ke JSON
-            ->addColumn('dosen', function ($row) {
-                return $row->dosen->nama_dosen ?? '-';
-            }) // Tambahkan kolom 'nama_prodi' ke JSON
-            ->addColumn('kelas', function ($row) {
-                return $row->jadwal_kelas->nama_kelas ?? '-';
-            })
-            ->addColumn('ruangan', function ($row) {
-                return $row->jadwal_ruangan->nama_ruangan ?? '-';
-            })
-            ->rawColumns(['action']) // Mengizinkan kolom 'action' menggunakan HTML
-            ->make(true);
+                })
+                ->addColumn('matakuliah', function ($row) {
+                    return $row->jadwal_matakuliah->nama_mk ?? '-';
+                }) // Tambahkan kolom 'nama_prodi' ke JSON
+                ->addColumn('semester', function ($row) {
+                    return $row->jadwal_matakuliah->semester ?? '-';
+                }) // Tambahkan kolom 'nama_prodi' ke JSON
+                ->addColumn('dosen', function ($row) {
+                    return $row->dosen->nama_dosen ?? '-';
+                }) // Tambahkan kolom 'nama_prodi' ke JSON
+                ->addColumn('kelas', function ($row) {
+                    return $row->jadwal_kelas->nama_kelas ?? '-';
+                })
+                ->addColumn('ruangan', function ($row) {
+                    return $row->jadwal_ruangan->nama_ruangan ?? '-';
+                })
+                ->rawColumns(['action']) // Mengizinkan kolom 'action' menggunakan HTML
+                ->make(true);
+        }
+
+        if (Auth::user()->role == 5){
+            $query = ModelDetailJadwal::with('prodi_jadwal','tahun_jadwal',
+                'jadwal_matakuliah','dosen','jadwal_kelas','jadwal_ruangan'); // Include relasi 'prodi_mhs'
+
+            $query->where('prodi_id', $request->prodi);
+
+            $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
+
+            $request->tahun = $tahun_aktif->kode;
+
+            if ($request->tahun) {
+                $query->where('prodi_id', $request->prodi)
+                    ->where('tahun_akademik', $request->tahun);
+            }
+
+            return DataTables::of($query)
+                ->addIndexColumn() // Menambahkan nomor index
+                ->addColumn('action', function ($row) {
+                    return '
+
+                                <a href="#"
+                                   class="btn btn-warning btn-edit"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#buatJadwalModal"
+                                    data-id="' .$row->id. '">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+
+                                <a href="#"
+                                   class="btn btn-danger btn-hapus"
+                                   data-id="' .$row->id. '">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+
+
+        ';
+                })
+                ->addColumn('matakuliah', function ($row) {
+                    return $row->jadwal_matakuliah->nama_mk ?? '-';
+                }) // Tambahkan kolom 'nama_prodi' ke JSON
+                ->addColumn('semester', function ($row) {
+                    return $row->jadwal_matakuliah->semester ?? '-';
+                }) // Tambahkan kolom 'nama_prodi' ke JSON
+                ->addColumn('dosen', function ($row) {
+                    return $row->dosen->nama_dosen ?? '-';
+                }) // Tambahkan kolom 'nama_prodi' ke JSON
+                ->addColumn('kelas', function ($row) {
+                    return $row->jadwal_kelas->nama_kelas ?? '-';
+                })
+                ->addColumn('ruangan', function ($row) {
+                    return $row->jadwal_ruangan->nama_ruangan ?? '-';
+                })
+                ->rawColumns(['action']) // Mengizinkan kolom 'action' menggunakan HTML
+                ->make(true);
+        }
     }
 
 
@@ -116,7 +177,7 @@ class JadwalController extends Controller
      */
     public function store(Request $request)
     {
-        //\Log::info('Data diterima:', $request->all());
+        \Log::info('Data diterima jadwal:', $request->all());
 
         try {
             // Validasi awal
@@ -141,6 +202,10 @@ class JadwalController extends Controller
                 'jam_akhir.after' => "Jam keluar harus di atas jam masuk!"
             ]);
 
+
+            // Defaultkan status ke 0 jika checkbox tidak dicentang
+
+
             $jam_awal_baru = $request->jam_awal;
             $jam_akhir_baru = $request->jam_akhir;
             $prodi_id = $request->prodi_id;
@@ -162,13 +227,18 @@ class JadwalController extends Controller
                 })
                 ->first();
 
-            if ($bentrok) {
-                return response()->json(['errors' => 'Jadwal bertabrakan dengan jadwal lain!'], 422);
+            $status = $request->has('status') ? 1 : 0;
+
+            if (!$status){
+                if ($bentrok) {
+                    return response()->json(['errors' => 'Jadwal bertabrakan dengan jadwal lain!'], 422);
+                }
             }
+
+
 
             // Gabungkan jam_awal dan jam_akhir untuk disimpan dalam kolom 'jam'
             $validasi['jam'] = $jam_awal_baru . ' - ' . $jam_akhir_baru;
-
 
             ModelDetailJadwal::create($validasi);
             return response()->json(['success' => 'Jadwal berhasil dibuat!']);
@@ -258,7 +328,7 @@ class JadwalController extends Controller
     public function edit($id)
     {
 
-        $jadwal = ModelDetailJadwal::find($id);
+        $jadwal = ModelDetailJadwal::where('id', $id)->first();
         if ($jadwal) {
             // Pisahkan jam awal dan akhir berdasarkan karakter "-"
             if (isset($jadwal->jam)) {

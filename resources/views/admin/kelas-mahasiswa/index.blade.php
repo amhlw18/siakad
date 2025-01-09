@@ -139,6 +139,7 @@
     </script>
 
     <script>
+        @if(auth()->user()->role == 1)
         document.getElementById('btnReset').addEventListener('click', () => {
             const tablePembayaran = $('#tablePembayaran'); // Gunakan jQuery untuk DataTables
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
@@ -182,6 +183,8 @@
                 }
             });
         });
+        @endif
+
 
         document.querySelector('#tabel5').addEventListener('click', (e) => {
             if (e.target.closest('.btn-hapus')) {

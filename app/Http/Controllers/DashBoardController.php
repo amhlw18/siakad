@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ModelDetailJadwal;
 use App\Models\ModelDosen;
+use App\Models\ModelKelasMahasiswa;
 use App\Models\ModelKRSMahasiwa;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelMatakuliah;
@@ -60,6 +61,31 @@ class DashBoardController extends Controller
                 'pa' => $bimbingan_akademik,
                 'tahun' => $tahun_aktif,
             ]);
+        }
+
+        if (Auth::user()->role == 4){
+            $nim = Auth::user()->user_id;
+
+            $kelas_id = ModelKelasMahasiswa::where('nim', $nim)->first();
+
+
+            $jadwal_mhs = null;
+            if ($kelas_id){
+                $jadwal_mhs = ModelDetailJadwal::with('jadwal_matakuliah','dosen','jadwal_ruangan')
+                    ->where('tahun_akademik', $tahun_aktif->kode)
+                    ->where('kelas_id', $kelas_id->kelas_id)
+                    ->orderBy('hari', 'desc')
+                    ->get();
+            }
+
+
+
+            return view('admin.index',[
+                'tahun' => $tahun_aktif,
+                'jadwal_mhs' => $jadwal_mhs,
+                'kelas_id' => $kelas_id,
+            ]);
+
         }
 
         if (Auth::user()->role == 5){

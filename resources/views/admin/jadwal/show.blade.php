@@ -27,17 +27,20 @@
             </div>
         @endif
         <!-- Filter Section -->
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label for="filterTahun">Tahun Akademik</label>
-                <select id="filterTahun" class="form-control">
-                    <option value="">Semua Tahun Akademik</option>
-                    @foreach ($tahun_akademik as $tahun)
-                        <option value="{{ $tahun->kode ?? '-' }}">{{ $tahun->tahun_akademik }}</option>
-                    @endforeach
-                </select>
+        @if(auth()->user()->role == 1)
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="filterTahun">Tahun Akademik</label>
+                    <select id="filterTahun" class="form-control">
+                        <option value="">Semua Tahun Akademik</option>
+                        @foreach ($tahun_akademik as $tahun)
+                            <option value="{{ $tahun->kode ?? '-' }}">{{ $tahun->tahun_akademik }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
-        </div>
+        @endif
+
 
         <!-- Informasi Mahasiswa -->
         <div class="card mb-3">
@@ -65,6 +68,7 @@
                     <tr>
                         <th></th>
                         <th>#</th>
+{{--                        <th>id</th>--}}
                         <th>Hari</th>
                         <th>Jam </th>
                         <th>Mata Kuliah</th>
@@ -95,6 +99,7 @@
 
                             </td>
                             <td>{{ $loop->iteration }}</td>
+{{--                            <td>{{ $jadwal->id }}</td>--}}
                             <td>{{ $jadwal->hari }}</td>
                             <td>{{ $jadwal->jam }}</td>
                             <td>{{ $jadwal->jadwal_matakuliah->nama_mk ?? '-' }} || SMT {{ $jadwal->jadwal_matakuliah->semester ?? '-' }}</td>
@@ -245,11 +250,17 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="status">Lebih dari satu dosen</label><br>
+                            <input type="checkbox" name="status" id="status" value="1">
+                            <label for="status">Ya</label>
+                        </div>
+
 
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+
                     <button type="button" class="btn btn-primary" id="saveChanges">Buat Jadwal</button>
                 </div>
             </div>
@@ -272,6 +283,7 @@
                 columns: [
                     { data: 'action', name: 'action', orderable: false, searchable: false },
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    // { data: 'id', name: 'id' },
                     { data: 'hari', name: 'hari' },
                     { data: 'jam', name: 'jam' },
                     { data: 'matakuliah', name: 'jadwal_matakuliah.nama_mk'},
@@ -289,105 +301,70 @@
         });
     </script>
 
-{{--    <script>--}}
-{{--        function initializeDataTable() {--}}
-{{--            // Periksa apakah DataTable sudah diinisialisasi--}}
-{{--            if ($.fn.DataTable.isDataTable('#tabel5')) {--}}
-{{--                // Hancurkan DataTable yang sudah ada--}}
-{{--                $('#tabel5').DataTable().destroy();--}}
-{{--            }--}}
-{{--            // Inisialisasi DataTable baru--}}
-{{--            $('#tabel5').DataTable({--}}
-{{--                processing: true,--}}
-{{--                serverSide: true,--}}
-{{--                ajax: {--}}
-{{--                    url: "{{ route('get.jadwal') }}",--}}
-{{--                    type: "GET",--}}
-{{--                    data: function (d) {--}}
-{{--                        d.tahun = $('#filterTahun').val();--}}
-{{--                        d.prodi = $('#prodi_id').val();--}}
-{{--                    }--}}
-{{--                },--}}
-{{--                columns: [--}}
-{{--                    { data: 'action', name: 'action', orderable: false, searchable: false },--}}
-{{--                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },--}}
-{{--                    { data: 'hari', name: 'hari' },--}}
-{{--                    { data: 'jam', name: 'jam' },--}}
-{{--                    { data: 'matakuliah', name: 'jadwal_matakuliah.nama_mk' },--}}
-{{--                    { data: 'dosen', name: 'dosen.nama_dosen' },--}}
-{{--                    { data: 'kelas', name: 'jadwal_kelas.nama_kelas' },--}}
-{{--                    { data: 'ruangan', name: 'jadwal_ruangan.nama_ruangan' },--}}
-{{--                ]--}}
-{{--            });--}}
-{{--        }--}}
-
-{{--        // Tambahkan event listener untuk filterTahun--}}
-{{--        document.getElementById('filterTahun').addEventListener('change', function () {--}}
-{{--            initializeDataTable();--}}
-{{--        });--}}
-{{--    </script>--}}
 
 
 
     <script>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const modal = new bootstrap.Modal(document.getElementById('buatJadwalModal'));
+        $(document).on('click', '.btn-edit', function (e) {
+            e.preventDefault();
+
             const kelasDropdown = document.getElementById('kelas_id');
             const ruanganDropdown = document.getElementById('ruangan_id');
             const matkulDropdown = document.getElementById('matakuliah_id');
             const jadwalIdField = document.getElementById('jadwal_id');
             const prodiId = document.getElementById('prodi_id');
 
-            document.querySelector('#tabel5').addEventListener('click', (e) => {
-                if (e.target.closest('.btn-edit')) {
-                    e.preventDefault();
+            $('#status').prop('disabled', true);
 
-                    const button = e.target; // Tombol yang diklik
-                    const id = button.getAttribute('data-id'); // Ambil ID jadwal
+            const id = $(this).data('id'); // Ambil ID jadwal dari tombol yang diklik
+            if (!id) {
+                console.error('ID jadwal tidak ditemukan.');
+                return;
+            }
+
+            //console.log('ID Jadwal:', id); // Debugging ID
+
+            // Lakukan fetch untuk mendapatkan data jadwal
+            fetch(`/dashboard/data-jadwal/${id}/edit`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Gagal memuat data');
+                    return response.json();
+                })
+                .then(data => {
+                    // Update data di modal
+                    $('#nidn').val(data.nidn);
+                    $('#hari').val(data.hari);
+
+                    $('#jam_awal').val(data.jam_awal || '');
+                    $('#jam_akhir').val(data.jam_akhir || '');
+
+                    $('#kelas_id').val(data.kelas_id);
+                    $('#ruangan_id').val(data.ruangan_id);
+                    $('#matakuliah_id').val(data.matakuliah_id);
+
                     jadwalIdField.value = id;
-                    const id_prodi = prodiId.value;
+                    //console.log(jadwalIdField);
 
-                    // Lakukan fetch dan update dropdown, serta tampilkan modal
-                    fetch(`/dashboard/data-jadwal/${id}/edit`)
-                        .then(response => {
-                            if (!response.ok) throw new Error('Gagal memuat data');
-                            return response.json();
-                        })
-                        .then(data => {
-                            console.log(data);
-                            document.getElementById('nidn').value = data.nidn;
-                            document.getElementById('hari').value = data.hari;
+                    // Tampilkan modal
+                    const modal = new bootstrap.Modal(document.getElementById('buatJadwalModal'));
+                    modal.show();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Gagal memuat data.');
+                });
+        });
 
-                            if (data.jam_awal && data.jam_akhir) {
-                                document.getElementById('jam_awal').value = data.jam_awal;
-                                document.getElementById('jam_akhir').value = data.jam_akhir;
-                            } else {
-                                document.getElementById('jam_awal').value = '';
-                                document.getElementById('jam_akhir').value = '';
-                            }
+        document.addEventListener('DOMContentLoaded', () => {
+           // const modal = new bootstrap.Modal(document.getElementById('buatJadwalModal'));
 
-                            kelasDropdown.value = data.kelas_id;
-                            ruanganDropdown.value = data.ruangan_id;
-                            matkulDropdown.value = data.matakuliah_id;
-
-                            modal.show();
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Gagal memuat data');
-                        });
-                }
-            });
 
             document.getElementById('saveChanges').addEventListener('click', () => {
                 const form = document.getElementById('simpanForm');
                 const formData = new FormData(form);
 
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-
-                // Tambahkan metode PUT secara eksplisit
-
 
                 const jadwalId = formData.get('jadwal_id'); // Ambil jadwal_id
                 const url = `/dashboard/data-jadwal/${jadwalId}`
@@ -418,7 +395,8 @@
                             title: 'Berhasil!',
                             text: data.success,
                         }).then(() => {
-                            location.reload(); // Reload halaman
+                            //location.reload(); // Reload halaman
+                            //table.ajax.reload();
                         });
                     })
                     .catch(async error => {
@@ -445,11 +423,15 @@
                 button.addEventListener('click', (e) => {
                     e.preventDefault();
 
+                    const jadwalIdField = document.getElementById('jadwal_id');
                     const id = button.getAttribute('data-id'); // Ambil ID prodi
                     console.log(`Memuat data untuk prodi dengan ID: ${id}`); // Debugging
+                    $('#status').prop('disabled', false);
 
-
+                    jadwalIdField.value = '';
+                    //console.log(jadwalIdField);
                     // Tampilkan modal
+                    const modal = new bootstrap.Modal(document.getElementById('buatJadwalModal'));
                     modal.show();
 
                 });
@@ -463,6 +445,8 @@
 
                 const button = e.target.closest('.btn-hapus');
                 const id = button.getAttribute('data-id');
+
+                //console.log(id);
 
                 Swal.fire({
                     title: 'Konfirmasi',
