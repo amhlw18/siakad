@@ -380,12 +380,13 @@ Dashboard
                                 <td>{{ $jadwal->hari ?? '-' }}</td>
                                 <td>{{ $jadwal->jam ?? '-' }}</td>
                                 <td>{{ $jadwal->jadwal_matakuliah->nama_mk ?? '-' }}</td>
-                                <td>{{ $jadwal->dosen->nama_dosen }}</td>
+                                <td>{{ $jadwal->dosen->gelar_depan }} {{ $jadwal->dosen->nama_dosen ?? '-' }},{{ $jadwal->dosen->gelar_belakang ?? '-' }}</td>
                                 <td>{{ $jadwal->jadwal_ruangan->nama_ruangan ?? '-' }} | Lantai {{ $jadwal->jadwal_ruangan->lantai ?? '-' }}</td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
+
 
                 </div>
                 <!-- /.card-body -->

@@ -35,8 +35,8 @@
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="{{asset('lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
   <!-- Select2 -->
-  <link rel="stylesheet" href="{{asset('lte/plugins/select2/css/select2.min.css')}}">
-  <link rel="stylesheet" href="{{asset('lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+    <!-- CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -136,8 +136,6 @@
   <script src="{{asset('lte/dist/js/demo.js')}}"></script>
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="{{asset('lte/dist/js/pages/dashboard.js')}}"></script>
-  <!-- Select2 -->
-  <script src="{{asset('lte/plugins/select2/js/select2.full.min.js')}}"></script>
   <!-- SweetAlert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -148,6 +146,9 @@
   <!-- DataTables JS -->
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+  <!-- Select2 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
   <script>
       $(document).ready(function () {
@@ -184,22 +185,8 @@
   <script>
     $(function() {
       //Initialize Select2 Elements
-      // $('.select2').select2()
+      $('.select2').select2()
 
-      // $("#example1").DataTable({
-      //   "responsive": true,
-      //   "lengthChange": false,
-      //   "autoWidth": false,
-      // }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-      // $('#example2').DataTable({
-      //   "paging": true,
-      //   "lengthChange": false,
-      //   "searching": false,
-      //   "ordering": true,
-      //   "info": true,
-      //   "autoWidth": false,
-      //   "responsive": true,
-      // });
     });
   </script>
 </body>

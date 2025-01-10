@@ -41,7 +41,11 @@ class DashBoardController extends Controller
             $nidn = Auth::user()->user_id;
             $jumlah_matakuliah_dosen = ModelDetailJadwal::where('nidn',$nidn)
                 ->where('tahun_akademik',$tahun_aktif->kode)
-                ->count();
+                ->get()
+                ->unique('matakuliah_id');
+
+            $jumlah_matakuliah_dosen = $jumlah_matakuliah_dosen->count();
+
 
             $jadwal_dosen = ModelDetailJadwal::with('prodi_jadwal',
                 'jadwal_matakuliah','jadwal_kelas','jadwal_ruangan')
@@ -69,13 +73,22 @@ class DashBoardController extends Controller
             $kelas_id = ModelKelasMahasiswa::where('nim', $nim)->first();
 
 
+
             $jadwal_mhs = null;
-            if ($kelas_id){
-                $jadwal_mhs = ModelDetailJadwal::with('jadwal_matakuliah','dosen','jadwal_ruangan')
+            if ($kelas_id) {
+                $jadwal_mhs = ModelDetailJadwal::with(['jadwal_matakuliah', 'dosen', 'jadwal_ruangan'])
                     ->where('tahun_akademik', $tahun_aktif->kode)
                     ->where('kelas_id', $kelas_id->kelas_id)
-                    ->orderBy('hari', 'desc')
                     ->get();
+
+//                // Kelompokkan data berdasarkan nama_mk
+//                $jadwal_mhs = $jadwal_mhs->groupBy(function ($item) {
+//                    return $item->jadwal_matakuliah->nama_mk;
+//                })->map(function ($group) {
+//                    $firstItem = $group->first();
+//                    $firstItem->dosen = $group->pluck('dosen.nama_dosen')->unique()->join(', ');
+//                    return $firstItem;
+//                })->values();
             }
 
 

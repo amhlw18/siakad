@@ -103,7 +103,7 @@
                             <td>{{ $jadwal->hari }}</td>
                             <td>{{ $jadwal->jam }}</td>
                             <td>{{ $jadwal->jadwal_matakuliah->nama_mk ?? '-' }} || SMT {{ $jadwal->jadwal_matakuliah->semester ?? '-' }}</td>
-                            <td>{{ $jadwal->dosen->nama_dosen ?? 'Dosen Tidak Ditemukan' }}</td>
+                            <td>{{ $jadwal->dosen->nama_dosen ?? 'Dosen Tidak Ditemukan' }}{{ $jadwal->dosen->gelar_belakang }}</td>
                             <td>{{ $jadwal->jadwal_kelas->nama_kelas ?? '-' }}</td>
                             <td>{{ $jadwal->jadwal_ruangan->nama_ruangan ?? '-' }}</td>
                         </tr>
@@ -136,7 +136,7 @@
 
                         <div class="form-group">
                             <label for="prodi_id">Dosen</label>
-                            <select class="custom-select rounded-0" id="nidn" name="nidn" required>
+                            <select class="custom-select rounded-0 select2"  id="nidn" name="nidn" required  data-placeholder="Pilih Dosen" style="width: 100%;">
                                 <option value="" disabled selected>--Pilih Dosen--</option>
                                 @foreach ($dosens as $dosen)
                                     <option value="{{ $dosen->nidn }}" {{ old('nidn') == $dosen->nidn ? 'selected' : '' }}>
@@ -153,11 +153,11 @@
 
                         <div class="form-group">
                             <label for="prodi_id">Matakuliah</label>
-                            <select class="custom-select rounded-0" id="matakuliah_id" name="matakuliah_id" required>
+                            <select class="custom-select rounded-0 select2" id="matakuliah_id" name="matakuliah_id" required data-placeholder="Pilih Matakuliah" style="width: 100%;">
                                 <option value="" disabled selected>--Pilih Matakuliah--</option>
                                 @foreach ($matakuliah as $matkul)
-                                    <option value="{{ $matkul->kode_mk }}" {{ old('kode_mk') == $matkul->kode_mk ? 'selected' : '' }}>
-                                        {{ $matkul->nama_mk }}
+                                    <option value="{{ $matkul->kode_mk }}" {{ old('matakuliah_id') == $matkul->kode_mk ? 'selected' : '' }}>
+                                        {{ $matkul->nama_mk }} | {{ $matkul->kurikulum->nama_kurikulum }}
                                     </option>
                                 @endforeach
                             </select>
@@ -269,6 +269,18 @@
 
     <script>
         $(document).ready(function () {
+            // Inisialisasi Select2 saat modal ditampilkan
+            $('#buatJadwalModal').on('shown.bs.modal', function () {
+                $('.select2').select2({
+                    width: '100%',
+                    dropdownParent: $('#buatJadwalModal') // Dropdown Select2 tetap dalam modal
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
             const table = $('#tabel5').DataTable({
                 processing: true,
                 serverSide: true,
@@ -288,7 +300,7 @@
                     { data: 'jam', name: 'jam' },
                     { data: 'matakuliah', name: 'jadwal_matakuliah.nama_mk'},
                     { data: 'semester', name: 'jadwal_matakuliah.semester'},
-                    { data: 'dosen', name: 'dosen.nama_dosen' },
+                    { data: 'dosen_gelar', name: 'dosen.nama_dosen' },
                     { data: 'kelas', name: 'jadwal_kelas.nama_kelas' },
                     { data: 'ruangan', name: 'jadwal_ruangan.nama_ruangan' },
                 ]

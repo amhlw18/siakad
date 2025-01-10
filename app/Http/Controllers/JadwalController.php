@@ -88,9 +88,12 @@ class JadwalController extends Controller
                 ->addColumn('semester', function ($row) {
                     return $row->jadwal_matakuliah->semester ?? '-';
                 }) // Tambahkan kolom 'nama_prodi' ke JSON
-                ->addColumn('dosen', function ($row) {
-                    return $row->dosen->nama_dosen ?? '-';
-                }) // Tambahkan kolom 'nama_prodi' ke JSON
+                ->addColumn('dosen_gelar', function ($row) {
+                    $nama_dosen = $row->dosen->nama_dosen ?? '';
+                    $gelar_depan = $row->dosen->gelar_depan ?? '';
+                    $gelar_belakang = $row->dosen->gelar_belakang ?? '';
+                    return $gelar_depan . ' ' . $nama_dosen . ' ' . $gelar_belakang;
+                })
                 ->addColumn('kelas', function ($row) {
                     return $row->jadwal_kelas->nama_kelas ?? '-';
                 })
@@ -144,9 +147,12 @@ class JadwalController extends Controller
                 ->addColumn('semester', function ($row) {
                     return $row->jadwal_matakuliah->semester ?? '-';
                 }) // Tambahkan kolom 'nama_prodi' ke JSON
-                ->addColumn('dosen', function ($row) {
-                    return $row->dosen->nama_dosen ?? '-';
-                }) // Tambahkan kolom 'nama_prodi' ke JSON
+                ->addColumn('dosen_gelar', function ($row) {
+                    $nama_dosen = $row->dosen->nama_dosen ?? '';
+                    $gelar_depan = $row->dosen->gelar_depan ?? '';
+                    $gelar_belakang = $row->dosen->gelar_belakang ?? '';
+                    return $gelar_depan . ' ' . $nama_dosen . ' ' . $gelar_belakang;
+                })
                 ->addColumn('kelas', function ($row) {
                     return $row->jadwal_kelas->nama_kelas ?? '-';
                 })
@@ -229,6 +235,8 @@ class JadwalController extends Controller
 
             $status = $request->has('status') ? 1 : 0;
 
+            //$validasi['nidn'] = implode(',', $request->nidn);
+
             if (!$status){
                 if ($bentrok) {
                     return response()->json(['errors' => 'Jadwal bertabrakan dengan jadwal lain!'], 422);
@@ -270,10 +278,11 @@ class JadwalController extends Controller
             ->where('tahun_akademik', $tahun_akademik->kode)
             ->get();
 
+
         // Ambil data kelas dan ruangan berdasarkan ID prodi
         $kelas = ModelKelas::where('prodi_id', $id)->get();
         $ruangan = ModelRuangan::where('prodi_id', $id)->get();
-        $matkul = ModelMatakuliah::where('kode_prodi', $id)->get();
+        $matkul = ModelMatakuliah::with('kurikulum')->where('kode_prodi', $id)->get();
 
 //        foreach ($jadwal as $item) {
 //            if ($item->dosen) {
