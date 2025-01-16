@@ -76,7 +76,7 @@ Dashboard
   <!-- Small boxes (Stat box) -->
   <div class="row">
 
-      @if(auth()->user()->role== 1 || auth()->user()->role==2 || auth()->user()->role==3 || auth()->user()->role==5)
+      @if(auth()->user()->role==2 || auth()->user()->role==3 || auth()->user()->role==5)
           <div class="col-lg-3 col-6">
               <!-- small box -->
               <div class="small-box bg-success">
@@ -346,6 +346,53 @@ Dashboard
             </div>
             <!-- /.card-body -->
         </div>
+    @endif
+
+
+    @if(auth()->user()->role == 4)
+        @if($kelas_id)
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+
+                        Jadwal Matakuliah {{$tahun->tahun_akademik}}
+
+                    </h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+
+                    <table id="tabel" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Hari</th>
+                            <th>Jam</th>
+                            <th>Matakuliah</th>
+                            <th>Dosen</th>
+                            <th>Ruangan</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($jadwal_mhs as $jadwal)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $jadwal->hari ?? '-' }}</td>
+                                <td>{{ $jadwal->jam ?? '-' }}</td>
+                                <td>{{ $jadwal->jadwal_matakuliah->nama_mk ?? '-' }}</td>
+                                <td>{{ $jadwal->dosen->gelar_depan }} {{ $jadwal->dosen->nama_dosen ?? '-' }},{{ $jadwal->dosen->gelar_belakang ?? '-' }}</td>
+                                <td>{{ $jadwal->jadwal_ruangan->nama_ruangan ?? '-' }} | Lantai {{ $jadwal->jadwal_ruangan->lantai ?? '-' }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+        @endif
+
     @endif
   <!-- /.row (main row) -->
 </div><!-- /.container-fluid -->

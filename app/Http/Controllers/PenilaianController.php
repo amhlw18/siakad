@@ -31,11 +31,18 @@ class PenilaianController extends Controller
 
         $dosen = ModelDosen::where('nidn',Auth::user()->user_id)->first();
 
+
         $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
         $matakuliah = ModelDetailJadwal::with('jadwal_matakuliah','prodi_jadwal','jadwal_kelas')
             ->where('nidn',$dosen->nidn)
             ->where('tahun_akademik',$tahun_aktif->kode)
-            ->get();
+            ->get()
+            //->unique('matakuliah_id')
+        ;
+
+        if ($dosen->prodi_id == 15401){
+            $matakuliah= $matakuliah->unique('matakuliah_id');
+        }
 
         // Hitung jumlah mahasiswa per mata kuliah berdasarkan tahun akademik aktif
 //        $jumlah_mahasiswa = ModelKRSMahasiwa::where('tahun_akademik', $tahun_aktif->kode)
