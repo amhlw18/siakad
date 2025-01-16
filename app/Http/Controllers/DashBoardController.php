@@ -135,6 +135,26 @@ class DashBoardController extends Controller
             ]);
         }
 
+        if (Auth::user()->role == 6){
+
+
+
+            $belum_krs = ModelStatusKRS::with('status_krs_mhs','status_krs_prodi')
+                ->where('dikunci', 0)
+                ->get();
+
+            $belum_bayar = ModelPembayaran::with('pembayaran_mhs','prodi_pembayaran')
+                ->where('tahun_akademik',$tahun_aktif->kode)
+                ->where('is_bayar', 0)
+                ->get();
+
+            return view('admin.index',[
+                'tahun' => $tahun_aktif,
+                'belum_krs' => $belum_krs,
+                'belum_bayar' => $belum_bayar,
+            ]);
+        }
+
         return view('admin.index',[
             'tahun' => $tahun_aktif,
         ]);

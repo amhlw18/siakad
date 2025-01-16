@@ -24,7 +24,7 @@ class KHSController extends Controller
     public function index()
     {
         //
-        if (Auth::user()->role == 1){
+        if (Auth::user()->role == 1 || Auth::user()->role == 6 ){
             $mhs = ModelMahasiswa::with('prodi_mhs')
                 ->where('status', 'AKTIF')
                 ->orderBy('nim','asc')
@@ -170,7 +170,7 @@ class KHSController extends Controller
     public function show($id)
     {
         //
-        if (Auth::user()->role == 1 || Auth::user()->role == 5){
+        if (Auth::user()->role == 1 || Auth::user()->role == 5 || Auth::user()->role == 6){
             $tanggalSekarang = Carbon::today();
 
             $tahunAkademik = ModelTahunAkademik::where('status', 1)->get();
@@ -266,7 +266,7 @@ class KHSController extends Controller
 
     public function filter_data(Request $request)
     {
-        if (Auth::user()->role == 1 || Auth::user()->role == 5|| Auth::user()->role == 4) {
+        if (Auth::user()->role == 1 || Auth::user()->role == 5|| Auth::user()->role == 4 || Auth::user()->role == 6) {
             $query = ModelNilaiMHS::with('nilai_matakuliah_mhs')
                 ->where('nim', $request->nim)
                 ->where('tahun_akademik', $request->tahun)
@@ -316,7 +316,7 @@ class KHSController extends Controller
             ]);
 
 
-            if (Auth::user()->role == 1 || Auth::user()->role == 5) {
+            if (Auth::user()->role == 1 || Auth::user()->role == 5 || Auth::user()->role == 6) {
                 $query = ModelKRSMahasiwa::with('krs_mhs', 'krs_matkul')
                     ->where('tahun_akademik', $request->tahun)
                     ->where('nim', $request->nim)

@@ -12,6 +12,7 @@ class ModelMatakuliah extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id_matakuliah',
         'kurikulum_id',
         'kode_prodi',
         'kode_mk',

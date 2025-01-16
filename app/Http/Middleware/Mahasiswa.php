@@ -21,7 +21,7 @@ class Mahasiswa
             return redirect('/');
         }
 
-        if (Auth::user()->role == 1 || Auth::user()->role == 4 || Auth::user()->role == 5) {
+        if (Auth::user()->role == 1 || Auth::user()->role == 4 || Auth::user()->role == 5 || Auth::user()->role == 6) {
             return $next($request);
         }else{
             return redirect('/dashboard');

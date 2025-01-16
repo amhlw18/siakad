@@ -4,10 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-
-class SuperAdmin
+class Akademik
 {
     /**
      * Handle an incoming request.
@@ -18,14 +16,6 @@ class SuperAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Auth::check()){
-            return redirect('/');
-        }
-
-        if(Auth::user()->role==1 || Auth::user()->role == 6){
-            return $next($request);
-        }else{
-            return redirect('/dashboard');
-        };
+        return $next($request);
     }
 }

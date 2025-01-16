@@ -39,6 +39,9 @@
                     <a href="#" class="d-block">Progam Studi</a>
                 @endif
 
+                    @if(auth()->user()->role== 6)
+                        <a href="#" class="d-block">BAAK</a>
+                    @endif
             </div>
         </div>
 
@@ -165,14 +168,17 @@
                             </li>
                         </ul>
 
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/dashboard/pa-mhs" class="nav-link {{ Request::is('dashboard/pa-mhs*') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Penasehat Akademik</p>
-                                </a>
-                            </li>
-                        </ul>
+                        @if(auth()->user()->role== 5)
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/dashboard/pa-mhs" class="nav-link {{ Request::is('dashboard/pa-mhs*') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Penasehat Akademik</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        @endif
+
                     </li>
                 @endcan
 
@@ -244,7 +250,7 @@
                                 <a href="/dashboard/krs-mhs" class="nav-link {{ Request::is('dashboard/krs-mhs*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
 
-                                    @if(auth()->user()->role== 1 || auth()->user()->role == 5)
+                                    @if(auth()->user()->role== 1 || auth()->user()->role == 5 || auth()->user()->role == 6)
                                         <p>KRS</p>
                                     @endif
 
@@ -276,27 +282,30 @@
 
                 @endcan
 
-                @can('superadmin')
-                    <li class="nav-header">Administrator Tool</li>
+                @if(auth()->user()->role==1)
+                    @can('superadmin')
+                        <li class="nav-header">Administrator Tool</li>
 
-                    <li class="nav-item {{ Request::is('dashboard/pengguna*') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('dashboard/pengguna*')  ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-tools mr-2"></i>
-                            <p>
-                                Konfigurasi
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/dashboard/pengguna" class="nav-link {{ Request::is('dashboard/pengguna*') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Pengguna</p>
-                                </a>
-                            </li>
-                        </ul>
+                        <li class="nav-item {{ Request::is('dashboard/pengguna*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link {{ Request::is('dashboard/pengguna*')  ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-tools mr-2"></i>
+                                <p>
+                                    Konfigurasi
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/dashboard/pengguna" class="nav-link {{ Request::is('dashboard/pengguna*') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Pengguna</p>
+                                    </a>
+                                </li>
+                            </ul>
 
-                    </li>
+                        </li>
+                @endif
+
 
 {{--                    <li class="nav-item {{ Request::is('*dashboard') ? 'menu-open' : '' }}">--}}
 {{--                        <a href="#" class="nav-link {{ Request::is('dashboard*')  ? 'active' : '' }}">--}}

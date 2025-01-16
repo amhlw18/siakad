@@ -24,7 +24,7 @@ class JadwalController extends Controller
     public function index()
     {
 
-        if (Auth::user()->role ==1){
+        if (Auth::user()->role ==1 || Auth::user()->role == 6){
             $prodi = ModelProdi::get();
 
             return view('admin.jadwal.index', [
@@ -46,7 +46,7 @@ class JadwalController extends Controller
 
     public function filter_data(Request $request)
     {
-        if (Auth::user()->role == 1){
+        if (Auth::user()->role == 1 || Auth::user()->role == 6 ){
             $query = ModelDetailJadwal::with('prodi_jadwal','tahun_jadwal',
                 'jadwal_matakuliah','dosen','jadwal_kelas','jadwal_ruangan'); // Include relasi 'prodi_mhs'
 

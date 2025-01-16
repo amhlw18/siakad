@@ -34,6 +34,10 @@ Dashboard
         Dashboard Program Studi
     @endif
 
+    @if(Auth::user()->role == 6)
+        Dashboard BAAK
+    @endif
+
 @endsection()
 
 <style>
@@ -262,6 +266,45 @@ Dashboard
             </div>
             <!-- /.card-body -->
         </div>
+    @endif
+
+    @if(Auth::user()->role == 6)
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Mahasiswa belum mengisi KRS {{$tahun->tahun_akademik}}
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="tabel" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>NIM</th>
+                        <th>Nama</th>
+                        <th>Program Studi</th>
+                        <th>Angkatan</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($belum_krs as $item)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->nim ?? '-' }}</td>
+                            <td>{{ $item->status_krs_mhs->nama_mhs ?? '-' }}</td>
+                            <td>{{ $item->status_krs_prodi->nama_prodi ?? '-' }}</td>
+                            <td>{{ $item->status_krs_mhs->tahun_masuk ?? '-' }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+
     @endif
 
     @if(Auth::user()->role == 3)

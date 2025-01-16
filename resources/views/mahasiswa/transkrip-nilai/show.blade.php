@@ -27,7 +27,7 @@
             </div>
         @endif
 
-        @if(auth()->user()->role== 1 || auth()->user()->role == 5)
+        @if(auth()->user()->role== 1 || auth()->user()->role == 5 || auth()->user()->role == 6)
 
             <!-- Informasi mhs -->
             <div class="card mb-3">
@@ -43,7 +43,7 @@
         @endif
 
 
-        @if(auth()->user()->role== 1 || auth()->user()->role == 5)
+        @if(auth()->user()->role== 1 || auth()->user()->role == 5 || auth()->user()->role == 6)
             <div class="row mb-3">
                 <div class="col-md-4">
                     <form action="/print/transkrip-nilai" target="_blank" method="post">

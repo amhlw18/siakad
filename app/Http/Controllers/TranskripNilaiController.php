@@ -20,7 +20,7 @@ class TranskripNilaiController extends Controller
     public function index()
     {
         //
-        if (Auth::user()->role == 1){
+        if (Auth::user()->role == 1 || Auth::user()->role == 6){
             $mhs = ModelMahasiswa::with('prodi_mhs')
                 ->where('status', 'AKTIF')
                 ->orderBy('nim','asc')
@@ -130,7 +130,7 @@ class TranskripNilaiController extends Controller
     public function show($id)
     {
         //
-        if (Auth::user()->role == 1 || Auth::user()->role == 5){
+        if (Auth::user()->role == 1 || Auth::user()->role == 5 || Auth::user()->role == 6){
 
             $nim = $id;
             $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();

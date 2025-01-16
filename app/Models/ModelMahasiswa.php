@@ -12,6 +12,7 @@ class ModelMahasiswa extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id_registrasi_mhs',
         'prodi_id',
         'nim',
         'nama_mhs',

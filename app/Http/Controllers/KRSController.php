@@ -23,7 +23,7 @@ class KRSController extends Controller
     public function index()
     {
         //
-        if (Auth::user()->role == 1){
+        if (Auth::user()->role == 1 || Auth::user()->role == 6){
             $mhs = ModelMahasiswa::with('prodi_mhs')
                 ->where('status', 'AKTIF')
                 ->orderBy('nim','asc')
@@ -165,7 +165,7 @@ class KRSController extends Controller
     public function show($id)
     {
         //
-        if (Auth::user()->role == 1 || Auth::user()->role == 5){
+        if (Auth::user()->role == 1 || Auth::user()->role == 5 || Auth::user()->role == 6){
 
             $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
             $tahun_akademik = ModelTahunAkademik::all();
@@ -186,7 +186,7 @@ class KRSController extends Controller
                     return $item;
                 });
 
-            $status_krs = ModelStatusKRS::where('nim',$nim)
+            $status_krs = ModelStatusKRS::where('nim',$id)
                 ->where('tahun_akademik', $tahun_aktif->kode)
                 ->first();
 
@@ -204,7 +204,7 @@ class KRSController extends Controller
 
     public function filter_data(Request $request)
     {
-        if (Auth::user()->role == 1 || Auth::user()->role == 5){
+        if (Auth::user()->role == 1 || Auth::user()->role == 5 || Auth::user()->role == 6){
             $query = ModelKRSMahasiwa::with('krs_mhs','krs_matkul')
                 ->where('tahun_akademik', $request->tahun)
                 ->where('nim', $request->nim)

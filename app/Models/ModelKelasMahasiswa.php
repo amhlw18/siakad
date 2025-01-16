@@ -29,6 +29,4 @@ class ModelKelasMahasiswa extends Model
         return $this->belongsTo(ModelKelas::class, 'kelas_id','id');
     }
 
-
-
 }

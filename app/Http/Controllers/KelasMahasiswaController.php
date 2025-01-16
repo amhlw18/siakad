@@ -22,7 +22,7 @@ class KelasMahasiswaController extends Controller
     public function index()
     {
 
-        if (Auth::user()->role==1){
+        if (Auth::user()->role==1 || Auth::user()->role == 6){
             $kelas_mhs =ModelKelasMahasiswa::with(
                 'prodi_kelas_mhs','mhs_kelas_mhs',
                 'kelas_mahasiswa')
@@ -39,7 +39,7 @@ class KelasMahasiswaController extends Controller
             ]);
         }
 
-        if (Auth::user()->role==5){
+        if (Auth::user()->role==5 || Auth::user()->role == 6){
             $prodi_id = Auth::user()->prodi;
             $kelas_mhs =ModelKelasMahasiswa::with(
                 'prodi_kelas_mhs','mhs_kelas_mhs',
@@ -104,7 +104,7 @@ class KelasMahasiswaController extends Controller
     {
         //
 
-        if (Auth::user()->role==1){
+        if (Auth::user()->role==1 || Auth::user()->role == 6){
             return view('admin.kelas-mahasiswa.create',[
                 'mahasiswa'=>ModelMahasiswa::with('prodi_mhs')
                     ->orderBY('nim','desc')
@@ -149,7 +149,7 @@ class KelasMahasiswaController extends Controller
 
     public function filterDataKelas(Request $request)
     {
-        if (Auth::user()->role ==1 ){
+        if (Auth::user()->role ==1 || Auth::user()->role == 6 ){
             $query = ModelKelasMahasiswa::with('prodi_kelas_mhs','mhs_kelas_mhs',
                 'kelas_mahasiswa');
 
@@ -244,7 +244,7 @@ class KelasMahasiswaController extends Controller
 
     public function filterData(Request $request)
     {
-        if (Auth::user()->role==1){
+        if (Auth::user()->role==1 || Auth::user()->role == 6){
             $query = ModelMahasiswa::with('prodi_mhs'); // Include relasi 'prodi_mhs'
 
             if ($request->prodi) {

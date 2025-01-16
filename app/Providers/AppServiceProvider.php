@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Gate::define('superadmin', function (User $user) {
-            return $user['role'] == 1;
+            return in_array($user->role, [1, 6]);
         });
 
         Gate::define('bendahara', function (User $user) {
@@ -39,11 +39,11 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Gate::define('mahasiswa', function (User $user) {
-            return in_array($user->role, [1, 4, 5]);
+            return in_array($user->role, [1, 4, 5, 6]);
         });
 
         Gate::define('prodi', function (User $user) {
-            return in_array($user->role, [1, 5]);
+            return in_array($user->role, [1, 5, 6]);
         });
 
 //        Gate::define('shared', function (User $user) {

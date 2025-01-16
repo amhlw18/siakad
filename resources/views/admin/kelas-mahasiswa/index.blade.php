@@ -30,7 +30,7 @@
         <a href="/dashboard/kls-mhs/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Tambah Kelas
             Mahasiswa</a>
 
-        @if(auth()->user()->role==1)
+        @if(auth()->user()->role==1 || auth()->user()->role==6 )
             @if($nim)
                 <button id="btnReset" class="btn btn-danger mb-2" ><span data-feather="plus"></span>Reset Kelas</button>
             @else
@@ -87,10 +87,10 @@
                             </td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $mhs->nim }}</td>
-                            <td>{{ $mhs->mhs_kelas_mhs->nama_mhs}}</td>
-                            <td>{{ $mhs->prodi_kelas_mhs->nama_prodi}}</td>
-                            <td>{{ $mhs->kelas_mahasiswa->nama_kelas }}</td>
-                            <td>{{ $mhs->mhs_kelas_mhs->tahun_masuk }}</td>
+                            <td>{{ $mhs->mhs_kelas_mhs->nama_mhs ?? '-'}}</td>
+                            <td>{{ $mhs->prodi_kelas_mhs->nama_prodi ?? '-'}}</td>
+                            <td>{{ $mhs->kelas_mahasiswa->nama_kelas ?? '-' }}</td>
+                            <td>{{ $mhs->mhs_kelas_mhs->tahun_masuk ?? '-' }}</td>
                         </tr>
                     @endforeach
                     </tbody>

@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        @if(auth()->user()->role== 1 || auth()->user()->role == 5)
+        @if(auth()->user()->role== 1 || auth()->user()->role == 5 || auth()->user()->role == 6)
 
             <div class="row mb-3">
                 <div class="col-md-4">
@@ -159,7 +159,7 @@
         <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
 
-    @if(auth()->user()->role== 1 || auth()->user()->role == 5)
+    @if(auth()->user()->role== 1 || auth()->user()->role == 5 || auth()->user()->role == 6)
         <form id="filterForm">
             {{--        //<input type="hidden" id="prodi_id" value="{{$mhs->prodi_mhs->prodi_id?? '-'}}">--}}
             <input type="hidden" id="nim" value="{{$mhs->nim}}">

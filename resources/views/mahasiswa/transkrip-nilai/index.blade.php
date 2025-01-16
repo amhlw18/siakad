@@ -46,7 +46,7 @@
             </div>
         @endif
 
-        @if(auth()->user()->role== 1)
+        @if(auth()->user()->role== 1 || auth()->user()->role == 6)
 
             <div class="card">
                 <div class="card-header">
