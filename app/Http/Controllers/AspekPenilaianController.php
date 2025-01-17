@@ -34,6 +34,10 @@ class AspekPenilaianController extends Controller
                 ->where('tahun_akademik',$tahun_aktif->kode)
                 ->where('nidn', $nidn)->get();
 
+            if ($dosen->prodi_id == 15401){
+                $matakuliah= $matakuliah->unique('matakuliah_id');
+            }
+
         }else{
             $matakuliah = ModelDetailJadwal::with('prodi_jadwal','tahun_jadwal',
                 'jadwal_matakuliah','dosen','jadwal_kelas','jadwal_ruangan')
