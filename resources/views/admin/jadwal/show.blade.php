@@ -27,7 +27,7 @@
             </div>
         @endif
         <!-- Filter Section -->
-        @if(auth()->user()->role == 1)
+        @if(auth()->user()->role == 1 || auth()->user()->role == 6)
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="filterTahun">Tahun Akademik</label>
