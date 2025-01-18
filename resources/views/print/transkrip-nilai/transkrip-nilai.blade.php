@@ -114,8 +114,8 @@
     </tbody>
     <tfoot>
     <tr>
-        <td colspan="6" class="text-end"><strong>Jumlah SKS:</strong></td>
-        <td id="jumlah_sks"><strong>{{$jumlah_sks}}</strong></td>
+        <td colspan="6" class="text-end"><strong>Total SKS diambil:</strong></td>
+        <td id="jumlah_sks"><strong>{{$total_sks}}</strong></td>
     </tr>
     <tr>
         <td colspan="6" class="text-end"><strong>Jumlah Matakuliah Diambil:</strong></td>

@@ -94,6 +94,9 @@ class PrintController extends Controller
                 ->where('total_nilai', '>','1')
                 ->sum('sks');
 
+            $total_sks = ModelNilaiMHS::where('nim',$nim)
+                ->sum('sks');
+
             $total_nilai = ModelNilaiMHS::where('nim', $nim)
                 ->sum('total_nilai');
 
@@ -105,6 +108,7 @@ class PrintController extends Controller
             'mhs' => $mhs,
             'khs_mhs' => $khs_mhs,
             'jumlah_sks' => $jumlah_sks,
+            'total_sks' => $total_sks,
             'jumlah_mk' => $jumlah_mk,
             'ips' => $ips,
         ]);
