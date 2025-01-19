@@ -18,8 +18,12 @@ class MahasiswaController extends Controller
     public function index()
     {
         //
+        $mahasiswa =  ModelMahasiswa::with('prodi_mhs')
+            ->orderBy('nim', 'desc')
+            ->get();
+
         return view('admin.mahasiswa.index',[
-            'mahasiswa' => ModelMahasiswa::with('prodi_mhs')->get(),
+            'mahasiswa' => $mahasiswa,
             'prodis' => ModelProdi::all(),
         ]);
 
@@ -49,10 +53,14 @@ class MahasiswaController extends Controller
 
     public function filterData(Request $request)
     {
-        $query = ModelMahasiswa::with('prodi_mhs'); // Include relasi 'prodi_mhs'
+        $query = ModelMahasiswa::with('prodi_mhs')
+            ->orderBy('nim', 'asc')
+        ; // Include relasi 'prodi_mhs'
+
 
         if ($request->prodi) {
             $query->where('prodi_id', $request->prodi);
+
         }
 
         if ($request->angkatan) {
