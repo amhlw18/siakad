@@ -7,6 +7,7 @@ use App\Models\ModelMahasiswa;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
@@ -21,11 +22,11 @@ class UserSeeder extends Seeder
         //
         User::create([
             'user_id' => '12345',
-            'name' => 'Madi',
+            'name' => 'Administrator',
             'email' => '-',
             'email_verified_at' => now(),
             'role' => '1',
-            'password' => '$2a$12$GIlBJCcwXEp.hn0Y3CxuKuberB1jyWHSes2ZqeOV6DhZFMNG5jeBK', // 12345
+            'password' => Hash::make('12345678'),
             'remember_token' => Str::random(10),
         ]);
 
@@ -38,7 +39,7 @@ class UserSeeder extends Seeder
                 'email' => $item->email ?? '-',
                 'email_verified_at' => now(),
                 'role' => '3',
-                'password' => '$2a$12$GIlBJCcwXEp.hn0Y3CxuKuberB1jyWHSes2ZqeOV6DhZFMNG5jeBK', // 12345
+                'password' => Hash::make('12345678'),
                 'remember_token' => Str::random(10),
             ]);
         }
@@ -52,7 +53,7 @@ class UserSeeder extends Seeder
                 'email' => $mhs->email ?? '-',
                 'email_verified_at' => now(),
                 'role' => '4',
-                'password' => '$2a$12$GIlBJCcwXEp.hn0Y3CxuKuberB1jyWHSes2ZqeOV6DhZFMNG5jeBK', // 12345
+                'password' => Hash::make('12345678'),
                 'remember_token' => Str::random(10),
             ]);
         }
