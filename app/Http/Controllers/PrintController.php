@@ -100,7 +100,7 @@ class PrintController extends Controller
 
         $khs_mhs = ModelNilaiMHS::with('nilai_matakuliah_mhs')
             ->where('nim', $nim)
-            ->orderBy('matakuliah_id', 'desc')
+            ->orderBy('matakuliah_id', 'asc')
             ->get();
 
         $validasi_kosong_khs = ModelNilaiMHS::with('nilai_matakuliah_mhs')
