@@ -58,5 +58,54 @@ class UserSeeder extends Seeder
             ]);
         }
 
+        User::create([
+            'user_id' => 13211,
+            'name' => 'Prodi Gizi',
+            'email' => 'prodi.gizi@email.com' ?? '-',
+            'email_verified_at' => now(),
+            'role' => '5',
+            'password' => Hash::make('12345678'),
+            'remember_token' => Str::random(10),
+        ]);
+
+        User::create([
+            'user_id' => 13263,
+            'name' => 'Prodi Adminkes',
+            'email' => 'prodi.adminkes@email.com' ?? '-',
+            'email_verified_at' => now(),
+            'role' => '5',
+            'password' => Hash::make('12345678'),
+            'remember_token' => Str::random(10),
+        ]);
+
+        User::create([
+            'user_id' => 15401,
+            'name' => 'Prodi Bidan',
+            'email' => 'prodi.bidan@email.com' ?? '-',
+            'email_verified_at' => now(),
+            'role' => '5',
+            'password' => Hash::make('12345678'),
+            'remember_token' => Str::random(10),
+        ]);
+
+        User::create([
+            'user_id' => 20240918,
+            'name' => 'BAAK',
+            'email' => 'baak.ikt@email.com' ?? '-',
+            'email_verified_at' => now(),
+            'role' => '6',
+            'password' => Hash::make('12345678'),
+            'remember_token' => Str::random(10),
+        ]);
+
+        User::create([
+            'user_id' => 20221104,
+            'name' => 'Bendahara',
+            'email' => 'bendahara.ikt@email.com' ?? '-',
+            'email_verified_at' => now(),
+            'role' => '2',
+            'password' => Hash::make('12345678'),
+            'remember_token' => Str::random(10),
+        ]);
     }
 }
