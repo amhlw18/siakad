@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\ModelMahasiswa;
 use App\Models\ModelNilaiMHS;
+use App\Models\ModelProdi;
 use App\Models\ModelTahunAkademik;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -20,9 +23,12 @@ class PrintController extends Controller
             ->where('nim', $nim)
             ->first();
 
+
+
         $khs_mhs = ModelNilaiMHS::with('nilai_matakuliah_mhs')
             ->where('nim', $nim)
             ->where('tahun_akademik', $tahun)
+            ->orderBy('matakuliah_id', 'asc')
             ->get();
 
         $validasi_kosong_khs = ModelNilaiMHS::with('nilai_matakuliah_mhs')
@@ -54,6 +60,17 @@ class PrintController extends Controller
        // dd($request->all());
         $tahun_akademik = ModelTahunAkademik::where('kode', $tahun)->first();
 
+        $prodi_id = $mhs->prodi_id;
+
+        $ka_prodi = ModelProdi::with('dosen')
+            ->where('kode_prodi',$prodi_id)
+            ->first();
+
+        $foto = User::where('user_id', $nim)->first();
+
+        $tanggal = Carbon::now()->locale('id')->isoFormat('D MMMM YYYY'); // Format tanggal Indonesia
+
+
         $pdf = Pdf::loadView('print.khs.khs-mhs',[
             'mhs' => $mhs,
             'khs_mhs' => $khs_mhs,
@@ -61,6 +78,9 @@ class PrintController extends Controller
             'jumlah_mk' => $jumlah_mk,
             'ips' => $ips,
             'tahun_akademik' => $tahun_akademik,
+            'ka_prodi' => $ka_prodi,
+            'foto' => $foto,
+            'tanggal' => $tanggal,
         ]);
 
         return $pdf->stream();
@@ -72,6 +92,12 @@ class PrintController extends Controller
 
         $mhs = ModelMahasiswa::with('prodi_mhs')
             ->where('nim', $nim)
+            ->first();
+
+        $prodi_id = $mhs->prodi_id;
+
+        $ka_prodi = ModelProdi::with('dosen')
+            ->where('kode_prodi',$prodi_id)
             ->first();
 
         $khs_mhs = ModelNilaiMHS::with('nilai_matakuliah_mhs')
@@ -104,6 +130,10 @@ class PrintController extends Controller
             $ips = number_format($ips, 2,'.','');
         }
 
+        $foto = User::where('user_id', $nim)->first();
+
+        $tanggal = Carbon::now()->locale('id')->isoFormat('D MMMM YYYY'); // Format tanggal Indonesia
+
         $pdf = Pdf::loadView('print.transkrip-nilai.transkrip-nilai',[
             'mhs' => $mhs,
             'khs_mhs' => $khs_mhs,
@@ -111,6 +141,9 @@ class PrintController extends Controller
             'total_sks' => $total_sks,
             'jumlah_mk' => $jumlah_mk,
             'ips' => $ips,
+            'ka_prodi' => $ka_prodi,
+            'foto' => $foto,
+            'tanggal' => $tanggal,
         ]);
 
         return $pdf->stream();

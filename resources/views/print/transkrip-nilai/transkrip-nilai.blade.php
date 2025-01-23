@@ -7,11 +7,11 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 8px;
         }
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 8px;
         }
         .header img {
             width: 80px;
@@ -21,7 +21,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 8px;
         }
         table, th, td {
             border: 1px solid black;
@@ -31,23 +31,25 @@
             text-align: left;
         }
         .info-table {
-            margin-bottom: 20px;
+            margin-bottom: 8px;
         }
         .info-table td {
             border: none;
             padding: 5px;
         }
         .footer {
-            margin-top: 30px;
+            margin-top: 8px;
             display: flex;
             justify-content: space-between;
+            page-break-inside: avoid;
         }
         .footer .signature {
             text-align: center;
+            page-break-inside: avoid;
         }
-        .rektor-signature {
-            margin-top: 50px;
-            text-align: center;
+
+        .page-break {
+            page-break-after: always;
         }
 
 
@@ -64,6 +66,9 @@
     <tr>
         <td>Nama</td>
         <td>: {{$mhs->nama_mhs}}</td>
+        <td rowspan="7" style="width: 100px; text-align: center;">
+            <img src="{{ $foto->profile_picture ? public_path('storage/' .$foto->profile_picture) : public_path('lte/dist/img/default-user-photo.png') }}"  style="width: 80px; height: auto; border-radius: 5px;">
+        </td>
     </tr>
     <tr>
         <td>NIM</td>
@@ -125,13 +130,32 @@
         <td colspan="6" class="text-end"><strong>IP Kumulatif:</strong></td>
         <td id="ips"><strong>{{$ips}}</strong></td>
     </tr>
+
     </tfoot>
 </table>
 
-<script>
-    window.addEventListener("load", function () {
-        window.print();
-    });
-</script>
+{{--<div class="page-break"></div>--}}
+<div class="footer">
+    <div class="signature" style="text-align: left; float: left; width: 50%;">
+        <p>Wakil Rektor Bidang Akademik dan Kemahasiswaan</p>
+        <br><br><br><br>
+        <p>Abdul Malik Darmin, S.K.M.,M.P.H</p>
+        <p>NIDN. 0726129003</p>
+    </div>
+
+    <div class="signature">
+        <div class="signature" style="text-align: left; float: right; width: 40%;">
+{{--            <p>Baubau, {{$tanggal}}</p>--}}
+            <p>Ketua Program Studi</p>
+            <br><br><br><br><br>
+            <p>{{$ka_prodi->dosen->gelar_depan ?? ''}} {{$ka_prodi->dosen->nama_dosen}}, {{$ka_prodi->dosen->gelar_belakang}}</p>
+            <p>NIDN. {{$ka_prodi->dosen->nidn}}</p>
+        </div>
+    </div>
+</div>
+
+
+
+
 </body>
 </html>

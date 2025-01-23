@@ -7,11 +7,11 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 8px;
         }
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 8px;
         }
         .header img {
             width: 80px;
@@ -21,7 +21,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 8px;
         }
         table, th, td {
             border: 1px solid black;
@@ -31,25 +31,28 @@
             text-align: left;
         }
         .info-table {
-            margin-bottom: 20px;
+            margin-bottom: 8px;
         }
         .info-table td {
             border: none;
             padding: 5px;
         }
         .footer {
-            margin-top: 30px;
+            margin-top: 8px;
             display: flex;
             justify-content: space-between;
+            page-break-inside: avoid;
         }
         .footer .signature {
             text-align: center;
+            page-break-inside: avoid;
         }
 
-        .rektor-signature {
-            margin-top: 50px;
-            text-align: center;
+        .page-break {
+            page-break-after: always;
         }
+
+
     </style>
 </head>
 <body>
@@ -64,6 +67,9 @@
         <tr>
             <td>Nama</td>
             <td>: {{$mhs->nama_mhs}}</td>
+            <td rowspan="3" style="width: 100px; text-align: center;">
+                <img src="{{ $foto->profile_picture ? public_path('storage/' .$foto->profile_picture) : public_path('lte/dist/img/default-user-photo.png') }}"  style="width: 80px; height: auto; border-radius: 5px;">
+            </td>
         </tr>
         <tr>
             <td>NIM</td>
@@ -74,6 +80,8 @@
             <td>: {{$mhs->prodi_mhs->nama_prodi}}</td>
         </tr>
     </table>
+
+
 
     <table>
         <thead>
@@ -152,38 +160,28 @@
         </tfoot>
     </table>
 
-{{--    <div class="footer">--}}
-{{--        <div class="signature">--}}
-{{--            <br>--}}
+    <div class="footer">
+{{--        <div class="signature" style="text-align: left; float: left; width: 40%;">--}}
+{{--            <br><br>--}}
 {{--            <p>Wakil Dekan Bidang Akademik dan Kemahasiswaan</p>--}}
 {{--            <br><br><br><br>--}}
 {{--            <p>Dr. Amil Ahmad Ilham, S.T., M.IT.</p>--}}
 {{--            <p>NIP. 19731010 199802 1 001</p>--}}
 {{--        </div>--}}
 
-{{--        <div class="signature">--}}
-{{--            <p>Baubau,  <span id="dynamic-date"></span></p>--}}
-{{--            <p>Ketua Program Studi</p>--}}
-{{--            <br><br><br>--}}
-{{--            <p>Dr. Ir. Zahir Zainuddin, M.Sc.</p>--}}
-{{--            <p>NIP. 19640427 198910 1 002</p>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+        <div class="signature">
+            <div class="signature" style="text-align: left; float: right; width: 40%;">
+                <p>Baubau, {{$tanggal}}</p>
+                <p>Ketua Program Studi</p>
+                <br><br><br><br><br>
+                <p>{{$ka_prodi->dosen->gelar_depan ?? ''}} {{$ka_prodi->dosen->nama_dosen}}, {{$ka_prodi->dosen->gelar_belakang}}</p>
+                <p>NIDN. {{$ka_prodi->dosen->nidn}}</p>
+            </div>
+        </div>
+    </div>
 
-{{--    <div class="rektor-signature">--}}
-{{--        <p>Rektor</p>--}}
-{{--        <br><br><br>--}}
-{{--        <p>Prof. Dr. Dwia Aries Tina Pulubuhu, M.A.</p>--}}
-{{--        <p>NIP. 19640814 198601 2 001</p>--}}
-{{--    </div>--}}
 
-{{--    <script>--}}
-{{--        document.addEventListener('DOMContentLoaded', () => {--}}
-{{--            const today = new Date();--}}
-{{--            const options = { year: 'numeric', month: 'long', day: 'numeric' };--}}
-{{--            const formattedDate = today.toLocaleDateString('id-ID', options);--}}
-{{--            document.getElementById('dynamic-date').textContent = formattedDate;--}}
-{{--        });--}}
-{{--    </script>--}}
+
+
 </body>
 </html>

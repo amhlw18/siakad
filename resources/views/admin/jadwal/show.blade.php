@@ -399,6 +399,7 @@
                         if (!response.ok) {
                             throw response; // Lempar error jika respons tidak OK
                         }
+                        //console.log(response);
                         return response.json();
                     })
                     .then(data => {
