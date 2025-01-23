@@ -30,33 +30,15 @@ class UserSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
-        $dosen = ModelDosen::all();
-
-        foreach ($dosen as $item){
-            User::create([
-                'user_id' => $item->nidn,
-                'name' => $item->nama_dosen,
-                'email' => $item->email ?? '-',
-                'email_verified_at' => now(),
-                'role' => '3',
-                'password' => Hash::make('12345678'),
-                'remember_token' => Str::random(10),
-            ]);
-        }
-
-        $mahasiswa = ModelMahasiswa::all(); // Ambil semua data mahasiswa
-
-        foreach ($mahasiswa as $mhs) {
-            User::create([
-                'user_id' => $mhs->nim,
-                'name' => $mhs->nama_mhs,
-                'email' => $mhs->email ?? '-',
-                'email_verified_at' => now(),
-                'role' => '4',
-                'password' => Hash::make('12345678'),
-                'remember_token' => Str::random(10),
-            ]);
-        }
+        User::create([
+            'user_id' => 59201,
+            'name' => 'Prodi TI',
+            'email' => 'prodi.ti@iktbutonraya.ac.id' ?? '-',
+            'email_verified_at' => now(),
+            'role' => '5',
+            'password' => Hash::make('12345678'),
+            'remember_token' => Str::random(10),
+        ]);
 
         User::create([
             'user_id' => 13211,
@@ -107,5 +89,35 @@ class UserSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'remember_token' => Str::random(10),
         ]);
+
+        $dosen = ModelDosen::all();
+
+        foreach ($dosen as $item){
+            User::create([
+                'user_id' => $item->nidn,
+                'name' => $item->nama_dosen,
+                'email' => $item->email ?? '-',
+                'email_verified_at' => now(),
+                'role' => '3',
+                'password' => Hash::make('12345678'),
+                'remember_token' => Str::random(10),
+            ]);
+        }
+
+        $mahasiswa = ModelMahasiswa::all(); // Ambil semua data mahasiswa
+
+        foreach ($mahasiswa as $mhs) {
+            User::create([
+                'user_id' => $mhs->nim,
+                'name' => $mhs->nama_mhs,
+                'email' => $mhs->email ?? '-',
+                'email_verified_at' => now(),
+                'role' => '4',
+                'password' => Hash::make('12345678'),
+                'remember_token' => Str::random(10),
+            ]);
+        }
+
+
     }
 }
