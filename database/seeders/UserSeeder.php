@@ -36,6 +36,7 @@ class UserSeeder extends Seeder
             'email' => 'prodi.ti@iktbutonraya.ac.id' ?? '-',
             'email_verified_at' => now(),
             'role' => '5',
+            'prodi' => 59201,
             'password' => Hash::make('12345678'),
             'remember_token' => Str::random(10),
         ]);
@@ -46,6 +47,7 @@ class UserSeeder extends Seeder
             'email' => 'prodi.gizi@email.com' ?? '-',
             'email_verified_at' => now(),
             'role' => '5',
+            'prodi' => 13211,
             'password' => Hash::make('12345678'),
             'remember_token' => Str::random(10),
         ]);
@@ -56,6 +58,7 @@ class UserSeeder extends Seeder
             'email' => 'prodi.adminkes@email.com' ?? '-',
             'email_verified_at' => now(),
             'role' => '5',
+            'prodi' => 13263,
             'password' => Hash::make('12345678'),
             'remember_token' => Str::random(10),
         ]);
@@ -66,6 +69,7 @@ class UserSeeder extends Seeder
             'email' => 'prodi.bidan@email.com' ?? '-',
             'email_verified_at' => now(),
             'role' => '5',
+            'prodi' => 15401,
             'password' => Hash::make('12345678'),
             'remember_token' => Str::random(10),
         ]);
