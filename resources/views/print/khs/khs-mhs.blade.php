@@ -26,7 +26,7 @@
             margin-top: 8px;
         }
         table, th, td {
-            border: 0px solid black;
+            /*border: 0px solid black;*/
         }
         th, td {
             padding: 8px;
