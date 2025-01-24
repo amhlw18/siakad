@@ -166,16 +166,19 @@ class DashBoardController extends Controller
 
         $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
         $mhs = ModelMahasiswa::with('prodi_mhs')->where('nim', $id)->first();
-        $smt_mhs = ModelPembayaran::where('nim', $id)->count();
+       // $smt_mhs = ModelPembayaran::where('nim', $id)->count();
+
+        $khs_smt_lalu = $tahun_aktif->kode - 10;
 
         $khs_mhs = ModelNilaiMHS::with('nilai_matakuliah_mhs')
             ->where('nim', $id)
-            ->where('tahun_akademik', $tahun_aktif->kode)
+            ->where('tahun_akademik', $khs_smt_lalu)
+            ->orderBy('matakuliah_id', 'asc')
             ->get();
 
         $validasi_kosong_khs = ModelNilaiMHS::with('nilai_matakuliah_mhs')
             ->where('nim', $id)
-            ->where('tahun_akademik', $tahun_aktif->kode)
+            ->where('tahun_akademik', $khs_smt_lalu)
             ->first();
 
         $jumlah_sks =0;
@@ -184,15 +187,15 @@ class DashBoardController extends Controller
 
         if ($validasi_kosong_khs){
             $jumlah_mk = ModelNilaiMHS::where('nim', $id)
-                ->where('tahun_akademik', $tahun_aktif->kode)
+                ->where('tahun_akademik', $khs_smt_lalu)
                 ->count('matakuliah_id');
 
             $jumlah_sks = ModelNilaiMHS::where('nim', $id)
-                ->where('tahun_akademik', $tahun_aktif->kode)
+                ->where('tahun_akademik', $khs_smt_lalu)
                 ->sum('sks');
 
             $total_nilai = ModelNilaiMHS::where('nim', $id)
-                ->where('tahun_akademik', $tahun_aktif->kode)
+                ->where('tahun_akademik', $khs_smt_lalu)
                 ->sum('total_nilai');
 
             $ips = $total_nilai/$jumlah_sks;
@@ -255,13 +258,13 @@ class DashBoardController extends Controller
             'jumlah_sks' => $jumlah_sks,
             'jumlah_mk' => $jumlah_mk,
             'ips' => $ips,
-            'smt_mhs' => $smt_mhs,
             //return krs
             'status_krs' => $status_krs,
             'krs_mhs' => $krs_mhs,
             'status_krs' => $status_krs,
             'pesan' => $pesan,
             'periode' => $periode,
+            'tahun_akademik_khs' => $khs_smt_lalu,
         ]);
     }
 
