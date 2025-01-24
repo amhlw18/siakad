@@ -160,6 +160,7 @@ class PenilaianController extends Controller
 
         $mahasiswa = ModelKelasMahasiswa::with('mhs_kelas_mhs')
             ->where('kelas_id',$id_kelas)
+            ->orderBy('nim', 'asc')
             ->get();
 
         $aspek_nilai = ModelAspekPenilaian::where('matakuliah_id', $id)
