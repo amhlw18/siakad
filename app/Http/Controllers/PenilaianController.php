@@ -29,34 +29,51 @@ class PenilaianController extends Controller
     {
         //
 
-        $dosen = ModelDosen::where('nidn',Auth::user()->user_id)->first();
-
-
         $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
-        $matakuliah = ModelDetailJadwal::with('jadwal_matakuliah','prodi_jadwal','jadwal_kelas')
-            ->where('nidn',$dosen->nidn)
-            ->where('tahun_akademik',$tahun_aktif->kode)
-            ->get()
-            //->unique('matakuliah_id')
-        ;
 
-        if ($dosen->prodi_id == 15401){
-            $matakuliah= $matakuliah->unique('matakuliah_id');
-        }
+//        if (Auth::user()->role == 1 || Auth::user()->role == 6){
+//            $mhs = ModelMahasiswa::with('prodi_mhs')
+//                ->where('status', 'AKTIF')
+//                ->get();
+//
+//            return view('dosen.penilaian.index',[
+//               'mahasiswa' => $mhs,
+//                'tahun' => $tahun_aktif,
+//            ]);
+//        }
 
-        // Hitung jumlah mahasiswa per mata kuliah berdasarkan tahun akademik aktif
+
+        if (Auth::user()->role == 3){
+            $dosen = ModelDosen::where('nidn',Auth::user()->user_id)->first();
+
+
+            $matakuliah = ModelDetailJadwal::with('jadwal_matakuliah','prodi_jadwal','jadwal_kelas')
+                ->where('nidn',$dosen->nidn)
+                ->where('tahun_akademik',$tahun_aktif->kode)
+                ->get()
+                //->unique('matakuliah_id')
+            ;
+
+            if ($dosen->prodi_id == 15401){
+                $matakuliah= $matakuliah->unique('matakuliah_id');
+            }
+
+            // Hitung jumlah mahasiswa per mata kuliah berdasarkan tahun akademik aktif
 //        $jumlah_mahasiswa = ModelKRSMahasiwa::where('tahun_akademik', $tahun_aktif->kode)
 //            ->select('matakuliah_id', \DB::raw('count(*) as total'))
 //            ->groupBy('matakuliah_id')
 //            ->pluck('total', 'matakuliah_id');
 
 
-        return view('dosen.penilaian.index',[
-            'matakuliah'=> $matakuliah,
-            'tahun' => $tahun_aktif,
-            'dosen' => $dosen,
+            return view('dosen.penilaian.index',[
+                'matakuliah'=> $matakuliah,
+                'tahun' => $tahun_aktif,
+                'dosen' => $dosen,
 
-        ]);
+            ]);
+        }
+
+
     }
 
     /**

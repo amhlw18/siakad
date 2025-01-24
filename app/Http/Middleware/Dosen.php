@@ -21,7 +21,13 @@ class Dosen
             return redirect('/');
         }
 
-        if (Auth::user()->role == 3 || Auth::user()->role == 6 || Auth::user()->role == 1) {
+//        if (Auth::user()->role == 1 || Auth::user()->role == 3 ||  Auth::user()->role == 5 || Auth::user()->role == 6 ) {
+//            return $next($request);
+//        }else{
+//            return redirect('/dashboard');
+//        };
+
+        if (Auth::user()->role == 3 ) {
             return $next($request);
         }else{
             return redirect('/dashboard');
