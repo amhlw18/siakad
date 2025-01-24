@@ -27,8 +27,12 @@
                 {{ session('success') }}
             </div>
         @endif
-        <a href="/dashboard/kls-mhs/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Tambah Kelas
-            Mahasiswa</a>
+
+        @if(auth()->user()->role==1 || auth()->user()->role==6)
+            <a href="/dashboard/kls-mhs/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Tambah Kelas
+                Mahasiswa</a>
+        @endif
+
 
         @if(auth()->user()->role==1 || auth()->user()->role==6 )
             @if($nim)
