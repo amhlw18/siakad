@@ -83,14 +83,11 @@
                     @foreach ($mahasiswa as $mhs)
                         <tr>
                             <td>
-                                @if(auth()->user()->role==1 || auth()->user()->role==6)
-                                    <a href=""
-                                       class="btn btn-danger btn-hapus"
-                                       data-id="{{$mhs->id}}">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                @endif
-
+                                <a href=""
+                                   class="btn btn-danger btn-hapus"
+                                   data-id="{{$mhs->id}}">
+                                    <i class="bi bi-trash"></i>
+                                </a>
                             </td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $mhs->nim }}</td>
