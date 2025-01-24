@@ -218,7 +218,7 @@ class PenilaianController extends Controller
             ->where('tahun_akademik', $tahun_aktif->kode)
             ->sum('nilai');
 
-        if ($total_nilai >=  79 && $total_nilai >= 100 ){
+        if ($total_nilai >=  79 && $total_nilai <= 100 ){
             $nilai_huruf = 'A';
             $nilai_angka = '4';
         }else if ($total_nilai >=  69 && $total_nilai <= 78){
