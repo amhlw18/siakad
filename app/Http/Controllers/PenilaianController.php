@@ -109,13 +109,13 @@ class PenilaianController extends Controller
             $aspek_nilai = ModelAspekPenilaian::where('id', $aspek_id)
                 ->first();
 
-            $aspek_nilai = $aspek_nilai->bobot;
+            $aspek_nilai = $aspek_nilai->bobot * 100;
 //
 //            $nilai_aspek = $aspek_nilai->bobot;
 ////
-////            if ($validasi['nilai'] > $nilai_aspek){
-////                return response()->json(['errors' => 'Nilai melebihi bobot aspek penilaian !'], 422);
-////            }
+            if ($validasi['nilai'] > $aspek_nilai){
+                return response()->json(['errors' => 'Nilai melebihi bobot aspek penilaian !'], 422);
+            }
 
             ModelNilaiSemester::create($validasi);
             return response()->json(['success' => 'Nilai berhasil disimpan!'], 200);
