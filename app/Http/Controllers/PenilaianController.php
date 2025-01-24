@@ -219,7 +219,7 @@ class PenilaianController extends Controller
             ->sum('nilai');
 
 
-        if ($total_nilai >=  79 && $total_nilai <= 100 ){
+        if ($total_nilai >=  79 && $total_nilai >= 100 ){
             $nilai_huruf = 'A';
             $nilai_angka = '4';
         }else if ($total_nilai >=  69 && $total_nilai <= 78){
@@ -250,7 +250,7 @@ class PenilaianController extends Controller
             'total_nilai' => $total_nilai,
             'jml_aspek' => $jumlah_aspek,
             'jml_nilai' => $jumlah_nilai,
-            'nilai_huruf' => $nilai_huruf,
+            'nilai_huruf' => $nilai_huruf ?? '-',
             'nilai_angka' => $nilai_angka,
             'cek_nilai' => $cek_nilai_mhs,
         ]);
