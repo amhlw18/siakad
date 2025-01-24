@@ -103,10 +103,10 @@ class PenilaianController extends Controller
                 return response()->json(['errors' => 'Aspek penilaian sudah ada !'], 422);
             }
 
-//            $aspek_id = $validasi['aspek_id'];
+            $aspek_id = $validasi['aspek_id'];
 //            $matakuliah_id = $validasi['matakuliah_id'];
 //
-            $aspek_nilai = ModelAspekPenilaian::find('id')
+            $aspek_nilai = ModelAspekPenilaian::find($aspek_id)
                 ->first;
 //
 //            $nilai_aspek = $aspek_nilai->bobot;
