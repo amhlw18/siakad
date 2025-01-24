@@ -82,9 +82,14 @@
                 </div>
             </div>
                 @if ($periode && $pembayaran->is_bayar)
-                    <a href="#" class="btn btn-primary mb-2 btn-setujui-krs" ><span data-feather="plus"></span>Ambil KRS</a>
-{{--                @else--}}
-{{--                    <a href="#" class="btn btn-primary mb-2 btn-setujui-krs" ><span data-feather="plus"></span>Ambil KRS</a>--}}
+                    <form action="/dashboard/krs-mhs/ambil-krs" method="post">
+                        @csrf
+                        <input type="hidden" name="nim" value="{{ $mhs->nim ?? '-' }}">
+                        <input type="hidden" name="prodi_id" value="{{ $mhs->prodi_id ?? '-' }}">
+                        <input type="hidden" name="semester" value="{{ $mhs->semester ?? '-'}}">
+
+                        <button class="btn btn-primary mb-2 btn-setujui-krs" ><span data-feather="plus"></span>Ambil KRS</button>
+                    </form>
                 @endif
         @endif
 

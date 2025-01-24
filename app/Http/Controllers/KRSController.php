@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ModelKRSMahasiwa;
 use App\Models\ModelMahasiswa;
+use App\Models\ModelMatakuliah;
 use App\Models\ModelPembayaran;
 use App\Models\ModelProdi;
 use App\Models\ModelStatusKRS;
@@ -142,7 +143,63 @@ class KRSController extends Controller
      */
     public function create()
     {
-        //
+
+    }
+
+    public function ambil_krs(Request $request)
+    {
+        $nim = $request->nim;
+        $prodi_id = $request->prodi_id;
+        $semester = $request->semester;
+
+        $tahun_akademik = ModelTahunAkademik::where('status', 1)->first();
+
+        $periode = $tahun_akademik->semester;
+
+        if ($periode == 'Ganjil'){
+            $matakuliah = ModelMatakuliah::where('kode_prodi',$prodi_id)
+                ->whereIn('semester',[1,3,5,7])
+                ->orderBy('semester', 'asc')
+                ->get()
+                ->map(function ($item) {
+                    $item->total_sks =
+                        (int) ($item->sks_teori ?? 0) +
+                        (int) ($item->sks_praktek ?? 0) +
+                        (int) ($item->sks_lapangan ?? 0);
+                    return $item;
+                });
+        }if ($periode == 'Genap'){
+            $matakuliah = ModelMatakuliah::where('kode_prodi',$prodi_id)
+                ->whereIn('semester',[2,4,6,8])
+                ->orderBy('semester', 'asc')
+                ->get()
+                ->map(function ($item) {
+                    $item->total_sks =
+                        (int) ($item->sks_teori ?? 0) +
+                        (int) ($item->sks_praktek ?? 0) +
+                        (int) ($item->sks_lapangan ?? 0);
+                    return $item;
+                });
+        }if ($periode == 'Pendek'){
+            $matakuliah = ModelMatakuliah::where('kode_prodi',$prodi_id)
+                ->orderBy('semester', 'asc')
+                ->get()
+                ->map(function ($item) {
+                    $item->total_sks =
+                        (int) ($item->sks_teori ?? 0) +
+                        (int) ($item->sks_praktek ?? 0) +
+                        (int) ($item->sks_lapangan ?? 0);
+                    return $item;
+                });
+        }
+
+
+
+
+        return view('mahasiswa.krs.create',[
+            'matakuliah' => $matakuliah,
+            'tahun_aktif' => $tahun_akademik,
+        ]);
     }
 
     /**
@@ -248,6 +305,7 @@ class KRSController extends Controller
     public function edit($id)
     {
         //
+
     }
 
     /**

@@ -163,12 +163,15 @@ class DashBoardController extends Controller
 
     public function detailPA($id)
     {
-
         $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
         $mhs = ModelMahasiswa::with('prodi_mhs')->where('nim', $id)->first();
        // $smt_mhs = ModelPembayaran::where('nim', $id)->count();
 
-        $khs_smt_lalu = $tahun_aktif->kode - 10;
+        if ($mhs->prodi_id == 15401){
+            $khs_smt_lalu = $tahun_aktif->kode - 9;
+        }else{
+            $khs_smt_lalu = $tahun_aktif->kode - 10;
+        }
 
         $khs_mhs = ModelNilaiMHS::with('nilai_matakuliah_mhs')
             ->where('nim', $id)
@@ -261,7 +264,6 @@ class DashBoardController extends Controller
             //return krs
             'status_krs' => $status_krs,
             'krs_mhs' => $krs_mhs,
-            'status_krs' => $status_krs,
             'pesan' => $pesan,
             'periode' => $periode,
             'tahun_akademik_khs' => $khs_smt_lalu,
