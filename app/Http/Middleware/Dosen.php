@@ -21,7 +21,7 @@ class Dosen
             return redirect('/');
         }
 
-        if (Auth::user()->role == 3) {
+        if (Auth::user()->role == 3 || Auth::user()->role == 6 || Auth::user()->role == 1) {
             return $next($request);
         }else{
             return redirect('/dashboard');

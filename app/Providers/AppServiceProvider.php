@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Gate::define('dosen', function (User $user) {
-            return in_array($user->role, [3]);
+            return in_array($user->role, [1,3,6]);
         });
 
         Gate::define('mahasiswa', function (User $user) {
