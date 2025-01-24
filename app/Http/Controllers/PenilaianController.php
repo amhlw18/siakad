@@ -103,6 +103,20 @@ class PenilaianController extends Controller
                 return response()->json(['errors' => 'Aspek penilaian sudah ada !'], 422);
             }
 
+            $aspek_id = $validasi['aspek_id'];
+            $matakuliah_id = $validasi['matakuliah_id'];
+
+            $validasiInput = ModelAspekPenilaian::where('id',$aspek_id)
+                ->where('matakuliah_id', $matakuliah_id)
+                ->first;
+
+
+            $nilai_aspek = $validasiInput->bobot * 100;
+
+            if ($validasi['nilai'] > $nilai_aspek){
+                return response()->json(['errors' => 'Nilai melebihi bobot aspek penilaian !'], 422);
+            }
+
             ModelNilaiSemester::create($validasi);
             return response()->json(['success' => 'Nilai berhasil disimpan!'], 200);
         } catch (\Illuminate\Validation\ValidationException $e) {
