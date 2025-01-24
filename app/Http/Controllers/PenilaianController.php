@@ -123,7 +123,7 @@ class PenilaianController extends Controller
             return response()->json(['errors' => $e->errors()], 422);
         } catch (\Exception $e) {
             \Log::error('Gagal menyimpan nilai:', ['error' => $e->getMessage()]);
-            return response()->json(['error' => 'Gagal menyimpan nilai, coba lagi!'], 500);
+            return response()->json(['error' => $e], 500);
         }
     }
 
