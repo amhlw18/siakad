@@ -110,12 +110,11 @@ class PenilaianController extends Controller
                 ->where('matakuliah_id', $matakuliah_id)
                 ->first;
 
-
             $nilai_aspek = $validasiInput->bobot;
-
-            if ($validasi['nilai'] > $nilai_aspek){
-                return response()->json(['errors' => 'Nilai melebihi bobot aspek penilaian !'], 422);
-            }
+//
+//            if ($validasi['nilai'] > $nilai_aspek){
+//                return response()->json(['errors' => 'Nilai melebihi bobot aspek penilaian !'], 422);
+//            }
 
             ModelNilaiSemester::create($validasi);
             return response()->json(['success' => 'Nilai berhasil disimpan!'], 200);
