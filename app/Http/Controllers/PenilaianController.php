@@ -106,11 +106,10 @@ class PenilaianController extends Controller
             $aspek_id = $validasi['aspek_id'];
             $matakuliah_id = $validasi['matakuliah_id'];
 
-            $validasiInput = ModelAspekPenilaian::where('id',$aspek_id)
-                ->where('matakuliah_id', $matakuliah_id)
+            $aspek_nilai = ModelAspekPenilaian::where('id',$aspek_id)
                 ->first;
 
-            $nilai_aspek = $validasiInput->bobot;
+            $nilai_aspek = $aspek_nilai->bobot;
 //
 //            if ($validasi['nilai'] > $nilai_aspek){
 //                return response()->json(['errors' => 'Nilai melebihi bobot aspek penilaian !'], 422);
