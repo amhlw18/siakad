@@ -219,41 +219,44 @@ class PenilaianController extends Controller
             ->sum('nilai');
 
 
-//        $nilaiRange = [
-//            'A' => ['range' => [79, 100], 'angka' => 4],
-//            'B' => ['range' => [69, 78], 'angka' => 3],
-//            'C' => ['range' => [56, 67], 'angka' => 2],
-//            'D' => ['range' => [41, 55], 'angka' => 1],
-//            'E' => ['range' => [0, 40], 'angka' => 0],
-//        ];
-//
-//        $nilaiHuruf = null;
-//        $nilaiAngka = null;
-//
-//        foreach ($nilaiRange as $huruf => $data) {
-//            if ($nilai >= $data['range'][0] && $total_nilai <= $data['range'][1]) {
-//                $nilaiHuruf = $huruf;
-//                $nilaiAngka = $data['angka'];
-//                break;
-//            }
-//        }
+        $nilai = $total_nilai;
 
-        if ($total_nilai >=  79 && $total_nilai >= 100 ){
-            $nilai_huruf = 'A';
-            $nilai_angka = '4';
-        }else if ($total_nilai >=  69 && $total_nilai <= 78){
-            $nilai_huruf = 'B';
-            $nilai_angka = '3';
-        }else if ($total_nilai >=  55 && $total_nilai <= 68){
-            $nilai_huruf = 'C';
-            $nilai_angka = '2';
-        }else if ($total_nilai >=  41 && $total_nilai <= 55){
-            $nilai_huruf = 'D';
-            $nilai_angka = '1';
-        }else if ($total_nilai >=  0 && $total_nilai <= 40){
-            $nilai_huruf = 'E';
-            $nilai_angka = '0';
+
+        $nilaiRange = [
+            'A' => ['range' => [79, 100], 'angka' => 4],
+            'B' => ['range' => [69, 78], 'angka' => 3],
+            'C' => ['range' => [56, 67], 'angka' => 2],
+            'D' => ['range' => [41, 55], 'angka' => 1],
+            'E' => ['range' => [0, 40], 'angka' => 0],
+        ];
+
+        $nilai_huruf = null;
+        $nilai_angka = null;
+
+        foreach ($nilaiRange as $huruf => $data) {
+            if ($nilai >= $data['range'][0] && $nilai <= $data['range'][1]) {
+                $nilai_huruf = $huruf;
+                $nilai_angka = $data['angka'];
+                break;
+            }
         }
+
+//        if ($total_nilai >=  79 && $total_nilai >= 100 ){
+//            $nilai_huruf = 'A';
+//            $nilai_angka = '4';
+//        }else if ($total_nilai >=  69 && $total_nilai <= 78){
+//            $nilai_huruf = 'B';
+//            $nilai_angka = '3';
+//        }else if ($total_nilai >=  55 && $total_nilai <= 68){
+//            $nilai_huruf = 'C';
+//            $nilai_angka = '2';
+//        }else if ($total_nilai >=  41 && $total_nilai <= 55){
+//            $nilai_huruf = 'D';
+//            $nilai_angka = '1';
+//        }else if ($total_nilai >=  0 && $total_nilai <= 40){
+//            $nilai_huruf = 'E';
+//            $nilai_angka = '0';
+//        }
 
         $cek_nilai_mhs = ModelNilaiMHS::where('nim', $id)
             ->where('matakuliah_id',$mk)
