@@ -8,6 +8,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            font-size: 8px;
             margin: 8px;
         }
         .header {
