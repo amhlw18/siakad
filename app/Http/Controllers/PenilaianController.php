@@ -107,7 +107,7 @@ class PenilaianController extends Controller
 //            $matakuliah_id = $validasi['matakuliah_id'];
 //
             $aspek_nilai = ModelAspekPenilaian::where('id', $aspek_id)
-                ->first;
+                ->first();
 
             $aspek_nilai = $aspek_nilai->bobot;
 //
