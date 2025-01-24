@@ -32,11 +32,6 @@
                 <i class="fa fa-exclamation-triangle me-2"></i>
                 - {{ $pesan }}
             </div>
-
-            <div class="alert alert-warning d-flex align-items-center" role="alert">
-                <i class="fa fa-exclamation-triangle me-2"></i>
-                - Jika KRS Mahasiswa belum tampil, menandakan bahwa mahasiswa belum mengunci KRS atau mahasiswa belum mengisi KRS.<br>
-            </div>
         @else
             <div class="alert alert-danger d-flex align-items-center" role="alert">
                 <i class="fa fa-exclamation-triangle me-2"></i>
