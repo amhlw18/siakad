@@ -95,6 +95,7 @@ class PenilaianController extends Controller
             $validasiInput = ModelNilaiSemester::where('matakuliah_id', $validasi['matakuliah_id'])
                 ->where('tahun_akademik', $validasi['tahun_akademik'])
                 ->where('aspek_id', $validasi['aspek_id'])
+                >where('nim', $validasi['nim'])
                 ->first();
 
 
