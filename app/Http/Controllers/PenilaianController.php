@@ -251,7 +251,7 @@ class PenilaianController extends Controller
             'jml_aspek' => $jumlah_aspek,
             'jml_nilai' => $jumlah_nilai,
             'nilai_huruf' => $nilai_huruf ?? '-',
-            'nilai_angka' => $nilai_angka,
+            'nilai_angka' => $nilai_angka ?? '0',
             'cek_nilai' => $cek_nilai_mhs,
         ]);
 
