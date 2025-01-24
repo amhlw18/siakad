@@ -111,7 +111,7 @@ class PenilaianController extends Controller
                 ->first;
 
 
-            $nilai_aspek = $validasiInput->bobot * 100;
+            $nilai_aspek = $validasiInput->bobot;
 
             if ($validasi['nilai'] > $nilai_aspek){
                 return response()->json(['errors' => 'Nilai melebihi bobot aspek penilaian !'], 422);
