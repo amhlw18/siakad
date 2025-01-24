@@ -108,6 +108,8 @@ class PenilaianController extends Controller
 //
             $aspek_nilai = ModelAspekPenilaian::find($aspek_id)
                 ->first;
+
+            $aspek_nilai = $aspek_nilai->bobot;
 //
 //            $nilai_aspek = $aspek_nilai->bobot;
 ////
