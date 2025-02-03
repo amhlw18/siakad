@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ModelDetailJadwal;
+use App\Models\ModelKRSMahasiwa;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelNilaiMHS;
 use App\Models\ModelProdi;
@@ -14,6 +16,36 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class PrintController extends Controller
 {
     //
+
+    public function print_absen()
+    {
+        $tahun_akademik = ModelTahunAkademik::where('status', 1)->first();
+        $matakuliah_id = 'MKU101';
+        $prodi_id = 13263;
+
+        $jadwal = ModelDetailJadwal::with('prodi_jadwal','jadwal_matakuliah','dosen')
+            ->where('tahun_akademik',$tahun_akademik->kode)
+            ->where('matakuliah_id', $matakuliah_id)
+            ->where('prodi_id', $prodi_id)
+            ->first();
+
+        $mhs = ModelKRSMahasiwa::with('krs_mhs')
+            ->where('tahun_akademik',20231)
+            ->where('matakuliah_id',$matakuliah_id)
+            ->where('prodi_id', $prodi_id)
+            ->get();
+
+        $tanggal = Carbon::now()->locale('id')->isoFormat('D MMMM YYYY'); // Format tanggal Indonesia
+
+        $pdf = Pdf::loadView('print.absen.absen',[
+            'jadwal' => $jadwal,
+            'mhs' => $mhs,
+            'tahun_aktif' => $tahun_akademik,
+            'tanggal' => $tanggal,
+        ])->setPaper('a4', 'landscape');
+
+        return $pdf->stream();
+    }
 
     public function print_khs(Request $request)
     {

@@ -53,6 +53,8 @@ Route::middleware('auth')->group(function (){
         Route::resource('/dashboard/data-dosen', DosenController::class);
         Route::resource('/dashboard/data-mahasiswa', MahasiswaController::class);
         Route::resource('/dashboard/pengguna', PenggunaController::class);
+
+        Route::get('/print/absen', [PrintController::class,'print_absen']);
     });
     Route::post('/logout-user', [LoginController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [ DashBoardController::class,'index']);
