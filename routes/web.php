@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\AspekPenilaianController;
 use App\Http\Controllers\KHSController;
 use App\Http\Controllers\KRSController;
@@ -54,6 +55,7 @@ Route::middleware('auth')->group(function (){
         Route::resource('/dashboard/data-mahasiswa', MahasiswaController::class);
         Route::resource('/dashboard/pengguna', PenggunaController::class);
 
+        Route::resource('/dashboard/data-absen', AbsenController::class);
         Route::get('/print/absen', [PrintController::class,'print_absen']);
     });
     Route::post('/logout-user', [LoginController::class, 'logout'])->name('logout');
@@ -137,6 +139,8 @@ Route::get('mhs/filter', [MahasiswaController::class, 'filterData'])->name('mhs.
 Route::get('kls/filter', [KelasMahasiswaController::class, 'filterData'])->name('kelas.filter');
 Route::get('kls-mhs/filter', [KelasMahasiswaController::class, 'filterDataKelas'])->name('kelas-mhs.filter');
 Route::get('/get-kelas/{prodiId}', [KelasMahasiswaController::class, 'getKelas'])->name('get.kelas');
+Route::get('/get-matkul/{prodiId}', [AbsenController::class, 'getMatkul'])->name('get.matkul');
+Route::get('krs/filter', [AbsenController::class, 'filterData'])->name('krs.filter');
 
 Route::get('/filter-kls/filter-data', [JadwalController::class, 'filter_data'])->name('get.jadwal');
 Route::get('/krs/filter-data', [KRSController::class, 'filter_data'])->name('get.krs');

@@ -142,14 +142,26 @@
 
                 @can('prodi')
                     <!-- Data Administrasi Menu -->
-                    <li class="nav-item {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal*') || Request::is('dashboard/pa-mhs*') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal*') || Request::is('dashboard/pa-mhs*')   ? 'active' : '' }}">
+                    <li class="nav-item {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal*') || Request::is('dashboard/pa-mhs*') || Request::is('dashboard/data-absen*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal*') || Request::is('dashboard/pa-mhs*') || Request::is('dashboard/data-absen*')  ? 'active' : '' }}">
                             <i class="nav-icon fas fa-clipboard"></i>
                             <p>
                                 Perkuliahan
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
+
+                        @if(auth()->user()->role == 1 || auth()->user()->role == 6)
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/dashboard/data-absen" class="nav-link {{ Request::is('dashboard/data-absen*') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Absen</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        @endif
+
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="/dashboard/kls-mhs" class="nav-link {{ Request::is('dashboard/kls-mhs*') || Request::is('dashboard/data-jadwal/{prodi_id}') ? 'active' : '' }}">
