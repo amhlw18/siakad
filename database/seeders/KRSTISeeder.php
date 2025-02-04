@@ -21,7 +21,6 @@ class KRSTISeeder extends Seeder
         //Angkatan 2022
         $prodi_id = 59201;
 
-
         $tahun_masuk = '2022';
         $semester = '1';
         $tahun_akademik = 20221;
