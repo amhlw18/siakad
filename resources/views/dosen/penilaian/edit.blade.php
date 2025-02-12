@@ -111,7 +111,7 @@
 
                             </td>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $nilai->nilai_aspek->aspek }}</td>
+                            <td>{{ $nilai->nilai_aspek->aspek ?? '' }}</td>
                             <td>{{ $nilai->nilai}}</td>
                         </tr>
                     @endforeach
