@@ -190,8 +190,8 @@ class PenilaianController extends Controller
 
         $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
 
-        $mahasiswa = ModelKelasMahasiswa::with('mhs_kelas_mhs')
-            ->where('kelas_id',$id_kelas)
+        $mahasiswa = ModelKRSMahasiwa::with('krs_mhs')
+            ->where('matakuliah_id',$id)
             ->orderBy('nim', 'asc')
             ->get();
 
