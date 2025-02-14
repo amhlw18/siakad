@@ -190,8 +190,12 @@ class PenilaianController extends Controller
 
         $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
 
+        $dosen = ModelDosen::where('nidn',Auth::user()->user_id)->first();
+
         $mahasiswa = ModelKRSMahasiwa::with('krs_mhs')
             ->where('matakuliah_id',$id)
+            ->where('tahun_akademik', $tahun_aktif->kode)
+            ->where('prodi_id', $dosen->prodi_id)
             ->orderBy('nim', 'asc')
             ->get();
 
