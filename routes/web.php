@@ -141,6 +141,7 @@ Route::get('kls-mhs/filter', [KelasMahasiswaController::class, 'filterDataKelas'
 Route::get('/get-kelas/{prodiId}', [KelasMahasiswaController::class, 'getKelas'])->name('get.kelas');
 Route::get('/get-matkul/{prodiId}', [AbsenController::class, 'getMatkul'])->name('get.matkul');
 Route::get('krs/filter', [AbsenController::class, 'filterData'])->name('krs.filter');
+Route::get('bendahara-mhs/filter', [PembayaranController::class, 'filterData'])->name('bendahara-mhs.filter');
 
 Route::get('/filter-kls/filter-data', [JadwalController::class, 'filter_data'])->name('get.jadwal');
 Route::get('/krs/filter-data', [KRSController::class, 'filter_data'])->name('get.krs');

@@ -31,7 +31,7 @@
                 <h3 class="card-title"> Pembayaran SPP {{$tahun}} {{$smt}} </h3>
             </div>
             <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="tabel" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th></th>
@@ -67,29 +67,29 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Konfirmasi</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p id="pesan"></p>
-                    <form id="editForm">
-                        <input type="hidden" id="editId" name="id">
-                        <input type="hidden" id="editStatus" name ="is_bayar" value="1">
-                    </form>
-                </div>
-                <div class="modal-footer">
+{{--    <!-- Modal -->--}}
+{{--    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">--}}
+{{--        <div class="modal-dialog">--}}
+{{--            <div class="modal-content">--}}
+{{--                <div class="modal-header">--}}
+{{--                    <h5 class="modal-title" id="editModalLabel">Konfirmasi</h5>--}}
+{{--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--}}
+{{--                </div>--}}
+{{--                <div class="modal-body">--}}
+{{--                    <p id="pesan"></p>--}}
+{{--                    <form id="editForm">--}}
+{{--                        <input type="hidden" id="editId" name="id">--}}
+{{--                        <input type="hidden" id="editStatus" name ="is_bayar" value="1">--}}
+{{--                    </form>--}}
+{{--                </div>--}}
+{{--                <div class="modal-footer">--}}
 
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="saveChanges">Proses</button>
-                </div>
-            </div>
-        </div>
-    </div>
+{{--                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>--}}
+{{--                    <button type="button" class="btn btn-primary" id="saveChanges">Proses</button>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {

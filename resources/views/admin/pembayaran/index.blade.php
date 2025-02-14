@@ -27,24 +27,23 @@
             <a href="/dashboard/pembayaran/create" class="btn btn-primary mb-2"><span data-feather="plus"></span>Transaksi Pembayaran SPP</a>
 
             <!-- Filter Section -->
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <label for="filterProdi">Program Studi</label>
-                    <select id="filterProdi" class="form-control">
-                        <option value="">Semua Prodi</option>
-                        @foreach ($prodis as $prodi)
-                            <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
             <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Master Data Riwayat Pembayaran SPP</h3>
             </div>
             <div class="card-body">
-                <table id="tablePembayaran" class="table table-bordered table-striped">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="filterProdi">Filter Program Studi:</label>
+                        <select id="filterProdi" class="form-control">
+                            <option value="">-- Semua Prodi --</option>
+                            @foreach($prodis as $prodi)
+                                <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <table id="tabel5" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th></th>
@@ -82,45 +81,30 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            //const filterProdi = document.getElementById('filterProdi');
-            const tablePembayaran = $('#tablePembayaran'); // Gunakan jQuery untuk DataTables
+        $(document).ready(function () {
+            $('#tabel5').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('bendahara-mhs.filter') }}",
+                    type: "GET",
+                    data: function (d) {
+                        d.prodi = $('#filterProdi').val();
+                    }
+                },
+                columns: [
+                    { data: 'action', name: 'action', orderable: false, searchable: false },
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'nim', name: 'nim' },
+                    { data: 'nama_mhs', name: 'nama_mhs' },
+                    { data: 'nama_prodi', name: 'nama_prodi' },
+                ]
+            });
 
-            // Inisialisasi DataTables
-            let dataTable = tablePembayaran.DataTable();
-
-            function fetchFilteredData() {
-                //const tahun = filterTahun.value;
-                const prodi = filterProdi.value;
-
-                fetch(`/dashboard/data-pembayaran/filter?prodi=${prodi}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Clear existing table data
-                        dataTable.clear();
-
-                        // Add new rows
-                        data.forEach((item, index) => {
-                            dataTable.row.add([
-                                `<a href="/dashboard/pembayaran/{{$mhs->nim}}"
-                                   class="btn btn-success"
-                                   data-id="{{ $mhs->nim }}">
-                                    <i class="bi bi-eye"></i>
-                                </a>`,
-                                index + 1,
-                                item.nim,
-                                item.nama_mhs || '-',
-                                item.nama_prodi || '-',
-                            ]);
-                        });
-
-                        // Redraw table
-                        dataTable.draw();
-                    });
-            }
-
-            //filterTahun.addEventListener('change', fetchFilteredData);
-            filterProdi.addEventListener('change', fetchFilteredData);
+            // Refresh DataTables on filter change
+            $('#filterProdi').on('change', function () {
+                $('#tabel5').DataTable().ajax.reload();
+            });
         });
 
     </script>

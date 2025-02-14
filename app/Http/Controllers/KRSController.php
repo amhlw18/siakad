@@ -255,8 +255,6 @@ class KRSController extends Controller
                 'krs' => $krs,
             ]);
         }
-
-
     }
 
     public function filter_data(Request $request)

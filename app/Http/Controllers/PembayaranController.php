@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ModelKelasMahasiswa;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelPembayaran;
 use App\Models\ModelProdi;
 use App\Models\ModelTahunAkademik;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Yajra\DataTables\Facades\DataTables;
 
 class PembayaranController extends Controller
 {
@@ -22,6 +25,38 @@ class PembayaranController extends Controller
             'mahasiswa' => ModelMahasiswa::with('prodi_mhs')->where('status','Aktif')->get(),
             'prodis' => ModelProdi::get()
         ]);
+    }
+
+    public function filterData(Request $request)
+    {
+        $query = ModelMahasiswa::with('prodi_mhs')
+            ->where('status', 'Aktif')
+            ->orderBy('nim', 'asc');
+
+        if ($request->prodi) {
+            $query->where('prodi_id', $request->prodi)->orderBY('nim','asc');
+        }
+
+
+        return DataTables::of($query)
+            ->addIndexColumn() // Menambahkan nomor index
+            ->addColumn('action', function ($row) {
+                return '
+
+                                    <a href="/dashboard/pembayaran/'. $row->nim . '"
+                                       class="btn btn-success btn-hapus"
+                                       data-id="' .$row->nim. '">
+                                       <i class="bi bi-eye"></i>
+                                    </a>
+
+
+        ';
+            })
+            ->addColumn('nama_prodi', function ($row) {
+                return $row->prodi_mhs->nama_prodi ?? '-';
+            })
+            ->rawColumns(['action']) // Mengizinkan kolom 'action' menggunakan HTML
+            ->make(true);
     }
 
 
@@ -120,6 +155,7 @@ class PembayaranController extends Controller
 
         $mahasiswa = $pembayarans->first()->pembayaran_mhs; // Ambil data mahasiswa dari relasi
         $prodi = $pembayarans->first()->prodi_pembayaran; // Ambil data prodi dari relasi
+
 
         return view('admin.pembayaran.show', [
             'pembayarans' => $pembayarans,
