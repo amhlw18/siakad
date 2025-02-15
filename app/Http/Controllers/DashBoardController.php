@@ -163,6 +163,7 @@ class DashBoardController extends Controller
 
     public function detailPA($id)
     {
+        $id = decrypt($id);
         $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
         $mhs = ModelMahasiswa::with('prodi_mhs')->where('nim', $id)->first();
        // $smt_mhs = ModelPembayaran::where('nim', $id)->count();
