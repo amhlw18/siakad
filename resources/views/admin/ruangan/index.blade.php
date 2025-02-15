@@ -52,12 +52,12 @@
                         <tr>
                             <td>
 
-                                <form action="/dashboard/ruangan/{{ $ruangan->id }}" class="inline-block"
+                                <form action="/dashboard/ruangan/{{ encrypt($ruangan->id)  }}" class="inline-block"
                                       method="post">
                                     @method('DELETE')
                                     @csrf
 
-                                    <a href="/dashboard/ruangan/{{ $ruangan->id }}/edit"
+                                    <a href="/dashboard/ruangan/{{ encrypt($ruangan->id)  }}/edit"
                                        class="btn btn-warning"><i class="bi bi-pencil"></i></a>
 
                                     <button class="btn btn-danger"

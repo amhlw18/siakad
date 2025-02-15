@@ -56,7 +56,7 @@
                     @foreach ($prodis as $prodi)
                         <tr>
                             <td>
-                                <a href="/dashboard/data-jadwal/{{$prodi->kode_prodi}}"
+                                <a href="/dashboard/data-jadwal/{{encrypt($prodi->kode_prodi) }}"
                                    class="btn btn-success"
                                    data-id="{{ $prodi->kode_prodi }}">
                                     <i class="bi bi-eye"></i>

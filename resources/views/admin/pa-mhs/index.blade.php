@@ -57,7 +57,7 @@
                     @foreach ($dosens as $dosen)
                         <tr>
                             <td>
-                                <a href="/dashboard/pa-mhs/{{$dosen->nidn}}"
+                                <a href="/dashboard/pa-mhs/{{ encrypt($dosen->nidn) }}"
                                    class="btn btn-success"
                                    data-id="">
                                     <i class="bi bi-eye"></i>

@@ -226,7 +226,7 @@
                         @foreach ($mahasiswa as $mhs)
                             <tr>
                                 <td>
-                                    <a href="/dashboard/khs-mhs/{{$mhs->nim}}"
+                                    <a href="/dashboard/khs-mhs/{{encrypt($mhs->nim)}}"
                                        class="btn btn-success"
                                        data-id="">
                                         <i class="bi bi-eye"></i>

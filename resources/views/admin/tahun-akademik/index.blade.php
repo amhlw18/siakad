@@ -62,12 +62,12 @@
                             <tr>
                                 <td>
 
-                                    <form action="/dashboard/tahun-akademik/{{$akademik->id}}" class="inline-block"
+                                    <form action="/dashboard/tahun-akademik/{{encrypt($akademik->id) }}" class="inline-block"
                                           method="post">
                                         @method('DELETE')
                                         @csrf
 
-                                        <a href="/dashboard/tahun-akademik/{{ $akademik->id }}/edit"
+                                        <a href="/dashboard/tahun-akademik/{{ encrypt($akademik->id)  }}/edit"
                                            class="btn btn-warning"><i class="bi bi-pencil"></i></a>
 
                                         <button class="btn btn-danger"

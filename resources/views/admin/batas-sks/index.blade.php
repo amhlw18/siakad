@@ -52,12 +52,12 @@
                         <tr>
 
                             <td>
-                                <form action="/dashboard/batas-sks/{{ $batas->id }}" class="inline-block"
+                                <form action="/dashboard/batas-sks/{{ encrypt($batas->id)  }}" class="inline-block"
                                       method="post">
                                     @method('DELETE')
                                     @csrf
 
-                                    <a href="/dashboard/batas-sks/{{ $batas->id }}/edit"
+                                    <a href="/dashboard/batas-sks/{{ encrypt($batas->id)  }}/edit"
                                        class="btn btn-warning"> <i class="bi bi-pencil"></i></a>
 
                                     <button class="btn btn-danger"

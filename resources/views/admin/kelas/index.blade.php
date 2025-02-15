@@ -52,12 +52,12 @@
                         <tr>
                             <td>
 
-                                <form action="/dashboard/kelas/{{ $kelas->id }}" class="inline-block"
+                                <form action="/dashboard/kelas/{{ encrypt($kelas->id)  }}" class="inline-block"
                                       method="post">
                                     @method('DELETE')
                                     @csrf
 
-                                    <a href="/dashboard/kelas/{{ $kelas->id }}/edit"
+                                    <a href="/dashboard/kelas/{{ encrypt($kelas->id)  }}/edit"
                                        class="btn btn-warning"><i class="bi bi-pencil"></i></a>
 
                                     <button class="btn btn-danger"

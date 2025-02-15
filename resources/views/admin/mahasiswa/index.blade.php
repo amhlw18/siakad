@@ -72,12 +72,12 @@
                     @foreach ($mahasiswa as $mhs)
                         <tr>
                             <td>
-                                <form action="/dashboard/data-mahasiswa/{{ $mhs->nim }}" class="inline-block"
+                                <form action="/dashboard/data-mahasiswa/{{ encrypt($mhs->nim)  }}" class="inline-block"
                                       method="post">
                                     @method('DELETE')
                                     @csrf
 
-                                    <a href="/dashboard/data-mahasiswa/{{ $mhs->nim }}/edit"
+                                    <a href="/dashboard/data-mahasiswa/{{ encrypt($mhs->nim)  }}/edit"
                                        class="btn btn-warning"><i class="bi bi-pencil"></i></a>
 
                                     <button class="btn btn-danger"

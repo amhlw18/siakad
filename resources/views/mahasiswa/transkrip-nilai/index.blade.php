@@ -69,7 +69,7 @@
                         @foreach ($mahasiswa as $mhs)
                             <tr>
                                 <td>
-                                    <a href="/dashboard/transkrip-nilai/{{$mhs->nim}}"
+                                    <a href="/dashboard/transkrip-nilai/{{encrypt($mhs->nim)}}"
                                        class="btn btn-success"
                                        data-id="">
                                         <i class="bi bi-eye"></i>

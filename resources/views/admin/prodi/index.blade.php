@@ -60,12 +60,12 @@
                             <tr>
                                 <td>
 
-                                    <form action="/dashboard/prodi/{{ $prodi->kode_prodi }}" class="inline-block"
+                                    <form action="/dashboard/prodi/{{ encrypt($prodi->kode_prodi)  }}" class="inline-block"
                                           method="post">
                                         @method('DELETE')
                                         @csrf
 
-                                        <a href="/dashboard/prodi/{{ $prodi->kode_prodi }}/edit"
+                                        <a href="/dashboard/prodi/{{ encrypt($prodi->kode_prodi)  }}/edit"
                                            class="btn btn-warning"><i class="bi bi-pencil"></i></a>
 
 {{--                                        <button class="btn btn-danger"--}}

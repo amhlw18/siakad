@@ -57,7 +57,7 @@
                     @foreach ($matakuliah as $matkul)
                         <tr>
                             <td>
-                                <a href="/dashboard/aspek-nilai/{{$matkul->jadwal_matakuliah->kode_mk}}"
+                                <a href="/dashboard/aspek-nilai/{{encrypt($matkul->jadwal_matakuliah->kode_mk) }}"
                                    class="btn btn-success"
                                    data-id="{{ $matkul->kode_mk }}">
                                     <i class="bi bi-eye"></i>

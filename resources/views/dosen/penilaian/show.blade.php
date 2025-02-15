@@ -68,7 +68,7 @@
                                         <i class="bi bi-plus"></i>
                                     </a>
 
-                                    <a href="/dashboard/nilai-semester/{{ $mhs->nim }}/{{$matkul->kode_mk}}/edit"
+                                    <a href="/dashboard/nilai-semester/{{ encrypt ($mhs->nim) }}/{{ encrypt($matkul->kode_mk)}}/edit"
                                        class="btn btn-success">
                                         <i class="bi bi-eye"></i>
                                     </a>

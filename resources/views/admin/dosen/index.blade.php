@@ -51,12 +51,12 @@
                         <tr>
                             <td>
 
-                                <form action="/dashboard/data-dosen/{{ $dosen->nidn }}" class="inline-block"
+                                <form action="/dashboard/data-dosen/{{ encrypt($dosen->nidn)  }}" class="inline-block"
                                       method="post">
                                     @method('DELETE')
                                     @csrf
 
-                                    <a href="/dashboard/data-dosen/{{ $dosen->nidn }}/edit"
+                                    <a href="/dashboard/data-dosen/{{ encrypt($dosen->nidn) }}/edit"
                                        class="btn btn-warning"><i class="bi bi-pencil"></i></a>
 
                                     <button class="btn btn-danger"

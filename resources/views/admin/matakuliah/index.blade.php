@@ -73,12 +73,12 @@
                             <tr>
                                 <td>
 
-                                    <form action="/dashboard/matakuliah/{{ $matkul->kode_mk }}" class="inline-block"
+                                    <form action="/dashboard/matakuliah/{{ encrypt($matkul->kode_mk)}}" class="inline-block"
                                           method="post">
                                         @method('DELETE')
                                         @csrf
 
-                                        <a href="/dashboard/matakuliah/{{ $matkul->kode_mk }}/edit"
+                                        <a href="/dashboard/matakuliah/{{ encrypt($matkul->kode_mk)}}/edit"
                                            class="btn btn-warning"><i class="bi bi-pencil"></i></a>
 
                                         <button class="btn btn-danger"
