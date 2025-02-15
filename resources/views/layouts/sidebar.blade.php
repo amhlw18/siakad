@@ -63,7 +63,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/dashboard" class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}">
+                            <a href="/dashboard" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Dashboard</p>
                             </a>

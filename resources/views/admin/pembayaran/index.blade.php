@@ -57,7 +57,7 @@
                     @foreach ($mahasiswa as $mhs)
                         <tr>
                             <td>
-                                <a href="/dashboard/pembayaran/{{ encrypt($mhs->nim) }}"
+                                <a href="/dashboard/pembayaran/{{ urlencode(encrypt($mhs->nim)) }}"
                                    class="btn btn-success"
                                    data-id="{{ $mhs->nim }}">
                                     <i class="bi bi-eye"></i>

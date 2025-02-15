@@ -43,7 +43,7 @@ class PembayaranController extends Controller
             ->addColumn('action', function ($row) {
                 return '
 
-                                    <a href="/dashboard/pembayaran/'. $row->nim . '"
+                                    <a href="/dashboard/pembayaran/'. encrypt($row->nim)  . '"
                                        class="btn btn-success btn-hapus"
                                        data-id="' .$row->nim. '">
                                        <i class="bi bi-eye"></i>
@@ -150,7 +150,7 @@ class PembayaranController extends Controller
     public function show($id)
     {
         //
-        $id =decrypt($id);
+        $id = decrypt(urldecode($id));
         $pembayarans = ModelPembayaran::with(['pembayaran_mhs', 'prodi_pembayaran','tahun_akademik_pembayaran'])->where('nim', $id)
             ->orderBy('id', 'desc')->get();
 
@@ -175,6 +175,7 @@ class PembayaranController extends Controller
      */
     public function edit($nim)
     {
+        $nim = decrypt($nim);
 //        $mahasiswa = Mahasiswa::with('prodi_mhs')->where('nim', $nim)->first();
 //
 //        if (!$mahasiswa) {
@@ -233,12 +234,23 @@ class PembayaranController extends Controller
     public function destroy($id)
     {
 
-        $id =decrypt($id);
-        $tahun_akademik = ModelTahunAkademik::where('status', 1)->first();
-        $data = ModelPembayaran::where('nim',$id)
-            ->where('tahun_akademik', $tahun_akademik->id)->first();
+        try {
 
-        $data->delete();
-        return response()->json(['success' => 'Data berhasil diperbarui']);
+            //$tahun_akademik = ModelTahunAkademik::where('status', 1)->first();
+            $data = ModelPembayaran::where('id',$id)->first();
+
+            $data->delete();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Mahasiswa berhasil dihapus dari kelas.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
+            ], 500);
+        }
+
     }
 }

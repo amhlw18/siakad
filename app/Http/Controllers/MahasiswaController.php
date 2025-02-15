@@ -71,10 +71,10 @@ class MahasiswaController extends Controller
             ->addIndexColumn() // Menambahkan nomor index
             ->addColumn('action', function ($row) {
                 return '
-            <form action="/dashboard/data-mahasiswa/' . $row->nim . '" method="post" style="display:inline;">
+            <form action="/dashboard/data-mahasiswa/' . encrypt($row->nim)  . '" method="post" style="display:inline;">
                 ' . csrf_field() . '
                 <input type="hidden" name="_method" value="DELETE">
-                <a href="/dashboard/data-mahasiswa/' . $row->nim . '/edit" class="btn btn-warning">
+                <a href="/dashboard/data-mahasiswa/' . encrypt($row->nim) . '/edit" class="btn btn-warning">
                     <i class="bi bi-pencil"></i>
                 </a>
                 <button type="submit" class="btn btn-danger" onclick="return confirm(\'Yakin akan menghapus?\')">

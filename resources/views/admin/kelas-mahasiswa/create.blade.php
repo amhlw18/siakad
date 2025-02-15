@@ -192,44 +192,6 @@
                 nimInput.value = id;
 
                 const formData = new FormData(form);
-                //const nidn = document.getElementById('nidn').value;
-
-                // const tablePembayaran = $('#tabel'); // Gunakan jQuery untuk DataTables
-                //
-                // // Inisialisasi DataTables
-                // let dataTable = tablePembayaran.DataTable();
-                //
-                // function fetchFilteredData() {
-                //
-                //     fetch(`/dashboard/pa-mhss/filter?nidn=${nidn}`)
-                //         .then(response => response.json())
-                //         .then(data => {
-                //             // Clear existing table data
-                //             //console.log(data);
-                //             dataTable.clear();
-                //
-                //             // Add new rows
-                //             data.forEach((item, index) => {
-                //                 dataTable.row.add([
-                //                     `
-                //                 <a href=""
-                //                    class="btn btn-danger"
-                //                    data-id="${item.id}">
-                //                     <i class="bi bi-trash"></i>
-                //                 </a>
-                //                 `,
-                //                     index + 1,
-                //                     item.nim || '-',
-                //                     item.nama || '-',
-                //                     item.angkatan || '',
-                //                 ]);
-                //             });
-                //
-                //             // Redraw table
-                //
-                //             dataTable.draw();
-                //         });
-                // }
 
                 Swal.fire({
                     title: 'Konfirmasi',

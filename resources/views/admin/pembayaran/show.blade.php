@@ -63,7 +63,7 @@
                                     </a>
                                 @else
                                     <a href=""
-                                       class="btn btn-danger btn-hapus"
+                                       class="btn btn-danger btn-hapus disabled"
                                        data-id="{{$pembayaran->id}}">
                                         <i class="bi bi-trash"></i>
                                     </a>
@@ -82,74 +82,52 @@
         </div>
     </div>
 
-{{--    <!-- Modal -->--}}
-{{--    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">--}}
-{{--        <div class="modal-dialog">--}}
-{{--            <div class="modal-content">--}}
-{{--                <div class="modal-header">--}}
-{{--                    <h5 class="modal-title" id="editModalLabel">Konfirmasi</h5>--}}
-{{--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--}}
-{{--                </div>--}}
-{{--                <div class="modal-body">--}}
-{{--                    <p id="pesan"></p>--}}
-{{--                    <form id="editForm">--}}
-{{--                        <input type="hidden" id="editId" name="id">--}}
-{{--                        <input type="hidden" id="editStatus" name ="is_bayar" value="0">--}}
-{{--                    </form>--}}
-{{--                </div>--}}
-{{--                <div class="modal-footer">--}}
-
-{{--                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>--}}
-{{--                    <button type="button" class="btn btn-primary" id="saveChanges">Proses</button>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
 
 
-{{--    <script>--}}
-{{--        document.querySelector('#tabel').addEventListener('click', (e) => {--}}
-{{--            if (e.target.closest('.btn-hapus')) {--}}
-{{--                e.preventDefault();--}}
+    <script>
+        document.querySelector('#tabel').addEventListener('click', (e) => {
+            if (e.target.closest('.btn-hapus')) {
+                e.preventDefault();
 
-{{--                const button = e.target.closest('.btn-hapus');--}}
-{{--                const id = button.getAttribute('data-id'); // Ambil data-id dari tombol--}}
-{{--                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;--}}
+                const button = e.target.closest('.btn-hapus');
+                const id = button.getAttribute('data-id'); // Ambil data-id dari tombol
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-{{--                Swal.fire({--}}
-{{--                    title: 'Konfirmasi',--}}
-{{--                    text: 'Anda yakin menghapus mahasiswa dari kelas ?',--}}
-{{--                    icon: 'warning',--}}
-{{--                    showCancelButton: true,--}}
-{{--                    confirmButtonColor: '#3085d6',--}}
-{{--                    cancelButtonColor: '#d33',--}}
-{{--                    confirmButtonText: 'Ya, hapus!',--}}
-{{--                    cancelButtonText: 'Batal',--}}
-{{--                }).then((result) => {--}}
-{{--                    if (result.isConfirmed) {--}}
-{{--                        fetch(`/dashboard/kls-mhs/${id}`, {--}}
-{{--                            method: 'DELETE',--}}
-{{--                            headers: {--}}
-{{--                                'X-CSRF-TOKEN': csrfToken,--}}
-{{--                                'Accept': 'application/json',--}}
-{{--                            },--}}
-{{--                        })--}}
-{{--                            .then(response => response.json())--}}
-{{--                            .then(data => {--}}
-{{--                                if (data.status === 'error') {--}}
-{{--                                    Swal.fire('Error!', data.message, 'error');--}}
-{{--                                } else {--}}
-{{--                                    Swal.fire('Berhasil!', data.message, 'success')--}}
-{{--                                        .then(() => location.reload());--}}
-{{--                                }--}}
-{{--                            })--}}
-{{--                            .catch(error => {--}}
-{{--                                console.error('Error:', error);--}}
-{{--                                Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');--}}
-{{--                            });--}}
-{{--                    }--}}
-{{--                });--}}
-{{--            }--}}
-{{--        });--}}
-{{--    </script>--}}
+                console.log(id);
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Anda yakin menghapus pembayaran mahasiswa ?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/dashboard/pembayaran/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Accept': 'application/json',
+                            },
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'error') {
+                                    Swal.fire('Error!', data.message, 'error');
+                                } else {
+                                    Swal.fire('Berhasil!', data.message, 'success')
+                                        .then(() => location.reload());
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');
+                            });
+                    }
+                });
+            }
+        });
+    </script>
 @endsection
