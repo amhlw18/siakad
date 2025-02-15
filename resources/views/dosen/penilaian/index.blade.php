@@ -48,7 +48,7 @@
                     @foreach ($matakuliah as $matkul)
                         <tr>
                             <td>
-                                <a href="/dashboard/nilai-semester/{{$matkul->matakuliah_id}}/{{$matkul->prodi_jadwal->kode_prodi ?? '-'}}"
+                                <a href="/dashboard/nilai-semester/{{$matkul->matakuliah_id}}/{{encrypt($matkul->prodi_jadwal->kode_prodi) ?? '-'}}"
                                    class="btn btn-success"
                                    data-id="">
                                     <i class="bi bi-eye"></i>
