@@ -268,7 +268,7 @@ class JadwalController extends Controller
      */
     public function show($id)
     {
-
+        $id =decrypt($id);
         $prodi = ModelProdi::where('kode_prodi',$id)->first();
         $tahun_akademik = ModelTahunAkademik::where('status',1)->first();
 

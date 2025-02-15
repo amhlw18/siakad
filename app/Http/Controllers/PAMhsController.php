@@ -116,6 +116,7 @@ class PAMhsController extends Controller
     public function show($id)
     {
         //
+        $id =decrypt($id);
         if (Auth::user()->role == 1){
             $pa = ModelPAMahasiswa::with('pa_prodi','pa_dosen','pa_mhs')
                 ->where('nidn', $id)

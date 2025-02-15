@@ -222,6 +222,7 @@ class KRSController extends Controller
     public function show($id)
     {
         //
+        $id =decrypt($id);
         if (Auth::user()->role == 1 || Auth::user()->role == 5 || Auth::user()->role == 6){
 
             $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();

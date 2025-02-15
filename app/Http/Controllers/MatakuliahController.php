@@ -136,6 +136,7 @@ class MatakuliahController extends Controller
     public function edit($id)
     {
 
+        $id =decrypt($id);
         return view('admin.matakuliah.edit',[
             'kurikulums' => ModelKurikulum::all(),
             'matkul' => ModelMatakuliah::where('kode_mk', $id)->first(),
@@ -186,6 +187,7 @@ class MatakuliahController extends Controller
     public function destroy($id)
     {
         //
+        $id =decrypt($id);
         $data = ModelMatakuliah::where('kode_mk',$id)->first();
 
         $data->delete();

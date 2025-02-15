@@ -92,6 +92,7 @@ class DosenController extends Controller
      */
     public function edit($id)
     {
+        $id =decrypt($id);
        $dosen = ModelDosen::where('nidn',$id)->first();
 
        //dd($dosen->tgl_lahir);
@@ -150,6 +151,7 @@ class DosenController extends Controller
     public function destroy($id)
     {
         //
+        $id =decrypt($id);
         $data = ModelDosen::where('nidn',$id)->first();
 
         $data->delete();

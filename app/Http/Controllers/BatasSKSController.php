@@ -82,6 +82,7 @@ class BatasSKSController extends Controller
     public function edit($id)
     {
         //
+        $id = decrypt($id);
         return view('admin.batas-sks.edit',[
             'batas' => ModelBatasSKS::where('id',$id)->first(),
             'prodis' => ModelProdi::get()
@@ -124,6 +125,7 @@ class BatasSKSController extends Controller
     public function destroy($id)
     {
         //
+        $id = decrypt($id);
         $data = ModelBatasSKS::where('id',$id)->first();
 
         $data->delete();

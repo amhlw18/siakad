@@ -77,6 +77,7 @@ class RuanganController extends Controller
     public function edit($id)
     {
         //
+        $id =decrypt($id);
         return view('admin.ruangan.edit',[
             'ruangan' => ModelRuangan::where('id',$id)->first(),
             'prodis' => ModelProdi::get()
@@ -117,6 +118,7 @@ class RuanganController extends Controller
     {
         //
         //
+        $id =decrypt($id);
         $data = ModelRuangan::where('id',$id)->first();
 
         $data->delete();

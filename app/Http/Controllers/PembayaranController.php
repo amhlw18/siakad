@@ -150,6 +150,7 @@ class PembayaranController extends Controller
     public function show($id)
     {
         //
+        $id =decrypt($id);
         $pembayarans = ModelPembayaran::with(['pembayaran_mhs', 'prodi_pembayaran','tahun_akademik_pembayaran'])->where('nim', $id)
             ->orderBy('id', 'desc')->get();
 
@@ -232,6 +233,7 @@ class PembayaranController extends Controller
     public function destroy($id)
     {
 
+        $id =decrypt($id);
         $tahun_akademik = ModelTahunAkademik::where('status', 1)->first();
         $data = ModelPembayaran::where('nim',$id)
             ->where('tahun_akademik', $tahun_akademik->id)->first();

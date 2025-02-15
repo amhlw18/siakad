@@ -142,6 +142,7 @@ class MahasiswaController extends Controller
     public function edit($id)
     {
         //
+        $id =decrypt($id);
         return view('admin.mahasiswa.edit',[
             'mhs' => ModelMahasiswa::where('nim',$id)->first(),
             'prodis' => ModelProdi::get(),
@@ -196,6 +197,7 @@ class MahasiswaController extends Controller
     {
         //
         //
+        $id =decrypt($id);
         $data = ModelMahasiswa::where('nim',$id)->first();
 
         $data->delete();

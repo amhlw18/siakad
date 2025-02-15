@@ -170,6 +170,7 @@ class KHSController extends Controller
     public function show($id)
     {
         //
+        $id =decrypt($id);
         if (Auth::user()->role == 1 || Auth::user()->role == 5 || Auth::user()->role == 6){
             $tanggalSekarang = Carbon::today();
 

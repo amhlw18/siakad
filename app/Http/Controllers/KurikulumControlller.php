@@ -28,7 +28,7 @@ class KurikulumControlller extends Controller
     public function create()
     {
         return view('admin.kurikulum.create',[
-            'tahun_akademis' => ModelTahunAkademik::all() 
+            'tahun_akademis' => ModelTahunAkademik::all()
         ]);
     }
 
@@ -75,6 +75,7 @@ class KurikulumControlller extends Controller
     public function edit($id)
     {
         //
+        $id =decrypt($id);
         $kurikulum = ModelKurikulum::where('kode_kurikulum', $id)->first();
         $tahun_akademik = ModelTahunAkademik::all();
         return view('admin.kurikulum.edit',[
@@ -101,12 +102,12 @@ class KurikulumControlller extends Controller
             'jumlah_sks' => 'required|integer',
             'tahun_akademik_id' => 'required|integer',
         ]);
-    
+
         // Defaultkan status ke 0 jika checkbox tidak dicentang
         $validatedData['status'] = $request->has('status') ? 1 : 0;
-    
+
         ModelKurikulum::where('kode_kurikulum', $kode_kurikulum)->update($validatedData);
-    
+
         return redirect('/dashboard/kurikulum')->with('success', 'Data kurikulum berhasil diubah.');
     }
 
@@ -118,8 +119,9 @@ class KurikulumControlller extends Controller
      */
     public function destroy($id)
     {
+        $id =decrypt($id);
         $data = ModelKurikulum::where('kode_kurikulum',$id)->first();
-        
+
         $data->delete();
 
         return redirect('/dashboard/kurikulum')->with('success', 'Data kurikulum berhasil dihapus.');

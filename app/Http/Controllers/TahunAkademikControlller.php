@@ -91,6 +91,7 @@ class TahunAkademikControlller extends Controller
      */
     public function edit($id)
     {
+        $id =decrypt($id);
          $akademik = ModelTahunAkademik::where('id', $id)->first();
          return view('admin.tahun-akademik.edit',[
             'akademik' => $akademik,
@@ -158,6 +159,7 @@ class TahunAkademikControlller extends Controller
      */
     public function destroy($id)
     {
+        $id =decrypt($id);
         $data = ModelTahunAkademik::where('id', $id)->first();
 
         $data->delete();
