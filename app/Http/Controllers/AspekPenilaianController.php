@@ -140,6 +140,7 @@ class AspekPenilaianController extends Controller
      */
     public function show($id)
     {
+        $id = decrypt($id);
         $matakuliah_id = ModelMatakuliah::where('kode_mk', $id)->first();
 
         $aspek_nilai = ModelAspekPenilaian::with('aspek_penilaian')
