@@ -192,6 +192,8 @@ class PenilaianController extends Controller
 
         $dosen = ModelDosen::where('nidn',Auth::user()->user_id)->first();
 
+
+
         $mahasiswa = ModelKRSMahasiwa::with('krs_mhs')
             ->where('matakuliah_id',$id)
             ->where('tahun_akademik', $tahun_aktif->kode)
