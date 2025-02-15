@@ -151,7 +151,7 @@ class PenilaianController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id,$id_kelas)
+    public function show($id,$id_prodi)
     {
         $tanggalSekarang = Carbon::today();
 
@@ -192,14 +192,22 @@ class PenilaianController extends Controller
 
         $dosen = ModelDosen::where('nidn',Auth::user()->user_id)->first();
 
+        if ($id_prodi == $dosen->prodi_id){
+            $mahasiswa = ModelKRSMahasiwa::with('krs_mhs')
+                ->where('matakuliah_id',$id)
+                ->where('tahun_akademik', $tahun_aktif->kode)
+                ->where('prodi_id', $dosen->prodi_id)
+                ->orderBy('nim', 'asc')
+                ->get();
+        }else{
+            $mahasiswa = ModelKRSMahasiwa::with('krs_mhs')
+                ->where('matakuliah_id',$id)
+                ->where('tahun_akademik', $tahun_aktif->kode)
+                ->orderBy('nim', 'asc')
+                ->get();
+        }
 
 
-        $mahasiswa = ModelKRSMahasiwa::with('krs_mhs')
-            ->where('matakuliah_id',$id)
-            ->where('tahun_akademik', $tahun_aktif->kode)
-            ->where('prodi_id', $dosen->prodi_id)
-            ->orderBy('nim', 'asc')
-            ->get();
 
         $aspek_nilai = ModelAspekPenilaian::where('matakuliah_id', $id)
             ->where('nidn', Auth::user()->user_id)
