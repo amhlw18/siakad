@@ -372,7 +372,7 @@ Dashboard
                     @foreach($pa as $item)
                         <tr>
                             <td>
-                                <a href="/dashboard/dosen/detail-pa/{{$item->nim}}"
+                                <a href="/dashboard/dosen/detail-pa/{{ encrypt($item->nim) }}"
                                    class="btn btn-success"
                                    data-id="{{ $item->nim }}">
                                     <i class="bi bi-eye"></i>
