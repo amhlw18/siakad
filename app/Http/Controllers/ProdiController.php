@@ -76,6 +76,7 @@ class ProdiController extends Controller
      */
     public function edit($id)
     {
+        $id = decrypt($id);
         return view('admin.prodi.edit',[
             'prodi' => ModelProdi::where('kode_prodi', $id)->first(),
             'dosens' => ModelDosen::all()

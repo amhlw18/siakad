@@ -78,7 +78,7 @@
                                         @method('DELETE')
                                         @csrf
 
-                                        <a href="/dashboard/matakuliah/{{ encrypt($matkul->kode_mk)}}/edit"
+                                        <a href="/dashboard/matakuliah/{{ encrypt($matkul->kode_mk) }}/edit"
                                            class="btn btn-warning"><i class="bi bi-pencil"></i></a>
 
                                         <button class="btn btn-danger"

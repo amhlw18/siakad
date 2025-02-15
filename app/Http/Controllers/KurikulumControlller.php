@@ -75,7 +75,7 @@ class KurikulumControlller extends Controller
     public function edit($id)
     {
         //
-        $id =decrypt($id);
+        //$id =decrypt($id);
         $kurikulum = ModelKurikulum::where('kode_kurikulum', $id)->first();
         $tahun_akademik = ModelTahunAkademik::all();
         return view('admin.kurikulum.edit',[
@@ -119,7 +119,7 @@ class KurikulumControlller extends Controller
      */
     public function destroy($id)
     {
-        $id =decrypt($id);
+        //$id =decrypt($id);
         $data = ModelKurikulum::where('kode_kurikulum',$id)->first();
 
         $data->delete();
