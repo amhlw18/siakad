@@ -240,6 +240,9 @@ class PenilaianController extends Controller
      */
     public function edit($id,$mk)
     {
+        $id = decrypt($id);
+        $mk = decrypt($mk);
+
         $dosen = ModelDosen::where('nidn',Auth::user()->user_id)->first();
         $mhs = ModelMahasiswa::where('nim', $id)->first();
         $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
