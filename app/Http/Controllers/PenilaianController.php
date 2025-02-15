@@ -153,6 +153,8 @@ class PenilaianController extends Controller
      */
     public function show($id,$id_prodi)
     {
+        $id = decrypt($id);
+        $id_prodi = decrypt($id_prodi);
         $tanggalSekarang = Carbon::today();
 
         $tahunAkademik = ModelTahunAkademik::where('status', 1)->get();
