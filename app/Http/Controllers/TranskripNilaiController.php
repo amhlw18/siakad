@@ -132,7 +132,7 @@ class TranskripNilaiController extends Controller
         //
         if (Auth::user()->role == 1 || Auth::user()->role == 5 || Auth::user()->role == 6){
 
-            $nim = $id;
+            $nim = decrypt($id);
             $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
 
             $mhs = ModelMahasiswa::with('prodi_mhs')

@@ -170,7 +170,7 @@ class KHSController extends Controller
     public function show($id)
     {
         //
-        $id =decrypt($id);
+        //$id =
         if (Auth::user()->role == 1 || Auth::user()->role == 5 || Auth::user()->role == 6){
             $tanggalSekarang = Carbon::today();
 
@@ -205,7 +205,7 @@ class KHSController extends Controller
                 }
             }
 
-            $nim = $id;
+            $nim = decrypt($id);;
             $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
             $mhs = ModelMahasiswa::with('prodi_mhs')
                 ->where('nim', $nim)
