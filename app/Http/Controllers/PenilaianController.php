@@ -271,10 +271,10 @@ class PenilaianController extends Controller
         if ($total_nilai >=  79 && $total_nilai <= 100 ){
             $nilai_huruf = 'A';
             $nilai_angka = '4';
-        }else if ($total_nilai >=  69 && $total_nilai < 79){
+        }else if ($total_nilai >=  68 && $total_nilai < 79){
             $nilai_huruf = 'B';
             $nilai_angka = '3';
-        }else if ($total_nilai >=  55 && $total_nilai < 69){
+        }else if ($total_nilai >=  56 && $total_nilai < 67){
             $nilai_huruf = 'C';
             $nilai_angka = '2';
         }else if ($total_nilai >=  41 && $total_nilai < 55){
