@@ -37,6 +37,26 @@ class DashBoardController extends Controller
 
         $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
 
+        if (Auth::user()->role == 2){
+
+            $belum_bayar = ModelPembayaran::with('pembayaran_mhs','prodi_pembayaran')
+                ->where('tahun_akademik',$tahun_aktif->kode)
+                ->where('is_bayar', 0)
+                ->get();
+
+            $sudah_bayar = ModelPembayaran::with('pembayaran_mhs','prodi_pembayaran')
+                ->where('tahun_akademik',$tahun_aktif->kode)
+                ->where('is_bayar', 1)
+                ->get();
+
+
+            return view('admin.index',[
+                'tahun' => $tahun_aktif,
+                'sudah_bayar' => $sudah_bayar,
+                'belum_bayar' => $belum_bayar,
+            ]);
+        }
+
         if (Auth::user()->role == 3){
             $nidn = Auth::user()->user_id;
             $jumlah_matakuliah_dosen = ModelDetailJadwal::where('nidn',$nidn)

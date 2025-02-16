@@ -114,31 +114,40 @@ class PembayaranController extends Controller
      */
     public function store(Request $request)
     {
-        $mahasiswa = ModelMahasiswa::with('prodi_mhs')->where('nim', $request->id)->first();
-        $tahun_akademik = ModelTahunAkademik::where('status', 1)->first();
+
+        try {
+
+            $mahasiswa = ModelMahasiswa::with('prodi_mhs')->where('nim', $request->nim)->first();
+            $tahun_akademik = ModelTahunAkademik::where('status', 1)->first();
 
 
-        // Cek apakah data pembayaran sudah ada
-        $existingPembayaran = ModelPembayaran::where('nim', $mahasiswa->nim)
-            ->where('tahun_akademik', $tahun_akademik->id)
-            ->where('is_bayar','1')
-            ->first();
+            // Cek apakah data pembayaran sudah ada
+            $existingPembayaran = ModelPembayaran::where('nim', $mahasiswa->nim)
+                ->where('tahun_akademik', $tahun_akademik->kode)
+                ->where('is_bayar', '1')
+                ->first();
 
-        if ($existingPembayaran) {
-            return response()->json(['error' => 'Data pembayaran dengan NIM dan tahun akademik ini sudah lunas.'], 400);
+            if ($existingPembayaran) {
+                return response()->json(['errors' => 'Data pembayaran dengan NIM dan tahun akademik ini sudah lunas.'], 422);
+            }
+
+            $validatedData['is_bayar'] = $request->has('is_bayar') ? 1 : 0;
+
+            ModelPembayaran::create([
+                'tahun_akademik' => $tahun_akademik->kode,
+                'nim' => $mahasiswa->nim,
+                'prodi_id' => $mahasiswa->prodi_id,
+                'tgl_bayar' => now()->format('Y-m-d H:i:s'),
+                'is_bayar' => $validatedData['is_bayar']
+            ]);
+
+            return response()->json(['success' => 'Pembayaran SPP berhasil ditambahkan !']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal melakukan pembayaran SPP, coba lagi!'], 500);
         }
 
-        $validatedData['is_bayar'] = $request->has('is_bayar') ? 1 : 0;
-
-        ModelPembayaran::create([
-           'tahun_akademik'=>$tahun_akademik->kode,
-           'nim' => $mahasiswa->nim,
-           'prodi_id' => $mahasiswa->prodi_id,
-            'tgl_bayar' => now()->format('Y-m-d H:i:s'),
-            'is_bayar' => $validatedData['is_bayar']
-        ]);
-
-        return response()->json(['success' => 'Pembayaran berhasil dilakukan']);
     }
 
     /**

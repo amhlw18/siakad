@@ -28,7 +28,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title"> Pembayaran SPP {{$tahun}} {{$smt}} </h3>
+                <h3 class="card-title"> Pembayaran SPP {{$tahun}} </h3>
             </div>
             <div class="card-body">
                 <table id="tabel" class="table table-bordered table-striped">
@@ -46,11 +46,9 @@
                         <tr>
                             <td>
                                 <a href="#"
-                                   class="btn btn-warning btn-edit"
-                                   data-bs-toggle="modal"
-                                   data-bs-target="#editModal"
+                                   class="btn btn-primary btn-edit"
                                    data-id="{{ $mhs->nim }}">
-                                    <i class="bi bi-pencil"></i>
+                                    Bayar
                                 </a>
                             </td>
                             <td>{{ $loop->iteration }}</td>
@@ -69,17 +67,18 @@
             <form id="simpanForm">
                 <input type="hidden" id="nim" name="nim" value="">
                 <input type="hidden" id="is_bayar" name="is_bayar" value="1">
+
             </form>
     </div>
 
 
     <script>
         document.querySelector('#tabel').addEventListener('click', (e) => {
-            if (e.target.closest('.btn-tambah')) {
+            if (e.target.closest('.btn-edit')) {
                 e.preventDefault();
 
                 const form = document.getElementById('simpanForm');
-                const button = e.target.closest('.btn-tambah');
+                const button = e.target.closest('.btn-edit');
                 const id = button.getAttribute('data-id'); // Ambil data-id dari tombol
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
@@ -87,20 +86,22 @@
                 const nimInput = document.getElementById('nim');
                 nimInput.value = id;
 
+                console.log(id);
+
                 const formData = new FormData(form);
 
                 Swal.fire({
                     title: 'Konfirmasi',
-                    text: 'Anda yakin ingin menambahkan mahasiswa?',
+                    text: 'Anda yakin memproses pembayaran SPP mahasiswa?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, tambahkan!',
+                    confirmButtonText: 'Ya, proses!',
                     cancelButtonText: 'Batal',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        fetch(`/dashboard/kls-mhs`, {
+                        fetch(`/dashboard/pembayaran`, {
                             method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': csrfToken,

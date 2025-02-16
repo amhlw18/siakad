@@ -80,12 +80,17 @@ Dashboard
   <!-- Small boxes (Stat box) -->
   <div class="row">
 
-      @if(auth()->user()->role==2 || auth()->user()->role==3 || auth()->user()->role==5)
+      @if( auth()->user()->role==3 || auth()->user()->role==5)
           <div class="col-lg-3 col-6">
               <!-- small box -->
               <div class="small-box bg-success">
                   <div class="inner">
                       <h3></h3>
+
+{{--                      @if(Auth::user()->role == 2)--}}
+{{--                          {{$sudah_bayar}}--}}
+{{--                          <p>Jumlah Mahasiswa Sudah Membayar SPP</p>--}}
+{{--                      @endif--}}
 
                       @if(Auth::user()->role == 3)
                           {{$matkul_dosen}}
@@ -111,6 +116,12 @@ Dashboard
               <div class="small-box bg-success">
                   <div class="inner">
                       <h3><sup style="font-size: 20px"></sup></h3>
+
+{{--                      @if(Auth::user()->role == 2)--}}
+{{--                          {{$belum_bayar}}--}}
+{{--                          <p>Jumlah Mahasiswa Belum Membayar SPP</p>--}}
+{{--                      @endif--}}
+
                       @if(Auth::user()->role == 3)
                           {{$jumlah_pa}}
                           <p>Jumlah Bimbingan Akademik</p>
@@ -199,6 +210,78 @@ Dashboard
             </tr>
         </table>
     </div>
+
+    @if(Auth::user()->role == 2)
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Mahasiswa sudah melakukan pembayaran spp {{$tahun->tahun_akademik}}
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="tabel" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>NIM</th>
+                        <th>Nama</th>
+                        <th>Prodi</th>
+                        <th>Angkatan</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($sudah_bayar as $item)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->nim ?? '-' }}</td>
+                            <td>{{ $item->pembayaran_mhs->nama_mhs ?? '-' }}</td>
+                            <td>{{ $item->prodi_pembayaran->nama_prodi ?? '-' }}</td>
+                            <td>{{ $item->pembayaran_mhs->tahun_masuk ?? '-' }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Mahasiswa belum Melakukan Pembayaran SPP {{$tahun->tahun_akademik}}
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="tabel2" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>NIM</th>
+                        <th>Nama</th>
+                        <th>Prodi</th>
+                        <th>Angkatan</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($belum_bayar as $item)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->nim ?? '-' }}</td>
+                            <td>{{ $item->pembayaran_mhs->nama_mhs ?? '-' }}</td>
+                            <td>{{ $item->prodi_pembayaran->nama_prodi ?? '-' }}</td>
+                            <td>{{ $item->pembayaran_mhs->tahun_masuk ?? '-' }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+    @endif
 
     @if(Auth::user()->role == 5)
         <div class="card">
