@@ -143,9 +143,10 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="" class="table table-bordered table-hover">
+                    <table id="tabel5" class="table table-bordered table-hover">
                         <thead>
                         <tr>
+                            <th></th>
                             <th>#</th>
                             <th>Kode Matakuliah</th>
                             <th>Nama Matakuliah </th>
@@ -156,6 +157,13 @@
                         <tbody>
                         @foreach ($krs_mhs as $item)
                             <tr>
+                                <td>
+                                    <a href=""
+                                       class="btn btn-danger btn-hapus"
+                                       data-id="{{$item->id}}">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->matakuliah_id }}</td>
                                 <td>{{ $item->krs_matkul->nama_mk}}</td>
@@ -213,5 +221,75 @@
 
         <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
+
+    <script>
+        document.querySelector('#tabel5').addEventListener('click', (e) => {
+            if (e.target.closest('.btn-hapus')) {
+                e.preventDefault();
+                const button = e.target.closest('.btn-hapus');
+                const id = button.getAttribute('data-id'); // Ambil data-id dari tombol
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+
+
+                //console.log(id);
+
+
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Anda yakin menghapus matakuliah ini dari KRS?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, proses!',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/dashboard/krs-mhs/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                            },
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw response; // Lempar error jika respons tidak OK
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil!',
+                                    text: data.success,
+                                }).then(() => {
+                                    // Reload halaman jika diperlukan
+                                   location.reload();
+                                });
+                            })
+                            .catch(async error => {
+                                if (error.status === 422) {
+                                    const errorData = await error.json();
+                                    const errorMessages = Object.values(errorData.errors).flat().join('\n');
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Validasi Gagal!',
+                                        text: errorMessages,
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error!',
+                                        text: 'Terjadi kesalahan saat menyimpan data. Coba lagi!',
+                                    });
+                                    console.error('Error:', error);
+                                }
+                            });
+                    }
+                });
+            }
+        });
+    </script>
 
 @endsection()

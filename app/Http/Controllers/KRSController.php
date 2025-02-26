@@ -107,6 +107,7 @@ class KRSController extends Controller
                     return $item;
                 });
 
+
             return view('mahasiswa.krs.index',[
                 'mhs' => $mhs,
                 'pesan' => $pesan,
@@ -152,9 +153,13 @@ class KRSController extends Controller
         $prodi_id = $request->prodi_id;
         $semester = $request->semester;
 
+        //dd($nim);
+
         $tahun_akademik = ModelTahunAkademik::where('status', 1)->first();
 
         $periode = $tahun_akademik->semester;
+
+
 
         if ($periode == 'Ganjil'){
             $matakuliah = ModelMatakuliah::where('kode_prodi',$prodi_id)
@@ -169,6 +174,7 @@ class KRSController extends Controller
                     return $item;
                 });
         }if ($periode == 'Genap'){
+
             $matakuliah = ModelMatakuliah::where('kode_prodi',$prodi_id)
                 ->whereIn('semester',[2,4,6,8])
                 ->orderBy('semester', 'asc')
@@ -180,7 +186,9 @@ class KRSController extends Controller
                         (int) ($item->sks_lapangan ?? 0);
                     return $item;
                 });
-        }if ($periode == 'Pendek'){
+
+        }
+        if ($periode == 'Pendek'){
             $matakuliah = ModelMatakuliah::where('kode_prodi',$prodi_id)
                 ->orderBy('semester', 'asc')
                 ->get()
@@ -193,12 +201,41 @@ class KRSController extends Controller
                 });
         }
 
-
+        if ($prodi_id == 15401){
+            if ($semester > 6 ){
+                $matakuliah = ModelMatakuliah::where('semester', 6)
+                    ->where('kode_prodi', 15401)
+                    ->where('kurikulum_id', '48f1386f-6e78-4f15-ae2b-8774468ffca9')
+                    ->get()
+                    ->map(function ($item) {
+                        $item->total_sks =
+                            (int) ($item->sks_teori ?? 0) +
+                            (int) ($item->sks_praktek ?? 0) +
+                            (int) ($item->sks_lapangan ?? 0);
+                        return $item;
+                    });
+            }
+            else{
+                $matakuliah = ModelMatakuliah::where('semester', $semester)
+                    ->where('kode_prodi', 15401)
+                    ->where('kurikulum_id', '48f1386f-6e78-4f15-ae2b-8774468ffca9')
+                    ->get()
+                    ->map(function ($item) {
+                        $item->total_sks =
+                            (int) ($item->sks_teori ?? 0) +
+                            (int) ($item->sks_praktek ?? 0) +
+                            (int) ($item->sks_lapangan ?? 0);
+                        return $item;
+                    });
+            }
+        }
 
 
         return view('mahasiswa.krs.create',[
             'matakuliah' => $matakuliah,
             'tahun_aktif' => $tahun_akademik,
+            'nim' => $nim,
+            'prodi_id' => $prodi_id,
         ]);
     }
 
@@ -211,6 +248,38 @@ class KRSController extends Controller
     public function store(Request $request)
     {
         //
+        try {
+
+            $nim = $request->nim;
+            $matakuliah_id = $request->matakuliah_id;
+            $prodi_id = $request->prodi_id;
+            $tahun_akademik = ModelTahunAkademik::where('status', 1)->first();
+
+
+            // Cek apakah data pembayaran sudah ada
+            $existingPembayaran = ModelKRSMahasiwa::where('nim', $nim)
+                ->where('tahun_akademik', $tahun_akademik->kode)
+                ->where('matakuliah_id', $matakuliah_id)
+                ->where('tahun_akademik', $tahun_akademik->kode)
+                ->first();
+
+            if ($existingPembayaran) {
+                return response()->json(['errors' => 'Matakuliah sudah di program untuk semester ini !.'], 422);
+            }
+
+            ModelKRSMahasiwa::create([
+                'tahun_akademik' => $tahun_akademik->kode,
+                'nim' => $nim,
+                'prodi_id' => $prodi_id,
+                'matakuliah_id' => $matakuliah_id,
+            ]);
+
+            return response()->json(['success' => 'Matakuliah berhasil ditambahkan !']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal mambahkan matakuliah, coba lagi!'], 500);
+        }
     }
 
     /**
@@ -328,5 +397,21 @@ class KRSController extends Controller
     public function destroy($id)
     {
         //
+        try {
+
+            $data = ModelKRSMahasiwa::where('id',$id)->first();
+
+            $data->delete();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Matakuliah berhasil dihapus dari KRS.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 }
