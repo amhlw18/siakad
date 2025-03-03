@@ -205,9 +205,24 @@ class DashBoardController extends Controller
             ->where('tahun_akademik', $khs_smt_lalu)
             ->first();
 
+
         $jumlah_sks =0;
         $jumlah_mk =0;
         $ips =0;
+
+        if ($ips >= 0.00 && $ips <= 2.00){
+            $beban_sks = 18;
+        }else if ($ips >= 2.01 && $ips < 2.50){
+            $beban_sks = 20;
+        }else if ($ips >=2.51 && $ips < 2.99){
+            $beban_sks =22;
+        }else if ($ips >=3.00 && $ips < 4.00){
+            $beban_sks = 24;
+        }
+
+        if ($mhs->semester == 1 || $mhs->semester == 2){
+            $beban_sks = 24;
+        }
 
         if ($validasi_kosong_khs){
             $jumlah_mk = ModelNilaiMHS::where('nim', $id)
@@ -260,7 +275,9 @@ class DashBoardController extends Controller
         }
 
 
-        $status_krs = ModelStatusKRS::where('nim',$id)->first();
+        $status_krs = ModelStatusKRS::where('nim',$id)
+            ->where('tahun_akademik',$tahun_aktif->kode)
+            ->first();
 
         $krs_mhs = ModelKRSMahasiwa::with('krs_matkul','krs_mhs')
             ->where('nim',$id)
@@ -288,6 +305,7 @@ class DashBoardController extends Controller
             'pesan' => $pesan,
             'periode' => $periode,
             'tahun_akademik_khs' => $khs_smt_lalu,
+            'beban_sks' => $beban_sks,
         ]);
     }
 

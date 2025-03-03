@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ModelKRSMahasiwa;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelMatakuliah;
+use App\Models\ModelNilaiMHS;
 use App\Models\ModelPembayaran;
 use App\Models\ModelProdi;
 use App\Models\ModelStatusKRS;
@@ -73,6 +74,7 @@ class KRSController extends Controller
             }
             $nim = Auth::user()->user_id;
             $tahun_aktif = ModelTahunAkademik::where('status', 1)->first();
+
             $mhs = ModelMahasiswa::with('prodi_mhs')
                 ->where('nim', $nim)
                 ->first();
@@ -108,6 +110,69 @@ class KRSController extends Controller
                 });
 
 
+            if ($mhs->prodi_id == 15401){
+                $khs_smt_lalu = $tahun_aktif->kode - 9;
+            }else{
+                $khs_smt_lalu = $tahun_aktif->kode - 10;
+            }
+
+            $khs_mhs = ModelNilaiMHS::with('nilai_matakuliah_mhs')
+                ->where('nim', $nim)
+                ->where('tahun_akademik', $khs_smt_lalu)
+                ->orderBy('matakuliah_id', 'asc')
+                ->get();
+
+            $validasi_kosong_khs = ModelNilaiMHS::with('nilai_matakuliah_mhs')
+                ->where('nim', $nim)
+                ->where('tahun_akademik', $khs_smt_lalu)
+                ->first();
+
+            $jumlah_sks =0;
+            $jumlah_mk =0;
+            $ips =0;
+
+            if ($validasi_kosong_khs){
+
+                $jumlah_sks = ModelNilaiMHS::where('nim', $nim)
+                    ->where('tahun_akademik', $khs_smt_lalu)
+                    ->sum('sks');
+
+                $total_nilai = ModelNilaiMHS::where('nim', $nim)
+                    ->where('tahun_akademik', $khs_smt_lalu)
+                    ->sum('total_nilai');
+
+                $ips = $total_nilai/$jumlah_sks;
+                $ips = number_format($ips, 2,'.','');
+            }
+
+            if ($ips >= 0.00 && $ips <= 2.00){
+                $beban_sks = 18;
+            }else if ($ips >= 2.01 && $ips < 2.50){
+                $beban_sks = 20;
+            }else if ($ips >=2.51 && $ips < 2.99){
+                $beban_sks =22;
+            }else if ($ips >=3.00 && $ips < 4.00){
+                $beban_sks = 24;
+            }
+
+            if ($mhs->semester == 1 || $mhs->semester == 2){
+                $beban_sks = 24;
+            }
+
+            $total_sks = ModelKRSMahasiwa::where('nim',$nim)
+                ->where('tahun_akademik',$tahun_aktif->kode)
+                ->get()
+                ->map(function ($item) {
+                    $item->total_sks =
+                        (int) ($item->krs_matkul->sks_teori ?? 0) +
+                        (int) ($item->krs_matkul->sks_praktek ?? 0) +
+                        (int) ($item->krs_matkul->sks_lapangan ?? 0);
+                    return $item;
+                });
+
+            $total_sks = $total_sks->sum('total_sks');
+
+
             return view('mahasiswa.krs.index',[
                 'mhs' => $mhs,
                 'pesan' => $pesan,
@@ -116,6 +181,10 @@ class KRSController extends Controller
                 'pembayaran' => $pembayaran,
                 'status_krs' => $status_krs ?? 0,
                 'krs_mhs' => $krs_mhs,
+                'ips' => $ips,
+                'beban_sks' => $beban_sks,
+                'total_sks' => $total_sks,
+
             ]);
         }
 
@@ -152,14 +221,13 @@ class KRSController extends Controller
         $nim = $request->nim;
         $prodi_id = $request->prodi_id;
         $semester = $request->semester;
+        $beban_sks = $request->beban_sks;
 
         //dd($nim);
 
         $tahun_akademik = ModelTahunAkademik::where('status', 1)->first();
 
         $periode = $tahun_akademik->semester;
-
-
 
         if ($periode == 'Ganjil'){
             $matakuliah = ModelMatakuliah::where('kode_prodi',$prodi_id)
@@ -229,6 +297,7 @@ class KRSController extends Controller
                     });
             }
         }
+
 
 
         return view('mahasiswa.krs.create',[

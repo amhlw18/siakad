@@ -50,7 +50,11 @@
                 <p><strong>Tahun Akademik :</strong> {{ $tahun->tahun_akademik?? '-' }}</p>
                 <p><strong>Prodi :</strong> {{ $mhs->prodi_mhs->nama_prodi ?? '-'}}</p>
                 <p><strong>Semester :</strong> {{ $mhs->semester ?? '-'}}</p>
-                <p><strong>Status KRS :</strong>  <label class="{{ $status_krs->disetujui==1 ? 'badge badge-success' : 'badge badge-danger' }} ">{{ $status_krs->disetujui==1 ? 'Disetujui' : 'Belum disetujui' }}</label></p>
+                <p><strong>Batas SKS :</strong> {{$beban_sks}} </p>
+                @if($status_krs)
+                    <p><strong>Status KRS :</strong>  <label class="{{ $status_krs->disetujui==1 ? 'badge badge-success' : 'badge badge-danger' }} ">{{ $status_krs->disetujui==1 ? 'Disetujui' : 'Belum disetujui' }}</label></p>
+                @endif
+
             </div>
         </div>
 
@@ -155,36 +159,42 @@
                         <th>SKS</th>
                     </tr>
                     </thead>
-                    @if($status_krs->dikunci)
-                        <tbody>
-                        @foreach ($krs_mhs as $item)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->matakuliah_id }}</td>
-                                <td>{{ $item->krs_matkul->nama_mk}}</td>
-                                <td>{{ $item->krs_matkul->semester}}</td>
-                                <td>{{ $item->total_sks}}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    @else
+                    @if($status_krs)
+                        @if($status_krs->dikunci)
+                            <tbody>
+                            @foreach ($krs_mhs as $item)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->matakuliah_id }}</td>
+                                    <td>{{ $item->krs_matkul->nama_mk}}</td>
+                                    <td>{{ $item->krs_matkul->semester}}</td>
+                                    <td>{{ $item->total_sks}}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        @else
 
+                        @endif
                     @endif
+
 
                 </table>
             </div>
             <!-- /.card-body -->
         </div>
 
-        @if(! $status_krs->disetujui && $status_krs->dikunci)
-            <a href="#" class="btn btn-primary mb-2 btn-setujui-krs" ><span data-feather="plus"></span>Setujui KRS</a>
+        @if($status_krs)
+            @if(! $status_krs->disetujui && $status_krs->dikunci)
+                <a href="#" class="btn btn-primary mb-2 btn-setujui-krs" ><span data-feather="plus"></span>Setujui KRS</a>
+            @endif
+
+            @if($status_krs->disetujui && $periode)
+                <a href="#" class="btn btn-danger mb-2 btn-batal-krs" ><span data-feather="plus"></span>Batalkan KRS</a>
+            @else
+                <a href="#" class="btn btn-danger mb-2 btn-batal-krs disabled"><span data-feather="plus"></span>Batalkan KRS</a>
+            @endif
         @endif
 
-        @if($status_krs->disetujui && $periode)
-            <a href="#" class="btn btn-danger mb-2 btn-batal-krs" ><span data-feather="plus"></span>Batalkan KRS</a>
-        @else
-            <a href="#" class="btn btn-danger mb-2 btn-batal-krs disabled"><span data-feather="plus"></span>Batalkan KRS</a>
-        @endif
 
         <form id="simpanKRSForm">
             <input type="hidden" id="tahun_akademik" name="tahun_akademik" value="{{$tahun->kode}}">

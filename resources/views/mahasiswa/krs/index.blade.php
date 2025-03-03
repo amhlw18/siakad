@@ -77,8 +77,20 @@
                     <p><strong>Semester :</strong> {{ $mhs->semester ?? '-'}}</p>
                     @if($status_krs)
                         <p><strong>Status KRS :</strong>  <label class="{{ $status_krs->disetujui==1 ? 'badge badge-success' : 'badge badge-danger' }} ">{{ $status_krs->disetujui==1 ? 'Disetujui' : 'Belum disetujui'}}</label></p>
+                    @endif
+                    @if($mhs->prodi_id == 15401)
+                    @else
+                        @if($mhs->semester == 1 || $mhs->semester == 2)
+                            <p><strong>IP Semester Lalu :</strong> 0.00 </p>
+                            <p><strong>Batas SKS :</strong> {{$beban_sks}} </p>
+                        @else
+                            <p><strong>IP Semester Lalu :</strong> {{$ips}} </p>
+                            <p><strong>Batas SKS :</strong> {{$beban_sks}} </p>
+                        @endif
+
 
                     @endif
+
                 </div>
             </div>
                 @if ($periode && $pembayaran->is_bayar)
@@ -87,6 +99,8 @@
                         <input type="hidden" name="nim" value="{{ $mhs->nim ?? '-' }}">
                         <input type="hidden" name="prodi_id" value="{{ $mhs->prodi_id ?? '-' }}">
                         <input type="hidden" name="semester" value="{{ $mhs->semester ?? '-'}}">
+                        <input type="hidden" name="beban_sks" value="{{ $beban_sks  ?? '-'}}">
+
 
                         <button class="btn btn-primary mb-2 btn-setujui-krs" ><span data-feather="plus"></span>Ambil KRS</button>
                     </form>
@@ -137,6 +151,17 @@
         @endif
 
         @if(auth()->user()->role== 4)
+
+            @if($mhs->prodi_id == 15401)
+            @else
+                @if($total_sks > $beban_sks)
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <i class="fa fa-exclamation-triangle me-2"></i>
+                        - SKS matakuliah yang anda ambil {{$total_sks}} melebihi batas bebas SKS anda {{$beban_sks}}  , silahkan kurangi matakuliah yang anda ambil ! .<br>
+                    </div>
+                @endif
+            @endif
+
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">KARTU RENCANA STUDI TA {{$tahun_aktif->tahun_akademik}}</h3>
