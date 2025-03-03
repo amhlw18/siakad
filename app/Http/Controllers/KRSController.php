@@ -314,6 +314,25 @@ class KRSController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function kunciKRS (Request $request)
+    {
+        try {
+            $tahun_aktif = $request->tahun_akademik;
+            $nim = $request->nim;
+
+            $query = ModelStatusKRS::where('tahun_akademik', $tahun_aktif)
+                ->where('nim',$nim);
+
+            $query->update(['dikunci' => 1]);
+
+            return response()->json(['success' => 'KRS berhasil dikunci !']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal mengunci KRS, coba lagi!'], 500);
+        }
+    }
     public function store(Request $request)
     {
         //
