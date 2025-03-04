@@ -85,6 +85,7 @@ Route::middleware('auth')->group(function (){
         Route::get('/dashboard/dosen/detail-pa/{id}',[DashBoardController::class, 'detailPA']);
         Route::post('/dashboard/dosen/detail-pa',[DashBoardController::class,'simpanKRS']);
         Route::post('/dashboard/dosen/detail-pa/delete',[DashBoardController::class,'batalkanKRS']);
+        Route::post('/dashboard/dosen/hapus-krs', [DashBoardController::class,'hapusKRS']);
     });
 
     Route::middleware('prodi')->group(function (){
@@ -110,6 +111,8 @@ Route::middleware('auth')->group(function (){
         Route::resource('/dashboard/khs-mhs', KHSController::class);
         Route::resource('/dashboard/transkrip-nilai', TranskripNilaiController::class);
         Route::post('/kunci-krs',[KRSController::class,'kunciKRS']);
+        Route::post('/buka-krs', [KRSController::class,'bukaKRS']);
+
 
         Route::post('/dashboard/krs-mhs/ambil-krs', [KRSController::class,'ambil_krs']);
         Route::post('/print/khs', [PrintController::class,'print_khs']);

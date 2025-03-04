@@ -333,6 +333,34 @@ class KRSController extends Controller
             return response()->json(['error' => 'Gagal mengunci KRS, coba lagi!'], 500);
         }
     }
+
+    public function bukaKRS (Request $request)
+    {
+        try {
+            $tahun_aktif = $request->tahun_akademik;
+            $nim = $request->nim;
+
+            $status_krs = ModelStatusKRS::where('nim', $nim)
+                ->where('tahun_akademik', $tahun_aktif)
+                ->where('disetujui', 1)
+                ->first();
+
+            if ($status_krs){
+                return response()->json(['errors' => 'KRS telah disetujui oleh PA !.'], 422);
+            }
+
+            $query = ModelStatusKRS::where('tahun_akademik', $tahun_aktif)
+                ->where('nim',$nim);
+
+            $query->update(['dikunci' => 0]);
+
+            return response()->json(['success' => 'KRS berhasil dibuka !']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal membuka KRS, coba lagi!'], 500);
+        }
+    }
     public function store(Request $request)
     {
         //
@@ -502,4 +530,6 @@ class KRSController extends Controller
             ], 500);
         }
     }
+
+
 }

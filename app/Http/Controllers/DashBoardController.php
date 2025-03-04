@@ -384,5 +384,27 @@ class DashBoardController extends Controller
         }
     }
 
+    public function hapusKRS(Request $request)
+    {
+        try {
+            \Log::info('Data diterima krs:', $request->all());
+            $data = ModelKRSMahasiwa::where('id', $request->id_krs);
+
+            $data->delete();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Matakuliah berhasil dihapus dari KRS.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
+
 
 }

@@ -149,9 +149,10 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="tabel2" class="table table-bordered table-hover">
+                <table id="tabel5" class="table table-bordered table-hover">
                     <thead>
                     <tr>
+                        <th></th>
                         <th>#</th>
                         <th>Kode Matakuliah</th>
                         <th>Nama Matakuliah </th>
@@ -164,6 +165,13 @@
                             <tbody>
                             @foreach ($krs_mhs as $item)
                                 <tr>
+                                    <td>
+                                        <a href=""
+                                           class="btn btn-danger btn-hapus "
+                                           data-id="{{$item->id}}">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->matakuliah_id }}</td>
                                     <td>{{ $item->krs_matkul->nama_mk}}</td>
@@ -199,6 +207,11 @@
         <form id="simpanKRSForm">
             <input type="hidden" id="tahun_akademik" name="tahun_akademik" value="{{$tahun->kode}}">
             <input type="hidden" id="nim" name="nim" value="{{$mhs->nim}}">
+        </form>
+
+        <form id="hapusKRSForm">
+            <input type="hidden" id="id_krs" name="id_krs" value="">
+
         </form>
 
 {{--        <form id="simpanKRSForm" action="/dashboard/dosen/detail-pa" method="post">--}}
@@ -342,6 +355,78 @@
                 });
 
             });
+        });
+
+        document.querySelector('#tabel5').addEventListener('click', (e) => {
+            if (e.target.closest('.btn-hapus')) {
+                e.preventDefault();
+                const button = e.target.closest('.btn-hapus');
+                const form = document.getElementById('hapusKRSForm');
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                const formData = new FormData(form);
+                const idValue = document.getElementById('id_krs');
+
+                const id = button.getAttribute('data-id'); // Ambil data-id dari tombol
+                idValue.value = id;
+
+                console.log(idValue);
+
+
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Anda yakin menghapus matakuliah dari KRS ?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/dashboard/dosen/hapus-krs`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                            },
+                            body: formData,
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw response; // Lempar error jika respons tidak OK
+                                }
+                                //console.log('Response status:', response.status);
+                                return response.json();
+                            })
+                            .then(data => {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil!',
+                                    text: data.success,
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            })
+                            .catch(async error => {
+                                if (error.status === 422) {
+                                    const errorData = await error.json();
+                                    const errorMessages = Object.values(errorData.errors).flat().join('\n');
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Validasi Gagal!',
+                                        text: errorMessages,
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error!',
+                                        text: 'Terjadi kesalahan saat menyimpan data. Coba lagi!',
+                                    });
+                                    console.error('Error:', error);
+                                }
+                            });
+                    }
+                });
+            }
         });
     </script>
 

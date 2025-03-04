@@ -100,14 +100,29 @@
                         <input type="hidden" name="prodi_id" value="{{ $mhs->prodi_id ?? '-' }}">
                         <input type="hidden" name="semester" value="{{ $mhs->semester ?? '-'}}">
                         <input type="hidden" name="beban_sks" value="{{ $beban_sks  ?? '-'}}">
-                        <button class="btn btn-success mb-2 btn-setujui-krs" ><span data-feather="plus"></span>Ambil KRS</button>
+
+                        @if($status_krs->dikunci)
+                            <button class="btn btn-success mb-2 btn-setujui-krs" disabled><span data-feather="plus"></span>Ambil KRS</button>
+                        @else
+                            <button class="btn btn-success mb-2 btn-setujui-krs" ><span data-feather="plus"></span>Ambil KRS</button>
+                        @endif
+
                         @if($mhs->prodi_id == 15401)
-                            <button id="btn-kunci-krs" class="btn btn-primary mb-2 btn-kunci-krs"  ><span data-feather="plus"></span>Kunci KRS</button>
+                            @if($status_krs->dikunci)
+                                <button id="btn-kunci-krs" class="btn btn-primary mb-2 btn-buka-krs"><span data-feather="plus"></span>Buka Kunci KRS</button>
+                            @else
+                                <button id="btn-kunci-krs" class="btn btn-primary mb-2 btn-kunci-krs"  ><span data-feather="plus"></span>Kunci KRS</button>
+                            @endif
                         @else
                             @if($total_sks > $beban_sks)
                                 <button id="btn-kunci-krs" class="btn btn-primary mb-2 btn-kunci-krs"  disabled><span data-feather="plus"></span>Kunci KRS</button>
                             @else
-                                <button id="btn-kunci-krs" class="btn btn-primary mb-2 btn-kunci-krs"  ><span data-feather="plus"></span>Kunci KRS</button>
+                                @if($status_krs->dikunci)
+                                    <button id="btn-kunci-krs" class="btn btn-primary mb-2 btn-buka-krs"><span data-feather="plus"></span>Buka Kunci KRS</button>
+                                @else
+                                    <button id="btn-kunci-krs" class="btn btn-primary mb-2 btn-kunci-krs"  ><span data-feather="plus"></span>Kunci KRS</button>
+                                @endif
+
                             @endif
                         @endif
                     </form>
@@ -191,7 +206,7 @@
                         @foreach ($krs_mhs as $item)
                             <tr>
                                 <td>
-                                    @if($status_krs->dikunci == 1)
+                                    @if($status_krs->dikunci)
                                         <a href=""
                                            class="btn btn-danger btn-hapus disabled"
                                            data-id="{{$item->id}}">
@@ -266,10 +281,80 @@
             <input type="hidden" id="nim" name="nim" value="{{$mhs->nim}}">
         </form>
 
+        <form id="bukaKRSForm">
+            <input type="hidden" id="tahun_akademik" name="tahun_akademik" value="{{$tahun_aktif->kode}}">
+            <input type="hidden" id="nim" name="nim" value="{{$mhs->nim}}">
+        </form>
         <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
 
     <script>
+
+        document.querySelectorAll('.btn-buka-krs').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const form = document.getElementById('bukaKRSForm');
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                const formData = new FormData(form);
+
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Anda yakin membuka kunci KRS ?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Buka kunci!',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/buka-krs`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                            },
+                            body: formData,
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw response; // Lempar error jika respons tidak OK
+                                }
+                                //console.log('Response status:', response.status);
+                                return response.json();
+                            })
+                            .then(data => {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil!',
+                                    text: data.success,
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            })
+                            .catch(async error => {
+                                if (error.status === 422) {
+                                    const errorData = await error.json();
+                                    const errorMessages = Object.values(errorData.errors).flat().join('\n');
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Validasi Gagal!',
+                                        text: errorMessages,
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error!',
+                                        text: 'Terjadi kesalahan saat menyimpan data. Coba lagi!',
+                                    });
+                                    console.error('Error:', error);
+                                }
+                            });
+                    }
+                });
+
+            });
+        });
 
         document.querySelectorAll('.btn-kunci-krs').forEach(button => {
             button.addEventListener('click', (e) => {
