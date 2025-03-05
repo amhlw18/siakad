@@ -210,7 +210,7 @@
         </form>
 
         <form id="hapusKRSForm">
-            <input type="hidden" id="id_krs" name="id_krs" value="">
+            <input type="hidden" id="krs_id" name="krs_id" value="">
 
         </form>
 
@@ -364,13 +364,9 @@
                 const form = document.getElementById('hapusKRSForm');
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
                 const formData = new FormData(form);
-                const idValue = document.getElementById('id_krs');
+                const idValue = document.getElementById('krs_id');
 
                 const id = button.getAttribute('data-id'); // Ambil data-id dari tombol
-                idValue.value = id;
-
-                console.log(idValue);
-
 
                 Swal.fire({
                     title: 'Konfirmasi',
@@ -383,12 +379,11 @@
                     cancelButtonText: 'Batal',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        fetch(`/dashboard/dosen/hapus-krs`, {
-                            method: 'POST',
+                        fetch(`/dashboard/dosen/hapus-krs/${id}`, {
+                            method: 'GET',
                             headers: {
                                 'X-CSRF-TOKEN': csrfToken,
-                            },
-                            body: formData,
+                            }
                         })
                             .then(response => {
                                 if (!response.ok) {

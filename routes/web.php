@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\AspekPenilaianController;
+use App\Http\Controllers\HapusKRS;
 use App\Http\Controllers\KHSController;
 use App\Http\Controllers\KRSController;
 use App\Http\Controllers\NeoFeeederController;
@@ -85,7 +86,8 @@ Route::middleware('auth')->group(function (){
         Route::get('/dashboard/dosen/detail-pa/{id}',[DashBoardController::class, 'detailPA']);
         Route::post('/dashboard/dosen/detail-pa',[DashBoardController::class,'simpanKRS']);
         Route::post('/dashboard/dosen/detail-pa/delete',[DashBoardController::class,'batalkanKRS']);
-        Route::post('/dashboard/dosen/hapus-krs', [DashBoardController::class,'hapusKRS']);
+        Route::get('/dashboard/dosen/hapus-krs/{id}',[DashBoardController::class,'hapusKRS']);
+        //Route::resource('/dashboard/dosen/hapus-krs', HapusKRS::class);
     });
 
     Route::middleware('prodi')->group(function (){

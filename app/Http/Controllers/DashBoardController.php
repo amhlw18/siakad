@@ -384,12 +384,11 @@ class DashBoardController extends Controller
         }
     }
 
-    public function hapusKRS(Request $request)
+    public function hapusKRS($id)
     {
         try {
-            \Log::info('Data diterima krs:', $request->all());
-            $data = ModelKRSMahasiwa::where('id', $request->id_krs);
-
+            //\Log::info('Data diterima krs:', $id);
+            $data = ModelKRSMahasiwa::where('id', $id)->first();
             $data->delete();
 
             return response()->json([
@@ -403,8 +402,5 @@ class DashBoardController extends Controller
             ], 500);
         }
     }
-
-
-
 
 }
