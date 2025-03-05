@@ -130,7 +130,7 @@ class KRSController extends Controller
             $jumlah_sks =0;
             $jumlah_mk =0;
             $ips =0;
-            $beban_sks = 0;
+
 
             if ($validasi_kosong_khs){
 
