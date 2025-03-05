@@ -146,13 +146,15 @@ class KRSController extends Controller
                 $ips = number_format($ips, 2,'.','');
             }
 
+            //$beban_sks = null;
+
             if ($ips >= 0.00 && $ips <= 2.00){
                 $beban_sks = 18;
             }else if ($ips >= 2.01 && $ips < 2.50){
                 $beban_sks = 20;
             }else if ($ips >=2.51 && $ips < 2.99){
                 $beban_sks =22;
-            }else if ($ips >=3.00 && $ips < 4.00){
+            }else if ($ips >=3.00 && $ips <= 4.00){
                 $beban_sks = 24;
             }
 
