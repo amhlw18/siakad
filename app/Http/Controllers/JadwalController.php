@@ -183,9 +183,10 @@ class JadwalController extends Controller
      */
     public function store(Request $request)
     {
-        \Log::info('Data diterima jadwal:', $request->all());
+
 
         try {
+            \Log::info('Data diterima jadwal:', $request->all());
             // Validasi awal
             $validasi = $request->validate([
                 'prodi_id' => 'required',
