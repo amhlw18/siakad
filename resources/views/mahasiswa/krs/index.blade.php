@@ -276,15 +276,20 @@
             </div>
         @endif
 
-        <form id="kunciKRSForm">
-            <input type="hidden" id="tahun_akademik" name="tahun_akademik" value="{{$tahun_aktif->kode}}">
-            <input type="hidden" id="nim" name="nim" value="{{$mhs->nim}}">
-        </form>
+        @if(auth()->user()->role == 4)
+            <form id="kunciKRSForm">
+                <input type="hidden" id="tahun_akademik" name="tahun_akademik" value="{{$tahun_aktif->kode}}">
+                <input type="hidden" id="nim" name="nim" value="{{$mhs->nim}}">
+            </form>
 
-        <form id="bukaKRSForm">
-            <input type="hidden" id="tahun_akademik" name="tahun_akademik" value="{{$tahun_aktif->kode}}">
-            <input type="hidden" id="nim" name="nim" value="{{$mhs->nim}}">
-        </form>
+            <form id="bukaKRSForm">
+                <input type="hidden" id="tahun_akademik" name="tahun_akademik" value="{{$tahun_aktif->kode}}">
+                <input type="hidden" id="nim" name="nim" value="{{$mhs->nim}}">
+            </form>
+
+        @endif
+
+
         <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
 
