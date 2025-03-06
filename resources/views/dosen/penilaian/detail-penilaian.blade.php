@@ -165,7 +165,7 @@
                             <tbody>
                             @foreach ($krs_mhs as $item)
                                 <tr>
-                                    @if($status_krs->disetujui)
+                                    @if($status_krs->disetujui==1)
                                         <td>
                                             <a href=""
                                                class="btn btn-danger btn-hapus "
