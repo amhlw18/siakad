@@ -165,10 +165,18 @@
                             <tbody>
                             @foreach ($krs_mhs as $item)
                                 <tr>
-                                    @if($status_krs->disetujui==1)
+                                    @if($status_krs->disetujui)
                                         <td>
                                             <a href=""
-                                               class="btn btn-danger btn-hapus "
+                                               class="btn btn-danger btn-hapus  disabled"
+                                               data-id="{{$item->id}}">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </td>
+                                    @else
+                                        <td>
+                                            <a href=""
+                                               class="btn btn-danger btn-hapus"
                                                data-id="{{$item->id}}">
                                                 <i class="bi bi-trash"></i>
                                             </a>
