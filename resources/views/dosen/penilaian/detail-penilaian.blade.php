@@ -165,13 +165,15 @@
                             <tbody>
                             @foreach ($krs_mhs as $item)
                                 <tr>
-                                    <td>
-                                        <a href=""
-                                           class="btn btn-danger btn-hapus "
-                                           data-id="{{$item->id}}">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
-                                    </td>
+                                    @if($status_krs->disetujui)
+                                        <td>
+                                            <a href=""
+                                               class="btn btn-danger btn-hapus "
+                                               data-id="{{$item->id}}">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </td>
+                                    @endif
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->matakuliah_id }}</td>
                                     <td>{{ $item->krs_matkul->nama_mk}}</td>
