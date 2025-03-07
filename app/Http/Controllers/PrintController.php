@@ -6,6 +6,7 @@ use App\Models\ModelDetailJadwal;
 use App\Models\ModelKRSMahasiwa;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelNilaiMHS;
+use App\Models\ModelPAMahasiswa;
 use App\Models\ModelProdi;
 use App\Models\ModelTahunAkademik;
 use App\Models\User;
@@ -17,6 +18,69 @@ class PrintController extends Controller
 {
     //
 
+    public function  print_KRS(Request $request)
+    {
+        $nim = $request->nim;
+        $tahun = $request->tahun;
+        $mhs = ModelMahasiswa::with('prodi_mhs')
+            ->where('nim', $nim)
+            ->first();
+
+        $krs_mhs = ModelKRSMahasiwa::with('krs_matkul')
+            ->where('nim', $nim)
+            ->where('tahun_akademik', $tahun)
+            ->orderBy('matakuliah_id', 'asc')
+            ->get();
+
+        $validasi_kosong_krs = ModelKRSMahasiwa::with('krs_matkul')
+            ->where('nim', $nim)
+            ->where('tahun_akademik', $tahun)
+            ->first();
+
+        $jumlah_sks =0;
+        $jumlah_mk =0;
+
+        if ($validasi_kosong_krs){
+            $jumlah_mk = ModelKRSMahasiwa::where('nim', $nim)
+                ->where('tahun_akademik', $tahun)
+                ->count('matakuliah_id');
+
+            $jumlah_sks = ModelKRSMahasiwa::where('nim', $nim)
+                ->where('tahun_akademik', $tahun)
+                ->sum('sks');
+        }
+
+        // dd($request->all());
+        $tahun_akademik = ModelTahunAkademik::where('kode', $tahun)->first();
+
+        $prodi_id = $mhs->prodi_id;
+
+        $ka_prodi = ModelProdi::with('dosen')
+            ->where('kode_prodi',$prodi_id)
+            ->first();
+
+        $pa = ModelPAMahasiswa::with('pa_dosen')
+            ->where('nim')->first();
+
+        $foto = User::where('user_id', $nim)->first();
+
+        $tanggal = Carbon::now()->locale('id')->isoFormat('D MMMM YYYY'); // Format tanggal Indonesia
+
+
+        $pdf = Pdf::loadView('print.khs.khs-mhs',[
+            'mhs' => $mhs,
+            'krs_mhs' => $krs_mhs,
+            'jumlah_sks' => $jumlah_sks,
+            'jumlah_mk' => $jumlah_mk,
+            'tahun_akademik' => $tahun_akademik,
+            'ka_prodi' => $ka_prodi,
+            'foto' => $foto,
+            'tanggal' => $tanggal,
+            'pa' => $pa,
+        ]);
+
+        return $pdf->stream();
+    }
     public function print_absen()
     {
         $tahun_akademik = ModelTahunAkademik::where('status', 1)->first();
