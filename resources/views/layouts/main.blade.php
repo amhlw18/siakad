@@ -184,6 +184,22 @@
   </script>
 
   <script>
+      $(document).ready(function () {
+          // Initialize DataTables
+          const table = $('#tabel3').DataTable({
+              language: {
+                  search: "Cari:",
+                  lengthMenu: "Tampilkan _MENU_ data per halaman",
+                  zeroRecords: "Tidak ada data ditemukan",
+                  info: "Menampilkan _START_ hingga _END_ dari _TOTAL_ data",
+                  infoEmpty: "Tidak ada data",
+                  infoFiltered: "(difilter dari _MAX_ total data)"
+              }
+          });
+      });
+  </script>
+
+  <script>
     $(function() {
       //Initialize Select2 Elements
       $('.select2').select2()

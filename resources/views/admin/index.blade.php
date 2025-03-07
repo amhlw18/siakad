@@ -325,7 +325,7 @@ Dashboard
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="tabel" class="table table-bordered table-striped">
+                <table id="tabel3" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th>#</th>
