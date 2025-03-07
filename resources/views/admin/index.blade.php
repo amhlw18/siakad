@@ -320,6 +320,39 @@ Dashboard
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">
+                    Mahasiswa telah mengisi KRS {{$tahun->tahun_akademik}}
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="tabel" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>NIM</th>
+                        <th>Nama</th>
+                        <th>Angkatan</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($sudah_krs as $item)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->nim ?? '-' }}</td>
+                            <td>{{ $item->status_krs_mhs->nama_mhs ?? '-' }}</td>
+                            <td>{{ $item->status_krs_mhs->tahun_masuk ?? '-' }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
                     Mahasiswa belum Melakukan Pembayaran SPP {{$tahun->tahun_akademik}}
                 </h3>
             </div>

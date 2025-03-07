@@ -136,7 +136,14 @@ class DashBoardController extends Controller
 
             $belum_krs = ModelStatusKRS::with('status_krs_mhs','status_krs_prodi')
                 ->where('prodi_id', $prodi_id)
+                ->where('tahun_akademik', $tahun_aktif->kode)
                 ->where('dikunci', 0)
+                ->get();
+
+            $sudah_krs = ModelStatusKRS::with('status_krs_mhs','status_krs_prodi')
+                ->where('prodi_id', $prodi_id)
+                ->where('tahun_akademik', $tahun_aktif->kode)
+                ->where('dikunci', 1)
                 ->get();
 
             $belum_bayar = ModelPembayaran::with('pembayaran_mhs')
@@ -152,6 +159,7 @@ class DashBoardController extends Controller
                 'tahun' => $tahun_aktif,
                 'belum_krs' => $belum_krs,
                 'belum_bayar' => $belum_bayar,
+                'sudah_krs' => $sudah_krs,
             ]);
         }
 
