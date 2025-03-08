@@ -119,6 +119,7 @@ Route::middleware('auth')->group(function (){
         Route::post('/dashboard/krs-mhs/ambil-krs', [KRSController::class,'ambil_krs']);
         Route::post('/print/khs', [PrintController::class,'print_khs']);
         Route::post('/print/transkrip-nilai', [PrintController::class,'print_transkrip_nilai']);
+        Route::post('/print/krs', [PrintController::class,'print_KRS']);
     });
 
     Route::get('/dashboard/profile', [ProfileController::class,'index']);

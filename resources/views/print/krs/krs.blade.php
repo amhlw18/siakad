@@ -102,37 +102,49 @@
             <td>{{ $item->matakuliah_id }}</td>
             <td>{{ $item->krs_matkul->nama_mk}}</td>
             <td>{{ $item->krs_matkul->semester}}</td>
-            <td>{{ $item->sks}}</td>
+            <td>{{ $item->total_sks}}</td>
         </tr>
     @endforeach
     </tbody>
     <tfoot>
     <tr>
-        <td colspan="6" class="text-end"><strong>Jumlah SKS:</strong></td>
-        <td id="jumlah_sks"><strong>{{$jumlah_sks}}</strong></td>
+        <td colspan="4" class="text-end"><strong>Jumlah SKS:</strong></td>
+        <td id="jumlah_sks"><strong>{{$sum_krs}}</strong></td>
     </tr>
     <tr>
-        <td colspan="6" class="text-end"><strong>Jumlah Matakuliah Diambil:</strong></td>
+        <td colspan="4" class="text-end"><strong>Jumlah Matakuliah Diambil:</strong></td>
         <td id="jumlah_mk"><strong>{{$jumlah_mk}}</strong></td>
     </tr>
     </tfoot>
 </table>
 
 <div class="footer">
-    <div class="signature" style="text-align: left; float: left; width: 50%;">
+    <div class="signature" style="text-align: left; float: left; width: 60%;">
+        <p>Menyetujui</p>
         <p>Penasehat Akademik</p>
-        <br><br><br><br>
-        <p>Abdul Malik Darmin, S.K.M.,M.P.H</p>
-        <p>NIDN. 0726129003</p>
+        <br><br><br><br><br><br><br>
+        <p>{{$pa->pa_dosen->gelar_depan ?? ''}} {{$pa->pa_dosen->nama_dosen ?? ''}}, {{$pa->pa_dosen->gelar_belakang ?? ''}}</p>
+        <p>NIDN. {{$pa->nidn ?? ''}}</p>
     </div>
 
     <div class="signature">
         <div class="signature" style="text-align: left; float: right; width: 40%;">
-            {{--            <p>Baubau, {{$tanggal}}</p>--}}
+            <p>Baubau, {{$tanggal}}</p>
+            <p>Mengetahui</p>
             <p>Ketua Program Studi</p>
             <br><br><br><br><br>
             <p>{{$ka_prodi->dosen->gelar_depan ?? ''}} {{$ka_prodi->dosen->nama_dosen}}, {{$ka_prodi->dosen->gelar_belakang}}</p>
             <p>NIDN. {{$ka_prodi->dosen->nidn}}</p>
+        </div>
+    </div>
+
+    <div class="signature">
+        <div class="signature" style="text-align: left; float: right; width: 25%;">
+            {{--            <p>Baubau, {{$tanggal}}</p>--}}
+            <p>Mahasiswa</p>
+            <br><br><br><br><br><br><br><br><br>
+            <p>{{$mhs->nama_mhs ?? ''}}</p>
+            <p>NIM. {{$mhs->nim}}</p>
         </div>
     </div>
 </div>

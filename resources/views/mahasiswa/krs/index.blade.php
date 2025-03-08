@@ -174,7 +174,6 @@
         @endif
 
         @if(auth()->user()->role== 4)
-
             @if($mhs->prodi_id == 15401)
             @else
                 @if($total_sks > $beban_sks)
@@ -185,6 +184,16 @@
                 @endif
             @endif
 
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <form action="/print/krs" target="_blank" method="post">
+                            @csrf
+                            <input type="hidden" name="nim" value="{{$mhs->nim}}">
+                            <input type="hidden" id="tahun" name="tahun" value="{{$tahun_aktif->kode}}">
+                            <button type="submit" id="Button" rel="noopener" target="_blank" class="btn btn-primary "><i class="fas fa-print"></i> Cetak KRS</button>
+                        </form>
+                    </div>
+                </div>
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">KARTU RENCANA STUDI TA {{$tahun_aktif->tahun_akademik}}</h3>
@@ -233,6 +242,75 @@
                 </div>
                 <!-- /.card-body -->
             </div>
+
+{{--                <div class="card">--}}
+{{--                    <div class="card-header">--}}
+{{--                        <h3 class="card-title">KARTU RENCANA STUDI LAMPAU</h3>--}}
+{{--                    </div>--}}
+{{--                    <!-- /.card-header -->--}}
+{{--                    <div class="card-body">--}}
+{{--                        <div class="row mb-3">--}}
+{{--                            <div class="col-md-6">--}}
+{{--                                <label for="filterTahun">Tahun Akademik:</label>--}}
+{{--                                <select id="filterTahun" class="form-control">--}}
+{{--                                    <option value="">-- Semua Tahun Akademik --</option>--}}
+{{--                                    @foreach($tahun_akademik as $item)--}}
+{{--                                        <option value="{{ $item->kode }}">{{ $item->tahun_akademik }}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                            <div class="col-md-6">--}}
+{{--                                <label for="filterAngkatan">Cetak:</label>--}}
+{{--                                <form action="/print/krs" target="_blank" method="post">--}}
+{{--                                    @csrf--}}
+{{--                                    <input type="hidden" name="nim" value="{{$mhs->nim}}">--}}
+{{--                                    <input type="hidden" id="tahun" name="tahun" value="{{$tahun_aktif->kode}}">--}}
+{{--                                    <button type="submit" id="Button" rel="noopener" target="_blank" class="btn btn-primary "><i class="fas fa-print"></i> Cetak KRS</button>--}}
+{{--                                </form>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <table id="tabel5" class="table table-bordered table-hover">--}}
+{{--                            <thead>--}}
+{{--                            <tr>--}}
+{{--                                <th></th>--}}
+{{--                                <th>#</th>--}}
+{{--                                <th>Kode Matakuliah</th>--}}
+{{--                                <th>Nama Matakuliah </th>--}}
+{{--                                <th>Semester</th>--}}
+{{--                                <th>SKS</th>--}}
+{{--                            </tr>--}}
+{{--                            </thead>--}}
+{{--                            <tbody>--}}
+{{--                            @foreach ($krs_mhs as $item)--}}
+{{--                                <tr>--}}
+{{--                                    <td>--}}
+{{--                                        @if($status_krs->dikunci)--}}
+{{--                                            <a href=""--}}
+{{--                                               class="btn btn-danger btn-hapus disabled"--}}
+{{--                                               data-id="{{$item->id}}">--}}
+{{--                                                <i class="bi bi-trash"></i>--}}
+{{--                                            </a>--}}
+{{--                                        @else--}}
+{{--                                            <a href=""--}}
+{{--                                               class="btn btn-danger btn-hapus "--}}
+{{--                                               data-id="{{$item->id}}">--}}
+{{--                                                <i class="bi bi-trash"></i>--}}
+{{--                                            </a>--}}
+{{--                                        @endif--}}
+
+{{--                                    </td>--}}
+{{--                                    <td>{{ $loop->iteration }}</td>--}}
+{{--                                    <td>{{ $item->matakuliah_id }}</td>--}}
+{{--                                    <td>{{ $item->krs_matkul->nama_mk}}</td>--}}
+{{--                                    <td>{{ $item->krs_matkul->semester}}</td>--}}
+{{--                                    <td>{{ $item->total_sks}}</td>--}}
+{{--                                </tr>--}}
+{{--                            @endforeach--}}
+{{--                            </tbody>--}}
+{{--                        </table>--}}
+{{--                    </div>--}}
+{{--                    <!-- /.card-body -->--}}
+{{--                </div>--}}
         @endif
 
         @if(auth()->user()->role== 5)

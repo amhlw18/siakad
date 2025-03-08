@@ -30,7 +30,18 @@ class PrintController extends Controller
             ->where('nim', $nim)
             ->where('tahun_akademik', $tahun)
             ->orderBy('matakuliah_id', 'asc')
-            ->get();
+            ->get()
+            ->map(function ($item) {
+                $item->total_sks =
+                    (int) ($item->krs_matkul->sks_teori ?? 0) +
+                    (int) ($item->krs_matkul->sks_praktek ?? 0) +
+                    (int) ($item->krs_matkul->sks_lapangan ?? 0);
+                return $item;
+            });
+
+        $sum_krs = $krs_mhs->sum('total_sks');
+
+        //dd($sum_krs);
 
         $validasi_kosong_krs = ModelKRSMahasiwa::with('krs_matkul')
             ->where('nim', $nim)
@@ -45,9 +56,9 @@ class PrintController extends Controller
                 ->where('tahun_akademik', $tahun)
                 ->count('matakuliah_id');
 
-            $jumlah_sks = ModelKRSMahasiwa::where('nim', $nim)
-                ->where('tahun_akademik', $tahun)
-                ->sum('sks');
+//            $jumlah_sks = ModelKRSMahasiwa::where('nim', $nim)
+//                ->where('tahun_akademik', $tahun)
+//                ->sum('sks');
         }
 
         // dd($request->all());
@@ -60,14 +71,14 @@ class PrintController extends Controller
             ->first();
 
         $pa = ModelPAMahasiswa::with('pa_dosen')
-            ->where('nim')->first();
+            ->where('nim', $mhs->nim)->first();
 
         $foto = User::where('user_id', $nim)->first();
 
         $tanggal = Carbon::now()->locale('id')->isoFormat('D MMMM YYYY'); // Format tanggal Indonesia
 
 
-        $pdf = Pdf::loadView('print.khs.khs-mhs',[
+        $pdf = Pdf::loadView('print.krs.krs',[
             'mhs' => $mhs,
             'krs_mhs' => $krs_mhs,
             'jumlah_sks' => $jumlah_sks,
@@ -77,6 +88,7 @@ class PrintController extends Controller
             'foto' => $foto,
             'tanggal' => $tanggal,
             'pa' => $pa,
+            'sum_krs' => $sum_krs,
         ]);
 
         return $pdf->stream();
