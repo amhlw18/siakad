@@ -119,12 +119,14 @@
 </table>
 
 <div class="footer">
-    <div class="signature" style="text-align: left; float: left; width: 60%;">
-        <p>Menyetujui</p>
-        <p>Penasehat Akademik</p>
-        <br><br><br><br><br><br><br>
-        <p>{{$pa->pa_dosen->gelar_depan ?? ''}} {{$pa->pa_dosen->nama_dosen ?? ''}}, {{$pa->pa_dosen->gelar_belakang ?? ''}}</p>
-        <p>NIDN. {{$pa->nidn ?? ''}}</p>
+    <div class="signature">
+        <div class="signature" style="text-align: left; float: right; width: 25%;">
+            {{--            <p>Baubau, {{$tanggal}}</p>--}}
+            <p>Mahasiswa</p>
+            <br><br><br><br><br><br><br><br><br>
+            <p>{{$mhs->nama_mhs ?? ''}}</p>
+            <p>NIM. {{$mhs->nim}}</p>
+        </div>
     </div>
 
     <div class="signature">
@@ -138,14 +140,12 @@
         </div>
     </div>
 
-    <div class="signature">
-        <div class="signature" style="text-align: left; float: right; width: 25%;">
-            {{--            <p>Baubau, {{$tanggal}}</p>--}}
-            <p>Mahasiswa</p>
-            <br><br><br><br><br><br><br><br><br>
-            <p>{{$mhs->nama_mhs ?? ''}}</p>
-            <p>NIM. {{$mhs->nim}}</p>
-        </div>
+    <div class="signature" style="text-align: left; float: left; width: 60%;">
+        <p>Menyetujui</p>
+        <p>Penasehat Akademik</p>
+        <br><br><br><br><br><br><br>
+        <p>{{$pa->pa_dosen->gelar_depan ?? ''}} {{$pa->pa_dosen->nama_dosen ?? ''}}, {{$pa->pa_dosen->gelar_belakang ?? ''}}</p>
+        <p>NIDN. {{$pa->nidn ?? ''}}</p>
     </div>
 </div>
 </body>
