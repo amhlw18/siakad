@@ -268,7 +268,6 @@
                             d.nim = $('#nim').val();
                             const tahun_akademik = document.getElementById('tahun');
                             tahun_akademik.value = $('#filterTahun').val();
-
                         },
                         dataSrc: function (json) {
                             // Update footer values

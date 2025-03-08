@@ -52,16 +52,25 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="filterTahun">Tahun Akademik:</label>
-                            <select id="filterTahun" class="form-control">
-                                <option value="">-- Semua Tahun Akademik --</option>
-                                @foreach($tahun_akademik as $item)
-                                    <option value="{{ $item->kode }}">{{ $item->tahun_akademik }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="filterTahun">Tahun Akademik:</label>
+                                                        <select id="filterTahun" class="form-control">
+                                                            <option value="">-- Semua Tahun Akademik --</option>
+                                                            @foreach($tahun_akademik as $item)
+                                                                <option value="{{ $item->kode }}">{{ $item->tahun_akademik }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="filterAngkatan">Cetak:</label>
+                                                        <form action="/print/krs" target="_blank" method="post">
+                                                            @csrf
+                                                            <input type="hidden" name="nim" value="{{$mhs->nim}}">
+                                                            <input type="hidden" id="tahun" name="tahun" value="">
+                                                            <button type="submit" id="Button" rel="noopener" target="_blank" class="btn btn-primary "><i class="fas fa-print"></i> Cetak KRS</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
                     <table id="tabel5" class="table table-bordered table-hover">
                         <thead>
                         <tr>
@@ -111,6 +120,7 @@
 
         <script>
             $(document).ready(function () {
+                $('#Button').prop('disabled', true);
                 $('#tabel5').DataTable({
                     processing: true,
                     serverSide: true,
@@ -120,6 +130,9 @@
                         data: function (d) {
                             d.tahun = $('#filterTahun').val();
                             d.nim = $('#nim').val();
+                            const tahun_akademik = document.getElementById('tahun');
+                            tahun_akademik.value = $('#filterTahun').val();
+
                         }
                     },
                     columns: [
@@ -135,6 +148,7 @@
                 // Refresh DataTables on filter change
                 $('#filterTahun').on('change', function () {
                     $('#tabel5').DataTable().ajax.reload();
+                    $('#Button').prop('disabled', false);
                     $("#pesan").remove();
 
 

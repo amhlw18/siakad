@@ -203,7 +203,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="tabel5" class="table table-bordered table-hover">
+                    <table id="tabel1" class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th></th>
@@ -267,7 +267,7 @@
 {{--                                <form action="/print/krs" target="_blank" method="post">--}}
 {{--                                    @csrf--}}
 {{--                                    <input type="hidden" name="nim" value="{{$mhs->nim}}">--}}
-{{--                                    <input type="hidden" id="tahun" name="tahun" value="{{$tahun_aktif->kode}}">--}}
+{{--                                    <input type="hidden" id="tahun" name="tahun" value="">--}}
 {{--                                    <button type="submit" id="Button" rel="noopener" target="_blank" class="btn btn-primary "><i class="fas fa-print"></i> Cetak KRS</button>--}}
 {{--                                </form>--}}
 {{--                            </div>--}}
@@ -275,7 +275,6 @@
 {{--                        <table id="tabel5" class="table table-bordered table-hover">--}}
 {{--                            <thead>--}}
 {{--                            <tr>--}}
-{{--                                <th></th>--}}
 {{--                                <th>#</th>--}}
 {{--                                <th>Kode Matakuliah</th>--}}
 {{--                                <th>Nama Matakuliah </th>--}}
@@ -286,22 +285,6 @@
 {{--                            <tbody>--}}
 {{--                            @foreach ($krs_mhs as $item)--}}
 {{--                                <tr>--}}
-{{--                                    <td>--}}
-{{--                                        @if($status_krs->dikunci)--}}
-{{--                                            <a href=""--}}
-{{--                                               class="btn btn-danger btn-hapus disabled"--}}
-{{--                                               data-id="{{$item->id}}">--}}
-{{--                                                <i class="bi bi-trash"></i>--}}
-{{--                                            </a>--}}
-{{--                                        @else--}}
-{{--                                            <a href=""--}}
-{{--                                               class="btn btn-danger btn-hapus "--}}
-{{--                                               data-id="{{$item->id}}">--}}
-{{--                                                <i class="bi bi-trash"></i>--}}
-{{--                                            </a>--}}
-{{--                                        @endif--}}
-
-{{--                                    </td>--}}
 {{--                                    <td>{{ $loop->iteration }}</td>--}}
 {{--                                    <td>{{ $item->matakuliah_id }}</td>--}}
 {{--                                    <td>{{ $item->krs_matkul->nama_mk}}</td>--}}
@@ -374,7 +357,48 @@
         <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
 
+    @if(auth()->user()->role== 4)
+        <form id="filterForm">
+            {{--        //<input type="hidden" id="prodi_id" value="{{$mhs->prodi_mhs->prodi_id?? '-'}}">--}}
+            <input type="hidden" id="nim" value="{{$mhs->nim}}">
+        </form>
+
+{{--        <script>--}}
+{{--            $(document).ready(function () {--}}
+{{--                $('#tabel5').DataTable({--}}
+{{--                    processing: true,--}}
+{{--                    serverSide: true,--}}
+{{--                    ajax: {--}}
+{{--                        url: "{{ route('get.krs') }}",--}}
+{{--                        type: "GET",--}}
+{{--                        data: function (d) {--}}
+{{--                            d.tahun = $('#filterTahun').val();--}}
+{{--                            d.nim = $('#nim').val();--}}
+{{--                            const tahun_akademik = document.getElementById('tahun');--}}
+{{--                            //tahun_akademik.value = $('#filterTahun').val();--}}
+{{--                        }--}}
+{{--                    },--}}
+{{--                    columns: [--}}
+{{--                        { data: 'action', name: 'action', orderable: false, searchable: false },--}}
+{{--                        { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },--}}
+{{--                        { data: 'matakuliah_id', name: 'matakuliah_id' },--}}
+{{--                        { data: 'matakuliah', name: 'krs_matkul.nama_mk' },--}}
+{{--                        { data: 'semester', name: 'krs_matkul.semester' },--}}
+{{--                        { data: 'total_sks', name: 'total_sks' },--}}
+{{--                    ]--}}
+{{--                });--}}
+
+{{--                // Refresh DataTables on filter change--}}
+{{--                $('#filterTahun').on('change', function () {--}}
+{{--                    $('#tabel5').DataTable().ajax.reload();--}}
+{{--                    $("#pesan").remove();--}}
+{{--                });--}}
+{{--            });--}}
+
+{{--        </script>--}}
+    @endif
     <script>
+
 
         document.querySelectorAll('.btn-buka-krs').forEach(button => {
             button.addEventListener('click', (e) => {

@@ -452,7 +452,7 @@ class KRSController extends Controller
 
     public function filter_data(Request $request)
     {
-        if (Auth::user()->role == 1 || Auth::user()->role == 5 || Auth::user()->role == 6){
+        if (Auth::user()->role == 1 || Auth::user()->role == 5 || Auth::user()->role == 6 || Auth::user()->role == 4){
             $query = ModelKRSMahasiwa::with('krs_mhs','krs_matkul')
                 ->where('tahun_akademik', $request->tahun)
                 ->where('nim', $request->nim)
