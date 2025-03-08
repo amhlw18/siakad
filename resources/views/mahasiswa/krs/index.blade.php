@@ -183,17 +183,20 @@
                     </div>
                 @endif
             @endif
+        @if($status_krs->dikunci)
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <form action="/print/krs" target="_blank" method="post">
+                                @csrf
+                                <input type="hidden" name="nim" value="{{$mhs->nim}}">
+                                <input type="hidden" id="tahun" name="tahun" value="{{$tahun_aktif->kode}}">
+                                <button type="submit" id="Button" rel="noopener" target="_blank" class="btn btn-primary "><i class="fas fa-print"></i> Cetak KRS</button>
+                            </form>
+                        </div>
+                    </div>
+        @endif
 
-{{--                <div class="row mb-3">--}}
-{{--                    <div class="col-md-4">--}}
-{{--                        <form action="/print/krs" target="_blank" method="post">--}}
-{{--                            @csrf--}}
-{{--                            <input type="hidden" name="nim" value="{{$mhs->nim}}">--}}
-{{--                            <input type="hidden" id="tahun" name="tahun" value="{{$tahun_aktif->kode}}">--}}
-{{--                            <button type="submit" id="Button" rel="noopener" target="_blank" class="btn btn-primary "><i class="fas fa-print"></i> Cetak KRS</button>--}}
-{{--                        </form>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
+
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">KARTU RENCANA STUDI TA {{$tahun_aktif->tahun_akademik}}</h3>
