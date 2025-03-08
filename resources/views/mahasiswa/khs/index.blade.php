@@ -57,7 +57,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="tabel5" class="table table-bordered table-hover">
+                    <table id="tabel" class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th></th>
@@ -212,7 +212,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="tabel" class="table table-bordered table-hover">
+                    <table id="tabel5" class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th></th>
@@ -268,6 +268,7 @@
                             d.nim = $('#nim').val();
                             const tahun_akademik = document.getElementById('tahun');
                             tahun_akademik.value = $('#filterTahun').val();
+
                         },
                         dataSrc: function (json) {
                             // Update footer values
