@@ -190,6 +190,12 @@
                                 </tr>
                             @endforeach
                             </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="5" class="text-end"><strong>Jumlah SKS:</strong></td>
+                                <td><strong>{{$sum_krs}}</strong></td>
+                            </tr>
+                            </tfoot>
                         @else
 
                         @endif

@@ -299,6 +299,8 @@ class DashBoardController extends Controller
                 return $item;
             });
 
+        $sum_krs = $krs_mhs->sum('total_sks');
+
         return view('dosen.penilaian.detail-penilaian',[
             'mhs' => $mhs,
             'tahun' => $tahun_aktif,
@@ -314,6 +316,7 @@ class DashBoardController extends Controller
             'periode' => $periode,
             'tahun_akademik_khs' => $khs_smt_lalu,
             'beban_sks' => $beban_sks,
+            'sum_krs' => $sum_krs,
         ]);
     }
 
