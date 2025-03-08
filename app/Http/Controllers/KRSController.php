@@ -177,6 +177,7 @@ class KRSController extends Controller
 
             $total_sks = $total_sks->sum('total_sks');
 
+            $tahun_akademik_all = ModelTahunAkademik::all();
 
             return view('mahasiswa.krs.index',[
                 'mhs' => $mhs,
@@ -189,6 +190,7 @@ class KRSController extends Controller
                 'ips' => $ips,
                 'beban_sks' => $beban_sks,
                 'total_sks' => $total_sks,
+                'tahun_akademik' => $tahun_akademik_all,
 
             ]);
         }
