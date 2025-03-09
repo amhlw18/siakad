@@ -377,13 +377,15 @@
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
                 const jadwalId = formData.get('jadwal_id'); // Ambil jadwal_id
-                const url = `/dashboard/data-jadwal`
+
 
                 if(jadwalId){
                     formData.append('_method', 'PUT');
                     console.log('edit dta');
+                    const url = `/dashboard/data-jadwal/${jadwalId}`
                 }else{
                     console.log('tambah dta');
+                    const url = `/dashboard/data-jadwal`
                 }
 
                 fetch(url, {
