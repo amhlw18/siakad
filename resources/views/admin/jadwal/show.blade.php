@@ -370,8 +370,6 @@
 
         document.addEventListener('DOMContentLoaded', () => {
            // const modal = new bootstrap.Modal(document.getElementById('buatJadwalModal'));
-
-
             document.getElementById('saveChanges').addEventListener('click', () => {
                 const form = document.getElementById('simpanForm');
                 const formData = new FormData(form);
@@ -379,7 +377,7 @@
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
                 const jadwalId = formData.get('jadwal_id'); // Ambil jadwal_id
-                const url = `/dashboard/data-jadwal/${jadwalId}`
+                const url = `/dashboard/data-jadwal`
 
                 if(jadwalId){
                     formData.append('_method', 'PUT');
@@ -446,7 +444,6 @@
                     // Tampilkan modal
                     const modal = new bootstrap.Modal(document.getElementById('buatJadwalModal'));
                     modal.show();
-
                 });
             });
 
