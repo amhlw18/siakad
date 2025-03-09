@@ -93,11 +93,12 @@ class PrintController extends Controller
 
         return $pdf->stream();
     }
-    public function print_absen()
+    public function print_absen(Request $request)
     {
+        //dd($request->all());
         $tahun_akademik = ModelTahunAkademik::where('status', 1)->first();
-        $matakuliah_id = 'MKU101';
-        $prodi_id = 13263;
+        $matakuliah_id = $request->matakuliah_id;
+        $prodi_id = $request->prodi_id;
 
         $jadwal = ModelDetailJadwal::with('prodi_jadwal','jadwal_matakuliah','dosen')
             ->where('tahun_akademik',$tahun_akademik->kode)
@@ -105,10 +106,16 @@ class PrintController extends Controller
             ->where('prodi_id', $prodi_id)
             ->first();
 
+        if (!$jadwal){
+            return redirect('/dashboard/data-absen')->with('errors', 'Jadwal matakuliah tidak ditemukan !');
+
+        }
+
         $mhs = ModelKRSMahasiwa::with('krs_mhs')
-            ->where('tahun_akademik',20231)
+            ->where('tahun_akademik',$tahun_akademik->kode)
             ->where('matakuliah_id',$matakuliah_id)
             ->where('prodi_id', $prodi_id)
+            ->orderBy('nim', 'asc')
             ->get();
 
         $tanggal = Carbon::now()->locale('id')->isoFormat('D MMMM YYYY'); // Format tanggal Indonesia

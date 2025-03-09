@@ -147,7 +147,7 @@ Route::get('kls/filter', [KelasMahasiswaController::class, 'filterData'])->name(
 Route::get('kls-mhs/filter', [KelasMahasiswaController::class, 'filterDataKelas'])->name('kelas-mhs.filter');
 Route::get('/get-kelas/{prodiId}', [KelasMahasiswaController::class, 'getKelas'])->name('get.kelas');
 Route::get('/get-matkul/{prodiId}', [AbsenController::class, 'getMatkul'])->name('get.matkul');
-Route::get('krs/filter', [AbsenController::class, 'filterData'])->name('krs.filter');
+Route::post('print/absen', [PrintController::class, 'print_absen'])->name('print/absen');
 Route::get('bendahara-mhs/filter', [PembayaranController::class, 'filterData'])->name('bendahara-mhs.filter');
 
 Route::get('/filter-kls/filter-data', [JadwalController::class, 'filter_data'])->name('get.jadwal');

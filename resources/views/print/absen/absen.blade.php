@@ -97,18 +97,18 @@
         <td>: {{$jadwal->dosen->nama_dosen ?? ''}}</td>
 
         <td>Program Studi</td>
-        <td>: {{$jadwal->prodi_jadwal->nama_prodi}}</td>
+        <td>: {{$jadwal->prodi_jadwal->nama_prodi ?? ''}}</td>
     </tr>
     <tr>
         <td>Matakuliah</td>
-        <td>: {{$jadwal->jadwal_matakuliah->nama_mk}}</td>
+        <td>: {{$jadwal->jadwal_matakuliah->nama_mk ?? ''}}</td>
 
         <td>Semester</td>
-        <td>: {{$jadwal->jadwal_matakuliah->semester}}</td>
+        <td>: {{$jadwal->jadwal_matakuliah->semester ?? ''}}</td>
     </tr>
     <tr>
         <td>Hari</td>
-        <td>: {{$jadwal->hari}}</td>
+        <td>: {{$jadwal->hari ?? ''}}</td>
 
         <td>Tahun Akademik</td>
         <td>: {{$tahun_aktif->tahun_akademik}}</td>
@@ -116,7 +116,7 @@
 
     <tr>
         <td>Jam</td>
-        <td>: {{$jadwal->jam}} WITA</td>
+        <td>: {{$jadwal->jam ?? ''}} WITA</td>
     </tr>
 </table>
 

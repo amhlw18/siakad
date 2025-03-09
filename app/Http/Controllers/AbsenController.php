@@ -22,79 +22,57 @@ class AbsenController extends Controller
         //
         $prodi = ModelProdi::all();
 
+        $krs_mhs = ModelMahasiswa::with('krs_mhs')->get();
+
+
         return view('admin.absen.index',[
             'prodis' => $prodi,
+            'krs_mhs' => $krs_mhs,
         ]);
     }
 
     public function getMatkul($prodiId)
     {
-        $matkul = ModelMatakuliah::where('kode_prodi', $prodiId)->get();
+        if ($prodiId == 15401){
+            $matkul = ModelMatakuliah::where('kode_prodi', $prodiId)
+                ->where('kurikulum_id', '48f1386f-6e78-4f15-ae2b-8774468ffca9')
+                ->get();
+        }else{
+            $matkul = ModelMatakuliah::where('kode_prodi', $prodiId)->get();
+        }
+
         return response()->json($matkul);
     }
 
-    public function filterData(Request $request)
-    {
-        if (Auth::user()->role==1 || Auth::user()->role == 6){
-            $query = ModelKRSMahasiwa::with('krs_mhs'); // Include relasi 'prodi_mhs'
-
-            if ($request->prodi) {
-                $query->where('prodi_id', $request->prodi)->orderBY('nim','asc');
-            }
-
+//    public function filterData(Request $request)
+//    {
+//        if (Auth::user()->role==1 || Auth::user()->role == 6){
+//            $query = ModelKRSMahasiwa::with('krs_mhs'); // Include relasi 'prodi_mhs'
+//
+//            if ($request->prodi) {
+//                $query->where('prodi_id', $request->prodi)->orderBY('nim','asc');
+//            }
+//
 //            if ($request->angkatan) {
 //                $query->where('tahun_masuk', $request->angkatan)->orderBY('nim','asc');
 //            }
-
-            return DataTables::of($query)
-                ->addIndexColumn() // Menambahkan nomor index
-                ->addColumn('action', function ($row) {
-                    return '';
-                })
-                ->addColumn('nim', function ($row) {
-                    return $row->krs_mhs->nim ?? '-';
-                }) // Tambahkan kolom 'nama_prodi' ke JSON
-                ->addColumn('nama', function ($row) {
-                    return $row->krs_mhs->nama_mhs ?? '-';
-                })
-                ->rawColumns(['action']) // Mengizinkan kolom 'action' menggunakan HTML
-                ->make(true);
-        }
-
-        if (Auth::user()->role==5){
-            $query = ModelMahasiswa::with('prodi_mhs'); // Include relasi 'prodi_mhs'
-
-            $request->prodi = Auth::user()->prodi;
-
-            if ($request->prodi) {
-                $query->where('prodi_id', $request->prodi)->orderBY('nim','asc');
-            }
-
-            if ($request->angkatan) {
-                $query->where('tahun_masuk', $request->angkatan)->orderBY('nim','desc');
-            }
-
-            return DataTables::of($query)
-                ->addIndexColumn() // Menambahkan nomor index
-                ->addColumn('action', function ($row) {
-                    return '
-
-                                    <a href=""
-                                       class="btn btn-primary btn-tambah"
-                                       data-id="' .$row->nim. '">
-                                        Tambah
-                                    </a>
-
-
-        ';
-                })
-                ->addColumn('nama_prodi', function ($row) {
-                    return $row->prodi_mhs->nama_prodi ?? '-';
-                }) // Tambahkan kolom 'nama_prodi' ke JSON
-                ->rawColumns(['action']) // Mengizinkan kolom 'action' menggunakan HTML
-                ->make(true);
-        }
-    }
+//
+//            return DataTables::of($query)
+//                ->addIndexColumn() // Menambahkan nomor index
+//                ->addColumn('action', function ($row) {
+//                    return '';
+//                })
+//                ->addColumn('nim', function ($row) {
+//                    return $row->krs_mhs->nim ?? '-';
+//                }) // Tambahkan kolom 'nama_prodi' ke JSON
+//                ->addColumn('nama', function ($row) {
+//                    return $row->krs_mhs->nama_mhs ?? '-';
+//                })
+//                ->rawColumns(['action']) // Mengizinkan kolom 'action' menggunakan HTML
+//                ->make(true);
+//        }
+//
+//    }
 
     /**
      * Show the form for creating a new resource.
