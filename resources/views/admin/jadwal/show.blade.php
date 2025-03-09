@@ -422,12 +422,12 @@
                                 text: errorMessages,
                             });
                         } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error!',
-                                text: 'Terjadi kesalahan saat menyimpan data. Coba lagi!',
-                            });
-                            console.error('Error:', error);
+                            // Swal.fire({
+                            //     icon: 'error',
+                            //     title: 'Error!',
+                            //     text: 'Terjadi kesalahan saat menyimpan data. Coba lagi!',
+                            // });
+                            // console.error('Error:', error);
                         }
                     });
             });
