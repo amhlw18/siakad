@@ -283,7 +283,15 @@ class JadwalController extends Controller
         // Ambil data kelas dan ruangan berdasarkan ID prodi
         $kelas = ModelKelas::where('prodi_id', $id)->get();
         $ruangan = ModelRuangan::where('prodi_id', $id)->get();
-        $matkul = ModelMatakuliah::with('kurikulum')->where('kode_prodi', $id)->get();
+        if ($id == 15401){
+            $matkul = ModelMatakuliah::with('kurikulum')->where('kode_prodi', $id)
+                ->where('kurikulum_id', '48f1386f-6e78-4f15-ae2b-8774468ffca9')
+                ->get();
+        }else{
+            $matkul = ModelMatakuliah::with('kurikulum')->where('kode_prodi', $id)
+                ->get();
+        }
+
 
 //        foreach ($jadwal as $item) {
 //            if ($item->dosen) {
