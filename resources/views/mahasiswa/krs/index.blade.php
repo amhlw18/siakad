@@ -307,7 +307,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="tabel5" class="table table-bordered table-hover">
+                    <table id="tabel" class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th></th>
